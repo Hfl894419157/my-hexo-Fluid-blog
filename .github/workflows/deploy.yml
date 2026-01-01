@@ -1,49 +1,42 @@
 name: Deploy VitePress site to Pages
 on:
-  # 推送main分支时自动触发部署（日常修改推送后自动运行）
   push:
     branches: [main]
-  # 手动触发部署（仓库Actions页面可点击运行，备用）
   workflow_dispatch:
-# 配置部署必要权限（避免权限不足报错）
 permissions:
   contents: read
   pages: write
   id-token: write
-# 避免重复部署，提升效率
 concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  # 第一步：构建VitePress静态文件（解决exit code 127核心报错）
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉取仓库纯净代码
+      - name: 拉取代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 拉取完整历史，避免构建报错
-      - name: 配置Node.js 20环境（适配config.mts，避免语法解析报错）
+          fetch-depth: 0
+      - name: 安装Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm # 缓存依赖，加快构建速度
-      - name: 安装项目依赖
-        run: npm ci
-      - name: 构建VitePress静态文件
+          cache: 'npm'
+      - name: 安装依赖
+        run: npm install
+      - name: 构建静态文件
         run: npm run build
-      - name: 上传构建产物（供后续部署使用）
+      - name: 上传产物
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .vitepress/dist # 匹配VitePress默认构建目录，避免路径报错
-  # 第二步：部署到GitHub Pages
+          path: .vitepress/dist
   deploy:
-    needs: build # 依赖build步骤完成，不提前运行
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 部署到GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+      - name: 部署到Pages
+        uses: actions/deploy-pages@v4
