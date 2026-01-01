@@ -31,11 +31,11 @@ jobs:
       - name: 安装项目依赖
         run: npm ci
       - name: 构建VitePress静态文件
-        run: npm run docs:build
+        run: npm run build
       - name: 上传构建产物（供后续部署使用）
         uses: actions/upload-pages-artifact@v2
         with:
-          path: docs/.vitepress/dist # 匹配VitePress默认构建目录，避免路径报错
+          path: .vitepress/dist # 匹配VitePress默认构建目录，避免路径报错
   # 第二步：部署到GitHub Pages
   deploy:
     needs: build # 依赖build步骤完成，不提前运行
