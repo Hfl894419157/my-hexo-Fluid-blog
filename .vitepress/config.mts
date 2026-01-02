@@ -64,15 +64,15 @@ export default defineConfig({
       { icon: 'youtube', link: 'https://www.youtube.com/@yujie1992' },
       { 
         icon: {
-          // 抖音图标（官方风格）
+          // 抖音图标（黑色音符）
           svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000"><path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001-.002-.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/></svg>'
         }, 
         link: 'https://www.douyin.com/你的抖音主页'
       },
       { 
         icon: {
-          // 小红书图标（官方风格）
-          svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#FF2442" d="M5.5 4A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 18.5 4h-13zm10.65 5.35a.5.5 0 0 1 .7.7l-1.15 1.15a3.5 3.5 0 1 1-.7-.7l1.15-1.15zm-3.15 4.15a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>'
+          // 小红书横版图标（红色背景+小红书文字）
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="24" viewBox="0 0 28 24"><rect width="28" height="24" rx="4" fill="#FF2442"/><text x="14" y="15" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="10" font-weight="bold">小红书</text></svg>'
         }, 
         link: 'https://www.xiaohongshu.com/你的小红书主页'
       }
