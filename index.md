@@ -278,10 +278,10 @@ features: []  # 清空原有features，防止显示默认内容
 }
 
 body {
-  background-color: var(--bg-light);
+  background-color: var(--bg-page);
   color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 主题切换按钮（Vue风格） */
@@ -289,21 +289,29 @@ body {
   position: fixed;
   top: 1rem;
   right: 1rem;
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 999;
   transition: var(--transition-smooth);
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-md);
 }
+
 .theme-toggle:hover {
-  border-color: var(--liuli-text-color);
-  box-shadow: var(--shadow-light);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
 }
 
 /* 移除标题锚点#号 */
@@ -330,7 +338,7 @@ a {
   color: inherit;
 }
 
-/* 章节标题（移除灰色线条+绿色短横线） */
+/* 章节标题 */
 .section-header {
   margin-top: 5rem;
   margin-bottom: 2.5rem;
@@ -345,13 +353,11 @@ a {
   color: var(--text-primary);
   position: relative;
   padding-bottom: 0.75rem;
-  border-bottom: none !important; /* 移除灰色下边框 */
-}
-.section-header h2::after {
-  display: none !important; /* 移除绿色短横线 */
+  border-bottom: 2px solid var(--color-primary);
+  transition: var(--transition-smooth);
 }
 
-/* ===== 精选作品集（小标签+悬浮动画一致） ===== */
+/* ===== 精选作品集 ===== */
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -364,17 +370,18 @@ a {
 }
 .portfolio-card {
   display: block;
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
   padding: 1.75rem;
   transition: var(--transition-smooth);
   position: relative;
+  overflow: hidden;
 }
 .portfolio-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--liuli-text-color);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
 }
 .portfolio-card::before {
   content: '';
@@ -382,8 +389,8 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--liuli-text-color);
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -409,9 +416,9 @@ a {
   gap: 0.4rem;
 }
 .tag {
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.7rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--tag-bg);
   color: var(--tag-text);
@@ -419,10 +426,11 @@ a {
   transition: var(--transition-smooth);
 }
 .tag:hover {
-  opacity: 0.9;
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
 }
 
-/* ===== AIGC实时创作（高度翻倍+三行+悬浮一致） ===== */
+/* ===== AIGC实时创作 ===== */
 .aigc-article-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -435,18 +443,32 @@ a {
 }
 .aigc-article-card {
   display: flex;
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
   overflow: hidden;
   transition: var(--transition-smooth);
   align-items: center;
-  height: 240px; /* 高度翻倍 */
+  height: 240px;
 }
 .aigc-article-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--liuli-text-color);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+.aigc-article-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-primary), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.aigc-article-card:hover::before {
+  opacity: 1;
 }
 .article-image {
   flex-shrink: 0;
@@ -461,6 +483,7 @@ a {
 .article-content {
   padding: 1.5rem 2rem;
   flex-grow: 1;
+  position: relative;
 }
 .article-content h3 {
   font-size: 1.2rem;
@@ -481,7 +504,7 @@ a {
   gap: 1rem;
 }
 
-/* ===== 创作资源与工具（7个板块+高度优化+按钮调整） ===== */
+/* ===== 创作资源与工具 ===== */
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(calc(100% / 7 - 1rem), 1fr));
@@ -493,23 +516,24 @@ a {
   padding: 0 1.5rem;
 }
 .tool-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.2rem 0.8rem; /* 增加内边距，提高整体高度 */
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.2rem 0.8rem;
   text-align: center;
   transition: var(--transition-smooth);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  height: 180px; /* 优化高度，足够容纳内容 */
-  justify-content: center; /* 内部元素垂直居中，避免拥挤 */
+  height: 180px;
+  justify-content: center;
+  overflow: hidden;
 }
 .tool-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--liuli-text-color);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
 }
 .tool-card::before {
   content: '';
@@ -517,8 +541,8 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--liuli-text-color);
+  height: 3px;
+  background: var(--color-primary);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -533,12 +557,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #F0FDF4, #E3F9E5);
+  background: var(--color-primary-light);
   border-radius: 50%;
-  color: var(--liuli-text-color);
+  color: var(--color-primary);
+  transition: var(--transition-smooth);
 }
-.dark .tool-icon {
-  background: linear-gradient(135deg, #121826, #1F2937);
+.tool-card:hover .tool-icon {
+  transform: scale(1.1) rotate(-5deg);
 }
 .tool-card h3 {
   margin: 0.3rem 0;
@@ -552,30 +577,52 @@ a {
   margin-bottom: 0.8rem;
   line-height: 1.4;
 }
-/* 下载按钮（纯圆角+主题适配+文字居中+高度优化） */
+/* ===== 按钮样式 ===== */
 .download-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* 水平居中 */
-  background: var(--download-bg);
-  color: var(--download-text);
-  padding: 0.2rem 0.8rem; /* 优化内边距，降低高度 */
-  border-radius: 999px; /* 纯圆角 */
-  font-weight: 500;
+  justify-content: center;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
   font-size: 0.65rem;
   transition: var(--transition-smooth);
   width: 100%;
-  max-width: 70px;
-  height: 18px; /* 降低按钮高度 */
-  line-height: 18px; /* 垂直居中，与高度一致 */
+  max-width: 80px;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
 }
 .download-btn:hover {
-  background: var(--download-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-light);
+  background: var(--btn-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-/* ===== 探索更多按钮（纯圆角+Liuli文案色+主题适配） ===== */
+.explore-more-btn {
+  display: inline-block;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  padding: 0.7rem 2rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+.explore-more-btn:hover {
+  background: var(--btn-primary-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* ===== 响应式调整 ===== */
 .section-more-btn {
   margin-bottom: 5rem;
   max-width: 1200px;
@@ -583,21 +630,6 @@ a {
   margin-right: auto;
   padding: 0 1.5rem;
   text-align: left;
-}
-.explore-more-btn {
-  display: inline-block;
-  background: var(--explore-bg);
-  color: var(--explore-text);
-  padding: 0.6rem 1.8rem;
-  border-radius: 999px; /* 纯圆角 */
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: var(--transition-smooth);
-}
-.explore-more-btn:hover {
-  background: var(--explore-hover);
-  box-shadow: var(--shadow-light);
-  transform: translateY(-1px);
 }
 
 /* ===== 响应式调整 ===== */
@@ -636,6 +668,11 @@ a {
     padding: 0.5rem 1.5rem;
     font-size: 0.8rem;
   }
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
 }
 @media (max-width: 480px) {
   .article-content {
@@ -648,35 +685,92 @@ a {
   .section-more-btn {
     text-align: center;
   }
+  .theme-toggle {
+    width: 38px;
+    height: 38px;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}
+
+/* ===== VitePress 特定样式调整 ===== */
+.VPHero .VPImage {
+  border: none !important;
+}
+.VPHero::after {
+  display: none !important;
+}
+
+/* 移除链接下划线 */
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+/* 移除标题锚点 */
+h1 a.header-anchor,
+h2 a.header-anchor,
+h3 a.header-anchor,
+h4 a.header-anchor,
+h5 a.header-anchor,
+h6 a.header-anchor {
+  display: none !important;
 }
 </style>
 
 <!-- 主题切换JavaScript逻辑（适配VitePress SSR环境） -->
 <script>
-// 核心：判断是否为浏览器环境（避免Node.js构建时报错）
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  // 延迟执行：确保DOM元素已加载完成
-  window.addEventListener('DOMContentLoaded', () => {
+  function initTheme() {
     const toggleBtn = document.getElementById('theme-toggle');
-    if (!toggleBtn) return; // 防止元素未找到报错
+    if (!toggleBtn) {
+      // 如果按钮不存在，延迟重试
+      setTimeout(initTheme, 100);
+      return;
+    }
 
-    // 初始化主题
+    // 获取保存的主题或系统偏好
     const savedTheme = localStorage.getItem('theme');
     const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : isSystemDark;
 
-    if (savedTheme === 'dark' || (savedTheme === null && isSystemDark)) {
+    // 初始化主题
+    if (isDark) {
       document.documentElement.classList.add('dark');
       toggleBtn.textContent = '☀️';
     } else {
+      document.documentElement.classList.remove('dark');
       toggleBtn.textContent = '🌙';
     }
 
     // 点击切换主题
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       toggleBtn.textContent = isDark ? '☀️' : '🌙';
     });
-  });
+
+    // 监听系统主题变化
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeQuery.addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark');
+          toggleBtn.textContent = '☀️';
+        } else {
+          document.documentElement.classList.remove('dark');
+          toggleBtn.textContent = '🌙';
+        }
+      }
+    });
+  }
+
+  // 在DOM加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
+  }
 }
 </script>
