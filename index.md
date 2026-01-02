@@ -20,9 +20,6 @@ hero:
 features: []  # 清空原有features，防止显示默认内容
 ---
 
-<!-- 主题切换按钮 -->
-<button id="theme-toggle" class="theme-toggle" title="切换主题"></button>
-
 <!-- 精选作品集 -->
 <div class="section-header">
   <h2>精选作品集</h2>
@@ -234,6 +231,18 @@ features: []  # 清空原有features，防止显示默认内容
   --tag-bg: #E3F9E5; /* 标签背景 */
   --tag-text: #2C3E50; /* 标签文字 */
   
+  /* 浅色模式 - 额外按钮和卡片变量 */
+  --bg-white: #FFFFFF; /* 卡片白色背景 */
+  --download-bg: #2C3E50; /* 下载按钮背景 */
+  --download-text: #FFFFFF; /* 下载按钮文字 */
+  --download-hover: #1E293B; /* 下载按钮悬浮 */
+  --explore-bg: #4FC08D; /* 探索按钮背景 */
+  --explore-text: #FFFFFF; /* 探索按钮文字 */
+  --explore-hover: #3AA578; /* 探索按钮悬浮 */
+  --shadow-hover: 0 2px 8px rgba(79, 192, 141, 0.1); /* 悬浮阴影 */
+  --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.05); /* 浅阴影 */
+  --liuli-text-color: #4FC08D; /* 主题强调色 */
+  
   /* 动画 */
   --transition-smooth: all 0.2s ease-in-out;
 }
@@ -275,6 +284,18 @@ features: []  # 清空原有features，防止显示默认内容
   /* 深色模式 - 标签色系 */
   --tag-bg: #1F2937; /* 标签背景 */
   --tag-text: #F8FAFC; /* 标签文字 */
+  
+  /* 深色模式 - 额外按钮和卡片变量 */
+  --bg-white: #121826; /* 深色卡片背景 */
+  --download-bg: #F8FAFC; /* 下载按钮背景 */
+  --download-text: #0A0E17; /* 下载按钮文字 */
+  --download-hover: #E2E8F0; /* 下载按钮悬浮 */
+  --explore-bg: #52D87A; /* 探索按钮背景 */
+  --explore-text: #0A0E17; /* 探索按钮文字 */
+  --explore-hover: #3AA578; /* 探索按钮悬浮 */
+  --shadow-hover: 0 2px 8px rgba(58, 163, 115, 0.2); /* 悬浮阴影 */
+  --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.2); /* 浅阴影 */
+  --liuli-text-color: #52D87A; /* 主题强调色 */
 }
 
 body {
@@ -282,36 +303,6 @@ body {
   color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* 主题切换按钮（Vue风格） */
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: var(--bg-card);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 999;
-  transition: var(--transition-smooth);
-  font-size: 1.2rem;
-  box-shadow: var(--shadow-md);
-}
-
-.theme-toggle:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
-}
-
-.theme-toggle:active {
-  transform: translateY(0);
 }
 
 /* 移除标题锚点#号 */
@@ -657,32 +648,3 @@ a {
 }
 </style>
 
-<!-- 主题切换JavaScript逻辑（适配VitePress SSR环境） -->
-<script>
-// 核心：判断是否为浏览器环境（避免Node.js构建时报错）
-if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-  // 延迟执行：确保DOM元素已加载完成
-  window.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('theme-toggle');
-    if (!toggleBtn) return; // 防止元素未找到报错
-
-    // 初始化主题
-    const savedTheme = localStorage.getItem('theme');
-    const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (savedTheme === null && isSystemDark)) {
-      document.documentElement.classList.add('dark');
-      toggleBtn.textContent = '☀️';
-    } else {
-      toggleBtn.textContent = '🌙';
-    }
-
-    // 点击切换主题
-    toggleBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      toggleBtn.textContent = isDark ? '☀️' : '🌙';
-    });
-  });
-}
-</script>
