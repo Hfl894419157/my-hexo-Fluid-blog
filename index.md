@@ -549,24 +549,32 @@ a {
 }
 </style>
 
-<!-- 主题切换JavaScript逻辑 -->
+<!-- 主题切换JavaScript逻辑（适配VitePress SSR环境） -->
 <script>
-const toggleBtn = document.getElementById('theme-toggle');
-// 初始化主题
-const savedTheme = localStorage.getItem('theme');
-const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+// 核心：判断是否为浏览器环境（避免Node.js构建时报错）
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  // 延迟执行：确保DOM元素已加载完成
+  window.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (!toggleBtn) return; // 防止元素未找到报错
 
-if (savedTheme === 'dark' || (savedTheme === null && isSystemDark)) {
-  document.documentElement.classList.add('dark');
-  toggleBtn.textContent = '☀️';
-} else {
-  toggleBtn.textContent = '🌙';
+    // 初始化主题
+    const savedTheme = localStorage.getItem('theme');
+    const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (savedTheme === null && isSystemDark)) {
+      document.documentElement.classList.add('dark');
+      toggleBtn.textContent = '☀️';
+    } else {
+      toggleBtn.textContent = '🌙';
+    }
+
+    // 点击切换主题
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      toggleBtn.textContent = isDark ? '☀️' : '🌙';
+    });
+  });
 }
-
-// 点击切换主题
-toggleBtn.addEventListener('click', () => {
-  const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  toggleBtn.textContent = isDark ? '☀️' : '🌙';
-});
 </script>
