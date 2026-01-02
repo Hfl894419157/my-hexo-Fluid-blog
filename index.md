@@ -19,12 +19,6 @@ hero:
 
 features: []  # 清空原有features，防止显示默认内容
 ---
-
-<!-- 主题切换按钮（Vue风格） -->
-<button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
-  🌙
-</button>
-
 <!-- 精选作品集 -->
 <div class="section-header">
   <h2>精选作品集</h2>
