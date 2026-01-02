@@ -19,6 +19,7 @@ hero:
 
 features: []  # 清空原有features，防止显示默认内容
 ---
+
 <!-- 精选作品集 -->
 <div class="section-header">
   <h2>精选作品集</h2>
@@ -59,7 +60,7 @@ features: []  # 清空原有features，防止显示默认内容
   </a>
 </div>
 
-<!-- AIGC实时创作（改为你提供的卡片式布局） -->
+<!-- AIGC实时创作（三行左图右文布局） -->
 <div class="section-header">
   <h2>AIGC实时创作</h2>
 </div>
@@ -129,57 +130,57 @@ features: []  # 清空原有features，防止显示默认内容
   <div class="tool-card">
     <div class="tool-icon">🖼️</div>
     <h3>Photoshop</h3>
-    <p>专业的图像编辑与合成软件</p>
-    <a href="/downloads/photoshop" class="download-btn">立即下载</a>
+    <p>图像编辑</p>
+    <a href="/downloads/photoshop" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">✏️</div>
     <h3>Illustrator</h3>
-    <p>矢量图形设计与绘制工具</p>
-    <a href="/downloads/illustrator" class="download-btn">立即下载</a>
+    <p>矢量设计</p>
+    <a href="/downloads/illustrator" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">📐</div>
     <h3>CorelDRAW</h3>
-    <p>专业的矢量插图与排版软件</p>
-    <a href="/downloads/coreldraw" class="download-btn">立即下载</a>
+    <p>矢量排版</p>
+    <a href="/downloads/coreldraw" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">🎬</div>
     <h3>Cinema 4D</h3>
-    <p>专业的3D建模与动画软件</p>
-    <a href="/downloads/cinema4d" class="download-btn">立即下载</a>
+    <p>3D建模</p>
+    <a href="/downloads/cinema4d" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">🔦</div>
     <h3>Keyshot</h3>
-    <p>实时3D渲染与可视化工具</p>
-    <a href="/downloads/keyshot" class="download-btn">立即下载</a>
+    <p>3D渲染</p>
+    <a href="/downloads/keyshot" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">🔄</div>
     <h3>Blender</h3>
-    <p>开源3D创作套件</p>
-    <a href="/downloads/blender" class="download-btn">立即下载</a>
+    <p>开源3D</p>
+    <a href="/downloads/blender" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">🎥</div>
-    <h3>Premiere Pro</h3>
-    <p>专业的视频编辑软件</p>
-    <a href="/downloads/premiere" class="download-btn">立即下载</a>
+    <h3>Premiere</h3>
+    <p>视频编辑</p>
+    <a href="/downloads/premiere" class="download-btn">下载</a>
   </div>
   
   <div class="tool-card">
     <div class="tool-icon">✨</div>
-    <h3>After Effects</h3>
-    <p>专业的动态图形与视觉效果软件</p>
-    <a href="/downloads/aftereffects" class="download-btn">立即下载</a>
+    <h3>AE</h3>
+    <p>动效设计</p>
+    <a href="/downloads/aftereffects" class="download-btn">下载</a>
   </div>
 </div>
 
@@ -187,9 +188,8 @@ features: []  # 清空原有features，防止显示默认内容
 /* ===== 全局样式（Vue风格+主题切换） ===== */
 :root {
   /* 浅色模式（默认） */
-  --vue-primary: #4FC08D;
-  --vue-primary-dark: #3AA373;
-  --vue-secondary: #3B82F6;
+  --vue-primary: #4FC08D; /* Banner按钮主色 */
+  --vue-primary-dark: #3AA373; /* 主色深色（hover用） */
   --text-primary: #2C3E50;
   --text-secondary: #64748B;
   --bg-light: #F8FAFC;
@@ -198,17 +198,23 @@ features: []  # 清空原有features，防止显示默认内容
   --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 16px rgba(79, 192, 141, 0.15);
   --transition-smooth: all 0.2s ease-in-out;
+  /* 标签配色（浅色模式） */
+  --tag-bg: #2C3E50;
+  --tag-text: #F8FAFC;
 }
 
-/* 深色模式 */
+/* 深色模式（与Vue官网深色一致） */
 .dark {
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
-  --bg-light: #1E293B;
-  --bg-white: #27374D;
+  --bg-light: #0F172A; /* 页面背景（深灰蓝近黑） */
+  --bg-white: #1A2435; /* 卡片背景（深色） */
   --border-color: #334155;
   --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.2);
   --shadow-hover: 0 4px 16px rgba(79, 192, 141, 0.25);
+  /* 标签配色（深色模式） */
+  --tag-bg: #F8FAFC;
+  --tag-text: #0F172A;
 }
 
 body {
@@ -292,7 +298,7 @@ a {
   border-radius: 1px;
 }
 
-/* ===== 作品集样式（Vue风格） ===== */
+/* ===== 精选作品集（悬浮动画与工具板块一致） ===== */
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -312,6 +318,12 @@ a {
   transition: var(--transition-smooth);
   position: relative;
 }
+/* 悬浮动画（与工具板块一致） */
+.portfolio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--vue-primary);
+}
 .portfolio-card::before {
   content: '';
   position: absolute;
@@ -322,11 +334,6 @@ a {
   background: var(--vue-primary);
   opacity: 0;
   transition: opacity 0.3s ease;
-}
-.portfolio-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--vue-primary);
 }
 .portfolio-card:hover::before {
   opacity: 1;
@@ -349,25 +356,25 @@ a {
   flex-wrap: wrap;
   gap: 0.6rem;
 }
+/* 标签样式（深浅主题适配） */
 .tag {
   padding: 0.35rem 0.9rem;
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 500;
-  color: white;
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
   display: inline-block;
+  transition: var(--transition-smooth);
 }
-.tag-uiux { background-color: var(--vue-secondary); }
-.tag-brand { background-color: var(--vue-primary); }
-.tag-3d { background-color: #9333EA; opacity: 0.9; }
-.tag-viz { background-color: #F59E0B; opacity: 0.9; }
-.tag-mobile { background-color: #EF4444; opacity: 0.9; }
-.tag-interaction { background-color: #06B6D4; opacity: 0.9; }
+.tag:hover {
+  opacity: 0.9;
+}
 
-/* ===== AIGC板块（你的卡片式布局） ===== */
+/* ===== AIGC实时创作（三行左图右文+统一悬浮动画） ===== */
 .aigc-article-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: 1fr; /* 三行布局 */
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto 5rem;
@@ -380,7 +387,9 @@ a {
   border-radius: 8px;
   overflow: hidden;
   transition: var(--transition-smooth);
+  align-items: center; /* 垂直居中 */
 }
+/* 悬浮动画（与工具板块一致） */
 .aigc-article-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
@@ -388,7 +397,7 @@ a {
 }
 .article-image {
   flex-shrink: 0;
-  width: 120px;
+  width: 180px; /* 图片尺寸适配 */
   height: 120px;
 }
 .article-image img {
@@ -397,37 +406,33 @@ a {
   object-fit: cover;
 }
 .article-content {
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   flex-grow: 1;
 }
 .article-content h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
   color: var(--text-primary);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 .article-meta {
   display: flex;
   align-items: center;
   font-size: 0.8rem;
   color: var(--text-secondary);
-  gap: 0.8rem;
+  gap: 1rem;
 }
 .article-meta .interact {
   margin-left: auto;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 
-/* ===== 创作资源与工具样式（Vue风格） ===== */
+/* ===== 创作资源与工具（一行8个小尺寸+统一按钮） ===== */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(8, 1fr); /* 一行8个 */
+  gap: 0.8rem;
   margin: 2rem auto 5rem;
   max-width: 1200px;
   padding: 0 1.5rem;
@@ -436,7 +441,7 @@ a {
   background: var(--bg-white);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem 0.5rem; /* 小尺寸适配 */
   text-align: center;
   transition: var(--transition-smooth);
   display: flex;
@@ -444,6 +449,7 @@ a {
   align-items: center;
   position: relative;
 }
+/* 悬浮动画 */
 .tool-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
@@ -464,10 +470,10 @@ a {
   opacity: 1;
 }
 .tool-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  height: 70px;
-  width: 70px;
+  font-size: 1.8rem; /* 小尺寸图标 */
+  margin-bottom: 0.5rem;
+  height: 50px;
+  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -476,32 +482,33 @@ a {
   color: var(--vue-primary);
 }
 .dark .tool-icon {
-  background: linear-gradient(135deg, #27374D, #334155);
+  background: linear-gradient(135deg, #1A2435, #27374D);
 }
 .tool-card h3 {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
+  margin: 0.3rem 0;
+  font-size: 0.85rem; /* 小尺寸标题 */
   font-weight: 600;
   color: var(--text-primary);
 }
 .tool-card p {
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  margin-bottom: 1.2rem;
+  font-size: 0.7rem; /* 小尺寸描述 */
+  margin-bottom: 0.8rem;
   line-height: 1.4;
   flex-grow: 1;
 }
+/* 下载按钮（与Banner按钮配色一致） */
 .download-btn {
   display: inline-block;
   background: var(--vue-primary);
-  color: white;
-  padding: 0.6rem 1.2rem;
+  color: #FFFFFF;
+  padding: 0.4rem 0.8rem; /* 小尺寸按钮 */
   border-radius: 6px;
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
   transition: var(--transition-smooth);
   width: 100%;
-  max-width: 140px;
+  max-width: 80px; /* 适配小板块 */
   text-align: center;
 }
 .download-btn:hover {
@@ -513,32 +520,41 @@ a {
 /* ===== 响应式调整 ===== */
 @media (max-width: 992px) {
   .tools-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(4, 2fr); /* 平板端4列 */
+  }
+  .aigc-article-card {
+    flex-direction: column; /* 平板端AIGC卡片上下布局 */
+    text-align: center;
+  }
+  .article-image {
+    width: 100%;
+    height: 180px;
+  }
+  .article-meta {
+    justify-content: center;
+  }
+  .article-meta .interact {
+    margin-left: 1rem;
   }
 }
 @media (max-width: 768px) {
-  .portfolio-grid, .aigc-article-grid {
+  .portfolio-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
   .tools-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
+    grid-template-columns: repeat(2, 1fr); /* 移动端2列 */
   }
   .section-header h2 {
     font-size: 1.6rem;
   }
 }
 @media (max-width: 480px) {
-  .tools-grid {
-    grid-template-columns: 1fr;
+  .article-content {
+    padding: 1rem;
   }
   .tool-card {
-    padding: 1.25rem;
-  }
-  .article-image {
-    width: 100px;
-    height: 100px;
+    padding: 0.8rem 0.3rem;
   }
 }
 </style>
