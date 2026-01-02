@@ -196,9 +196,9 @@ features: []  # 清空原有features，防止显示默认内容
 /* ===== 全局样式（Vue风格+主题切换） ===== */
 :root {
   /* 浅色模式 - 主色系 */
-  --color-primary: #4FC08D; /* Vue绿-品牌主色 */
-  --color-primary-hover: #3AA578; /* Vue绿-深 */
-  --color-primary-light: #E3F9E5; /* Vue绿-浅 */
+  --color-primary: #3B82F6; /* 蓝色-品牡主色 */
+  --color-primary-hover: #2563EB; /* 蓝色-深 */
+  --color-primary-light: #DBEAFE; /* 蓝色-浅 */
   
   /* 浅色模式 - 文本色系 */
   --text-primary: #2C3E50; /* 主文本 */
@@ -228,20 +228,20 @@ features: []  # 清空原有features，防止显示默认内容
   --btn-secondary-hover: #3AA578; /* 次按钮悬浮 */
   
   /* 浅色模式 - 标签色系 */
-  --tag-bg: #E3F9E5; /* 标签背景 */
-  --tag-text: #2C3E50; /* 标签文字 */
+  --tag-bg: #DBEAFE; /* 标签背景 */
+  --tag-text: #1F2937; /* 标签文字 */
   
   /* 浅色模式 - 额外按钮和卡片变量 */
   --bg-white: #FFFFFF; /* 卡片白色背景 */
-  --download-bg: #E3F9E5; /* 下载按钮背景-浅绿 */
-  --download-text: #2C3E50; /* 下载按钮文字-深灰 */
-  --download-hover: #D1F4DB; /* 下载按钮悬浮-更深的浅绿 */
-  --explore-bg: #4FC08D; /* 探索按钮背景-Vue绿 */
+  --download-bg: #DBEAFE; /* 下载按钮背景-浅蓝 */
+  --download-text: #1F2937; /* 下载按钮文字-深灰 */
+  --download-hover: #BFDBFE; /* 下载按钮悬浮-更深的浅蓝 */
+  --explore-bg: #3B82F6; /* 探索按钮背景-蓝色 */
   --explore-text: #FFFFFF; /* 探索按钮文字-白色 */
-  --explore-hover: #3AA578; /* 探索按钮悬浮-深绿 */
-  --shadow-hover: 0 2px 8px rgba(79, 192, 141, 0.1); /* 悬浮阴影 */
+  --explore-hover: #2563EB; /* 探索按钮悬浮-深蓝 */
+  --shadow-hover: 0 2px 8px rgba(59, 130, 246, 0.15); /* 悬浮阴影 */
   --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.05); /* 浅阴影 */
-  --liuli-text-color: #4FC08D; /* 主题强调色 */
+  --liuli-text-color: #3B82F6; /* 主题强调色 */
   
   /* 动画 */
   --transition-smooth: all 0.2s ease-in-out;
@@ -250,9 +250,9 @@ features: []  # 清空原有features，防止显示默认内容
 /* 深色模式 */
 .dark {
   /* 深色模式 - 主色系 */
-  --color-primary: #52D87A; /* Vue绿-亮化版 */
-  --color-primary-hover: #3AA578; /* Vue绿-标准 */
-  --color-primary-light: #1F2937; /* Vue绿-深色背景 */
+  --color-primary: #60A5FA; /* 蓝色-亮化版 */
+  --color-primary-hover: #3B82F6; /* 蓝色-标准 */
+  --color-primary-light: #374151; /* 灰色-深色背景 */
   
   /* 深色模式 - 文本色系 */
   --text-primary: #F8FAFC; /* 主文本 */
@@ -282,20 +282,20 @@ features: []  # 清空原有features，防止显示默认内容
   --btn-secondary-hover: #E2E8F0; /* 次按钮悬浮 */
   
   /* 深色模式 - 标签色系 */
-  --tag-bg: #1F2937; /* 标签背景 */
-  --tag-text: #F8FAFC; /* 标签文字 */
+  --tag-bg: #1E3A8A; /* 标签背景 */
+  --tag-text: #93C5FD; /* 标签文字 */
   
   /* 深色模式 - 额外按钮和卡片变量 */
   --bg-white: #121826; /* 深色卡片背景 */
   --download-bg: #1F2937; /* 下载按钮背景-深灰 */
-  --download-text: #52D87A; /* 下载按钮文字-亮绿 */
+  --download-text: #60A5FA; /* 下载按钮文字-亮蓝 */
   --download-hover: #2A3F47; /* 下载按钮悬浮-更深的深灰 */
-  --explore-bg: #52D87A; /* 探索按钮背景-亮绿 */
+  --explore-bg: #60A5FA; /* 探索按钮背景-亮蓝 */
   --explore-text: #0A0E17; /* 探索按钮文字-纯黑 */
-  --explore-hover: #3AA578; /* 探索按钮悬浮-标准绿 */
-  --shadow-hover: 0 2px 8px rgba(58, 163, 115, 0.2); /* 悬浮阴影 */
+  --explore-hover: #3B82F6; /* 探索按钮悬浮-标准蓝 */
+  --shadow-hover: 0 2px 8px rgba(59, 130, 246, 0.2); /* 悬浮阴影 */
   --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.2); /* 浅阴影 */
-  --liuli-text-color: #52D87A; /* 主题强调色 */
+  --liuli-text-color: #60A5FA; /* 主题强调色 */
 }
 
 body {
@@ -530,12 +530,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #F0FDF4, #E3F9E5);
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
   border-radius: 50%;
   color: var(--liuli-text-color);
 }
 .dark .tool-icon {
-  background: linear-gradient(135deg, #121826, #1F2937);
+  background: linear-gradient(135deg, #1E3A8A, #1F2937);
+  color: #60A5FA;
 }
 .tool-card h3 {
   margin: 0.3rem 0;
