@@ -1,3 +1,4 @@
+// 正确导入Vue的h函数（不是R！）
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 
@@ -5,10 +6,10 @@ export default {
   ...DefaultTheme,
   Layout() {
     const DefaultLayout = DefaultTheme.Layout
+    // 所有创建元素的地方，用h替代R
     return () =>
       h(DefaultLayout, null, {
         'nav-bar-content-after': () => [
-          // 修正：引号/括号完全匹配
           h(
             'button',
             {
@@ -18,7 +19,6 @@ export default {
             },
             h('span', { class: 'vp-icon' }, 'B站')
           ),
-          // 修正：引号/括号完全匹配
           h(
             'button',
             {
