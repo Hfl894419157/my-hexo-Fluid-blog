@@ -71,8 +71,8 @@ export default defineConfig({
       },
       { 
         icon: {
-          // 小红书横版图标（红色背景+小红书文字）
-          svg: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="24" viewBox="0 0 28 24"><rect width="28" height="24" rx="4" fill="#FF2442"/><text x="14" y="15" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="10" font-weight="bold">小红书</text></svg>'
+          // 【修改】小红书图标（统一为单一线条风格，抽象化的“书”图形）
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 4H9a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><path d="M9 4v16"/><path d="M15 8h.01"/></svg>'
         }, 
         link: 'https://www.xiaohongshu.com/你的小红书主页'
       }
