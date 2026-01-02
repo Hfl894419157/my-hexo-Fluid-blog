@@ -233,12 +233,12 @@ features: []  # 清空原有features，防止显示默认内容
   
   /* 浅色模式 - 额外按钮和卡片变量 */
   --bg-white: #FFFFFF; /* 卡片白色背景 */
-  --download-bg: #2C3E50; /* 下载按钮背景 */
-  --download-text: #FFFFFF; /* 下载按钮文字 */
-  --download-hover: #1E293B; /* 下载按钮悬浮 */
-  --explore-bg: #4FC08D; /* 探索按钮背景 */
-  --explore-text: #FFFFFF; /* 探索按钮文字 */
-  --explore-hover: #3AA578; /* 探索按钮悬浮 */
+  --download-bg: #E3F9E5; /* 下载按钮背景-浅绿 */
+  --download-text: #2C3E50; /* 下载按钮文字-深灰 */
+  --download-hover: #D1F4DB; /* 下载按钮悬浮-更深的浅绿 */
+  --explore-bg: #4FC08D; /* 探索按钮背景-Vue绿 */
+  --explore-text: #FFFFFF; /* 探索按钮文字-白色 */
+  --explore-hover: #3AA578; /* 探索按钮悬浮-深绿 */
   --shadow-hover: 0 2px 8px rgba(79, 192, 141, 0.1); /* 悬浮阴影 */
   --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.05); /* 浅阴影 */
   --liuli-text-color: #4FC08D; /* 主题强调色 */
@@ -287,12 +287,12 @@ features: []  # 清空原有features，防止显示默认内容
   
   /* 深色模式 - 额外按钮和卡片变量 */
   --bg-white: #121826; /* 深色卡片背景 */
-  --download-bg: #F8FAFC; /* 下载按钮背景 */
-  --download-text: #0A0E17; /* 下载按钮文字 */
-  --download-hover: #E2E8F0; /* 下载按钮悬浮 */
-  --explore-bg: #52D87A; /* 探索按钮背景 */
-  --explore-text: #0A0E17; /* 探索按钮文字 */
-  --explore-hover: #3AA578; /* 探索按钮悬浮 */
+  --download-bg: #1F2937; /* 下载按钮背景-深灰 */
+  --download-text: #52D87A; /* 下载按钮文字-亮绿 */
+  --download-hover: #2A3F47; /* 下载按钮悬浮-更深的深灰 */
+  --explore-bg: #52D87A; /* 探索按钮背景-亮绿 */
+  --explore-text: #0A0E17; /* 探索按钮文字-纯黑 */
+  --explore-hover: #3AA578; /* 探索按钮悬浮-标准绿 */
   --shadow-hover: 0 2px 8px rgba(58, 163, 115, 0.2); /* 悬浮阴影 */
   --shadow-light: 0 1px 4px rgba(0, 0, 0, 0.2); /* 浅阴影 */
   --liuli-text-color: #52D87A; /* 主题强调色 */
