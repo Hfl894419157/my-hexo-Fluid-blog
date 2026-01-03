@@ -193,7 +193,7 @@ features: []  # 清空原有features，防止显示默认内容
 </div>
 
 <style>
-/* ===== 全局样式（Vue风格+主题切换） ===== */
+/* ===== 全局样式（现代暗黑模式 + 高级绿色配色） ===== */
 :root {
   --color-primary: #41B883;
   --color-primary-hover: #2F9A66;
@@ -251,61 +251,61 @@ features: []  # 清空原有features，防止显示默认内容
   --focus-ring-strong: rgba(15,23,42,0.12);
 }
 
-/* 深色模式 */
+/* 深色模式 - 现代高级配色 */
 .dark {
-  --color-primary: #66D19A;
-  --color-primary-hover: #41B883;
+  --color-primary: #4FD97A;
+  --color-primary-hover: #3CB864;
   --color-primary-light: #10312A;
 
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
-  --text-light: #64748B;
+  --text-primary: #F0F4F8;
+  --text-secondary: #A0A8B2;
+  --text-light: #6F7A88;
   --text-inverse: #0B1220;
 
-  --bg-page: #0B1220;
-  --bg-card: #0F1724;
-  --bg-hover: #111827;
-  --bg-input: #0F1724;
+  --bg-page: #0A0F19;
+  --bg-card: #0E1419;
+  --bg-hover: #121821;
+  --bg-input: #0E1419;
 
-  --border-color: #1E293B;
-  --border-color-hover: #273449;
+  --border-color: #1A2230;
+  --border-color-hover: #2A3644;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.6);
-  --shadow-md: 0 6px 16px rgba(0,0,0,0.6);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 6px 16px rgba(0,0,0,0.5);
   --shadow-lg: 0 10px 30px rgba(0,0,0,0.6);
-  --shadow-soft: 0 2px 8px rgba(0,0,0,0.28);
+  --shadow-soft: 0 2px 8px rgba(0,0,0,0.3);
 
-  --btn-primary-bg: #66D19A;
+  --btn-primary-bg: #4FD97A;
   --btn-primary-text: #0B1220;
-  --btn-primary-hover: #41B883;
+  --btn-primary-hover: #3CB864;
 
-  --btn-secondary-bg: #52D87A;
+  --btn-secondary-bg: #4FD97A;
   --btn-secondary-text: #0B1220;
-  --btn-secondary-hover: #3FB27F;
+  --btn-secondary-hover: #3CB864;
 
-  --tag-bg: #10312A;
-  --tag-text: #CFF8E6;
+  --tag-bg: #1A2F28;
+  --tag-text: #7FE8B8;
 
-  --download-bg: #1F2937;
-  --download-text: #E6F7EE;
-  --download-hover: #27343D;
+  --download-bg: #1A2F28;
+  --download-text: #7FE8B8;
+  --download-hover: #234035;
 
-  --explore-bg: #111827;
-  --explore-text: #FFFFFF;
-  --explore-hover: #1F2937;
+  --explore-bg: #121821;
+  --explore-text: #F0F4F8;
+  --explore-hover: #1A2230;
 
-  --shadow-hover: 0 2px 8px rgba(0,0,0,0.28);
-  --shadow-light: 0 1px 4px rgba(0,0,0,0.18);
+  --shadow-hover: 0 4px 12px rgba(79,217,122,0.15);
+  --shadow-light: 0 1px 4px rgba(0,0,0,0.2);
 
-  --liuli-text-color: #66D19A;
+  --liuli-text-color: #4FD97A;
   --bg-white: var(--bg-card);
-  --icon-grad-start: #10304a;
-  --icon-grad-end: #0f1724;
-  --dark-icon-grad-start: #1E3A8A;
-  --dark-icon-grad-end: #1F2937;
-  --tool-icon-color: #66D19A;
-  --focus-ring: rgba(255,255,255,0.06);
-  --focus-ring-strong: rgba(255,255,255,0.12);
+  --icon-grad-start: #1A4D2E;
+  --icon-grad-end: #0E1419;
+  --dark-icon-grad-start: #1A4D2E;
+  --dark-icon-grad-end: #0E1419;
+  --tool-icon-color: #4FD97A;
+  --focus-ring: rgba(79,217,122,0.15);
+  --focus-ring-strong: rgba(79,217,122,0.25);
 }
 
 body {
@@ -353,8 +353,8 @@ a {
   font-weight: 600;
   color: var(--text-primary);
   position: relative;
-  padding-bottom: 0.5rem;
-  border-bottom: none; /* 移除蓝色下划线 */
+  padding-bottom: 0;
+  border-bottom: none;
   transition: var(--transition-smooth);
 }
 
@@ -380,22 +380,8 @@ a {
 }
 .portfolio-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
   border-color: var(--liuli-text-color);
-}
-.portfolio-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--liuli-text-color);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.portfolio-card:hover::before {
-  opacity: 1;
 }
 .card-content h3 {
   margin-top: 0;
@@ -452,7 +438,7 @@ a {
 }
 .aigc-article-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
   border-color: var(--liuli-text-color);
 }
 .article-image {
@@ -515,22 +501,8 @@ a {
 }
 .tool-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
   border-color: var(--liuli-text-color);
-}
-.tool-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--liuli-text-color);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.tool-card:hover::before {
-  opacity: 1;
 }
 .tool-icon {
   font-size: 1.8rem;
@@ -580,7 +552,7 @@ a {
 .download-btn:hover {
   background: var(--download-hover);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
 }
 
 /* ===== 探索更多按钮（纯圆角+Liuli文案色+主题适配） ===== */
@@ -608,7 +580,7 @@ a {
 .explore-more-btn:hover {
   background: var(--explore-hover);
   color: var(--explore-text);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
   transform: translateY(-1px);
 }
 
@@ -628,7 +600,7 @@ a {
 .dark .explore-more-btn:hover {
   background: var(--explore-hover);
   color: var(--explore-text);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-hover);
   transform: translateY(-1px);
 }
 .dark .explore-more-btn:focus {
