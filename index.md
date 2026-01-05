@@ -302,8 +302,8 @@ features: []  # 清空原有features，防止显示默认内容
   --tag-text: #a8b1ff;
 
   --download-bg: #6f42c1;
-  --download-text: #a8b1ff;
-  --download-hover: #5c73e7;
+  --download-text: #ffffff;
+  --download-hover: #7e4cc9;
 
   --explore-bg: #202127;
   --explore-text: #dfdfd6;
@@ -566,6 +566,21 @@ a {
 }
 .download-btn:hover {
   background: var(--download-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* 深色模式：下载按钮与卡片下方的标签（.tag）颜色保持一致 */
+.dark .download-btn {
+  /* 使用标签的背景与文字颜色，确保一致性 */
+  background: var(--tag-bg) !important;
+  color: var(--tag-text) !important;
+  border-color: transparent;
+}
+.dark .download-btn:hover {
+  /* 悬停时略微加深背景，以体现交互反馈 */
+  background: rgba(168,177,255,0.18) !important;
+  color: var(--tag-text) !important;
   transform: translateY(-1px);
   box-shadow: var(--shadow-hover);
 }
