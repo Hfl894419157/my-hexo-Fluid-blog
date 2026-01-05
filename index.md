@@ -193,6 +193,21 @@ features: []  # 清空原有features，防止显示默认内容
 </div>
 
 <style>
+/* 覆盖 VitePress 默认紫色品牌色为靛蓝色 */
+:root {
+  --vp-c-brand-1: #3451b2 !important;
+  --vp-c-brand-2: #3a5ccc !important;
+  --vp-c-brand-3: #5672cd !important;
+  --vp-c-brand-soft: rgba(100, 108, 255, 0.14) !important;
+}
+
+.dark {
+  --vp-c-brand-1: #a8b1ff !important;
+  --vp-c-brand-2: #5c73e7 !important;
+  --vp-c-brand-3: #3e63dd !important;
+  --vp-c-brand-soft: rgba(100, 108, 255, 0.16) !important;
+}
+
 /* ===== 全局样式（现代暗黑模式 + 靛蓝绿色配色） ===== */
 :root {
   --color-primary: #3451b2;
@@ -228,9 +243,9 @@ features: []  # 清空原有features，防止显示默认内容
   --tag-bg: rgba(100, 108, 255, 0.14);
   --tag-text: #3451b2;
 
-  --download-bg: #f6f6f7;
-  --download-text: #3c3c43;
-  --download-hover: #e4e4e9;
+  --download-bg: #3451b2;
+  --download-text: #ffffff;
+  --download-hover: #3a5ccc;
 
   --explore-bg: #f6f6f7;
   --explore-text: #3c3c43;
