@@ -32,32 +32,21 @@ export default defineConfig({
     },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '首页', link: '/' },
-      { text: '作品集', link: '/markdown-examples' },
-      { text: 'AIGC', link: '/markdown-examples' },
-      // 改动：创作资源从单一菜单改为带下拉子菜单
-      {
-        text: '创作资源',
-        items: [
-          { text: '3D建模', link: '/markdown-examples' }, // 暂用现有链接，后续可替换为对应页面
-          { text: '视频剪辑', link: '/markdown-examples' },
-          { text: '平面工具', link: '/markdown-examples' },
-          { text: '网站搭建', link: '/markdown-examples' }
-        ]
-      },
-      { text: '博客', link: '/markdown-examples' },
-      { text: '随记', link: '/markdown-examples' }
-    ],
-
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+  { text: '首页', link: '/' },
+  { text: '作品集', link: '/portfolio/' }, // 修改这里
+  { text: 'AIGC', link: '/aigc/' },        // 修改这里
+  {
+    text: '创作资源',
+    items: [
+      { text: '3D建模', link: '/resources/3d-modeling' },
+      { text: '视频剪辑', link: '/resources/video-editing' },
+      { text: '平面工具', link: '/resources/graphic-tools' },
+      { text: '网站搭建', link: '/resources/web-build' }
+    ]
+  },
+  { text: '博客', link: '/blog/' }, // 修改这里
+  { text: '随记', link: '/notes/' }  // 修改这里
+],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },

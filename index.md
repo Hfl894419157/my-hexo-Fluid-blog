@@ -243,9 +243,9 @@ features: []  # 清空原有features，防止显示默认内容
   --tag-bg: rgba(100, 108, 255, 0.14);
   --tag-text: #3451b2;
 
-  --download-bg: #3451b2;
-  --download-text: #ffffff;
-  --download-hover: #3a5ccc;
+  --download-bg: #dbeafe;
+  --download-text: #1e3a8a;
+  --download-hover: #bfdbfe;
 
   --explore-bg: #f6f6f7;
   --explore-text: #3c3c43;
