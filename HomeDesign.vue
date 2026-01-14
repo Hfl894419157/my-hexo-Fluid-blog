@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-// === 1. 精选作品数据 ===
+// === 1. 精选作品数据 (完整保留) ===
 const selectedWorks = [
   { id: 1, title: 'AI 赛博时尚全案', titleEn: 'AI FASHION BRANDING', category: 'BRANDING', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80', link: '/portfolio/brand-design' },
   { id: 2, title: 'Web3 数据可视化', titleEn: 'WEB3 DATA VISUALIZATION', category: 'UI DESIGN', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', link: '/portfolio/3d-viz' },
@@ -11,7 +11,7 @@ const selectedWorks = [
   { id: 6, title: 'SaaS 后台系统', titleEn: 'SAAS DASHBOARD', category: 'B-END', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', link: '/portfolio/ai-video' }
 ]
 
-// === 2. AIGC 实验室数据 ===
+// === 2. AIGC 实验室数据 (完整保留) ===
 const aigcWorks = [
   { id: 1, title: '虚拟人像生成', category: 'Stable Diffusion', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80', link: '/aigc/avatar' },
   { id: 2, title: '概念建筑设计', category: 'Midjourney', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80', link: '/aigc/arch' },
@@ -21,7 +21,7 @@ const aigcWorks = [
   { id: 6, title: '游戏资产生成', category: 'Game Asset', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80', link: '/aigc/game' }
 ]
 
-// === 3. 文章博客数据 ===
+// === 3. 文章博客数据 (完整保留) ===
 const blogPosts = [
   { 
     id: 1, 
@@ -55,7 +55,7 @@ const blogPosts = [
   }
 ]
 
-// === 4. 创作资源数据 ===
+// === 4. 创作资源数据 (完整保留) ===
 const tools = [
   { id: 1, name: 'Midjourney Prompt', desc: '高级咒语生成器 v2.0', icon: '🎨', link: '/resources/mj-prompt' },
   { id: 2, name: 'Stable Diffusion LoRA', desc: '通用人像模型包', icon: '🤖', link: '/resources/lora' },
@@ -65,14 +65,14 @@ const tools = [
   { id: 6, name: 'Design E-Book', desc: 'AIGC 设计白皮书 PDF', icon: '📚', link: '/resources/ebook' },
 ]
 
-// === 5. 简历数据 (带图标) ===
+// === 5. 简历数据 ===
 const resumeStats = [
   { label: '多年工作经验', value: '8+', icon: '💎' },
   { label: '成功交付项目', value: '120+', icon: '🚀' },
   { label: '客户满意度', value: '99%', icon: '🔥' },
 ]
 
-// === 6. 联系方式数据 (包含抖音，且邮箱放在最后) ===
+// === 6. 联系方式数据 (包含抖音，Email在最后) ===
 const contactLinks = [
   { 
     id: 'wechat',
@@ -89,7 +89,7 @@ const contactLinks = [
   { 
     id: 'douyin',
     name: 'Douyin', 
-    iconSvg: '<svg t="1768036989590" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8405" width="200" height="200"><path d="M855.52032 0H165.44032A165.696 165.696 0 0 0 0.00032 165.92v689.376a165.696 165.696 0 0 0 165.344 166.016h690.272a165.696 165.696 0 0 0 165.408-165.984V166.016A165.76 165.76 0 0 0 855.52032 0z" fill="#170B1A" p-id="8406"></path><path d="M511.42432 302.08c0.576-64.32 0-128.576 0.576-192.832h131.392c-0.576 11.328 1.152 22.72 2.88 33.6h-96.704v522.24a124.8 124.8 0 0 1-16 63.68 107.84 107.84 0 0 1-83.008 52.864 111.424 111.424 0 0 1-63.168-13.12 108.416 108.416 0 0 1-36.928-32.96c33.536 18.816 77.312 17.088 109.76-3.968A111.68 111.68 0 0 0 512.00032 638.272c-0.576-112.064-0.576-224.128-0.576-336.192z m216.768-36.992c18.176 11.392 38.656 20.48 59.712 25.024 12.544 2.88 25.024 4.032 38.08 4.032v29.568a187.36 187.36 0 0 1-97.792-58.56v-0.064z" fill="#25F4EE" p-id="8407"></path><path d="M274.75232 428.928a238.016 238.016 0 0 1 159.36-33.6v31.36c-14.72 0.576-29.376 2.272-43.84 5.12a249.44 249.44 0 0 0-97.92 43.84c-31.232 23.296-55.104 55.104-71.68 90.368a243.424 243.424 0 0 0-23.296 108.16c0 40.96 11.392 80.768 30.72 116.608 9.152 16.448 19.392 32.384 33.024 45.44a233.44 233.44 0 0 1-68.288-75.072 246.24 246.24 0 0 1-33.6-131.392 250.144 250.144 0 0 1 35.904-120 240.352 240.352 0 0 1 79.616-80.832z" fill="#25F4EE" p-id="8408"></path><path d="M549.56832 142.784h97.28c3.392 18.752 10.24 36.416 18.752 53.504 13.632 26.176 33.024 49.472 58.048 64.832 1.664 1.152 2.88 2.304 3.968 3.968a186.688 186.688 0 0 0 98.432 58.56c0.576 34.176 0 68.864 0 103.04a308.16 308.16 0 0 1-180.928-57.472c0 81.92 0 163.84 0.576 245.76 0 10.816 0.576 21.632 0 32.96a268.8 268.8 0 0 1-35.264 113.792 247.392 247.392 0 0 1-68.288 77.44 219.296 219.296 0 0 1-124.608 42.56c-22.72 0.64-45.44-0.512-67.648-5.632a243.52 243.52 0 0 1-87.04-38.08l-1.728-1.728a202.464 202.464 0 0 1-33.024-45.504 244.32 244.32 0 0 1-30.72-116.672 245.6 245.6 0 0 1 23.36-108.096c16.512-35.2 40.96-67.072 71.68-90.432a249.44 249.44 0 0 1 141.632-48.896c0.576 13.12 0 26.176 0.576 38.656v66.56a94.176 94.176 0 0 0-51.776-1.728 128.32 128.32 0 0 0-55.68 27.328c-9.824 8.448-17.952 18.688-23.936 30.144a112.16 112.16 0 0 0-11.392 63.744c2.432 21.216 11.168 41.216 25.024 57.472 9.088 11.328 21.056 19.904 33.024 27.84 9.664 13.632 22.144 25.024 36.928 33.024 19.392 10.24 41.536 14.72 63.168 13.12 34.112-2.304 65.984-23.36 83.072-52.992a124.8 124.8 0 0 0 15.936-63.68c1.152-175.232 0.576-349.312 0.576-523.392z" fill="#FFFFFF" p-id="8409"></path><path d="M646.84832 142.784c11.328 0.576 22.72 0 34.688 0 0 38.08 11.968 76.224 34.112 107.52 2.88 3.968 5.76 7.36 8.576 10.816-25.088-15.36-44.992-38.656-58.048-64.832a214.208 214.208 0 0 1-19.328-53.504z m179.2 180.928c12.48 2.88 24.96 3.968 38.08 3.968v132.544c-64.832 0.576-129.664-21.056-182.592-59.136v262.784a229.76 229.76 0 0 1-5.696 59.2 244.32 244.32 0 0 1-96.704 147.328c-25.92 18.56-55.36 31.744-86.464 38.656a240.448 240.448 0 0 1-113.792-1.664 239.776 239.776 0 0 1-115.52-69.44 234.016 234.016 0 0 0 87.104 38.08c22.144 5.184 44.928 6.336 67.648 5.76a219.296 219.296 0 0 0 124.608-42.688 254.784 254.784 0 0 0 68.288-77.376 269.024 269.024 0 0 0 35.2-113.792 319.072 319.072 0 0 0 0-32.96c-0.512-81.92-0.512-163.84-0.512-245.76a308.16 308.16 0 0 0 180.928 57.472c-0.576-34.176 0-68.8-0.576-102.976z" fill="#FE2C55" p-id="8410"></path><path d="M434.62432 426.112c12.544 0 25.6 0.576 38.08 2.24v136a103.872 103.872 0 0 0-57.408-2.304c-35.84 8-65.984 35.264-78.528 70.016-12.48 34.112-7.36 73.92 14.208 102.912a119.552 119.552 0 0 1-32.96-27.84 107.328 107.328 0 0 1-25.024-57.472 112.16 112.16 0 0 1 11.392-63.68c5.632-11.392 14.208-21.632 23.872-30.208 15.936-13.632 35.84-22.144 55.744-27.264a94.176 94.176 0 0 1 51.776 1.664V463.68c-1.152-11.36-0.576-24.48-1.152-37.536v-0.032z" fill="#FE2C55" p-id="8411"></path></svg>', 
+    iconSvg: '<svg t="1768036989590" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8405" width="200" height="200"><path d="M855.52032 0H165.44032A165.696 165.696 0 0 0 0.00032 165.92v689.376a165.696 165.696 0 0 0 165.344 166.016h690.272a165.696 165.696 0 0 0 165.408-165.984V166.016A165.76 165.76 0 0 0 855.52032 0z" fill="#170B1A" p-id="8406"></path><path d="M511.42432 302.08c0.576-64.32 0-128.576 0.576-192.832h131.392c-0.576 11.328 1.152 22.72 2.88 33.6h-96.704v522.24a124.8 124.8 0 0 1-16 63.68 107.84 107.84 0 0 1-83.008 52.864 111.424 111.424 0 0 1-63.168-13.12 108.416 108.416 0 0 1-36.928-32.96c33.536 18.816 77.312 17.088 109.76-3.968A111.68 111.68 0 0 0 512.00032 638.272c-0.576-112.064-0.576-224.128-0.576-336.192z m216.768-36.992c18.176 11.392 38.656 20.48 59.712 25.024 12.544 2.88 25.024 4.032 38.08 4.032v29.568a187.36 187.36 0 0 1-97.792-58.56v-0.064z" fill="#25F4EE" p-id="8407"></path><path d="M274.75232 428.928a238.016 238.016 0 0 1 159.36-33.6v31.36c-14.72 0.576-29.376 2.272-43.84 5.12a249.44 249.44 0 0 0-97.92 43.84c-31.232 23.296-55.104 55.104-71.68 90.368a243.424 243.424 0 0 0-23.296 108.16c0 40.96 11.392 80.768 30.72 116.608 9.152 16.448 19.392 32.384 33.024 45.44a233.44 233.44 0 0 1-68.288-75.072 246.24 246.24 0 0 1-33.6-131.392 250.144 250.144 0 0 1 35.904-120 240.352 240.352 0 0 1 79.616-80.832z" fill="#25F4EE" p-id="8408"></path><path d="M549.56832 142.784h97.28c3.392 18.752 10.24 36.416 18.752 53.504 13.632 26.176 33.024 49.472 58.048 64.832 1.664 1.152 2.88 2.304 3.968 3.968a186.688 186.688 0 0 0 98.432 58.56c0.576 34.176 0 68.864 0 103.04a308.16 308.16 0 0 1-180.928-57.472c0 81.92 0 163.84 0.576 245.76 0 10.816 0.576 21.632 0 32.96a268.8 268.8 0 0 1-35.264 113.792 247.392 247.392 0 0 1-68.288 77.44 219.296 219.296 0 0 1-124.608 42.56c-22.72 0.64-45.44-0.512-67.648-5.632a243.52 243.52 0 0 1-87.04-38.08l-1.728-1.728a202.464 202.464 0 0 1-33.024-45.504 244.32 244.32 0 0 1-30.72-116.672 245.6 245.6 0 0 1 23.36-108.096c16.512-35.2 40.96-67.072 71.68-90.432a249.44 249.44 0 0 1 141.632-48.896c0.576 13.12 0 26.176 0.576 38.656v66.56a94.176 94.176 0 0 0-51.776-1.728 128.32 128.32 0 0 0-55.68 27.328c-9.824 8.448-17.952 18.688-23.936 30.144a112.16 112.16 0 0 0-11.392 63.744c2.432 21.216 11.168 41.216 25.024 57.472 9.088 11.328 21.056 19.904 33.024 27.84 9.664 13.632 22.144 25.024 36.928 33.024 19.392 10.24 41.536 14.72 63.168 13.12 34.112-2.304 65.984-23.36 83.072-52.992a124.8 124.8 0 0 0 15.936-63.68c1.152-175.232 0.576-349.312 0.576-523.392z" fill="#FFFFFF"></path></svg>', 
     type: 'link', 
     link: 'https://www.douyin.com/', 
     text: '抖音: LiuliDesign' 
@@ -104,7 +104,7 @@ const contactLinks = [
   }
 ]
 
-// === 7. 交互逻辑 (回到顶部 + 微信弹窗 + 平滑滚动) ===
+// === 7. 交互逻辑 ===
 const showBackToTop = ref(false)
 const showModal = ref(false)
 const modalImage = ref('')
@@ -116,7 +116,7 @@ const handleContactClick = (item) => {
   }
 }
 
-// 平滑滚动到底部联系我
+// 平滑滚动
 const scrollToContact = () => {
   const element = document.querySelector('.contact-section')
   if (element) {
@@ -208,6 +208,9 @@ onUnmounted(() => {
           </div>
         </a>
       </div>
+      <div class="btn-more-container">
+        <a href="/portfolio/portfolio-PortfolioList" class="btn-view-more">查看更多案例 →</a>
+      </div>
     </div>
 
     <div class="section-container aigc-section">
@@ -227,6 +230,9 @@ onUnmounted(() => {
             <span class="tag">{{ item.category }}</span>
           </div>
         </a>
+      </div>
+      <div class="btn-more-container">
+        <a href="/aigc/" class="btn-view-more">查看更多AIGC内容 →</a>
       </div>
     </div>
 
@@ -263,6 +269,9 @@ onUnmounted(() => {
           </div>
         </a>
       </div>
+      <div class="btn-more-container">
+        <a href="/blog/" class="btn-view-more">查看更多文章内容 →</a>
+      </div>
     </div>
 
     <div class="section-container">
@@ -280,6 +289,9 @@ onUnmounted(() => {
           </div>
           <a :href="tool.link" class="btn-download">下载</a>
         </div>
+      </div>
+      <div class="btn-more-container">
+        <a href="/resources/" class="btn-view-more">查看更多工具 →</a>
       </div>
     </div>
 
@@ -338,7 +350,7 @@ onUnmounted(() => {
 }
 .section-container { margin-top: 100px; }
 
-/* === 通用卡片 === */
+/* === 通用卡片样式 === */
 .card-box {
   background-color: var(--vp-c-bg-soft); 
   border: 1px solid var(--vp-c-divider);
@@ -370,7 +382,7 @@ onUnmounted(() => {
   display: inline-block; 
   border: none; 
   cursor: pointer;
-  font-size: 1.1rem; /* 统一字号 */
+  font-size: 1.1rem; 
   line-height: 1.5;
   font-family: inherit; 
 }
@@ -384,28 +396,23 @@ onUnmounted(() => {
 .hero-img { width: 80%; z-index: 1; animation: float 6s ease-in-out infinite; border-radius: 20px; }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-/* === [核心升级] 简历板块：高冲击感设计 === */
+/* === 简历板块 === */
 .resume-bar { 
   margin-bottom: 60px; 
   padding: 70px 50px; 
   background-color: var(--vp-c-bg-soft); 
-  /* 增加装饰性边框 */
   border: 1px solid var(--vp-c-divider);
   border-top: 1px solid rgba(139, 92, 246, 0.5); 
-  /* 微调后的精致阴影 */
   box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.1); 
   position: relative;
   overflow: hidden;
 }
-
-/* 磨砂光效背景 */
 .resume-bar::before {
   content: "";
   position: absolute; top: -50%; right: -20%; width: 600px; height: 600px;
   background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
   z-index: 0; pointer-events: none;
 }
-/* 增加底部网格纹理装饰 */
 .resume-bar::after {
   content: "";
   position: absolute; bottom: 0; left: 0; width: 100%; height: 30%;
@@ -414,18 +421,11 @@ onUnmounted(() => {
   background-size: 20px 20px;
   z-index: 0; pointer-events: none;
 }
-
 .resume-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 40px; width: 100%; position: relative; z-index: 1; }
 .resume-left { flex: 1.2; }
-
-.resume-intro h3 { 
-  font-size: 2.2rem; margin: 0 0 10px; font-weight: 800; color: var(--vp-c-text-1); 
-  letter-spacing: 1px;
-}
+.resume-intro h3 { font-size: 2.2rem; margin: 0 0 10px; font-weight: 800; color: var(--vp-c-text-1); letter-spacing: 1px; }
 .highlight-text { color: #8B5CF6; }
 .resume-intro p { margin: 0 0 30px; color: var(--vp-c-text-2); font-size: 1.1rem; }
-
-/* 升级后的按钮：更大、更有质感 */
 .btn-resume-cta-large {
   display: inline-flex; align-items: center; gap: 10px;
   background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
@@ -435,34 +435,18 @@ onUnmounted(() => {
   font-weight: 700; 
   font-size: 1.1rem;
   text-decoration: none;
-  /* 阴影缩小，更精致 */
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25); 
   transition: all 0.3s ease;
 }
-.btn-resume-cta-large:hover {
-  transform: translateY(-4px) scale(1.02);
-  /* 悬浮光晕也克制 */
-  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
-}
+.btn-resume-cta-large:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35); }
 .arrow { transition: transform 0.3s; }
 .btn-resume-cta-large:hover .arrow { transform: translateX(5px); }
-
-/* 升级后的数据展示 */
 .resume-right { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; }
 .resume-stats { display: flex; gap: 50px; text-align: center; }
 .stat-item { display: flex; flex-direction: column; align-items: center; }
 .stat-icon { font-size: 1.5rem; margin-bottom: 5px; opacity: 0.8; }
-.stat-val { 
-  font-size: 3rem; 
-  font-weight: 800; 
-  background: linear-gradient(to bottom, #8B5CF6, #a78bfa);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  line-height: 1; 
-}
-.stat-lbl { 
-  font-size: 0.9rem; text-transform: uppercase; color: var(--vp-c-text-2); 
-  margin-top: 10px; font-weight: 600; letter-spacing: 1px;
-}
+.stat-val { font-size: 3rem; font-weight: 800; background: linear-gradient(to bottom, #8B5CF6, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+.stat-lbl { font-size: 0.9rem; text-transform: uppercase; color: var(--vp-c-text-2); margin-top: 10px; font-weight: 600; letter-spacing: 1px; }
 .resume-skills-tags { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .resume-skills-tags span { font-size: 0.8rem; padding: 6px 14px; background: rgba(139, 92, 246, 0.08); border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.2); color: var(--vp-c-text-2); }
 
@@ -486,7 +470,6 @@ onUnmounted(() => {
 .blog-left img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
 .blog-card:hover .blog-left img { transform: scale(1.05); }
 .blog-right { width: 60%; padding: 40px 30px; display: flex; flex-direction: column; justify-content: space-between; }
-/* 关键修改：悬浮仅标题变色 */
 .blog-card:hover .blog-main h4 { color: #8B5CF6; transition: 0.3s; } 
 .blog-main h4 { margin: 0 0 15px; font-size: 1.5rem; font-weight: 700; color: var(--vp-c-text-1); }
 .blog-main p { margin: 0; font-size: 1rem; color: var(--vp-c-text-2); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -497,7 +480,30 @@ onUnmounted(() => {
 .tool-icon { font-size: 2rem; margin-bottom: 5px; }
 .btn-download { width: 100%; padding: 10px 0; border-radius: 8px; background: #8B5CF6; color: white !important; text-decoration: none; margin-top: 15px; display: block; font-weight: 600; }
 
-/* 联系我 (单行排列) */
+/* View More 按钮容器 */
+.btn-more-container {
+  text-align: center;
+  margin-top: 40px;
+}
+.btn-view-more {
+  display: inline-block;
+  padding: 12px 36px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 50px;
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+  background-color: var(--vp-c-bg-soft);
+}
+.btn-view-more:hover {
+  border-color: #8B5CF6;
+  color: #8B5CF6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* 联系我 */
 .contact-card { display: flex; align-items: center; justify-content: space-between; padding: 60px 50px; }
 .contact-left h3 { font-size: 2rem; font-weight: 800; margin-bottom: 15px; }
 .contact-right { width: 50%; }
@@ -506,7 +512,7 @@ onUnmounted(() => {
   display: flex; align-items: center; gap: 10px; padding: 15px 20px; 
   background: var(--vp-c-bg); border: 1px solid var(--vp-c-divider); 
   border-radius: 12px; text-decoration: none !important; color: var(--vp-c-text-1); cursor: pointer; 
-  transition: 0.2s; white-space: nowrap; /* 强制单行 */
+  transition: 0.2s; white-space: nowrap; 
 }
 .contact-item:hover { border-color: #8B5CF6; transform: translateX(5px); }
 .c-icon { width: 24px; height: 24px; display: block; flex-shrink: 0; }
@@ -532,59 +538,47 @@ onUnmounted(() => {
    📱 移动端强制适配 (Mobile Force Fix) - 使用 !important 锁死样式
    ================================================================= */
 @media (max-width: 768px) {
-  /* 1. 容器与间距 */
-  .home-container { padding: 0 8px 80px !important; }
+  /* 1. 容器与间距 (调小到 6px 以获得更宽视野) */
+  .home-container { 
+    padding: 0 6px 80px !important; 
+    width: 100% !important; 
+    overflow-x: hidden !important;
+  }
   .section-container { margin-top: 60px !important; }
 
   /* 2. Hero 区域：字号强制缩小 */
   .hero-section { flex-direction: column !important; text-align: center !important; padding-top: 20px !important; min-height: auto !important; margin-bottom: 40px !important; }
-  .hero-title { 
-    font-size: 2rem !important; /* 锁死字号 */
-    line-height: 1.2 !important; 
-    word-break: break-word !important; 
-    margin-bottom: 15px !important;
-  }
-  .hero-desc { font-size: 1rem !important; padding: 0 10px !important; }
+  .hero-title { font-size: 2rem !important; line-height: 1.2 !important; word-break: break-word !important; margin-bottom: 15px !important; }
+  .hero-desc { font-size: 1rem !important; padding: 0 5px !important; }
   .hero-right { width: 100% !important; height: 280px !important; margin-top: 30px !important; }
-  .btn { padding: 10px 24px !important; font-size: 0.9rem !important; }
+  .btn { padding: 10px 24px !important; font-size: 0.95rem !important; }
 
-  /* 3. 简历板块：【核心适配】强制竖排、不溢出 */
-  .resume-bar { 
-    padding: 40px 15px !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    text-align: center !important; 
-    height: auto !important;
-  }
+  /* 3. 简历板块 */
+  .resume-bar { padding: 30px 15px !important; flex-direction: column !important; align-items: center !important; text-align: center !important; height: auto !important; }
   .resume-content { flex-direction: column !important; gap: 30px !important; }
   .resume-left { width: 100% !important; }
   .resume-right { width: 100% !important; justify-content: center !important; }
   .resume-intro h3 { font-size: 1.6rem !important; }
   .resume-intro p { font-size: 0.95rem !important; }
   .resume-stats { gap: 20px !important; flex-wrap: wrap !important; justify-content: center !important; }
-  .stat-val { font-size: 2.2rem !important; } /* 数字缩小 */
+  .stat-val { font-size: 2.2rem !important; }
   .stat-lbl { font-size: 0.8rem !important; }
-  .btn-resume-cta-large { 
-    width: 100% !important; 
-    box-sizing: border-box !important; 
-    padding: 14px !important; 
-    font-size: 1rem !important; 
-  }
+  .btn-resume-cta-large { width: 100% !important; box-sizing: border-box !important; padding: 14px !important; font-size: 1rem !important; }
 
-  /* 4. 通用标题：锁死字号 */
+  /* 4. 通用标题 */
   .common-header h3 { font-size: 1.6rem !important; margin: 10px 0 !important; }
-  .common-header p { font-size: 1rem !important; padding: 0 20px !important; }
+  .common-header p { font-size: 1rem !important; padding: 0 10px !important; }
 
   /* 5. 卡片单列 */
   .uniform-grid, .aigc-grid, .tools-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
   
-  /* 6. 博客卡片竖排 */
+  /* 6. 博客卡片 */
   .blog-card { flex-direction: column !important; height: auto !important; }
   .blog-left { width: 100% !important; height: 180px !important; }
   .blog-right { width: 100% !important; padding: 20px 15px !important; }
   .blog-main h4 { font-size: 1.2rem !important; }
 
-  /* 7. 联系我板块：强制单列铺满 */
+  /* 7. 联系我板块 */
   .contact-card { padding: 40px 15px !important; flex-direction: column !important; text-align: center !important; gap: 30px !important; }
   .contact-right { width: 100% !important; }
   .contact-grid { grid-template-columns: 1fr !important; width: 100% !important; }
@@ -593,5 +587,8 @@ onUnmounted(() => {
 
   /* 8. 按钮微调 */
   .back-to-top { bottom: 20px !important; right: 20px !important; width: 45px !important; height: 45px !important; }
+  
+  /* 9. 强制限制 SVG 宽度，防止乱码 */
+  svg { max-width: 24px !important; max-height: 24px !important; }
 }
 </style>
