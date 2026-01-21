@@ -549,12 +549,12 @@ onUnmounted(() => {
   /* 2. Hero 区域：字号强制缩小 */
   .hero-section { flex-direction: column !important; text-align: center !important; padding-top: 20px !important; min-height: auto !important; margin-bottom: 40px !important; }
   .hero-title { font-size: 2rem !important; line-height: 1.2 !important; word-break: break-word !important; margin-bottom: 15px !important; }
-  .hero-desc { font-size: 1rem !important; padding: 0 5px !important; }
+  .hero-desc { font-size: 1rem !important; padding: 0 !important; }
   .hero-right { width: 100% !important; height: 280px !important; margin-top: 30px !important; }
   .btn { padding: 10px 24px !important; font-size: 0.95rem !important; }
 
   /* 3. 简历板块 */
-  .resume-bar { padding: 30px 15px !important; flex-direction: column !important; align-items: center !important; text-align: center !important; height: auto !important; }
+  .resume-bar { padding: 40px 24px !important; flex-direction: column !important; align-items: center !important; text-align: center !important; height: auto !important; }
   .resume-content { flex-direction: column !important; gap: 30px !important; }
   .resume-left { width: 100% !important; }
   .resume-right { width: 100% !important; justify-content: center !important; }
@@ -567,7 +567,7 @@ onUnmounted(() => {
 
   /* 4. 通用标题 */
   .common-header h3 { font-size: 1.6rem !important; margin: 10px 0 !important; }
-  .common-header p { font-size: 1rem !important; padding: 0 10px !important; }
+  .common-header p { font-size: 1rem !important; padding: 0 !important; }
 
   /* 5. 卡片单列 */
   .uniform-grid, .aigc-grid, .tools-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -575,11 +575,11 @@ onUnmounted(() => {
   /* 6. 博客卡片 */
   .blog-card { flex-direction: column !important; height: auto !important; }
   .blog-left { width: 100% !important; height: 180px !important; }
-  .blog-right { width: 100% !important; padding: 20px 15px !important; }
+  .blog-right { width: 100% !important; padding: 24px !important; }
   .blog-main h4 { font-size: 1.2rem !important; }
 
   /* 7. 联系我板块 */
-  .contact-card { padding: 40px 15px !important; flex-direction: column !important; text-align: center !important; gap: 30px !important; }
+  .contact-card { padding: 40px 24px !important; flex-direction: column !important; text-align: center !important; gap: 30px !important; }
   .contact-right { width: 100% !important; }
   .contact-grid { grid-template-columns: 1fr !important; width: 100% !important; }
   .contact-item { width: 100% !important; padding: 12px !important; }
