@@ -192,7 +192,7 @@ onUnmounted(() => {
     <div class="section-container" id="works">
       <div class="common-header">
         <span class="badge">SELECTED</span>
-        <h3>FEATURED WORKS</h3>
+        <h3>精选案例</h3>
         <p>精选商业案例与设计探索</p>
       </div>
       <div class="grid-box uniform-grid">
@@ -216,7 +216,7 @@ onUnmounted(() => {
     <div class="section-container aigc-section">
       <div class="common-header">
         <span class="badge">NEW ERA</span>
-        <h3>AIGC / CREATIVE LAB</h3>
+        <h3>AIGC</h3>
         <p>打破想象力的边界，AI 驱动设计革新</p>
       </div>
       <div class="grid-box aigc-grid">
@@ -239,7 +239,7 @@ onUnmounted(() => {
     <div class="section-container">
       <div class="common-header">
         <span class="badge">INSIGHTS</span>
-        <h3>LATEST ARTICLES</h3>
+        <h3>文章咨询</h3>
         <p>分享设计思考与技术沉淀</p>
       </div>
       <div class="blog-list">
@@ -277,7 +277,7 @@ onUnmounted(() => {
     <div class="section-container">
       <div class="common-header">
         <span class="badge">FREEBIES</span>
-        <h3>DESIGN TOOLS</h3>
+        <h3>设计工具</h3>
         <p>提升效率的精选设计资源</p>
       </div>
       <div class="tools-grid">
@@ -342,7 +342,7 @@ onUnmounted(() => {
 /* 全局容器 */
 .home-container { 
   width: 100% !important; 
-  max-width: 1152px !important; 
+  max-width: 1400px !important; 
   margin: 0 auto; 
   padding: 0 24px 100px; 
   color: var(--vp-c-text-1); 
@@ -362,7 +362,7 @@ onUnmounted(() => {
 
 /* === 标题通用 === */
 .common-header { text-align: center; margin-bottom: 50px; }
-.common-header h3 { font-size: 2.5rem; font-weight: 900; margin: 15px 0; background: linear-gradient(to right, #7C3AED, #8B5CF6, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.common-header h3 { font-size: 2.5rem; font-weight: 900; margin: 15px 0; line-height: 1.3; background: linear-gradient(to right, #7C3AED, #8B5CF6, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .badge { background: #8B5CF6; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
 .common-header p { color: var(--vp-c-text-2); font-size: 1.1rem;}
 
@@ -538,9 +538,9 @@ onUnmounted(() => {
    📱 移动端强制适配 (Mobile Force Fix) - 使用 !important 锁死样式
    ================================================================= */
 @media (max-width: 768px) {
-  /* 1. 容器与间距 (调小到 6px 以获得更宽视野) */
+  /* 1. 容器与间距 (调整到 16px 以获得更好的视觉平衡) */
   .home-container { 
-    padding: 0 6px 80px !important; 
+    padding: 0 16px 80px !important; 
     width: 100% !important; 
     overflow-x: hidden !important;
   }
