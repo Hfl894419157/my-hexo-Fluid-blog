@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "宇杰的博客",
-  description: "个人作品集与知识分享",
+  title: "韩福利 | AI 设计与数字内容工作流",
+  description: "聚焦 AI 时代的设计案例、AIGC 工作流、资源沉淀与个人方法论",
   themeConfig: {
     // 搜索配置
     search: {
@@ -32,31 +32,41 @@ export default defineConfig({
     // 顶部导航栏配置
     nav: [
       { text: '首页', link: '/' },
-      { text: '作品集', link: '/portfolio/' },
-      { text: 'AIGC', link: '/aigc/' },
-      {
-        text: '创作资源',
-        items: [
-          { text: '3D建模', link: '/resources/3d-modeling' },
-          { text: '视频剪辑', link: '/resources/video-editing' },
-          { text: '平面工具', link: '/resources/graphic-tools' },
-          { text: '网站搭建', link: '/resources/web-build' }
-        ]
-      },
-      { text: '博客', link: '/blog/' },
-      { text: '随记', link: '/notes/' }
+      { text: '案例', link: '/portfolio/' },
+      { text: 'AI工作流', link: '/aigc/' },
+      { text: '资源库', link: '/resources/' },
+      { text: '方法论', link: '/blog/' },
+      { text: '关于我', link: '/resume' }
     ],
 
     // 侧边栏配置
-    sidebar: [
-      {
-        text: '快速开始',
-        items: [
-          { text: 'Markdown 示例', link: '/markdown-examples' },
-          { text: '运行时 API 示例', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {
+      '/portfolio/': [
+        {
+          text: '案例库',
+          items: [
+            { text: '案例总览', link: '/portfolio/' },
+            { text: '品牌视觉设计系统', link: '/portfolio/brand-design' },
+            { text: '3D 建筑可视化', link: '/portfolio/3d-viz' },
+            { text: '移动端应用设计', link: '/portfolio/mobile-app' }
+          ]
+        }
+      ],
+      '/resources/': [
+        {
+          text: '资源库',
+          items: [
+            { text: '资源总览', link: '/resources/' },
+            { text: 'Midjourney Prompt', link: '/resources/mj-prompt' },
+            { text: 'Stable Diffusion LoRA', link: '/resources/lora' },
+            { text: '3D Glass Icons', link: '/resources/icons' },
+            { text: 'Figma AI UI Kit', link: '/resources/uikit' },
+            { text: 'Notion Template', link: '/resources/notion' },
+            { text: 'Design E-Book', link: '/resources/ebook' }
+          ]
+        }
+      ]
+    },
 
     // 社交链接与页脚
     socialLinks: [
@@ -77,7 +87,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: '基于 VitePress 构建',
+      message: 'AI 设计案例、工作流与资源沉淀',
       copyright: 'Copyright © 2026 宇杰'
     }
   }

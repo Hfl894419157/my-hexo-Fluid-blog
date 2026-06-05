@@ -1,72 +1,22 @@
 <script setup>
-// 逻辑层留空
+import { portfolioWorks } from '../.shared/portfolioData.js'
 </script>
 
 <template>
   <div class="portfolio-list">
 
-    <a href="/portfolio/brand-design" class="project-card">
+    <a 
+      v-for="work in portfolioWorks" 
+      :key="work.id" 
+      :href="work.link" 
+      class="project-card"
+    >
       <div class="card-image">
-        <img src="https://picsum.photos/id/42/600/400" alt="品牌设计" />
+        <img :src="work.img" :alt="work.title" />
       </div>
       <div class="card-info">
-        <h3>品牌视觉设计系统</h3>
-        <p>UI/UX · 品牌全案 · 2025</p>
-        <div class="btn">查看详情 →</div>
-      </div>
-    </a>
-
-    <a href="/portfolio/3d-viz" class="project-card">
-      <div class="card-image">
-        <img src="https://picsum.photos/id/58/600/400" alt="3D可视化" />
-      </div>
-      <div class="card-info">
-        <h3>3D建筑可视化</h3>
-        <p>Blender · UE5 · 渲染</p>
-        <div class="btn">查看详情 →</div>
-      </div>
-    </a>
-
-    <a href="/portfolio/mobile-app" class="project-card">
-      <div class="card-image">
-        <img src="https://picsum.photos/id/3/600/400" alt="移动端设计" />
-      </div>
-      <div class="card-info">
-        <h3>移动端应用设计</h3>
-        <p>iOS界面 · 交互逻辑</p>
-        <div class="btn">查看详情 →</div>
-      </div>
-    </a>
-
-    <a href="/portfolio/smart-home" class="project-card">
-      <div class="card-image">
-        <img src="https://picsum.photos/id/201/600/400" alt="智能硬件" />
-      </div>
-      <div class="card-info">
-        <h3>智能家居中控系统</h3>
-        <p>HMI · 智能硬件交互</p>
-        <div class="btn">查看详情 →</div>
-      </div>
-    </a>
-
-    <a href="/portfolio/magazine" class="project-card">
-      <div class="card-image">
-        <img src="https://picsum.photos/id/338/600/400" alt="排版艺术" />
-      </div>
-      <div class="card-info">
-        <h3>光影艺术杂志排版</h3>
-        <p>平面设计 · 纸媒印刷</p>
-        <div class="btn">查看详情 →</div>
-      </div>
-    </a>
-
-    <a href="/portfolio/ai-video" class="project-card">
-      <div class="card-image">
-        <img src="https://picsum.photos/id/237/600/400" alt="AI视频" />
-      </div>
-      <div class="card-info">
-        <h3>AIGC 视频生成探索</h3>
-        <p>Runway · ComfyUI 工作流</p>
+        <h3>{{ work.title }}</h3>
+        <p>{{ work.desc }}</p>
         <div class="btn">查看详情 →</div>
       </div>
     </a>

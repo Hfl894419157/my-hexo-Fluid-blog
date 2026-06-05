@@ -1,75 +1,27 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { portfolioWorks } from './.shared/portfolioData.js'
+import { aigcWorks as allAigcWorks } from './.shared/aigcData.js'
+import { blogPosts as allBlogPosts } from './.shared/blogData.js'
+import { toolsResources } from './.shared/resourcesData.js'
 
-// === 1. 精选作品数据 (完整保留) ===
-const selectedWorks = [
-  { id: 1, title: 'AI 赛博时尚全案', titleEn: 'AI FASHION BRANDING', category: 'BRANDING', img: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80', link: '/portfolio/brand-design' },
-  { id: 2, title: 'Web3 数据可视化', titleEn: 'WEB3 DATA VISUALIZATION', category: 'UI DESIGN', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', link: '/portfolio/3d-viz' },
-  { id: 3, title: '智能座舱 HMI', titleEn: 'SMART COCKPIT', category: 'CAR UI', img: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&q=80', link: '/portfolio/smart-home' },
-  { id: 4, title: '动态字体设计', titleEn: 'KINETIC TYPOGRAPHY', category: 'MOTION', img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80', link: '/portfolio/mobile-app' },
-  { id: 5, title: '金融 App 重构', titleEn: 'FINTECH APP', category: 'APP DESIGN', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=800&q=80', link: '/portfolio/magazine' },
-  { id: 6, title: 'SaaS 后台系统', titleEn: 'SAAS DASHBOARD', category: 'B-END', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', link: '/portfolio/ai-video' }
-]
+// === 1. 精选作品数据 (从共享数据源获取) ===
+const selectedWorks = computed(() => portfolioWorks.filter(work => work.featured))
 
-// === 2. AIGC 实验室数据 (完整保留) ===
-const aigcWorks = [
-  { id: 1, title: '虚拟人像生成', category: 'Stable Diffusion', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80', link: '/aigc/avatar' },
-  { id: 2, title: '概念建筑设计', category: 'Midjourney', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80', link: '/aigc/arch' },
-  { id: 3, title: '3D 玻璃图标', category: 'Nijijourney', img: 'https://images.unsplash.com/photo-1633412803867-0f4abe186832?w=600&q=80', link: '/aigc/icon' },
-  { id: 4, title: '赛博朋克场景', category: 'Midjourney v6', img: 'https://images.unsplash.com/photo-1614728853913-a36237e3d234?w=600&q=80', link: '/aigc/cyberpunk' },
-  { id: 5, title: 'AI 产品渲染', category: 'Stable Diffusion XL', img: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&q=80', link: '/aigc/product' },
-  { id: 6, title: '游戏资产生成', category: 'Game Asset', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80', link: '/aigc/game' }
-]
+// === 2. AIGC 实验室数据 (从共享数据源获取) ===
+const aigcWorks = computed(() => allAigcWorks.filter(work => work.featured))
 
-// === 3. 文章博客数据 (完整保留) ===
-const blogPosts = [
-  { 
-    id: 1, 
-    title: '2026 设计趋势展望：AI 如何重塑工作流', 
-    desc: '探讨生成式 AI 工具如何从辅助创作转变为核心生产力，以及设计师如何在这个变革中找到新的定位。',
-    date: '2026.01.15',
-    likes: '1.2k',
-    comments: '86',
-    img: 'https://images.unsplash.com/photo-1675271591211-126ad94e495d?w=800&q=80&fit=crop&ar=16:9',
-    link: '/blog/design-trends-2026'
-  },
-  { 
-    id: 2, 
-    title: 'Midjourney v6.5 提示词进阶指南', 
-    desc: '深入解析最新的光影控制与构图参数，通过 20 个实战案例，教你如何精准控制画面细节，输出电影级图像。',
-    date: '2026.01.10',
-    likes: '856',
-    comments: '42',
-    img: 'https://images.unsplash.com/photo-1618172193763-c511deb635ca?w=800&q=80&fit=crop&ar=16:9',
-    link: '/blog/mj-guide'
-  },
-  { 
-    id: 3, 
-    title: 'Web3 界面设计中的视觉隐喻', 
-    desc: '去中心化应用（DApp）的交互设计逻辑与传统 Web2 有何不同？本文从视觉语言角度进行深度剖析。',
-    date: '2026.01.05',
-    likes: '530',
-    comments: '28',
-    img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80&fit=crop&ar=16:9',
-    link: '/blog/web3-ui'
-  }
-]
+// === 3. 文章博客数据 (从共享数据源获取) ===
+const blogPosts = computed(() => allBlogPosts.filter(post => post.featured))
 
-// === 4. 创作资源数据 (完整保留) ===
-const tools = [
-  { id: 1, name: 'Midjourney Prompt', desc: '高级咒语生成器 v2.0', icon: '🎨', link: '/resources/mj-prompt' },
-  { id: 2, name: 'Stable Diffusion LoRA', desc: '通用人像模型包', icon: '🤖', link: '/resources/lora' },
-  { id: 3, name: '3D Glass Icons', desc: 'C4D 玻璃图标源文件', icon: '💎', link: '/resources/icons' },
-  { id: 4, name: 'Figma AI UI Kit', desc: '赛博风格组件库', icon: '📐', link: '/resources/uikit' },
-  { id: 5, name: 'Notion Template', desc: '设计师项目管理模版', icon: '📝', link: '/resources/notion' },
-  { id: 6, name: 'Design E-Book', desc: 'AIGC 设计白皮书 PDF', icon: '📚', link: '/resources/ebook' },
-]
+// === 4. 创作资源数据 (从共享数据源获取) ===
+const tools = computed(() => toolsResources.filter(tool => tool.featured))
 
 // === 5. 简历数据 ===
 const resumeStats = [
-  { label: '多年工作经验', value: '8+', icon: '💎' },
-  { label: '成功交付项目', value: '120+', icon: '🚀' },
-  { label: '客户满意度', value: '99%', icon: '🔥' },
+  { label: '设计与内容经验', value: '8+', icon: '💎' },
+  { label: '项目交付经验', value: '120+', icon: '🚀' },
+  { label: 'AI 工作流方向', value: '4', icon: '🔥' },
 ]
 
 // === 6. 联系方式数据 (包含抖音，Email在最后) ===
@@ -146,10 +98,10 @@ onUnmounted(() => {
     
     <section class="hero-section">
       <div class="hero-left">
-        <h1 class="hero-title">Liuli Design<br><span class="highlight">Product & AIGC</span></h1>
-        <p class="hero-desc">探索生成式 AI 与设计的边界，<br>打造具有未来感的数字体验。</p>
+        <h1 class="hero-title">AI 时代的<br><span class="highlight">设计工作流与内容资产</span></h1>
+        <p class="hero-desc">把 AIGC、视觉设计、产品表达和资源沉淀整合起来，<br>展示可落地、可复用、可合作的数字内容能力。</p>
         <div class="hero-actions">
-          <a href="/portfolio/" class="btn primary">浏览作品</a>
+          <a href="/portfolio/" class="btn primary">查看案例</a>
           <button @click="scrollToContact" class="btn secondary card-box-btn">联系我</button>
         </div>
       </div>
@@ -164,7 +116,7 @@ onUnmounted(() => {
         <div class="resume-left">
           <div class="resume-intro">
             <h3>HI, I'M <span class="highlight-text">HAN FULI</span></h3>
-            <p>8年资深设计经验 / 独立主创 / AIGC 探索者</p>
+            <p>设计经验 / AI 工作流探索 / 视觉内容交付</p>
           </div>
           <a href="/resume" class="btn-resume-cta-large">
             查看我的完整简历 <span class="arrow">→</span>
@@ -180,10 +132,10 @@ onUnmounted(() => {
             </div>
           </div>
           <div class="resume-skills-tags">
-            <span>电商视觉</span>
-            <span>工业造型</span>
-            <span>视频全案</span>
-            <span>AI驱动</span>
+            <span>AI 产品图</span>
+            <span>品牌视觉</span>
+            <span>内容工作流</span>
+            <span>资源沉淀</span>
           </div>
         </div>
       </div>
@@ -191,9 +143,9 @@ onUnmounted(() => {
 
     <div class="section-container" id="works">
       <div class="common-header">
-        <span class="badge">SELECTED</span>
-        <h3>精选案例</h3>
-        <p>精选商业案例与设计探索</p>
+        <span class="badge">CASES</span>
+        <h3>案例与能力样本</h3>
+        <p>用真实项目结构展示设计判断、AI 辅助流程和交付能力</p>
       </div>
       <div class="grid-box uniform-grid">
         <a v-for="item in selectedWorks" :key="item.id" :href="item.link" class="work-card card-box">
@@ -209,15 +161,15 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/portfolio/portfolio-PortfolioList" class="btn-view-more">查看更多案例 →</a>
+        <a href="/portfolio/" class="btn-view-more">查看更多案例 →</a>
       </div>
     </div>
 
     <div class="section-container aigc-section">
       <div class="common-header">
-        <span class="badge">NEW ERA</span>
-        <h3>AIGC</h3>
-        <p>打破想象力的边界，AI 驱动设计革新</p>
+        <span class="badge">WORKFLOW</span>
+        <h3>AI 工作流实验室</h3>
+        <p>把提示词、模型、生成、精修和交付步骤沉淀成可复用流程</p>
       </div>
       <div class="grid-box aigc-grid">
         <a v-for="item in aigcWorks" :key="item.id" :href="item.link" class="aigc-card card-box">
@@ -232,15 +184,15 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/aigc/" class="btn-view-more">查看更多AIGC内容 →</a>
+        <a href="/aigc/" class="btn-view-more">查看 AI 工作流 →</a>
       </div>
     </div>
 
     <div class="section-container">
       <div class="common-header">
-        <span class="badge">INSIGHTS</span>
-        <h3>文章咨询</h3>
-        <p>分享设计思考与技术沉淀</p>
+        <span class="badge">METHOD</span>
+        <h3>方法论与观察</h3>
+        <p>记录 AI 冲击下的设计定位、效率方法和内容资产策略</p>
       </div>
       <div class="blog-list">
         <a v-for="post in blogPosts" :key="post.id" :href="post.link" class="blog-card card-box">
@@ -270,15 +222,15 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/blog/" class="btn-view-more">查看更多文章内容 →</a>
+        <a href="/blog/" class="btn-view-more">查看方法论 →</a>
       </div>
     </div>
 
     <div class="section-container">
       <div class="common-header">
-        <span class="badge">FREEBIES</span>
-        <h3>设计工具</h3>
-        <p>提升效率的精选设计资源</p>
+        <span class="badge">ASSETS</span>
+        <h3>资源库</h3>
+        <p>沉淀提示词、模型、模板和设计素材，形成持续更新的个人资产</p>
       </div>
       <div class="tools-grid">
         <div v-for="tool in tools" :key="tool.id" class="tool-card card-box">
@@ -287,11 +239,11 @@ onUnmounted(() => {
             <h4>{{ tool.name }}</h4>
             <p>{{ tool.desc }}</p>
           </div>
-          <a :href="tool.link" class="btn-download">下载</a>
+          <a :href="tool.link" class="btn-download">查看</a>
         </div>
       </div>
       <div class="btn-more-container">
-        <a href="/resources/" class="btn-view-more">查看更多工具 →</a>
+        <a href="/resources/" class="btn-view-more">查看资源库 →</a>
       </div>
     </div>
 
@@ -299,7 +251,7 @@ onUnmounted(() => {
       <div class="contact-card card-box">
         <div class="contact-left">
           <h3>Let's Connect</h3>
-          <p>欢迎通过以下方式与我交流，<br>无论是项目合作还是技术探讨。</p>
+          <p>如果你想做 AI 视觉、内容升级、网站改版或资源共创，<br>可以从这里联系我。</p>
         </div>
         <div class="contact-right">
           <div class="contact-grid">
