@@ -1,5 +1,8 @@
 <script setup>
+import { withBase } from 'vitepress'
 import { portfolioWorks } from '../.shared/portfolioData.js'
+
+const pageLink = (path) => withBase(path)
 </script>
 
 <template>
@@ -8,7 +11,7 @@ import { portfolioWorks } from '../.shared/portfolioData.js'
     <a 
       v-for="work in portfolioWorks" 
       :key="work.id" 
-      :href="work.link" 
+      :href="pageLink(work.link)" 
       class="project-card"
     >
       <div class="card-image">

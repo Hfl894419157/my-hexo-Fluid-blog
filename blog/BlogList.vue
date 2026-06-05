@@ -1,5 +1,8 @@
 <script setup>
+import { withBase } from 'vitepress'
 import { blogPosts } from '../.shared/blogData.js'
+
+const pageLink = (path) => withBase(path)
 </script>
 
 <template>
@@ -7,7 +10,7 @@ import { blogPosts } from '../.shared/blogData.js'
     <a 
       v-for="post in blogPosts" 
       :key="post.id" 
-      :href="post.link" 
+      :href="pageLink(post.link)" 
       class="blog-card"
     >
       <div class="blog-image">

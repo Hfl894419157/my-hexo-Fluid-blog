@@ -1,5 +1,8 @@
 <script setup>
+import { withBase } from 'vitepress'
 import { toolsResources } from '../.shared/resourcesData.js'
+
+const pageLink = (path) => withBase(path)
 </script>
 
 <template>
@@ -7,7 +10,7 @@ import { toolsResources } from '../.shared/resourcesData.js'
     <a 
       v-for="tool in toolsResources" 
       :key="tool.id" 
-      :href="tool.link" 
+      :href="pageLink(tool.link)" 
       class="tool-card"
     >
       <div class="tool-icon">{{ tool.icon }}</div>

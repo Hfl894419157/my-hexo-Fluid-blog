@@ -1,5 +1,8 @@
 <script setup>
+import { withBase } from 'vitepress'
 import { aigcWorks } from '../.shared/aigcData.js'
+
+const pageLink = (path) => withBase(path)
 </script>
 
 <template>
@@ -7,7 +10,7 @@ import { aigcWorks } from '../.shared/aigcData.js'
     <a 
       v-for="work in aigcWorks" 
       :key="work.id" 
-      :href="work.link" 
+      :href="pageLink(work.link)" 
       class="aigc-card"
     >
       <div class="card-image">

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { withBase } from 'vitepress'
 import { portfolioWorks } from './.shared/portfolioData.js'
 import { aigcWorks as allAigcWorks } from './.shared/aigcData.js'
 import { blogPosts as allBlogPosts } from './.shared/blogData.js'
@@ -16,6 +17,8 @@ const blogPosts = computed(() => allBlogPosts.filter(post => post.featured))
 
 // === 4. 创作资源数据 (从共享数据源获取) ===
 const tools = computed(() => toolsResources.filter(tool => tool.featured))
+
+const pageLink = (path) => withBase(path)
 
 // === 5. 简历数据 ===
 const resumeStats = [
@@ -101,7 +104,7 @@ onUnmounted(() => {
         <h1 class="hero-title">AI 时代的<br><span class="highlight">设计工作流与内容资产</span></h1>
         <p class="hero-desc">把 AIGC、视觉设计、产品表达和资源沉淀整合起来，<br>展示可落地、可复用、可合作的数字内容能力。</p>
         <div class="hero-actions">
-          <a href="/portfolio/" class="btn primary">查看案例</a>
+          <a :href="pageLink('/portfolio/')" class="btn primary">查看案例</a>
           <button @click="scrollToContact" class="btn secondary card-box-btn">联系我</button>
         </div>
       </div>
@@ -118,7 +121,7 @@ onUnmounted(() => {
             <h3>HI, I'M <span class="highlight-text">HAN FULI</span></h3>
             <p>设计经验 / AI 工作流探索 / 视觉内容交付</p>
           </div>
-          <a href="/resume" class="btn-resume-cta-large">
+          <a :href="pageLink('/resume')" class="btn-resume-cta-large">
             查看我的完整简历 <span class="arrow">→</span>
           </a>
         </div>
@@ -148,7 +151,7 @@ onUnmounted(() => {
         <p>用真实项目结构展示设计判断、AI 辅助流程和交付能力</p>
       </div>
       <div class="grid-box uniform-grid">
-        <a v-for="item in selectedWorks" :key="item.id" :href="item.link" class="work-card card-box">
+        <a v-for="item in selectedWorks" :key="item.id" :href="pageLink(item.link)" class="work-card card-box">
           <div class="img-wrap">
             <img :src="item.img" loading="lazy" />
             <div class="mask"></div>
@@ -161,7 +164,7 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/portfolio/" class="btn-view-more">查看更多案例 →</a>
+        <a :href="pageLink('/portfolio/')" class="btn-view-more">查看更多案例 →</a>
       </div>
     </div>
 
@@ -172,7 +175,7 @@ onUnmounted(() => {
         <p>把提示词、模型、生成、精修和交付步骤沉淀成可复用流程</p>
       </div>
       <div class="grid-box aigc-grid">
-        <a v-for="item in aigcWorks" :key="item.id" :href="item.link" class="aigc-card card-box">
+        <a v-for="item in aigcWorks" :key="item.id" :href="pageLink(item.link)" class="aigc-card card-box">
           <div class="img-wrap">
             <img :src="item.img" loading="lazy" />
             <div class="aigc-overlay"><span class="icon">⚡</span></div>
@@ -184,7 +187,7 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/aigc/" class="btn-view-more">查看 AI 工作流 →</a>
+        <a :href="pageLink('/aigc/')" class="btn-view-more">查看 AI 工作流 →</a>
       </div>
     </div>
 
@@ -195,7 +198,7 @@ onUnmounted(() => {
         <p>记录 AI 冲击下的设计定位、效率方法和内容资产策略</p>
       </div>
       <div class="blog-list">
-        <a v-for="post in blogPosts" :key="post.id" :href="post.link" class="blog-card card-box">
+        <a v-for="post in blogPosts" :key="post.id" :href="pageLink(post.link)" class="blog-card card-box">
           <div class="blog-left">
             <img :src="post.img" loading="lazy" />
           </div>
@@ -222,7 +225,7 @@ onUnmounted(() => {
         </a>
       </div>
       <div class="btn-more-container">
-        <a href="/blog/" class="btn-view-more">查看方法论 →</a>
+        <a :href="pageLink('/blog/')" class="btn-view-more">查看方法论 →</a>
       </div>
     </div>
 
@@ -239,11 +242,11 @@ onUnmounted(() => {
             <h4>{{ tool.name }}</h4>
             <p>{{ tool.desc }}</p>
           </div>
-          <a :href="tool.link" class="btn-download">查看</a>
+          <a :href="pageLink(tool.link)" class="btn-download">查看</a>
         </div>
       </div>
       <div class="btn-more-container">
-        <a href="/resources/" class="btn-view-more">查看资源库 →</a>
+        <a :href="pageLink('/resources/')" class="btn-view-more">查看资源库 →</a>
       </div>
     </div>
 
