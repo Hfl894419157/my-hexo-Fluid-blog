@@ -2,7 +2,6 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/hanyujie.github.io/',
   title: "韩福利 | AI 设计与数字内容工作流",
   description: "聚焦 AI 时代的设计案例、AIGC 工作流、资源沉淀与个人方法论",
   themeConfig: {
