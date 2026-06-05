@@ -65,6 +65,7 @@ const activeFilter = ref(caseFilters[0].id)
 const cursorX = ref(50)
 const cursorY = ref(50)
 const scrollProgress = ref(0)
+const pageProgress = ref(0)
 
 const activeModeData = computed(() => strategyModes.find(item => item.id === activeMode.value) || strategyModes[0])
 const activeStepData = computed(() => workflowSteps.find(item => item.id === activeStep.value) || workflowSteps[0])
@@ -76,10 +77,58 @@ const heroStyle = computed(() => ({
   '--mx': `${cursorX.value}%`,
   '--my': `${cursorY.value}%`,
   '--scroll': scrollProgress.value,
+  '--hero-offset': `${Math.round(scrollProgress.value * 18)}px`,
+  '--hero-scale': 1 - scrollProgress.value * 0.028,
+  '--hero-copy-y': `${Math.round(scrollProgress.value * -18)}px`,
+  '--ambient-y': `${Math.round(scrollProgress.value * 34)}px`,
+  '--console-y': `${Math.round(scrollProgress.value * -28)}px`,
+  '--tilt-x': `${((cursorY.value - 50) * -0.04).toFixed(2)}deg`,
+  '--tilt-y': `${((cursorX.value - 50) * 0.04).toFixed(2)}deg`,
+  '--scan-x': `${Math.round((cursorX.value - 50) * 0.16)}px`,
+  '--scan-opacity': 0.14 + scrollProgress.value * 0.22,
+  '--ambient-opacity': 0.78 + scrollProgress.value * 0.18,
+  '--reactor-scale': 0.12 + scrollProgress.value * 0.88,
+  '--poster-y': `${Math.round(scrollProgress.value * -34)}px`,
+  '--poster-x': `${((cursorX.value - 50) * -0.08).toFixed(1)}px`,
+  '--poster-scale': 1.04 + scrollProgress.value * 0.09,
+  '--orbit-opacity': 0.2 + scrollProgress.value * 0.42,
+  '--orbit-scale': 0.94 + scrollProgress.value * 0.08,
   '--poster-hue': `${Math.round(scrollProgress.value * 34)}deg`,
   '--poster-saturation': 1.08 + scrollProgress.value * 0.2,
   '--poster-brightness': 1.04 - scrollProgress.value * 0.1
 }))
+const pageStyle = computed(() => ({
+  '--page-scroll': pageProgress.value,
+  '--flow-spin': `${Math.round(pageProgress.value * 22)}deg`,
+  '--core-spin': `${Math.round(pageProgress.value * -9)}deg`,
+  '--agent-lift': `${Math.round((pageProgress.value - 0.25) * -40)}px`,
+  '--agent-bg-y': `${Math.round(pageProgress.value * -42)}px`,
+  '--agent-bg-opacity': 0.55 + pageProgress.value * 0.2,
+  '--agent-path-opacity': 0.32 + pageProgress.value * 0.34,
+  '--section-line-opacity': 0.28 + pageProgress.value * 0.4,
+  '--workflow-lift': `${Math.round(pageProgress.value * -18)}px`
+}))
+
+const agentCards = [
+  {
+    label: 'MODEL',
+    title: '连接多种 AI 能力',
+    desc: '把产品图、品牌视觉、视频脚本和内容素材放进同一套工作流里。',
+    signal: '01'
+  },
+  {
+    label: 'TRACE',
+    title: '每一步都能解释',
+    desc: '保留提示词、参考图、版本判断和人工精修节点，让结果不是黑盒。',
+    signal: '02'
+  },
+  {
+    label: 'HUMAN',
+    title: '审美判断持续介入',
+    desc: 'AI 负责扩展可能性，人负责方向、取舍、质感和商业表达。',
+    signal: '03'
+  }
+]
 
 const updateHeroPointer = (event) => {
   const rect = event.currentTarget.getBoundingClientRect()
@@ -154,7 +203,9 @@ const scrollToContact = () => {
 const handleScroll = () => {
   showBackToTop.value = window.scrollY > 300
   const viewport = Math.max(window.innerHeight, 1)
+  const scrollable = Math.max(document.documentElement.scrollHeight - viewport, 1)
   scrollProgress.value = Math.min(Math.max(window.scrollY / (viewport * 1.15), 0), 1)
+  pageProgress.value = Math.min(Math.max(window.scrollY / scrollable, 0), 1)
 }
 
 const scrollToTop = () => {
@@ -172,7 +223,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="home-container">
+  <div class="home-container" :style="pageStyle">
     <section
       class="hero-section"
       :style="heroStyle"
@@ -217,6 +268,12 @@ onUnmounted(() => {
           <div class="stage-image">
             <img :src="selectedWorks[0]?.img" alt="AI design preview" />
           </div>
+          <div class="stage-orbit" aria-hidden="true">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
           <div class="stage-panel">
             <span class="panel-kicker">{{ activeModeData.label }}</span>
             <h2>{{ activeModeData.title }}</h2>
@@ -234,6 +291,35 @@ onUnmounted(() => {
         <div class="console-feed">
           <span v-for="step in workflowSteps" :key="step.id">{{ step.label }}</span>
         </div>
+      </div>
+    </section>
+
+    <section class="agent-section">
+      <div class="agent-copy">
+        <span class="badge">AI SYSTEM</span>
+        <h2>Build AI design systems<br><span>you can actually explain</span></h2>
+        <p>
+          我们可以把 n8n 那种“看得见流程”的交互感，转成你的个人网站语言：访客往下滑时，看到的不是静态作品墙，而是一套从需求、生成、判断到交付的可追踪设计系统。
+        </p>
+      </div>
+      <div class="agent-canvas" aria-label="AI 设计流程展示">
+        <div class="agent-core">
+          <span>AI DESIGN</span>
+          <b>CONTROL ROOM</b>
+        </div>
+        <div class="agent-path path-a"></div>
+        <div class="agent-path path-b"></div>
+        <div class="agent-path path-c"></div>
+        <article
+          v-for="(card, index) in agentCards"
+          :key="card.signal"
+          class="agent-card"
+          :class="`agent-card-${index + 1}`"
+        >
+          <span>{{ card.signal }} / {{ card.label }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.desc }}</p>
+        </article>
       </div>
     </section>
 
@@ -460,7 +546,7 @@ onUnmounted(() => {
   --secondary-bg: rgba(255, 255, 255, 0.68);
   --secondary-text: #0f172a;
   width: 100%;
-  max-width: 1360px;
+  max-width: 1480px;
   margin: 0 auto;
   padding: 0 24px 100px;
   box-sizing: border-box;
@@ -493,7 +579,19 @@ onUnmounted(() => {
 }
 
 .section-container {
+  position: relative;
   margin-top: 96px;
+  scroll-margin-top: 92px;
+}
+
+.section-container::before {
+  content: "";
+  position: absolute;
+  inset: -34px -16px auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent), transparent 58%), transparent);
+  opacity: var(--section-line-opacity);
+  pointer-events: none;
 }
 
 .hero-section {
@@ -501,7 +599,7 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
   gap: 36px;
-  min-height: 620px;
+  min-height: calc(100vh - 118px);
   padding: 58px;
   overflow: hidden;
   border: 1px solid var(--hero-line);
@@ -509,6 +607,11 @@ onUnmounted(() => {
   background: var(--hero-bg);
   background-size: 34px 34px, 34px 34px, auto;
   isolation: isolate;
+  transform:
+    translateY(var(--hero-offset))
+    scale(var(--hero-scale));
+  transform-origin: center top;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-section::before {
@@ -517,10 +620,23 @@ onUnmounted(() => {
   inset: 0;
   pointer-events: none;
   background: var(--hero-ambient);
-  opacity: calc(0.78 + var(--scroll) * 0.18);
-  transform: translateY(calc(var(--scroll) * 34px));
+  opacity: var(--ambient-opacity);
+  transform: translateY(var(--ambient-y));
   transition: opacity 0.25s ease;
   z-index: -1;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 18%, color-mix(in srgb, var(--warm), transparent 84%) 48%, transparent 76%),
+    repeating-linear-gradient(0deg, transparent 0 18px, color-mix(in srgb, var(--hero-text), transparent 94%) 18px 19px);
+  opacity: var(--scan-opacity);
+  transform: translateX(var(--scan-x));
+  mix-blend-mode: soft-light;
 }
 
 .scroll-reactor {
@@ -556,13 +672,15 @@ onUnmounted(() => {
   inset: 0;
   border-radius: inherit;
   background: var(--warm);
-  transform: scaleY(calc(0.12 + var(--scroll) * 0.88));
+  transform: scaleY(var(--reactor-scale));
   transform-origin: top;
 }
 
 .hero-copy {
   align-self: center;
   max-width: 600px;
+  transform: translateY(var(--hero-copy-y));
+  transition: transform 0.18s ease-out;
 }
 
 .eyebrow,
@@ -703,9 +821,9 @@ onUnmounted(() => {
   backdrop-filter: blur(14px);
   transform:
     perspective(1000px)
-    translateY(calc(var(--scroll) * -28px))
-    rotateX(calc((var(--my) - 50) * -0.04deg))
-    rotateY(calc((var(--mx) - 50) * 0.04deg));
+    translateY(var(--console-y))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
   transition: transform 0.18s ease-out;
 }
 
@@ -751,7 +869,72 @@ onUnmounted(() => {
   height: 100%;
   object-fit: cover;
   filter: hue-rotate(var(--poster-hue)) saturate(var(--poster-saturation)) brightness(var(--poster-brightness)) contrast(1.08);
-  transform: translateY(calc(var(--scroll) * -26px)) scale(calc(1.04 + var(--scroll) * 0.06));
+  transform:
+    translateY(var(--poster-y))
+    translateX(var(--poster-x))
+    scale(var(--poster-scale));
+  transition: filter 0.22s ease, transform 0.18s ease-out;
+}
+
+.stage-orbit {
+  position: absolute;
+  inset: 34px;
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--warm), transparent 58%);
+  border-radius: 8px;
+  opacity: var(--orbit-opacity);
+  transform: rotate(var(--flow-spin)) scale(var(--orbit-scale));
+  transform-origin: center;
+}
+
+.stage-orbit::before,
+.stage-orbit::after {
+  content: "";
+  position: absolute;
+  background: color-mix(in srgb, var(--warm), transparent 12%);
+}
+
+.stage-orbit::before {
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 1px;
+}
+
+.stage-orbit::after {
+  top: 14%;
+  bottom: 14%;
+  left: 50%;
+  width: 1px;
+}
+
+.stage-orbit i {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--warm);
+  border-radius: 999px;
+  background: var(--hero-panel);
+}
+
+.stage-orbit i:nth-child(1) {
+  top: -5px;
+  left: 18%;
+}
+
+.stage-orbit i:nth-child(2) {
+  top: 24%;
+  right: -5px;
+}
+
+.stage-orbit i:nth-child(3) {
+  right: 20%;
+  bottom: -5px;
+}
+
+.stage-orbit i:nth-child(4) {
+  bottom: 26%;
+  left: -5px;
 }
 
 .stage-panel {
@@ -941,6 +1124,186 @@ onUnmounted(() => {
   font-size: 22px;
 }
 
+.agent-section {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: stretch;
+  margin-top: 34px;
+  padding: 42px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, #111827, #0f172a 58%, #18181b);
+  color: #f8fafc;
+  isolation: isolate;
+}
+
+:global(.dark) .agent-section {
+  background:
+    linear-gradient(135deg, #020617, #111827 58%, #18181b);
+}
+
+.agent-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(115deg, transparent 0 24%, rgba(34, 211, 238, 0.12) 42%, transparent 64%);
+  background-size: 32px 32px, 32px 32px, auto;
+  opacity: var(--agent-bg-opacity);
+  transform: translateY(var(--agent-bg-y));
+  z-index: -1;
+}
+
+.agent-copy {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+}
+
+.agent-copy h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.agent-copy h2 span {
+  color: #facc15;
+}
+
+.agent-copy p {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(226, 232, 240, 0.78);
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.agent-canvas {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(2, 6, 23, 0.7)),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
+  background-size: auto, 26px 26px;
+}
+
+.agent-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(250, 204, 21, 0.52);
+  border-radius: 8px;
+  color: #fefce8;
+  background: rgba(15, 23, 42, 0.82);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--core-spin));
+}
+
+.agent-core span {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.agent-core b {
+  max-width: 120px;
+  font-size: 24px;
+  line-height: 1;
+  text-align: center;
+}
+
+.agent-path {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.88), transparent);
+  transform-origin: left center;
+  opacity: var(--agent-path-opacity);
+}
+
+.path-a {
+  transform: rotate(-32deg);
+}
+
+.path-b {
+  transform: rotate(34deg);
+}
+
+.path-c {
+  transform: rotate(156deg);
+}
+
+.agent-card {
+  position: absolute;
+  z-index: 2;
+  width: min(280px, 42%);
+  padding: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(12px);
+  transform: translateY(var(--agent-lift));
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+}
+
+.agent-card:hover {
+  border-color: rgba(250, 204, 21, 0.78);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.agent-card span {
+  color: #facc15;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.agent-card h3 {
+  margin: 12px 0 8px;
+  color: #f8fafc;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.agent-card p {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.76);
+  line-height: 1.7;
+}
+
+.agent-card-1 {
+  top: 38px;
+  left: 38px;
+}
+
+.agent-card-2 {
+  top: 92px;
+  right: 34px;
+}
+
+.agent-card-3 {
+  left: 76px;
+  bottom: 46px;
+}
+
 .common-header {
   max-width: 760px;
   margin: 0 auto 34px;
@@ -965,13 +1328,14 @@ onUnmounted(() => {
 .work-grid,
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 18px;
 }
 
 .work-card {
   position: relative;
   display: grid;
+  grid-column: span 4;
   min-height: 330px;
   overflow: hidden;
   border: 1px solid var(--vp-c-divider);
@@ -980,6 +1344,24 @@ onUnmounted(() => {
   text-decoration: none !important;
   background: var(--vp-c-bg-soft);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.work-card:nth-child(1) {
+  grid-column: span 7;
+  min-height: 520px;
+}
+
+.work-card:nth-child(2) {
+  grid-column: span 5;
+  min-height: 520px;
+}
+
+.work-card:nth-child(4) {
+  grid-column: span 5;
+}
+
+.work-card:nth-child(5) {
+  grid-column: span 7;
 }
 
 .work-card:hover,
@@ -996,6 +1378,11 @@ onUnmounted(() => {
   height: 210px;
   overflow: hidden;
   background: #111827;
+}
+
+.work-card:nth-child(1) .img-wrap,
+.work-card:nth-child(2) .img-wrap {
+  height: 360px;
 }
 
 .img-wrap img,
@@ -1050,6 +1437,22 @@ onUnmounted(() => {
   gap: 18px;
 }
 
+.workflow-section {
+  padding: 44px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 36%),
+    var(--vp-c-bg-soft);
+}
+
+.workflow-section .common-header {
+  margin-right: 0;
+  margin-left: 0;
+  text-align: left;
+}
+
 .workflow-nav {
   display: grid;
   gap: 10px;
@@ -1090,6 +1493,7 @@ onUnmounted(() => {
     linear-gradient(0deg, rgba(20, 184, 166, 0.08) 1px, transparent 1px),
     var(--vp-c-bg-soft);
   background-size: 28px 28px, 28px 28px, auto;
+  transform: translateY(var(--workflow-lift));
 }
 
 .detail-index {
@@ -1143,12 +1547,14 @@ onUnmounted(() => {
 
 .blog-list {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .blog-card {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-column: span 4;
+  grid-template-columns: 1fr;
   min-height: 230px;
   overflow: hidden;
   border: 1px solid var(--vp-c-divider);
@@ -1159,9 +1565,23 @@ onUnmounted(() => {
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+.blog-card:nth-child(1) {
+  grid-column: span 6;
+  min-height: 470px;
+}
+
+.blog-card:nth-child(2),
+.blog-card:nth-child(3) {
+  grid-column: span 3;
+}
+
 .blog-left {
-  min-height: 230px;
+  min-height: 250px;
   overflow: hidden;
+}
+
+.blog-card:nth-child(1) .blog-left {
+  min-height: 300px;
 }
 
 .blog-right {
@@ -1200,6 +1620,7 @@ onUnmounted(() => {
 .tool-card {
   position: relative;
   display: grid;
+  grid-column: span 4;
   grid-template-columns: 48px 1fr 24px;
   gap: 16px;
   align-items: center;
@@ -1211,6 +1632,12 @@ onUnmounted(() => {
   text-decoration: none !important;
   background: var(--vp-c-bg-soft);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tool-card:nth-child(1),
+.tool-card:nth-child(6) {
+  grid-column: span 6;
+  min-height: 170px;
 }
 
 .tool-icon {
@@ -1396,7 +1823,8 @@ onUnmounted(() => {
   .hero-section,
   .workflow-board,
   .contact-card,
-  .about-panel {
+  .about-panel,
+  .agent-section {
     grid-template-columns: 1fr;
   }
 
@@ -1411,8 +1839,28 @@ onUnmounted(() => {
 
   .work-grid,
   .tools-grid,
+  .blog-list,
   .about-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .work-card,
+  .work-card:nth-child(1),
+  .work-card:nth-child(2),
+  .work-card:nth-child(4),
+  .work-card:nth-child(5),
+  .tool-card,
+  .tool-card:nth-child(1),
+  .tool-card:nth-child(6),
+  .blog-card,
+  .blog-card:nth-child(1),
+  .blog-card:nth-child(2),
+  .blog-card:nth-child(3) {
+    grid-column: span 3;
+  }
+
+  .agent-canvas {
+    min-height: 620px;
   }
 }
 
@@ -1428,6 +1876,7 @@ onUnmounted(() => {
 
   .hero-section {
     padding: 24px;
+    transform: none;
   }
 
   .hero-title {
@@ -1480,14 +1929,68 @@ onUnmounted(() => {
 
   .work-grid,
   .tools-grid,
+  .blog-list,
   .about-stats,
   .aigc-mini-grid,
   .contact-grid {
     grid-template-columns: 1fr;
   }
 
+  .work-card,
+  .work-card:nth-child(1),
+  .work-card:nth-child(2),
+  .work-card:nth-child(4),
+  .work-card:nth-child(5),
+  .tool-card,
+  .tool-card:nth-child(1),
+  .tool-card:nth-child(6),
+  .blog-card,
+  .blog-card:nth-child(1),
+  .blog-card:nth-child(2),
+  .blog-card:nth-child(3) {
+    grid-column: 1;
+    min-height: auto;
+  }
+
+  .work-card:nth-child(1) .img-wrap,
+  .work-card:nth-child(2) .img-wrap,
+  .img-wrap {
+    height: 220px;
+  }
+
   .about-stat {
     min-height: 150px;
+  }
+
+  .agent-section,
+  .workflow-section {
+    padding: 24px;
+  }
+
+  .agent-canvas {
+    display: grid;
+    gap: 12px;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .agent-core,
+  .agent-card {
+    position: relative;
+    inset: auto;
+    width: auto;
+    transform: none;
+  }
+
+  .agent-core {
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: 140px;
+  }
+
+  .agent-path {
+    display: none;
   }
 
   .blog-card {
