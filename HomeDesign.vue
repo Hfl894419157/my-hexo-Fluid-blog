@@ -2065,23 +2065,23 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --ink: #f8fafc;
-  --muted-ink: rgba(226, 232, 240, 0.72);
-  --page-bg: #050712;
-  --panel-bg: rgba(10, 16, 28, 0.72);
-  --panel-solid: #0b1220;
-  --panel-2: #0f1b2e;
-  --line: rgba(226, 232, 240, 0.14);
-  --line-hot: rgba(56, 189, 248, 0.38);
-  --brand-a: #38bdf8;
-  --brand-b: #8b5cf6;
-  --brand-c: #facc15;
-  --brand-d: #2dd4bf;
-  --glow-a: rgba(56, 189, 248, 0.2);
-  --glow-b: rgba(139, 92, 246, 0.24);
-  --glow-c: rgba(250, 204, 21, 0.12);
-  --button-ink: #06111f;
-  --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 150deg)) saturate(calc(var(--poster-saturation) + 0.28)) brightness(0.78) contrast(1.16);
+  --ink: #f5f7fb !important;
+  --muted-ink: #9aa5b8 !important;
+  --page-bg: #070a12 !important;
+  --panel-bg: rgba(16, 23, 42, 0.62) !important;
+  --panel-solid: #0b1020 !important;
+  --panel-2: #0f172a !important;
+  --line: rgba(255, 255, 255, 0.12) !important;
+  --line-hot: rgba(86, 183, 255, 0.32) !important;
+  --brand-a: #56b7ff !important;
+  --brand-b: #8b5cf6 !important;
+  --brand-c: #ff8b2f !important;
+  --brand-d: #56b7ff !important;
+  --glow-a: rgba(86, 183, 255, 0.20) !important;
+  --glow-b: rgba(139, 92, 246, 0.24) !important;
+  --glow-c: rgba(255, 139, 47, 0.08) !important;
+  --button-ink: #ffffff !important;
+  --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 150deg)) saturate(calc(var(--poster-saturation) + 0.28)) brightness(0.78) contrast(1.16) !important;
 }
 
 .hero-section {
@@ -2543,26 +2543,26 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --page-bg: #10161d;
-  --page-bg-2: #121d24;
-  --ink: #eef7f3;
-  --muted-ink: rgba(226, 239, 236, 0.68);
-  --surface-ui: rgba(21, 31, 39, 0.72);
-  --surface-ui-strong: #17222b;
-  --surface-ui-soft: #1c2a31;
-  --line-ui: rgba(226, 239, 236, 0.1);
-  --line-ui-strong: rgba(226, 239, 236, 0.16);
-  --accent-ui: #5ee0bd;
-  --accent-ui-2: #89a7ff;
-  --accent-ui-3: #e8c46c;
-  --accent-contrast: #0e171c;
-  --ambient-a: rgba(94, 224, 189, 0.13);
-  --ambient-b: rgba(137, 167, 255, 0.11);
-  --ambient-c: rgba(232, 196, 108, 0.08);
-  --poster-surface: linear-gradient(145deg, #121c23, #182830);
-  --poster-panel: rgba(17, 27, 34, 0.7);
-  --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 132deg)) saturate(1.14) brightness(0.78) contrast(1.12);
-  --shadow-ui: rgba(0, 0, 0, 0.28);
+  --page-bg: #070a12 !important;
+  --page-bg-2: #0b1020 !important;
+  --ink: #f5f7fb !important;
+  --muted-ink: #9aa5b8 !important;
+  --surface-ui: rgba(16, 23, 42, 0.62) !important;
+  --surface-ui-strong: rgba(19, 29, 54, 0.88) !important;
+  --surface-ui-soft: #0f172a !important;
+  --line-ui: rgba(255, 255, 255, 0.12) !important;
+  --line-ui-strong: rgba(86, 183, 255, 0.32) !important;
+  --accent-ui: #56b7ff !important;
+  --accent-ui-2: #8b5cf6 !important;
+  --accent-ui-3: #ff8b2f !important;
+  --accent-contrast: #ffffff !important;
+  --ambient-a: rgba(86, 183, 255, 0.20) !important;
+  --ambient-b: rgba(139, 92, 246, 0.24) !important;
+  --ambient-c: rgba(255, 139, 47, 0.08) !important;
+  --poster-surface: linear-gradient(145deg, rgba(16, 23, 42, 0.62), rgba(19, 29, 54, 0.88)) !important;
+  --poster-panel: rgba(7, 10, 18, 0.70) !important;
+  --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 132deg)) saturate(1.14) brightness(0.78) contrast(1.12) !important;
+  --shadow-ui: 0 24px 110px rgba(0, 0, 0, 0.42) !important;
 }
 
 .hero-section {
