@@ -91,6 +91,9 @@ const heroStyle = computed(() => ({
   '--flow-spin': `${Math.round(scrollProgress.value * 4)}deg`,
   '--poster-y': `${Math.round(scrollProgress.value * -16)}px`,
   '--poster-x': `${((cursorX.value - 50) * -0.08).toFixed(1)}px`,
+  '--poster-y-soft': `${Math.round(scrollProgress.value * -9)}px`,
+  '--poster-x-soft': `${((cursorX.value - 50) * -0.04).toFixed(1)}px`,
+  '--poster-scale-soft': 1 + scrollProgress.value * 0.025,
   '--poster-scale': 1.035 + scrollProgress.value * 0.04,
   '--orbit-opacity': 0.16 + scrollProgress.value * 0.24,
   '--orbit-scale': 0.96 + scrollProgress.value * 0.04,
@@ -272,89 +275,25 @@ onUnmounted(() => {
       @mousemove="updateHeroPointer"
       @mouseleave="resetHeroPointer"
     >
-      <div class="scroll-reactor" aria-hidden="true">
-        <span>SCROLL REACTOR</span>
-        <b></b>
-      </div>
       <div class="hero-copy">
         <span class="eyebrow">HAN FULI / AI DESIGN SYSTEM</span>
         <h1 class="hero-title">把 AI 设计能力<br><span>变成可交互的网站资产</span></h1>
         <p class="hero-desc">
           用案例、工作流和资源库组织个人能力，让访客可以探索你能解决什么、怎么解决、有哪些可复用成果。
         </p>
-        <div class="hero-actions">
-          <a :href="pageLink('/portfolio/')" class="btn primary">查看案例</a>
-          <a :href="pageLink('/aigc/')" class="btn secondary">AI 工作流</a>
-          <button @click="scrollToContact" class="icon-btn" title="联系我" aria-label="联系我">↘</button>
-        </div>
-        <div class="mode-switch" role="tablist" aria-label="能力方向">
-          <button
-            v-for="mode in strategyModes"
-            :key="mode.id"
-            class="mode-button"
-            :class="{ active: activeMode === mode.id }"
-            type="button"
-            @click="activeMode = mode.id"
-          >
-            {{ mode.label }}
-          </button>
-        </div>
-        <div class="hero-proofline" aria-label="homepage capability path">
-          <span>视觉判断</span>
-          <span>AI 生成</span>
-          <span>精修交付</span>
-          <span>资源沉淀</span>
-        </div>
-        <div class="hero-metrics" aria-label="homepage proof metrics">
-          <article
-            v-for="(metric, index) in metricCards.slice(0, 3)"
-            :key="metric.label"
-            class="metric-card"
-            :data-metric-index="index"
-          >
-            <strong>{{ metricValues[index] }}{{ metric.suffix }}</strong>
-            <span>{{ metric.label }}</span>
-          </article>
-        </div>
       </div>
 
       <div class="hero-console">
-        <div class="console-topline">
-          <span>LIVE DESIGN BOARD</span>
-          <span>{{ activeModeData.output }}</span>
-        </div>
         <div class="console-stage">
           <div class="poster-glow" aria-hidden="true"></div>
           <div class="stage-image">
             <img :src="selectedWorks[0]?.img" alt="AI design preview" />
           </div>
-          <div class="stage-orbit" aria-hidden="true">
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-          </div>
           <div class="stage-panel">
             <span class="panel-kicker">{{ activeModeData.label }}</span>
             <h2>{{ activeModeData.title }}</h2>
             <p>{{ activeModeData.desc }}</p>
-            <div class="panel-tags">
-              <span>Theme adaptive</span>
-              <span>Hover reactive</span>
-              <span>Scroll aware</span>
-            </div>
           </div>
-          <div class="signal-card signal-a">
-            <b>{{ metricValues[0] }}+</b>
-            <span>项目交付</span>
-          </div>
-          <div class="signal-card signal-b">
-            <b>{{ metricValues[2] }}</b>
-            <span>工作流方向</span>
-          </div>
-        </div>
-        <div class="console-feed">
-          <span v-for="step in workflowSteps" :key="step.id">{{ step.label }}</span>
         </div>
       </div>
     </section>
@@ -2519,6 +2458,276 @@ onUnmounted(() => {
   .case-feature,
   .case-feature-media {
     min-height: 320px;
+  }
+}
+
+/* Color-system correction: semantic light/dark themes and a cleaner poster */
+.home-container {
+  --page-bg: #f6f8f4;
+  --page-bg-2: #eef5f1;
+  --ink: #12201c;
+  --muted-ink: rgba(18, 32, 28, 0.66);
+  --surface-ui: rgba(255, 255, 255, 0.78);
+  --surface-ui-strong: #ffffff;
+  --surface-ui-soft: #edf5ef;
+  --line-ui: rgba(18, 32, 28, 0.11);
+  --line-ui-strong: rgba(18, 32, 28, 0.18);
+  --accent-ui: #0f8f6f;
+  --accent-ui-2: #2d6cdf;
+  --accent-ui-3: #c58a1a;
+  --accent-contrast: #ffffff;
+  --ambient-a: rgba(15, 143, 111, 0.18);
+  --ambient-b: rgba(45, 108, 223, 0.12);
+  --ambient-c: rgba(197, 138, 26, 0.12);
+  --poster-surface: linear-gradient(145deg, #f4f8f4, #e8f1ed);
+  --poster-panel: rgba(255, 255, 255, 0.72);
+  --poster-filter-theme: hue-rotate(var(--poster-hue)) saturate(1.04) brightness(1.02) contrast(1.04);
+  --shadow-ui: rgba(18, 32, 28, 0.12);
+  background:
+    radial-gradient(circle at 18% 18%, var(--ambient-a), transparent 30%),
+    radial-gradient(circle at 82% 10%, var(--ambient-c), transparent 26%),
+    linear-gradient(180deg, var(--page-bg), var(--page-bg-2));
+  color: var(--ink);
+}
+
+:global(.dark) .home-container {
+  --page-bg: #10161d;
+  --page-bg-2: #121d24;
+  --ink: #eef7f3;
+  --muted-ink: rgba(226, 239, 236, 0.68);
+  --surface-ui: rgba(21, 31, 39, 0.72);
+  --surface-ui-strong: #17222b;
+  --surface-ui-soft: #1c2a31;
+  --line-ui: rgba(226, 239, 236, 0.1);
+  --line-ui-strong: rgba(226, 239, 236, 0.16);
+  --accent-ui: #5ee0bd;
+  --accent-ui-2: #89a7ff;
+  --accent-ui-3: #e8c46c;
+  --accent-contrast: #0e171c;
+  --ambient-a: rgba(94, 224, 189, 0.13);
+  --ambient-b: rgba(137, 167, 255, 0.11);
+  --ambient-c: rgba(232, 196, 108, 0.08);
+  --poster-surface: linear-gradient(145deg, #121c23, #182830);
+  --poster-panel: rgba(17, 27, 34, 0.7);
+  --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 132deg)) saturate(1.14) brightness(0.78) contrast(1.12);
+  --shadow-ui: rgba(0, 0, 0, 0.28);
+}
+
+.hero-section {
+  grid-template-columns: minmax(360px, 0.95fr) minmax(380px, 0.86fr);
+  gap: clamp(22px, 4vw, 54px);
+  min-height: min(760px, calc(100svh - 84px));
+  padding: clamp(26px, 4vw, 52px);
+  border: 0;
+  box-shadow: none;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--ambient-a), transparent 30%),
+    radial-gradient(circle at 84% 18%, var(--ambient-b), transparent 28%),
+    transparent;
+}
+
+.hero-section::after,
+.scroll-reactor,
+.mode-switch,
+.hero-proofline,
+.hero-metrics,
+.console-topline,
+.console-feed,
+.stage-orbit,
+.signal-card,
+.panel-tags {
+  display: none !important;
+}
+
+.hero-section::before {
+  background: radial-gradient(circle at var(--mx) var(--my), var(--ambient-a), transparent 34%);
+  opacity: 0.8;
+}
+
+.hero-copy {
+  max-width: 640px;
+}
+
+.eyebrow,
+.badge,
+.panel-kicker {
+  border-color: var(--line-ui);
+  color: var(--accent-ui);
+  background: color-mix(in srgb, var(--surface-ui), transparent 12%);
+}
+
+.hero-title {
+  color: var(--ink);
+  font-size: clamp(42px, 5.5vw, 76px);
+}
+
+.hero-title span {
+  background: linear-gradient(100deg, var(--accent-ui), var(--accent-ui-2) 52%, var(--accent-ui-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-desc,
+.common-header p,
+.about-copy p,
+.workflow-detail p,
+.case-feature-copy p,
+.eng-title,
+.tool-info p,
+.blog-main p,
+.contact-left p {
+  color: var(--muted-ink);
+}
+
+.hero-actions {
+  display: none;
+}
+
+.hero-console {
+  align-self: center;
+  overflow: visible;
+  border: 0;
+  border-radius: 10px;
+  background: var(--poster-surface);
+  box-shadow: 0 28px 80px var(--shadow-ui);
+  backdrop-filter: none;
+}
+
+.console-stage {
+  min-height: 0;
+  padding: clamp(14px, 2vw, 20px);
+}
+
+.poster-glow {
+  inset: -8%;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--ambient-a), transparent 34%),
+    radial-gradient(circle at 86% 12%, var(--ambient-c), transparent 28%);
+  opacity: 0.72;
+}
+
+.stage-image {
+  height: clamp(280px, 38vw, 430px);
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.stage-image img {
+  filter: var(--poster-filter-theme);
+  transform:
+    translateY(var(--poster-y-soft))
+    translateX(var(--poster-x-soft))
+    scale(var(--poster-scale-soft));
+}
+
+.stage-panel {
+  left: clamp(20px, 3vw, 34px);
+  right: clamp(20px, 3vw, 34px);
+  bottom: clamp(20px, 3vw, 34px);
+  padding: clamp(18px, 2.4vw, 26px);
+  border: 0;
+  border-radius: 10px;
+  background: var(--poster-panel);
+  box-shadow: 0 16px 42px var(--shadow-ui);
+}
+
+.stage-panel h2 {
+  color: var(--ink);
+}
+
+.stage-panel p {
+  color: var(--muted-ink);
+}
+
+.btn.primary,
+.filter-button.active,
+.workflow-step.active,
+.back-to-top {
+  color: var(--accent-contrast) !important;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--accent-ui), transparent 78%);
+}
+
+.btn.secondary,
+.icon-btn,
+.filter-button,
+.btn-view-more,
+.mode-button {
+  color: var(--ink) !important;
+  border-color: var(--line-ui);
+  background: var(--surface-ui);
+}
+
+.about-panel,
+.workflow-section,
+.contact-card,
+.case-feature,
+.work-card,
+.blog-card,
+.tool-card,
+.mini-card,
+.workflow-detail,
+.workflow-step,
+.about-stat,
+.contact-item {
+  border-color: var(--line-ui);
+  background: var(--surface-ui);
+  box-shadow: 0 18px 52px color-mix(in srgb, var(--shadow-ui), transparent 30%);
+}
+
+.metric-card:hover,
+.case-feature:hover,
+.work-card:hover,
+.blog-card:hover,
+.tool-card:hover,
+.contact-item:hover,
+.mini-card:hover {
+  border-color: var(--line-ui-strong);
+  box-shadow: 0 24px 62px color-mix(in srgb, var(--shadow-ui), transparent 10%);
+}
+
+.stat-val,
+.detail-index,
+.tool-arrow,
+.c-arrow,
+.cat,
+.tag,
+.case-feature-copy span,
+.case-feature-copy b {
+  color: var(--accent-ui);
+}
+
+.case-feature-media img {
+  filter: saturate(1.02) brightness(1) contrast(1.03);
+}
+
+:global(.dark) .case-feature-media img {
+  filter: hue-rotate(132deg) saturate(1.08) brightness(0.78) contrast(1.1);
+}
+
+@media (max-width: 1180px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-section {
+    padding: 22px 10px 30px;
+  }
+
+  .hero-console {
+    border-radius: 10px;
+  }
+
+  .stage-image {
+    height: 300px;
   }
 }
 </style>
