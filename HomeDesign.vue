@@ -612,74 +612,74 @@ onUnmounted(() => {
 :global(.dark #app),
 :global(.dark .VPLayout),
 :global(.dark .VPContent) {
-  --vp-c-bg: #070a12 !important;
-  --vp-c-bg-soft: #0b1020 !important;
-  --vp-c-bg-alt: #0f172a !important;
-  --vp-c-bg-elv: #070a12 !important;
-  --vp-c-text-1: #f5f7fb !important;
-  --vp-c-text-2: #9aa5b8 !important;
-  --vp-c-border: rgba(255, 255, 255, 0.12) !important;
-  --vp-nav-bg-color: rgba(7, 10, 18, 0.70) !important;
-  background-color: #070a12 !important;
+  --vp-c-bg: #121216 !important;
+  --vp-c-bg-soft: #181622 !important;
+  --vp-c-bg-alt: #1a1625 !important;
+  --vp-c-bg-elv: #121216 !important;
+  --vp-c-text-1: #f3f1f8 !important;
+  --vp-c-text-2: #a29eb4 !important;
+  --vp-c-border: rgba(255, 255, 255, 0.08) !important;
+  --vp-nav-bg-color: rgba(18, 18, 22, 0.75) !important;
+  background-color: #121216 !important;
 }
 
 :global(.dark body) {
-  background: radial-gradient(circle at 18% 12%, rgba(86, 183, 255, .20), transparent 34%),
-              radial-gradient(circle at 82% 4%, rgba(139, 92, 246, .24), transparent 28%),
-              radial-gradient(circle at 72% 55%, rgba(255, 139, 47, .08), transparent 28%),
-              linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
+  background: radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.18), transparent 34%),
+              radial-gradient(circle at 82% 4%, rgba(236, 72, 153, 0.12), transparent 28%),
+              radial-gradient(circle at 72% 55%, rgba(167, 139, 250, 0.06), transparent 28%),
+              linear-gradient(180deg, #101014 0%, #16141f 48%, #121216 100%) !important;
 }
 
 :global(.dark .VPNavBar) {
-  background-color: rgba(7, 10, 18, 0.70) !important;
+  background-color: rgba(18, 18, 22, 0.75) !important;
   backdrop-filter: blur(18px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
 :global(.dark) .home-container {
-  --accent: #56b7ff !important;
+  --accent: #a78bfa !important;
   --accent-strong: #8b5cf6 !important;
-  --accent-soft: rgba(86, 183, 255, 0.14) !important;
-  --warm: #ff8b2f !important;
-  --canvas-bg: #070a12 !important;
-  --surface: #0b1020 !important;
-  --surface-soft: #0f172a !important;
-  --surface-strong: #131d36 !important;
-  --text-main: #f5f7fb !important;
-  --text-muted: #9aa5b8 !important;
-  --line-soft: rgba(255, 255, 255, 0.12) !important;
-  --line-strong: rgba(86, 183, 255, 0.32) !important;
-  --shadow-soft: 0 24px 110px rgba(0, 0, 0, 0.42) !important;
-  --hero-text: #f5f7fb !important;
-  --hero-muted: #9aa5b8 !important;
-  --hero-line: rgba(255, 255, 255, 0.12) !important;
-  --hero-glass: rgba(7, 10, 18, 0.70) !important;
-  --hero-panel: rgba(16, 23, 42, 0.62) !important;
-  --hero-chip: rgba(86, 183, 255, 0.12) !important;
-  --hero-chip-text: #56b7ff !important;
+  --accent-soft: rgba(139, 92, 246, 0.14) !important;
+  --warm: #f472b6 !important;
+  --canvas-bg: #121216 !important;
+  --surface: #181622 !important;
+  --surface-soft: #1a1625 !important;
+  --surface-strong: #201d36 !important;
+  --text-main: #f3f1f8 !important;
+  --text-muted: #a29eb4 !important;
+  --line-soft: rgba(255, 255, 255, 0.08) !important;
+  --line-strong: rgba(139, 92, 246, 0.32) !important;
+  --shadow-soft: 0 24px 110px rgba(0, 0, 0, 0.52) !important;
+  --hero-text: #f3f1f8 !important;
+  --hero-muted: #a29eb4 !important;
+  --hero-line: rgba(255, 255, 255, 0.08) !important;
+  --hero-glass: rgba(18, 18, 22, 0.75) !important;
+  --hero-panel: rgba(28, 26, 38, 0.65) !important;
+  --hero-chip: rgba(139, 92, 246, 0.12) !important;
+  --hero-chip-text: #a78bfa !important;
   --hero-bg:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, .20), transparent 34%),
-    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, .24), transparent 28%),
-    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, .08), transparent 28%),
-    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.18), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(236, 72, 153, 0.12), transparent 28%),
+    radial-gradient(circle at 72% 55%, rgba(167, 139, 250, 0.06), transparent 28%),
+    linear-gradient(180deg, #101014 0%, #16141f 48%, #121216 100%) !important;
   --hero-ambient:
-    radial-gradient(circle at var(--mx) var(--my), rgba(86, 183, 255, 0.30), transparent 34%) !important;
-  --primary-bg: linear-gradient(135deg, #56b7ff, #8b5cf6) !important;
+    radial-gradient(circle at var(--mx) var(--my), rgba(139, 92, 246, 0.25), transparent 34%) !important;
+  --primary-bg: linear-gradient(135deg, #a78bfa, #8b5cf6) !important;
   --primary-text: #ffffff !important;
-  --secondary-bg: rgba(16, 23, 42, 0.62) !important;
-  --secondary-text: #f5f7fb !important;
-  --delivery-bg: linear-gradient(135deg, #070a12, #0b1020 56%, #131d36) !important;
+  --secondary-bg: rgba(28, 26, 38, 0.65) !important;
+  --secondary-text: #f3f1f8 !important;
+  --delivery-bg: linear-gradient(135deg, #121216, #181622 56%, #201d36) !important;
   --delivery-text: #f8fafc !important;
   --delivery-muted: rgba(226, 232, 240, 0.76) !important;
-  --delivery-line: rgba(255, 255, 255, 0.12) !important;
-  --delivery-card: rgba(16, 23, 42, 0.74) !important;
-  --delivery-card-hover: rgba(19, 29, 54, 0.92) !important;
-  --delivery-accent: #ff8b2f !important;
-  --delivery-accent-soft: rgba(255, 139, 47, 0.12) !important;
-  --image-bg: #070a12 !important;
-  --contact-bg: linear-gradient(135deg, rgba(86, 183, 255, 0.1), rgba(255, 139, 47, 0.08)), var(--vp-c-bg-soft) !important;
+  --delivery-line: rgba(255, 255, 255, 0.08) !important;
+  --delivery-card: rgba(28, 26, 38, 0.74) !important;
+  --delivery-card-hover: rgba(32, 29, 44, 0.92) !important;
+  --delivery-accent: #f472b6 !important;
+  --delivery-accent-soft: rgba(244, 114, 182, 0.12) !important;
+  --image-bg: #121216 !important;
+  --contact-bg: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(244, 114, 182, 0.08)), var(--vp-c-bg-soft) !important;
 }
 
 .section-container {
@@ -2079,23 +2079,23 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --ink: #f5f7fb !important;
-  --muted-ink: #9aa5b8 !important;
-  --page-bg: #070a12 !important;
-  --panel-bg: rgba(16, 23, 42, 0.62) !important;
-  --panel-solid: #0b1020 !important;
-  --panel-2: #0f172a !important;
-  --line: rgba(255, 255, 255, 0.12) !important;
-  --line-hot: rgba(86, 183, 255, 0.32) !important;
-  --brand-a: #56b7ff !important;
+  --ink: #f3f1f8 !important;
+  --muted-ink: #a29eb4 !important;
+  --page-bg: #121216 !important;
+  --panel-bg: rgba(28, 26, 38, 0.65) !important;
+  --panel-solid: #181622 !important;
+  --panel-2: #1a1625 !important;
+  --line: rgba(255, 255, 255, 0.08) !important;
+  --line-hot: rgba(139, 92, 246, 0.32) !important;
+  --brand-a: #a78bfa !important;
   --brand-b: #8b5cf6 !important;
-  --brand-c: #ff8b2f !important;
-  --brand-d: #56b7ff !important;
-  --glow-a: rgba(86, 183, 255, 0.20) !important;
-  --glow-b: rgba(139, 92, 246, 0.24) !important;
-  --glow-c: rgba(255, 139, 47, 0.08) !important;
+  --brand-c: #f472b6 !important;
+  --brand-d: #a78bfa !important;
+  --glow-a: rgba(139, 92, 246, 0.20) !important;
+  --glow-b: rgba(236, 72, 153, 0.12) !important;
+  --glow-c: rgba(167, 139, 250, 0.06) !important;
   --button-ink: #ffffff !important;
-  --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 150deg)) saturate(calc(var(--poster-saturation) + 0.28)) brightness(0.78) contrast(1.16) !important;
+  --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 180deg)) saturate(calc(var(--poster-saturation) + 0.22)) brightness(0.82) contrast(1.12) !important;
 }
 
 .hero-section {
@@ -2116,10 +2116,10 @@ onUnmounted(() => {
 
 :global(.dark) .hero-section {
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 94%) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
     linear-gradient(0deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
-    radial-gradient(circle at 74% 24%, rgba(56, 189, 248, 0.18), transparent 34%),
-    linear-gradient(135deg, #070a16, #0c1424 52%, #120d2d);
+    radial-gradient(circle at 74% 24%, rgba(139, 92, 246, 0.18), transparent 34%),
+    linear-gradient(135deg, #101014, #181622 52%, #1a1625) !important;
 }
 
 .hero-section::before {
@@ -2557,26 +2557,26 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --page-bg: #070a12 !important;
-  --page-bg-2: #0b1020 !important;
-  --ink: #f5f7fb !important;
-  --muted-ink: #9aa5b8 !important;
-  --surface-ui: rgba(16, 23, 42, 0.62) !important;
-  --surface-ui-strong: rgba(19, 29, 54, 0.88) !important;
-  --surface-ui-soft: #0f172a !important;
-  --line-ui: rgba(255, 255, 255, 0.12) !important;
-  --line-ui-strong: rgba(86, 183, 255, 0.32) !important;
-  --accent-ui: #56b7ff !important;
+  --page-bg: #121216 !important;
+  --page-bg-2: #181622 !important;
+  --ink: #f3f1f8 !important;
+  --muted-ink: #a29eb4 !important;
+  --surface-ui: rgba(28, 26, 38, 0.65) !important;
+  --surface-ui-strong: rgba(32, 29, 44, 0.88) !important;
+  --surface-ui-soft: #1a1625 !important;
+  --line-ui: rgba(255, 255, 255, 0.08) !important;
+  --line-ui-strong: rgba(139, 92, 246, 0.32) !important;
+  --accent-ui: #a78bfa !important;
   --accent-ui-2: #8b5cf6 !important;
-  --accent-ui-3: #ff8b2f !important;
+  --accent-ui-3: #f472b6 !important;
   --accent-contrast: #ffffff !important;
-  --ambient-a: rgba(86, 183, 255, 0.20) !important;
-  --ambient-b: rgba(139, 92, 246, 0.24) !important;
-  --ambient-c: rgba(255, 139, 47, 0.08) !important;
-  --poster-surface: linear-gradient(145deg, rgba(16, 23, 42, 0.62), rgba(19, 29, 54, 0.88)) !important;
-  --poster-panel: rgba(7, 10, 18, 0.70) !important;
-  --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 132deg)) saturate(1.14) brightness(0.78) contrast(1.12) !important;
-  --shadow-ui: 0 24px 110px rgba(0, 0, 0, 0.42) !important;
+  --ambient-a: rgba(139, 92, 246, 0.20) !important;
+  --ambient-b: rgba(236, 72, 153, 0.12) !important;
+  --ambient-c: rgba(167, 139, 250, 0.06) !important;
+  --poster-surface: linear-gradient(145deg, rgba(28, 26, 38, 0.65), rgba(32, 29, 44, 0.88)) !important;
+  --poster-panel: rgba(18, 18, 22, 0.75) !important;
+  --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 180deg)) saturate(1.08) brightness(0.82) contrast(1.10) !important;
+  --shadow-ui: 0 24px 110px rgba(0, 0, 0, 0.52) !important;
 }
 
 .hero-section {
