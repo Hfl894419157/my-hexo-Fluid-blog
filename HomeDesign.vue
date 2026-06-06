@@ -545,28 +545,47 @@ onUnmounted(() => {
 
 <style scoped>
 .home-container {
-  --accent: #0f766e;
-  --accent-strong: #115e59;
-  --accent-soft: rgba(15, 118, 110, 0.12);
-  --warm: #ca8a04;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.12);
+  --warm: #d97706;
+  --canvas-bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #f1f5f9;
+  --surface-strong: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: rgba(15, 23, 42, 0.68);
+  --line-soft: rgba(15, 23, 42, 0.12);
+  --line-strong: rgba(37, 99, 235, 0.28);
+  --shadow-soft: rgba(15, 23, 42, 0.12);
   --hero-text: #0f172a;
   --hero-muted: rgba(15, 23, 42, 0.72);
   --hero-line: rgba(15, 23, 42, 0.14);
   --hero-glass: rgba(255, 255, 255, 0.74);
   --hero-panel: rgba(255, 255, 255, 0.82);
-  --hero-chip: rgba(240, 253, 250, 0.9);
-  --hero-chip-text: #0f766e;
+  --hero-chip: rgba(239, 246, 255, 0.9);
+  --hero-chip-text: var(--accent-strong);
   --hero-bg:
     linear-gradient(90deg, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
     linear-gradient(0deg, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
-    linear-gradient(135deg, #f8fafc, #ecfeff 44%, #fff7ed);
+    linear-gradient(135deg, #f8fafc, #eff6ff 44%, #fff7ed);
   --hero-ambient:
-    radial-gradient(circle at var(--mx) var(--my), rgba(20, 184, 166, 0.26), transparent 34%),
-    linear-gradient(115deg, transparent 0 30%, rgba(14, 165, 233, 0.16) calc(var(--mx) - 12%), transparent var(--mx), rgba(245, 158, 11, 0.16) calc(var(--mx) + 16%), transparent 76%);
-  --primary-bg: #0f766e;
+    radial-gradient(circle at var(--mx) var(--my), rgba(59, 130, 246, 0.28), transparent 34%),
+    linear-gradient(115deg, transparent 0 30%, rgba(37, 99, 235, 0.14) calc(var(--mx) - 12%), transparent var(--mx), rgba(217, 119, 6, 0.16) calc(var(--mx) + 16%), transparent 76%);
+  --primary-bg: #2563eb;
   --primary-text: #ffffff;
   --secondary-bg: rgba(255, 255, 255, 0.68);
   --secondary-text: #0f172a;
+  --delivery-bg: linear-gradient(135deg, #172554, #1e3a8a 54%, #0f172a);
+  --delivery-text: #f8fafc;
+  --delivery-muted: rgba(226, 232, 240, 0.78);
+  --delivery-line: rgba(191, 219, 254, 0.24);
+  --delivery-card: rgba(15, 23, 42, 0.62);
+  --delivery-card-hover: rgba(15, 23, 42, 0.82);
+  --delivery-accent: #fbbf24;
+  --delivery-accent-soft: rgba(251, 191, 36, 0.12);
+  --image-bg: #0f172a;
+  --contact-bg: linear-gradient(135deg, var(--accent-soft), rgba(217, 119, 6, 0.08)), var(--vp-c-bg-soft);
   --flow-spin: 0deg;
   --core-spin: 0deg;
   --agent-lift: 0;
@@ -584,17 +603,26 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --accent: #22d3ee;
-  --accent-strong: #67e8f9;
-  --accent-soft: rgba(34, 211, 238, 0.12);
-  --warm: #facc15;
+  --accent: #38bdf8;
+  --accent-strong: #7dd3fc;
+  --accent-soft: rgba(56, 189, 248, 0.14);
+  --warm: #fbbf24;
+  --canvas-bg: #020617;
+  --surface: #0f172a;
+  --surface-soft: #111827;
+  --surface-strong: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: rgba(226, 232, 240, 0.72);
+  --line-soft: rgba(148, 163, 184, 0.24);
+  --line-strong: rgba(56, 189, 248, 0.32);
+  --shadow-soft: rgba(0, 0, 0, 0.34);
   --hero-text: #f8fafc;
   --hero-muted: rgba(226, 232, 240, 0.78);
   --hero-line: rgba(148, 163, 184, 0.26);
   --hero-glass: rgba(15, 23, 42, 0.72);
   --hero-panel: rgba(2, 6, 23, 0.78);
   --hero-chip: rgba(8, 47, 73, 0.34);
-  --hero-chip-text: #67e8f9;
+  --hero-chip-text: var(--accent-strong);
   --hero-bg:
     linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
     linear-gradient(0deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
@@ -602,10 +630,20 @@ onUnmounted(() => {
   --hero-ambient:
     radial-gradient(circle at var(--mx) var(--my), rgba(45, 212, 191, 0.2), transparent 34%),
     linear-gradient(115deg, transparent 0 30%, rgba(45, 212, 191, 0.16) calc(var(--mx) - 12%), transparent var(--mx), rgba(251, 191, 36, 0.13) calc(var(--mx) + 16%), transparent 76%);
-  --primary-bg: #facc15;
+  --primary-bg: #fbbf24;
   --primary-text: #0f172a;
   --secondary-bg: rgba(15, 23, 42, 0.64);
   --secondary-text: #e2e8f0;
+  --delivery-bg: linear-gradient(135deg, #020617, #0f172a 56%, #172554);
+  --delivery-text: #f8fafc;
+  --delivery-muted: rgba(226, 232, 240, 0.76);
+  --delivery-line: rgba(148, 163, 184, 0.26);
+  --delivery-card: rgba(15, 23, 42, 0.74);
+  --delivery-card-hover: rgba(15, 23, 42, 0.92);
+  --delivery-accent: #fbbf24;
+  --delivery-accent-soft: rgba(251, 191, 36, 0.12);
+  --image-bg: #020617;
+  --contact-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(251, 191, 36, 0.08)), var(--vp-c-bg-soft);
 }
 
 .section-container {
@@ -736,7 +774,7 @@ onUnmounted(() => {
   width: fit-content;
   min-height: 26px;
   padding: 4px 10px;
-  border: 1px solid rgba(45, 212, 191, 0.36);
+  border: 1px solid var(--line-strong);
   border-radius: 4px;
   color: var(--hero-chip-text);
   background: var(--hero-chip);
@@ -787,7 +825,7 @@ onUnmounted(() => {
   justify-content: center;
   min-height: 44px;
   padding: 10px 18px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border: 1px solid var(--line-soft);
   border-radius: 6px;
   text-decoration: none !important;
   font-size: 15px;
@@ -839,7 +877,7 @@ onUnmounted(() => {
 .filter-button {
   min-height: 38px;
   padding: 8px 14px;
-  border: 1px solid rgba(148, 163, 184, 0.3);
+  border: 1px solid var(--line-soft);
   border-radius: 4px;
   color: var(--hero-muted);
   background: var(--hero-glass);
@@ -862,7 +900,7 @@ onUnmounted(() => {
   border: 1px solid var(--hero-line);
   border-radius: 8px;
   background: var(--hero-glass);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 28px 80px var(--shadow-soft);
   backdrop-filter: blur(14px);
   transform:
     perspective(1000px)
@@ -906,7 +944,7 @@ onUnmounted(() => {
   height: 390px;
   overflow: hidden;
   border-radius: 6px;
-  background: #020617;
+  background: var(--image-bg);
 }
 
 .stage-image img {
@@ -1012,7 +1050,7 @@ onUnmounted(() => {
   gap: 2px;
   min-width: 112px;
   padding: 12px;
-  border: 1px solid rgba(45, 212, 191, 0.35);
+  border: 1px solid var(--line-strong);
   border-radius: 6px;
   color: var(--hero-text);
   background: var(--hero-panel);
@@ -1178,17 +1216,15 @@ onUnmounted(() => {
   margin-top: 34px;
   padding: 42px;
   overflow: hidden;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--delivery-line);
   border-radius: 8px;
-  background:
-    linear-gradient(135deg, #111827, #0f172a 58%, #18181b);
-  color: #f8fafc;
+  background: var(--delivery-bg);
+  color: var(--delivery-text);
   isolation: isolate;
 }
 
 :global(.dark) .agent-section {
-  background:
-    linear-gradient(135deg, #020617, #111827 58%, #18181b);
+  background: var(--delivery-bg);
 }
 
 .agent-section::before {
@@ -1196,9 +1232,9 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(115deg, transparent 0 24%, rgba(34, 211, 238, 0.12) 42%, transparent 64%);
+    linear-gradient(90deg, color-mix(in srgb, var(--delivery-text), transparent 94%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--delivery-text), transparent 94%) 1px, transparent 1px),
+    linear-gradient(115deg, transparent 0 24%, var(--accent-soft) 42%, transparent 64%);
   background-size: 32px 32px, 32px 32px, auto;
   opacity: var(--agent-bg-opacity);
   transform: translateY(var(--agent-bg-y));
@@ -1213,20 +1249,20 @@ onUnmounted(() => {
 
 .agent-copy h2 {
   margin: 0;
-  color: #f8fafc;
+  color: var(--delivery-text);
   font-size: clamp(38px, 5vw, 72px);
   line-height: 1;
   font-weight: 900;
 }
 
 .agent-copy h2 span {
-  color: #facc15;
+  color: var(--delivery-accent);
 }
 
 .agent-copy p {
   max-width: 560px;
   margin: 0;
-  color: rgba(226, 232, 240, 0.78);
+  color: var(--delivery-muted);
   font-size: 17px;
   line-height: 1.85;
 }
@@ -1241,10 +1277,10 @@ onUnmounted(() => {
 .agent-proof span {
   min-height: 32px;
   padding: 6px 10px;
-  border: 1px solid rgba(250, 204, 21, 0.28);
+  border: 1px solid color-mix(in srgb, var(--delivery-accent), transparent 72%);
   border-radius: 4px;
-  color: #fef3c7;
-  background: rgba(250, 204, 21, 0.08);
+  color: color-mix(in srgb, var(--delivery-accent), white 28%);
+  background: var(--delivery-accent-soft);
   font-size: 13px;
   font-weight: 900;
 }
@@ -1253,11 +1289,11 @@ onUnmounted(() => {
   position: relative;
   min-height: 560px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.26);
+  border: 1px solid var(--delivery-line);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.86), rgba(2, 6, 23, 0.7)),
-    linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
+    linear-gradient(135deg, color-mix(in srgb, var(--surface), transparent 12%), color-mix(in srgb, var(--canvas-bg), transparent 28%)),
+    linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
   background-size: auto, 26px 26px;
 }
 
@@ -1270,11 +1306,11 @@ onUnmounted(() => {
   place-items: center;
   width: 190px;
   height: 190px;
-  border: 1px solid rgba(250, 204, 21, 0.52);
+  border: 1px solid color-mix(in srgb, var(--delivery-accent), transparent 48%);
   border-radius: 8px;
-  color: #fefce8;
-  background: rgba(15, 23, 42, 0.82);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+  color: var(--delivery-text);
+  background: var(--delivery-card);
+  box-shadow: 0 24px 70px var(--shadow-soft);
   transform:
     translate(-50%, -50%)
     rotate(var(--core-spin));
@@ -1283,12 +1319,12 @@ onUnmounted(() => {
 .agent-core span {
   font-size: 12px;
   font-weight: 900;
-  color: #facc15;
+  color: var(--delivery-accent);
 }
 
 .agent-core b {
   max-width: 132px;
-  color: #f8fafc;
+  color: var(--delivery-text);
   font-size: 26px;
   line-height: 1;
   text-align: center;
@@ -1300,7 +1336,7 @@ onUnmounted(() => {
   top: 50%;
   width: 46%;
   height: 1px;
-  background: linear-gradient(90deg, rgba(250, 204, 21, 0.88), transparent);
+  background: linear-gradient(90deg, var(--delivery-accent), transparent);
   transform-origin: left center;
   opacity: var(--agent-path-opacity);
 }
@@ -1322,35 +1358,35 @@ onUnmounted(() => {
   z-index: 2;
   width: min(280px, 42%);
   padding: 20px;
-  border: 1px solid rgba(148, 163, 184, 0.28);
+  border: 1px solid var(--delivery-line);
   border-radius: 8px;
-  background: rgba(15, 23, 42, 0.72);
+  background: var(--delivery-card);
   backdrop-filter: blur(12px);
   transform: translateY(var(--agent-lift));
   transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
 }
 
 .agent-card:hover {
-  border-color: rgba(250, 204, 21, 0.78);
-  background: rgba(15, 23, 42, 0.9);
+  border-color: color-mix(in srgb, var(--delivery-accent), transparent 22%);
+  background: var(--delivery-card-hover);
 }
 
 .agent-card span {
-  color: #facc15;
+  color: var(--delivery-accent);
   font-size: 12px;
   font-weight: 900;
 }
 
 .agent-card h3 {
   margin: 12px 0 8px;
-  color: #f8fafc;
+  color: var(--delivery-text);
   font-size: 24px;
   line-height: 1.2;
 }
 
 .agent-card p {
   margin: 0;
-  color: rgba(226, 232, 240, 0.76);
+  color: var(--delivery-muted);
   line-height: 1.7;
 }
 
@@ -1435,14 +1471,14 @@ onUnmounted(() => {
 .contact-item:hover,
 .mini-card:hover {
   transform: translateY(-4px);
-  border-color: #0891b2;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 18px 42px var(--shadow-soft);
 }
 
 .img-wrap {
   height: 210px;
   overflow: hidden;
-  background: #111827;
+  background: var(--image-bg);
 }
 
 .work-card:nth-child(1) .img-wrap,
@@ -1473,7 +1509,7 @@ onUnmounted(() => {
 
 .cat,
 .tag {
-  color: #0f766e;
+  color: var(--accent);
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 0.04em;
@@ -1539,7 +1575,7 @@ onUnmounted(() => {
 }
 
 .workflow-step span {
-  color: #0891b2;
+  color: var(--accent);
   font-size: 13px;
   font-weight: 900;
 }
@@ -1554,15 +1590,15 @@ onUnmounted(() => {
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background:
-    linear-gradient(90deg, rgba(20, 184, 166, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(20, 184, 166, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px),
+    linear-gradient(0deg, var(--accent-soft) 1px, transparent 1px),
     var(--vp-c-bg-soft);
   background-size: 28px 28px, 28px 28px, auto;
   transform: translateY(var(--workflow-lift));
 }
 
 .detail-index {
-  color: #ca8a04;
+  color: var(--warm);
   font-size: 44px;
   font-weight: 900;
 }
@@ -1717,7 +1753,7 @@ onUnmounted(() => {
 }
 
 .tool-arrow {
-  color: #0891b2;
+  color: var(--accent);
   font-weight: 900;
   transition: transform 0.22s ease;
 }
@@ -1754,7 +1790,7 @@ onUnmounted(() => {
   padding: 38px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(250, 204, 21, 0.08)), var(--vp-c-bg-soft);
+  background: var(--contact-bg);
 }
 
 .contact-left h3 {
@@ -1810,7 +1846,7 @@ onUnmounted(() => {
 
 .c-arrow {
   margin-left: auto;
-  color: #0891b2;
+  color: var(--accent);
 }
 
 .back-to-top {
@@ -1822,12 +1858,12 @@ onUnmounted(() => {
   place-items: center;
   width: 48px;
   height: 48px;
-  border: 1px solid rgba(45, 212, 191, 0.4);
+  border: 1px solid var(--line-strong);
   border-radius: 6px;
-  color: #ecfeff;
-  background: #0f766e;
+  color: var(--primary-text);
+  background: var(--primary-bg);
   cursor: pointer;
-  box-shadow: 0 16px 34px rgba(15, 118, 110, 0.28);
+  box-shadow: 0 16px 34px var(--shadow-soft);
 }
 
 .fade-enter-active,
@@ -1847,7 +1883,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(2, 6, 23, 0.72);
+  background: color-mix(in srgb, var(--canvas-bg), transparent 20%);
   backdrop-filter: blur(5px);
 }
 
@@ -1859,7 +1895,7 @@ onUnmounted(() => {
   border-radius: 8px;
   background: var(--vp-c-bg);
   text-align: center;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 22px 60px var(--shadow-soft);
 }
 
 .modal-img {
