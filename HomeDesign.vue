@@ -112,12 +112,15 @@ const resetHeroPointer = () => {
   cursorY.value = 50
 }
 
-// === 5. 简历数据 ===
-const resumeStats = [
-  { label: '设计与内容经验', value: '8+', icon: '💎' },
-  { label: '项目交付经验', value: '120+', icon: '🚀' },
-  { label: 'AI 工作流方向', value: '4', icon: '🔥' },
+const metricCards = [
+  { label: '项目交付经验', value: 120, suffix: '+', desc: '从品牌视觉、产品图到内容资产的完整交付经验' },
+  { label: '设计与内容经验', value: 8, suffix: '+', desc: '把设计判断、内容组织和 AI 工具整合成稳定流程' },
+  { label: 'AI 工作流方向', value: 4, suffix: '', desc: '产品图、品牌视觉、内容生产、资源沉淀' },
+  { label: '精选案例资产', value: 18, suffix: '+', desc: '持续沉淀可展示、可复用、可迭代的案例和资源' }
 ]
+
+const metricValues = ref(metricCards.map(() => 0))
+let metricObserver = null
 
 // === 6. 联系方式数据 (包含抖音，Email在最后) ===
 const contactLinks = [
@@ -181,6 +184,46 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+const animateMetric = (index) => {
+  const target = metricCards[index]?.value || 0
+  const duration = 980
+  const start = performance.now()
+
+  const tick = (now) => {
+    const progress = Math.min((now - start) / duration, 1)
+    const eased = 1 - Math.pow(1 - progress, 3)
+    metricValues.value[index] = Math.round(target * eased)
+
+    if (progress < 1) {
+      requestAnimationFrame(tick)
+    }
+  }
+
+  requestAnimationFrame(tick)
+}
+
+const initMetricCards = () => {
+  const cards = document.querySelectorAll('[data-metric-index]')
+
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach((card) => animateMetric(Number(card.dataset.metricIndex)))
+    return
+  }
+
+  metricObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateMetric(Number(entry.target.dataset.metricIndex))
+        metricObserver?.unobserve(entry.target)
+      }
+    })
+  }, {
+    threshold: 0.35
+  })
+
+  cards.forEach(card => metricObserver.observe(card))
+}
+
 const initStorySections = () => {
   const sections = document.querySelectorAll('[data-story-section]')
 
@@ -210,12 +253,14 @@ const initStorySections = () => {
 onMounted(() => {
   handleScroll()
   initStorySections()
+  initMetricCards()
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   storyObserver?.disconnect()
+  metricObserver?.disconnect()
 })
 </script>
 
@@ -260,14 +305,26 @@ onUnmounted(() => {
           <span>精修交付</span>
           <span>资源沉淀</span>
         </div>
+        <div class="hero-metrics" aria-label="homepage proof metrics">
+          <article
+            v-for="(metric, index) in metricCards.slice(0, 3)"
+            :key="metric.label"
+            class="metric-card"
+            :data-metric-index="index"
+          >
+            <strong>{{ metricValues[index] }}{{ metric.suffix }}</strong>
+            <span>{{ metric.label }}</span>
+          </article>
+        </div>
       </div>
 
       <div class="hero-console">
         <div class="console-topline">
-          <span>LIVE BRIEF</span>
+          <span>LIVE DESIGN BOARD</span>
           <span>{{ activeModeData.output }}</span>
         </div>
         <div class="console-stage">
+          <div class="poster-glow" aria-hidden="true"></div>
           <div class="stage-image">
             <img :src="selectedWorks[0]?.img" alt="AI design preview" />
           </div>
@@ -281,13 +338,18 @@ onUnmounted(() => {
             <span class="panel-kicker">{{ activeModeData.label }}</span>
             <h2>{{ activeModeData.title }}</h2>
             <p>{{ activeModeData.desc }}</p>
+            <div class="panel-tags">
+              <span>Theme adaptive</span>
+              <span>Hover reactive</span>
+              <span>Scroll aware</span>
+            </div>
           </div>
           <div class="signal-card signal-a">
-            <b>120+</b>
-            <span>交付经验</span>
+            <b>{{ metricValues[0] }}+</b>
+            <span>项目交付</span>
           </div>
           <div class="signal-card signal-b">
-            <b>4</b>
+            <b>{{ metricValues[2] }}</b>
             <span>工作流方向</span>
           </div>
         </div>
@@ -313,10 +375,15 @@ onUnmounted(() => {
         <a :href="pageLink('/resume')" class="about-link">查看完整简历 →</a>
       </div>
       <div class="about-stats">
-        <div v-for="(stat, index) in resumeStats" :key="index" class="about-stat">
-          <span class="stat-val">{{ stat.value }}</span>
-          <span class="stat-lbl">{{ stat.label }}</span>
-          <small>{{ stat.icon }}</small>
+        <div
+          v-for="(metric, index) in metricCards"
+          :key="metric.label"
+          class="about-stat"
+          :data-metric-index="index"
+        >
+          <span class="stat-val">{{ metricValues[index] }}{{ metric.suffix }}</span>
+          <span class="stat-lbl">{{ metric.label }}</span>
+          <small>{{ index + 1 }}</small>
         </div>
       </div>
     </section>
@@ -339,8 +406,23 @@ onUnmounted(() => {
           {{ filter.label }}
         </button>
       </div>
+      <a
+        v-if="filteredWorks[0]"
+        :href="pageLink(filteredWorks[0].link)"
+        class="case-feature"
+      >
+        <div class="case-feature-media">
+          <img :src="filteredWorks[0].img" :alt="filteredWorks[0].title" loading="lazy" />
+        </div>
+        <div class="case-feature-copy">
+          <span>{{ filteredWorks[0].category }}</span>
+          <h4>{{ filteredWorks[0].title }}</h4>
+          <p>{{ filteredWorks[0].desc }}</p>
+          <b>{{ filteredWorks[0].titleEn }}</b>
+        </div>
+      </a>
       <div class="work-grid">
-        <a v-for="item in filteredWorks" :key="item.id" :href="pageLink(item.link)" class="work-card">
+        <a v-for="item in filteredWorks.slice(1)" :key="item.id" :href="pageLink(item.link)" class="work-card">
           <div class="img-wrap">
             <img :src="item.img" loading="lazy" />
           </div>
@@ -1955,6 +2037,488 @@ onUnmounted(() => {
 
   .modal-img {
     max-width: 240px;
+  }
+}
+
+/* First batch visual system refresh */
+:global(.VPHome .vp-doc.container) {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.home-container {
+  --ink: #101828;
+  --muted-ink: rgba(16, 24, 40, 0.66);
+  --page-bg: #f7faf7;
+  --panel-bg: rgba(255, 255, 255, 0.76);
+  --panel-solid: #ffffff;
+  --panel-2: #eef7f2;
+  --line: rgba(16, 24, 40, 0.12);
+  --line-hot: rgba(16, 185, 129, 0.36);
+  --brand-a: #10b981;
+  --brand-b: #2563eb;
+  --brand-c: #f59e0b;
+  --brand-d: #0f766e;
+  --glow-a: rgba(16, 185, 129, 0.28);
+  --glow-b: rgba(37, 99, 235, 0.22);
+  --glow-c: rgba(245, 158, 11, 0.24);
+  --button-ink: #ffffff;
+  --hero-poster-filter: hue-rotate(var(--poster-hue)) saturate(calc(var(--poster-saturation) + 0.05)) brightness(var(--poster-brightness)) contrast(1.08);
+  max-width: none;
+  padding: 0 clamp(16px, 3vw, 42px) 96px;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--glow-a), transparent 28%),
+    radial-gradient(circle at 82% 12%, var(--glow-c), transparent 24%),
+    linear-gradient(180deg, var(--page-bg), color-mix(in srgb, var(--page-bg), var(--brand-b) 6%));
+  color: var(--ink);
+}
+
+:global(.dark) .home-container {
+  --ink: #f8fafc;
+  --muted-ink: rgba(226, 232, 240, 0.72);
+  --page-bg: #050712;
+  --panel-bg: rgba(10, 16, 28, 0.72);
+  --panel-solid: #0b1220;
+  --panel-2: #0f1b2e;
+  --line: rgba(226, 232, 240, 0.14);
+  --line-hot: rgba(56, 189, 248, 0.38);
+  --brand-a: #38bdf8;
+  --brand-b: #8b5cf6;
+  --brand-c: #facc15;
+  --brand-d: #2dd4bf;
+  --glow-a: rgba(56, 189, 248, 0.2);
+  --glow-b: rgba(139, 92, 246, 0.24);
+  --glow-c: rgba(250, 204, 21, 0.12);
+  --button-ink: #06111f;
+  --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 150deg)) saturate(calc(var(--poster-saturation) + 0.28)) brightness(0.78) contrast(1.16);
+}
+
+.hero-section {
+  grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1.08fr);
+  gap: clamp(24px, 4vw, 58px);
+  min-height: calc(100svh - 86px);
+  max-width: 1580px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 54px);
+  border-color: var(--line);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 94%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--ink), transparent 94%) 1px, transparent 1px),
+    linear-gradient(135deg, color-mix(in srgb, var(--panel-solid), var(--brand-a) 8%), color-mix(in srgb, var(--panel-2), var(--brand-b) 10%));
+  background-size: 36px 36px, 36px 36px, auto;
+  box-shadow: 0 28px 90px color-mix(in srgb, var(--ink), transparent 90%);
+}
+
+:global(.dark) .hero-section {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 94%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
+    radial-gradient(circle at 74% 24%, rgba(56, 189, 248, 0.18), transparent 34%),
+    linear-gradient(135deg, #070a16, #0c1424 52%, #120d2d);
+}
+
+.hero-section::before {
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--glow-a), transparent 32%),
+    linear-gradient(115deg, transparent 0 34%, var(--glow-b) calc(var(--mx) - 10%), transparent var(--mx), var(--glow-c) calc(var(--mx) + 18%), transparent 80%);
+}
+
+.hero-copy {
+  max-width: 680px;
+}
+
+.eyebrow,
+.badge,
+.panel-kicker {
+  color: var(--brand-d);
+  border-color: var(--line-hot);
+  background: color-mix(in srgb, var(--panel-bg), var(--brand-a) 8%);
+}
+
+:global(.dark) .eyebrow,
+:global(.dark) .badge,
+:global(.dark) .panel-kicker {
+  color: var(--brand-a);
+}
+
+.hero-title {
+  color: var(--ink);
+  font-size: clamp(44px, 6vw, 86px);
+  letter-spacing: 0;
+}
+
+.hero-title span {
+  color: transparent;
+  background: linear-gradient(100deg, var(--brand-a), var(--brand-b) 48%, var(--brand-c));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-desc,
+.common-header p,
+.about-copy p,
+.workflow-detail p,
+.eng-title,
+.tool-info p,
+.blog-main p,
+.contact-left p {
+  color: var(--muted-ink);
+}
+
+.btn.primary,
+.mode-button.active,
+.filter-button.active,
+.workflow-step.active,
+.back-to-top {
+  color: var(--button-ink) !important;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--brand-a), var(--brand-c));
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--brand-a), transparent 76%);
+}
+
+.btn.secondary,
+.icon-btn,
+.mode-button,
+.filter-button,
+.btn-view-more {
+  color: var(--ink) !important;
+  border-color: var(--line);
+  background: var(--panel-bg);
+  backdrop-filter: blur(18px);
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 620px;
+  margin-top: 18px;
+}
+
+.metric-card {
+  position: relative;
+  min-height: 106px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--panel-bg), var(--brand-a) 8%), transparent),
+    var(--panel-bg);
+  backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.metric-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -45% 20%;
+  height: 80px;
+  background: radial-gradient(circle, var(--glow-a), transparent 70%);
+  opacity: 0.7;
+  transition: transform 0.25s ease;
+}
+
+.metric-card:hover,
+.case-feature:hover,
+.work-card:hover,
+.blog-card:hover,
+.tool-card:hover,
+.contact-item:hover,
+.mini-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--line-hot);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--brand-a), transparent 84%);
+}
+
+.metric-card:hover::after {
+  transform: translateY(-16px) scale(1.2);
+}
+
+.metric-card strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: var(--ink);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.95;
+  font-weight: 950;
+}
+
+.metric-card span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: 8px;
+  color: var(--muted-ink);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.hero-console {
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--panel-bg), transparent 8%);
+  box-shadow: 0 28px 82px color-mix(in srgb, var(--ink), transparent 88%);
+}
+
+.console-stage {
+  min-height: min(52vh, 500px);
+  padding: 16px;
+}
+
+.poster-glow {
+  position: absolute;
+  inset: 14px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--glow-a), transparent 30%),
+    radial-gradient(circle at 78% 18%, var(--glow-c), transparent 28%);
+  opacity: 0.86;
+  pointer-events: none;
+}
+
+.stage-image {
+  position: relative;
+  height: min(46vh, 430px);
+  border: 1px solid color-mix(in srgb, var(--brand-a), transparent 62%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink), transparent 90%);
+}
+
+.stage-image img {
+  filter: var(--hero-poster-filter);
+}
+
+.stage-panel {
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  background: color-mix(in srgb, var(--panel-bg), transparent 4%);
+}
+
+.panel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.panel-tags span {
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted-ink);
+  background: color-mix(in srgb, var(--panel-solid), transparent 22%);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.signal-card {
+  border-color: var(--line-hot);
+  background: color-mix(in srgb, var(--panel-bg), transparent 4%);
+  backdrop-filter: blur(18px);
+}
+
+.signal-card b,
+.stat-val,
+.detail-index,
+.tool-arrow,
+.c-arrow,
+.cat,
+.tag {
+  color: var(--brand-a);
+}
+
+.section-container,
+.about-panel {
+  max-width: 1480px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.about-panel,
+.workflow-section,
+.contact-card {
+  border-color: var(--line);
+  background:
+    radial-gradient(circle at 18% 12%, var(--glow-a), transparent 26%),
+    linear-gradient(135deg, var(--panel-bg), color-mix(in srgb, var(--panel-2), transparent 18%));
+  box-shadow: 0 20px 70px color-mix(in srgb, var(--ink), transparent 92%);
+}
+
+.about-stat,
+.workflow-detail,
+.workflow-step,
+.mini-card,
+.blog-card,
+.tool-card,
+.contact-item,
+.work-card {
+  border-color: var(--line);
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+}
+
+.about-stat {
+  min-height: 138px;
+}
+
+.about-stat small {
+  color: color-mix(in srgb, var(--brand-c), var(--ink) 10%);
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.case-feature {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 0;
+  min-height: 420px;
+  margin: 0 0 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none !important;
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.case-feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--brand-a), transparent 88%)),
+    radial-gradient(circle at var(--mx) var(--my), var(--glow-a), transparent 24%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.case-feature-media {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--image-bg);
+}
+
+.case-feature-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.08) contrast(1.05);
+  transition: transform 0.55s ease, filter 0.25s ease;
+}
+
+:global(.dark) .case-feature-media img {
+  filter: hue-rotate(120deg) saturate(1.2) brightness(0.72) contrast(1.14);
+}
+
+.case-feature:hover .case-feature-media img {
+  transform: scale(1.045);
+}
+
+.case-feature-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: end;
+  gap: 14px;
+  padding: clamp(26px, 4vw, 46px);
+}
+
+.case-feature-copy span,
+.case-feature-copy b {
+  color: var(--brand-a);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-feature-copy h4 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(32px, 5vw, 60px);
+  line-height: 1.02;
+}
+
+.case-feature-copy p {
+  margin: 0;
+  color: var(--muted-ink);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.work-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.work-card {
+  min-height: 300px;
+}
+
+.img-wrap {
+  aspect-ratio: 1.02;
+}
+
+.info {
+  min-height: 128px;
+  background: color-mix(in srgb, var(--panel-solid), transparent 24%);
+}
+
+.workflow-board {
+  grid-template-columns: minmax(240px, 0.28fr) minmax(0, 1fr);
+}
+
+.tools-grid {
+  gap: 14px;
+}
+
+@media (max-width: 1180px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .hero-metrics,
+  .work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-feature {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-container {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .hero-section {
+    padding: 22px;
+  }
+
+  .hero-metrics,
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .console-stage {
+    min-height: 360px;
+  }
+
+  .stage-image {
+    height: 320px;
+  }
+
+  .case-feature,
+  .case-feature-media {
+    min-height: 320px;
   }
 }
 </style>
