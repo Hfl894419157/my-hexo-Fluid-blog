@@ -65,7 +65,7 @@ const activeFilter = ref(caseFilters[0].id)
 const cursorX = ref(50)
 const cursorY = ref(50)
 const scrollProgress = ref(0)
-const pageProgress = ref(0)
+let storyObserver = null
 
 const activeModeData = computed(() => strategyModes.find(item => item.id === activeMode.value) || strategyModes[0])
 const activeStepData = computed(() => workflowSteps.find(item => item.id === activeStep.value) || workflowSteps[0])
@@ -77,36 +77,26 @@ const heroStyle = computed(() => ({
   '--mx': `${cursorX.value}%`,
   '--my': `${cursorY.value}%`,
   '--scroll': scrollProgress.value,
-  '--hero-offset': `${Math.round(scrollProgress.value * 18)}px`,
-  '--hero-scale': 1 - scrollProgress.value * 0.028,
-  '--hero-copy-y': `${Math.round(scrollProgress.value * -18)}px`,
-  '--ambient-y': `${Math.round(scrollProgress.value * 34)}px`,
-  '--console-y': `${Math.round(scrollProgress.value * -28)}px`,
+  '--hero-offset': `${Math.round(scrollProgress.value * 8)}px`,
+  '--hero-scale': 1 - scrollProgress.value * 0.012,
+  '--hero-copy-y': `${Math.round(scrollProgress.value * -8)}px`,
+  '--ambient-y': `${Math.round(scrollProgress.value * 14)}px`,
+  '--console-y': `${Math.round(scrollProgress.value * -12)}px`,
   '--tilt-x': `${((cursorY.value - 50) * -0.04).toFixed(2)}deg`,
   '--tilt-y': `${((cursorX.value - 50) * 0.04).toFixed(2)}deg`,
   '--scan-x': `${Math.round((cursorX.value - 50) * 0.16)}px`,
-  '--scan-opacity': 0.14 + scrollProgress.value * 0.22,
-  '--ambient-opacity': 0.78 + scrollProgress.value * 0.18,
+  '--scan-opacity': 0.1 + scrollProgress.value * 0.12,
+  '--ambient-opacity': 0.74 + scrollProgress.value * 0.12,
   '--reactor-scale': 0.12 + scrollProgress.value * 0.88,
-  '--poster-y': `${Math.round(scrollProgress.value * -34)}px`,
+  '--flow-spin': `${Math.round(scrollProgress.value * 4)}deg`,
+  '--poster-y': `${Math.round(scrollProgress.value * -16)}px`,
   '--poster-x': `${((cursorX.value - 50) * -0.08).toFixed(1)}px`,
-  '--poster-scale': 1.04 + scrollProgress.value * 0.09,
-  '--orbit-opacity': 0.2 + scrollProgress.value * 0.42,
-  '--orbit-scale': 0.94 + scrollProgress.value * 0.08,
-  '--poster-hue': `${Math.round(scrollProgress.value * 34)}deg`,
-  '--poster-saturation': 1.08 + scrollProgress.value * 0.2,
-  '--poster-brightness': 1.04 - scrollProgress.value * 0.1
-}))
-const pageStyle = computed(() => ({
-  '--page-scroll': pageProgress.value,
-  '--flow-spin': `${Math.round(pageProgress.value * 22)}deg`,
-  '--core-spin': `${Math.round(pageProgress.value * -9)}deg`,
-  '--agent-lift': `${Math.round((pageProgress.value - 0.25) * -40)}px`,
-  '--agent-bg-y': `${Math.round(pageProgress.value * -42)}px`,
-  '--agent-bg-opacity': 0.55 + pageProgress.value * 0.2,
-  '--agent-path-opacity': 0.32 + pageProgress.value * 0.34,
-  '--section-line-opacity': 0.28 + pageProgress.value * 0.4,
-  '--workflow-lift': `${Math.round(pageProgress.value * -18)}px`
+  '--poster-scale': 1.035 + scrollProgress.value * 0.04,
+  '--orbit-opacity': 0.16 + scrollProgress.value * 0.24,
+  '--orbit-scale': 0.96 + scrollProgress.value * 0.04,
+  '--poster-hue': `${Math.round(scrollProgress.value * 10)}deg`,
+  '--poster-saturation': 1.04 + scrollProgress.value * 0.1,
+  '--poster-brightness': 1.03 - scrollProgress.value * 0.04
 }))
 
 const agentCards = [
@@ -203,27 +193,53 @@ const scrollToContact = () => {
 const handleScroll = () => {
   showBackToTop.value = window.scrollY > 300
   const viewport = Math.max(window.innerHeight, 1)
-  const scrollable = Math.max(document.documentElement.scrollHeight - viewport, 1)
   scrollProgress.value = Math.min(Math.max(window.scrollY / (viewport * 1.15), 0), 1)
-  pageProgress.value = Math.min(Math.max(window.scrollY / scrollable, 0), 1)
 }
 
 const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+const initStorySections = () => {
+  const sections = document.querySelectorAll('[data-story-section]')
+
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach(section => section.classList.add('is-visible'))
+    return
+  }
+
+  storyObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible')
+        storyObserver?.unobserve(entry.target)
+      }
+    })
+  }, {
+    rootMargin: '0px 0px -14% 0px',
+    threshold: 0.16
+  })
+
+  sections.forEach((section, index) => {
+    section.style.setProperty('--reveal-delay', `${Math.min(index, 5) * 70}ms`)
+    storyObserver.observe(section)
+  })
+}
+
 onMounted(() => {
   handleScroll()
+  initStorySections()
   window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  storyObserver?.disconnect()
 })
 </script>
 
 <template>
-  <div class="home-container" :style="pageStyle">
+  <div class="home-container">
     <section
       class="hero-section"
       :style="heroStyle"
@@ -294,7 +310,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="agent-section">
+    <section class="agent-section" data-story-section>
       <div class="agent-copy">
         <span class="badge">AI SYSTEM</span>
         <h2>Build AI design systems<br><span>you can actually explain</span></h2>
@@ -323,7 +339,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="about-panel">
+    <section class="about-panel" data-story-section>
       <div class="about-copy">
         <span class="badge">ABOUT</span>
         <h2>关于我：把设计经验变成 AI 时代的交付系统</h2>
@@ -347,7 +363,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" id="works">
+    <section class="section-container" id="works" data-story-section>
       <div class="common-header">
         <span class="badge">CASES</span>
         <h3>案例与能力样本</h3>
@@ -382,7 +398,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container workflow-section">
+    <section class="section-container workflow-section" data-story-section>
       <div class="common-header">
         <span class="badge">WORKFLOW</span>
         <h3>AI 工作流实验室</h3>
@@ -419,7 +435,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container">
+    <section class="section-container" data-story-section>
       <div class="common-header">
         <span class="badge">METHOD</span>
         <h3>方法论与观察</h3>
@@ -457,7 +473,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container">
+    <section class="section-container" data-story-section>
       <div class="common-header">
         <span class="badge">ASSETS</span>
         <h3>资源库</h3>
@@ -478,7 +494,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container contact-section">
+    <section class="section-container contact-section" data-story-section>
       <div class="contact-card">
         <div class="contact-left">
           <h3>Let's Connect</h3>
@@ -545,6 +561,14 @@ onUnmounted(() => {
   --primary-text: #ffffff;
   --secondary-bg: rgba(255, 255, 255, 0.68);
   --secondary-text: #0f172a;
+  --flow-spin: 0deg;
+  --core-spin: 0deg;
+  --agent-lift: 0;
+  --agent-bg-y: 0;
+  --agent-bg-opacity: 0.62;
+  --agent-path-opacity: 0.42;
+  --section-line-opacity: 0.42;
+  --workflow-lift: 0;
   width: 100%;
   max-width: 1480px;
   margin: 0 auto;
@@ -582,6 +606,21 @@ onUnmounted(() => {
   position: relative;
   margin-top: 96px;
   scroll-margin-top: 92px;
+}
+
+[data-story-section] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.72s ease,
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-story-section].is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section-container::before {
