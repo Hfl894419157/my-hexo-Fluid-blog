@@ -65,6 +65,8 @@ const activeFilter = ref(caseFilters[0].id)
 const cursorX = ref(50)
 const cursorY = ref(50)
 const scrollProgress = ref(0)
+const workflowWrap = ref(null)
+const workflowTrack = ref(null)
 let storyObserver = null
 
 const activeModeData = computed(() => strategyModes.find(item => item.id === activeMode.value) || strategyModes[0])
@@ -181,6 +183,16 @@ const handleScroll = () => {
   showBackToTop.value = window.scrollY > 300
   const viewport = Math.max(window.innerHeight, 1)
   scrollProgress.value = Math.min(Math.max(window.scrollY / (viewport * 1.15), 0), 1)
+  
+  if (workflowWrap.value && workflowTrack.value) {
+    const rect = workflowWrap.value.getBoundingClientRect()
+    const vh = window.innerHeight
+    const start = vh * 0.82
+    const end = -rect.height * 0.35
+    const local = Math.min(1, Math.max(0, (start - rect.top) / (start - end)))
+    const maxX = Math.max(0, workflowTrack.value.scrollWidth - workflowWrap.value.clientWidth + 60)
+    workflowTrack.value.style.setProperty('--workflow-x', `${-maxX * local}px`)
+  }
 }
 
 const scrollToTop = () => {
@@ -283,20 +295,53 @@ onUnmounted(() => {
         </p>
       </div>
 
-      <div class="hero-console">
-        <div class="console-stage">
-          <div class="poster-glow" aria-hidden="true"></div>
-          <div class="stage-image">
-            <img :src="selectedWorks[0]?.img" alt="AI design preview" />
+      <div class="hero-console studio">
+        <div class="orb one"></div>
+        <div class="orb two"></div>
+        <div class="desk">
+          <div class="desk-top">
+            <div class="traffic"><i></i><i></i><i></i></div>
+            <div class="chip">LIVE DESIGN DESK</div>
           </div>
-          <div class="stage-panel">
-            <span class="panel-kicker">{{ activeModeData.label }}</span>
-            <h2>{{ activeModeData.title }}</h2>
-            <p>{{ activeModeData.desc }}</p>
+          <div class="desk-grid">
+            <div class="panel large">
+              <h3>Industrial Product Visual</h3>
+              <p>产品结构、安装逻辑、应用场景、细节放大。</p>
+              <div class="mock-product"></div>
+            </div>
+            <div class="panel">
+              <h3>Prompt System</h3>
+              <p>Reference image + product consistency + scene direction.</p>
+              <div class="chips"><span class="chip">Main Image</span><span class="chip">Detail Page</span></div>
+            </div>
+            <div class="panel">
+              <h3>Page Structure</h3>
+              <p>从首屏认知到卖点、细节、场景、参数与询盘。</p>
+              <div class="bars">
+                <span class="bar"><i style="--w:82%"></i></span>
+                <span class="bar"><i style="--w:64%"></i></span>
+                <span class="bar"><i style="--w:91%"></i></span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Motion Storyboard</h3>
+              <p>脚本、分镜、画面提示词、图生视频、剪辑包装。</p>
+            </div>
+            <div class="panel">
+              <h3>Asset Library</h3>
+              <p>提示词、模板、检查表、案例复盘与方法论。</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>Main Image System</span><span>Industrial Scene</span><span>AI Prompt Library</span><span>Detail Page Strategy</span><span>3D Render</span><span>Visual Workflow</span><span>B2B Conversion</span>
+        <span>Main Image System</span><span>Industrial Scene</span><span>AI Prompt Library</span><span>Detail Page Strategy</span><span>3D Render</span><span>Visual Workflow</span><span>B2B Conversion</span>
+      </div>
+    </div>
 
     <section class="about-panel" data-story-section data-section-no="01">
       <div class="about-copy">
@@ -377,35 +422,24 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container workflow-section" data-story-section data-section-no="03">
+    <section class="section-container workflow-section" data-story-section data-section-no="03" ref="workflowWrap">
       <div class="common-header">
         <span class="badge">WORKFLOW</span>
         <h3>AI 工作流实验室</h3>
-        <p>把提示词、模型、生成、精修和交付步骤沉淀成可复用流程</p>
+        <p>页面向下滚动时，工作流横向推进，沉淀提示词、模型、生成与交付</p>
       </div>
-      <div class="workflow-board">
-        <div class="workflow-nav">
-          <button
-            v-for="step in workflowSteps"
-            :key="step.id"
-            type="button"
-            class="workflow-step"
-            :class="{ active: activeStep === step.id }"
-            @click="activeStep = step.id"
-          >
-            <span>{{ step.signal }}</span>
-            <b>{{ step.label }}</b>
-          </button>
-        </div>
-        <div class="workflow-detail">
-          <span class="detail-index">{{ activeStepData.signal }}</span>
-          <h4>{{ activeStepData.title }}</h4>
-          <p>{{ activeStepData.desc }}</p>
-          <div class="aigc-mini-grid">
-            <a v-for="item in aigcWorks.slice(0, 3)" :key="item.id" :href="pageLink(item.link)" class="mini-card">
-              <img :src="item.img" :alt="item.title" loading="lazy" />
-              <span>{{ item.title }}</span>
-            </a>
+      <div class="workflow-outer-wrap">
+        <div class="workflow-track" ref="workflowTrack">
+          <div v-for="step in workflowSteps" :key="step.id" class="step-card">
+            <div class="step-num">{{ step.signal }}</div>
+            <h3>{{ step.label }} · {{ step.title }}</h3>
+            <p>{{ step.desc }}</p>
+            <div class="aigc-mini-grid-horizontal">
+              <a v-for="item in aigcWorks.slice(0, 2)" :key="item.id" :href="pageLink(item.link)" class="mini-card-horizontal">
+                <img :src="item.img" :alt="item.title" loading="lazy" />
+                <span>{{ item.title }}</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -573,47 +607,49 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --accent: #38bdf8;
-  --accent-strong: #7dd3fc;
-  --accent-soft: rgba(56, 189, 248, 0.14);
-  --warm: #fbbf24;
-  --canvas-bg: #020617;
-  --surface: #0f172a;
-  --surface-soft: #111827;
-  --surface-strong: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: rgba(226, 232, 240, 0.72);
-  --line-soft: rgba(148, 163, 184, 0.24);
-  --line-strong: rgba(56, 189, 248, 0.32);
-  --shadow-soft: rgba(0, 0, 0, 0.34);
-  --hero-text: #f8fafc;
-  --hero-muted: rgba(226, 232, 240, 0.78);
-  --hero-line: rgba(148, 163, 184, 0.26);
-  --hero-glass: rgba(15, 23, 42, 0.72);
-  --hero-panel: rgba(2, 6, 23, 0.78);
-  --hero-chip: rgba(8, 47, 73, 0.34);
-  --hero-chip-text: var(--accent-strong);
+  --accent: #56b7ff;
+  --accent-strong: #8b5cf6;
+  --accent-soft: rgba(86, 183, 255, 0.14);
+  --warm: #ff8b2f;
+  --canvas-bg: #070a12;
+  --surface: #0b1020;
+  --surface-soft: #0f172a;
+  --surface-strong: #131d36;
+  --text-main: #f5f7fb;
+  --text-muted: #9aa5b8;
+  --line-soft: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(86, 183, 255, 0.32);
+  --shadow-soft: 0 24px 110px rgba(0, 0, 0, 0.42);
+  --hero-text: #f5f7fb;
+  --hero-muted: #9aa5b8;
+  --hero-line: rgba(255, 255, 255, 0.12);
+  --hero-glass: rgba(7, 10, 18, 0.70);
+  --hero-panel: rgba(16, 23, 42, 0.62);
+  --hero-chip: rgba(86, 183, 255, 0.12);
+  --hero-chip-text: #56b7ff;
   --hero-bg:
-    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(17, 24, 39, 0.88) 48%, rgba(11, 18, 32, 0.98));
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, .20), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, .24), transparent 28%),
+    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, .08), transparent 28%),
+    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%);
   --hero-ambient:
-    radial-gradient(circle at var(--mx) var(--my), rgba(45, 212, 191, 0.2), transparent 34%),
-    linear-gradient(115deg, transparent 0 30%, rgba(45, 212, 191, 0.16) calc(var(--mx) - 12%), transparent var(--mx), rgba(251, 191, 36, 0.13) calc(var(--mx) + 16%), transparent 76%);
-  --primary-bg: #fbbf24;
-  --primary-text: #0f172a;
-  --secondary-bg: rgba(15, 23, 42, 0.64);
-  --secondary-text: #e2e8f0;
-  --delivery-bg: linear-gradient(135deg, #020617, #0f172a 56%, #172554);
+    radial-gradient(circle at var(--mx) var(--my), rgba(86, 183, 255, 0.30), transparent 34%);
+  --primary-bg: linear-gradient(135deg, #56b7ff, #8b5cf6);
+  --primary-text: #ffffff;
+  --secondary-bg: rgba(16, 23, 42, 0.62);
+  --secondary-text: #f5f7fb;
+  --delivery-bg: linear-gradient(135deg, #070a12, #0b1020 56%, #131d36);
   --delivery-text: #f8fafc;
   --delivery-muted: rgba(226, 232, 240, 0.76);
-  --delivery-line: rgba(148, 163, 184, 0.26);
-  --delivery-card: rgba(15, 23, 42, 0.74);
-  --delivery-card-hover: rgba(15, 23, 42, 0.92);
-  --delivery-accent: #fbbf24;
-  --delivery-accent-soft: rgba(251, 191, 36, 0.12);
-  --image-bg: #020617;
-  --contact-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(251, 191, 36, 0.08)), var(--vp-c-bg-soft);
+  --delivery-line: rgba(255, 255, 255, 0.12);
+  --delivery-card: rgba(16, 23, 42, 0.74);
+  --delivery-card-hover: rgba(19, 29, 54, 0.92);
+  --delivery-accent: #ff8b2f;
+  --delivery-accent-soft: rgba(255, 139, 47, 0.12);
+  --image-bg: #070a12;
+  --contact-bg: linear-gradient(135deg, rgba(86, 183, 255, 0.1), rgba(255, 139, 47, 0.08)), var(--vp-c-bg-soft);
 }
 
 .section-container {
@@ -2934,6 +2970,390 @@ onUnmounted(() => {
   .workflow-board,
   .contact-card {
     grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------- 动态设计工作台 -------------------- */
+.hero-console.studio {
+  position: relative;
+  min-height: 520px;
+  perspective: 1200px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  align-self: center;
+  width: 100%;
+  transform: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(6px);
+  opacity: .75;
+  animation: float 7s ease-in-out infinite;
+}
+.orb.one {
+  width: 110px;
+  height: 110px;
+  background: var(--accent);
+  right: 20px;
+  top: 10px;
+}
+.orb.two {
+  width: 160px;
+  height: 160px;
+  background: var(--accent-strong);
+  left: -10px;
+  bottom: 30px;
+  animation-delay: -2s;
+  opacity: .32;
+}
+
+.desk {
+  position: absolute;
+  inset: 40px 0 0 0;
+  border: 1px solid var(--hero-line);
+  border-radius: 28px;
+  background: linear-gradient(145deg, var(--hero-panel), rgba(255,255,255,.06));
+  backdrop-filter: blur(24px);
+  box-shadow: var(--shadow-soft);
+  transform: rotateY(-8deg) rotateX(6deg);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+.desk:hover {
+  transform: rotateY(-4deg) rotateX(3deg) translateY(-4px);
+}
+.desk::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 78% 10%, var(--accent-soft), transparent 30%),
+              linear-gradient(135deg, rgba(255,255,255,.14), transparent 40%);
+  pointer-events: none;
+}
+
+.desk-top {
+  position: relative;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--hero-line);
+}
+.traffic { display: flex; gap: 8px; }
+.traffic i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); display: block; opacity: .85;}
+.traffic i:nth-child(2) { background: var(--accent-strong); }
+.traffic i:nth-child(3) { background: var(--warm); }
+
+.desk-grid {
+  position: relative;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 14px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+}
+
+.panel {
+  min-height: 120px;
+  border: 1px solid var(--hero-line);
+  background: rgba(127,127,127,.055);
+  border-radius: 18px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+:global(.home-container:not(.dark)) .panel { background: rgba(255, 255, 255, 0.58); }
+.panel:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: var(--accent);
+}
+.panel.large { grid-row: span 2; min-height: 260px; }
+
+.mock-product {
+  width: 86%;
+  height: 150px;
+  margin: 14px auto 0;
+  border-radius: 20px;
+  background:
+    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.18) 49%, transparent 51%),
+    linear-gradient(145deg, var(--accent), var(--accent-strong));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 20px 40px rgba(0,0,0,.20);
+  position: relative;
+  animation: float 5.8s ease-in-out infinite;
+}
+.mock-product::after {
+  content: "";
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  top: 30px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--warm);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--warm), transparent 45%);
+  opacity: 0.85;
+}
+
+.panel h3 { margin: 0 0 6px; font-size: 14px; font-weight: 800; }
+.panel p { color: var(--text-muted); margin: 0; line-height: 1.5; font-size: 12px; }
+
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.chip {
+  border: 1px solid var(--hero-line);
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: rgba(127,127,127,.08);
+}
+
+.bars { display: grid; gap: 8px; margin-top: 14px; }
+.bar { height: 8px; border-radius: 99px; background: rgba(127,127,127,.16); overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); width: var(--w); }
+
+
+/* -------------------- 跑马灯标签轮播 -------------------- */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  padding: 16px 0;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(127, 127, 127, 0.035);
+  margin-top: 54px;
+}
+.marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee span {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+
+/* -------------------- 横向平移 AI 工作流 -------------------- */
+.workflow-outer-wrap {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: 0 16px 48px var(--shadow-soft);
+  margin-top: 36px;
+}
+.workflow-track {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  padding: 30px;
+  transform: translateX(var(--workflow-x, 0px));
+  transition: transform .1s cubic-bezier(0.1, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.step-card {
+  flex: 0 0 320px;
+  border: 1px solid var(--line-soft);
+  border-radius: 24px;
+  padding: 24px;
+  background: var(--surface-soft);
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.step-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.step-num {
+  font-size: 64px;
+  line-height: .8;
+  letter-spacing: -.06em;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--text-main) 24%, transparent);
+  margin-bottom: 24px;
+}
+.step-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 800; color: var(--text-main); }
+.step-card p { margin: 0; color: var(--text-muted); line-height: 1.6; font-size: 13px; flex-grow: 1; }
+
+.aigc-mini-grid-horizontal {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.mini-card-horizontal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  text-decoration: none;
+  background: var(--surface);
+}
+.mini-card-horizontal img {
+  width: 100%;
+  height: 64px;
+  object-fit: cover;
+}
+.mini-card-horizontal span {
+  padding: 4px 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* -------------------- 案例精致 Hover 与卡片进场 -------------------- */
+.case-feature {
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.case-feature::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 130px;
+  height: 130px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.case-feature:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 80px var(--shadow-soft);
+  border-color: var(--accent);
+}
+.case-feature:hover::after {
+  opacity: 1;
+}
+
+.work-card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s ease;
+}
+.work-card::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 100px;
+  height: 100px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+}
+.work-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px var(--shadow-soft);
+  border-color: var(--accent);
+}
+.work-card:hover::after {
+  opacity: 1;
+}
+
+.img-wrap img, .case-feature-media img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-card:hover .img-wrap img,
+.case-feature:hover .case-feature-media img {
+  transform: scale(1.05);
+}
+
+[data-story-section].is-visible .work-card,
+[data-story-section].is-visible .tool-card,
+[data-story-section].is-visible .blog-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.work-card, .tool-card, .blog-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1), transform 0.72s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+}
+
+.work-grid .work-card:nth-child(1) { transition-delay: 60ms; }
+.work-grid .work-card:nth-child(2) { transition-delay: 120ms; }
+.work-grid .work-card:nth-child(3) { transition-delay: 180ms; }
+.work-grid .work-card:nth-child(4) { transition-delay: 240ms; }
+.work-grid .work-card:nth-child(5) { transition-delay: 300ms; }
+.work-grid .work-card:nth-child(6) { transition-delay: 360ms; }
+
+.tools-grid .tool-card:nth-child(1) { transition-delay: 50ms; }
+.tools-grid .tool-card:nth-child(2) { transition-delay: 100ms; }
+.tools-grid .tool-card:nth-child(3) { transition-delay: 150ms; }
+.tools-grid .tool-card:nth-child(4) { transition-delay: 200ms; }
+
+
+/* -------------------- 动效关键帧 -------------------- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@media (max-width: 920px) {
+  .hero-console.studio {
+    min-height: 480px;
+  }
+  .desk {
+    transform: none;
+  }
+  .desk:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-console.studio {
+    min-height: 400px;
+  }
+  .desk-grid {
+    grid-template-columns: 1fr;
+  }
+  .workflow-outer-wrap {
+    height: auto;
+    overflow-x: auto;
+  }
+  .workflow-track {
+    transform: none !important;
   }
 }
 </style>
