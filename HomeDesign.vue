@@ -101,27 +101,6 @@ const heroStyle = computed(() => ({
   '--proof-opacity': 0.2 + scrollProgress.value * 0.44
 }))
 
-const deliveryCards = [
-  {
-    label: '需求拆解',
-    title: '先判断画面要解决什么',
-    desc: '从产品卖点、使用场景、渠道尺寸和受众情绪开始，而不是直接丢提示词生成。',
-    signal: '01'
-  },
-  {
-    label: '生成控制',
-    title: '把随机结果变成可控方向',
-    desc: '用参考图、风格词、模型参数和筛选标准，把 AI 的发散能力收束到商业画面。',
-    signal: '02'
-  },
-  {
-    label: '精修交付',
-    title: '最后由设计判断兜底',
-    desc: '统一光影、版式、材质和品牌调性，再沉淀成可复用的提示词、模板和案例资产。',
-    signal: '03'
-  }
-]
-
 const updateHeroPointer = (event) => {
   const rect = event.currentTarget.getBoundingClientRect()
   cursorX.value = Math.round(((event.clientX - rect.left) / rect.width) * 100)
@@ -318,42 +297,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="agent-section" data-story-section data-section-no="01">
-      <div class="agent-copy">
-        <span class="badge">AI 视觉交付系统</span>
-        <h2>AI 生成不是结果<br><span>设计判断才是交付</span></h2>
-        <p>
-          这个网站要展示的不是“我会用 AI”，而是我怎样把产品信息、审美判断和生成工具组织成一套可以稳定产出商业画面的流程。
-        </p>
-        <div class="agent-proof">
-          <span>产品图</span>
-          <span>品牌视觉</span>
-          <span>提示词沉淀</span>
-          <span>精修交付</span>
-        </div>
-      </div>
-      <div class="agent-canvas" aria-label="AI 设计流程展示">
-        <div class="agent-core">
-          <span>视觉工作流</span>
-          <b>从需求到成图</b>
-        </div>
-        <div class="agent-path path-a"></div>
-        <div class="agent-path path-b"></div>
-        <div class="agent-path path-c"></div>
-        <article
-          v-for="(card, index) in deliveryCards"
-          :key="card.signal"
-          class="agent-card"
-          :class="`agent-card-${index + 1}`"
-        >
-          <span>{{ card.signal }} / {{ card.label }}</span>
-          <h3>{{ card.title }}</h3>
-          <p>{{ card.desc }}</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="about-panel" data-story-section data-section-no="02">
+    <section class="about-panel" data-story-section data-section-no="01">
       <div class="about-copy">
         <span class="badge">ABOUT</span>
         <h2>关于我：把设计经验变成 AI 时代的交付系统</h2>
@@ -377,7 +321,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" id="works" data-story-section data-section-no="03">
+    <section class="section-container" id="works" data-story-section data-section-no="02">
       <div class="common-header">
         <span class="badge">CASES</span>
         <h3>案例与能力样本</h3>
@@ -412,7 +356,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container workflow-section" data-story-section data-section-no="04">
+    <section class="section-container workflow-section" data-story-section data-section-no="03">
       <div class="common-header">
         <span class="badge">WORKFLOW</span>
         <h3>AI 工作流实验室</h3>
@@ -449,7 +393,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section data-section-no="05">
+    <section class="section-container" data-story-section data-section-no="04">
       <div class="common-header">
         <span class="badge">METHOD</span>
         <h3>方法论与观察</h3>
@@ -487,7 +431,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section data-section-no="06">
+    <section class="section-container" data-story-section data-section-no="05">
       <div class="common-header">
         <span class="badge">ASSETS</span>
         <h3>资源库</h3>
@@ -508,7 +452,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container contact-section" data-story-section data-section-no="07">
+    <section class="section-container contact-section" data-story-section data-section-no="06">
       <div class="contact-card">
         <div class="contact-left">
           <h3>Let's Connect</h3>
@@ -596,10 +540,6 @@ onUnmounted(() => {
   --contact-bg: linear-gradient(135deg, var(--accent-soft), rgba(217, 119, 6, 0.08)), var(--vp-c-bg-soft);
   --flow-spin: 0deg;
   --core-spin: 0deg;
-  --agent-lift: 0;
-  --agent-bg-y: 0;
-  --agent-bg-opacity: 0.62;
-  --agent-path-opacity: 0.42;
   --section-line-opacity: 0.42;
   --workflow-lift: 0;
   --section-spacing: 128px;
@@ -1275,204 +1215,6 @@ onUnmounted(() => {
   font-size: 22px;
 }
 
-.agent-section {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1fr);
-  gap: 28px;
-  align-items: stretch;
-  margin-top: 34px;
-  padding: 42px;
-  overflow: hidden;
-  border: 1px solid var(--delivery-line);
-  border-radius: 8px;
-  background: var(--delivery-bg);
-  color: var(--delivery-text);
-  isolation: isolate;
-}
-
-:global(.dark) .agent-section {
-  background: var(--delivery-bg);
-}
-
-.agent-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--delivery-text), transparent 94%) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in srgb, var(--delivery-text), transparent 94%) 1px, transparent 1px),
-    linear-gradient(115deg, transparent 0 24%, var(--accent-soft) 42%, transparent 64%);
-  background-size: 32px 32px, 32px 32px, auto;
-  opacity: var(--agent-bg-opacity);
-  transform: translateY(var(--agent-bg-y));
-  z-index: -1;
-}
-
-.agent-copy {
-  display: grid;
-  align-content: center;
-  gap: 18px;
-}
-
-.agent-copy h2 {
-  margin: 0;
-  color: var(--delivery-text);
-  font-size: clamp(38px, 5vw, 72px);
-  line-height: 1;
-  font-weight: 900;
-}
-
-.agent-copy h2 span {
-  color: var(--delivery-accent);
-}
-
-.agent-copy p {
-  max-width: 560px;
-  margin: 0;
-  color: var(--delivery-muted);
-  font-size: 17px;
-  line-height: 1.85;
-}
-
-.agent-proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-width: 540px;
-}
-
-.agent-proof span {
-  min-height: 32px;
-  padding: 6px 10px;
-  border: 1px solid color-mix(in srgb, var(--delivery-accent), transparent 72%);
-  border-radius: 4px;
-  color: color-mix(in srgb, var(--delivery-accent), white 28%);
-  background: var(--delivery-accent-soft);
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.agent-canvas {
-  position: relative;
-  min-height: 560px;
-  overflow: hidden;
-  border: 1px solid var(--delivery-line);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--surface), transparent 12%), color-mix(in srgb, var(--canvas-bg), transparent 28%)),
-    linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
-  background-size: auto, 26px 26px;
-}
-
-.agent-core {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 190px;
-  height: 190px;
-  border: 1px solid color-mix(in srgb, var(--delivery-accent), transparent 48%);
-  border-radius: 8px;
-  color: var(--delivery-text);
-  background: var(--delivery-card);
-  box-shadow: 0 24px 70px var(--shadow-soft);
-  transform:
-    translate(-50%, -50%)
-    rotate(var(--core-spin));
-}
-
-.agent-core span {
-  font-size: 12px;
-  font-weight: 900;
-  color: var(--delivery-accent);
-}
-
-.agent-core b {
-  max-width: 132px;
-  color: var(--delivery-text);
-  font-size: 26px;
-  line-height: 1;
-  text-align: center;
-}
-
-.agent-path {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 46%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--delivery-accent), transparent);
-  transform-origin: left center;
-  opacity: var(--agent-path-opacity);
-}
-
-.path-a {
-  transform: rotate(-32deg);
-}
-
-.path-b {
-  transform: rotate(34deg);
-}
-
-.path-c {
-  transform: rotate(156deg);
-}
-
-.agent-card {
-  position: absolute;
-  z-index: 2;
-  width: min(280px, 42%);
-  padding: 20px;
-  border: 1px solid var(--delivery-line);
-  border-radius: 8px;
-  background: var(--delivery-card);
-  backdrop-filter: blur(12px);
-  transform: translateY(var(--agent-lift));
-  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-}
-
-.agent-card:hover {
-  border-color: color-mix(in srgb, var(--delivery-accent), transparent 22%);
-  background: var(--delivery-card-hover);
-}
-
-.agent-card span {
-  color: var(--delivery-accent);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.agent-card h3 {
-  margin: 12px 0 8px;
-  color: var(--delivery-text);
-  font-size: 24px;
-  line-height: 1.2;
-}
-
-.agent-card p {
-  margin: 0;
-  color: var(--delivery-muted);
-  line-height: 1.7;
-}
-
-.agent-card-1 {
-  top: 38px;
-  left: 38px;
-}
-
-.agent-card-2 {
-  top: 92px;
-  right: 34px;
-}
-
-.agent-card-3 {
-  left: 76px;
-  bottom: 46px;
-}
-
 .common-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
@@ -1511,36 +1253,45 @@ onUnmounted(() => {
   gap: 18px;
 }
 
+.work-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
 .work-card {
   position: relative;
-  display: grid;
-  grid-column: span 4;
-  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  grid-column: auto;
+  min-height: auto;
   overflow: hidden;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   color: inherit;
   text-decoration: none !important;
-  background: var(--vp-c-bg-soft);
+  background:
+    linear-gradient(180deg, transparent, var(--accent-soft)),
+    var(--vp-c-bg-soft);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .work-card:nth-child(1) {
-  grid-column: span 7;
-  min-height: 520px;
+  grid-column: auto;
+  min-height: auto;
 }
 
 .work-card:nth-child(2) {
-  grid-column: span 5;
-  min-height: 520px;
+  grid-column: auto;
+  min-height: auto;
 }
 
 .work-card:nth-child(4) {
-  grid-column: span 5;
+  grid-column: auto;
 }
 
 .work-card:nth-child(5) {
-  grid-column: span 7;
+  grid-column: auto;
 }
 
 .work-card:hover,
@@ -1554,14 +1305,16 @@ onUnmounted(() => {
 }
 
 .img-wrap {
-  height: 210px;
+  height: auto;
+  aspect-ratio: 1.16;
   overflow: hidden;
   background: var(--image-bg);
 }
 
 .work-card:nth-child(1) .img-wrap,
 .work-card:nth-child(2) .img-wrap {
-  height: 360px;
+  height: auto;
+  aspect-ratio: 1.16;
 }
 
 .img-wrap img,
@@ -1582,7 +1335,10 @@ onUnmounted(() => {
 .info {
   display: grid;
   gap: 8px;
-  padding: 20px;
+  min-height: 142px;
+  padding: 20px 20px 22px;
+  border-top: 1px solid var(--vp-c-divider);
+  background: color-mix(in srgb, var(--surface), transparent 8%);
 }
 
 .cat,
@@ -2002,8 +1758,7 @@ onUnmounted(() => {
   .hero-section,
   .workflow-board,
   .contact-card,
-  .about-panel,
-  .agent-section {
+  .about-panel {
     grid-template-columns: 1fr;
   }
 
@@ -2016,21 +1771,19 @@ onUnmounted(() => {
     transform: none;
   }
 
-  .work-grid,
   .tools-grid,
   .blog-list {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-stats {
     grid-template-columns: 1fr;
   }
 
-  .work-card,
-  .work-card:nth-child(1),
-  .work-card:nth-child(2),
-  .work-card:nth-child(4),
-  .work-card:nth-child(5),
   .tool-card,
   .tool-card:nth-child(1),
   .tool-card:nth-child(6),
@@ -2041,8 +1794,12 @@ onUnmounted(() => {
     grid-column: span 3;
   }
 
-  .agent-canvas {
-    min-height: 620px;
+  .work-card,
+  .work-card:nth-child(1),
+  .work-card:nth-child(2),
+  .work-card:nth-child(4),
+  .work-card:nth-child(5) {
+    grid-column: auto;
   }
 }
 
@@ -2171,35 +1928,8 @@ onUnmounted(() => {
     min-height: 150px;
   }
 
-  .agent-section,
   .workflow-section {
     padding: 24px;
-  }
-
-  .agent-canvas {
-    display: grid;
-    gap: 12px;
-    min-height: auto;
-    padding: 16px;
-  }
-
-  .agent-core,
-  .agent-card {
-    position: relative;
-    inset: auto;
-    width: auto;
-    transform: none;
-  }
-
-  .agent-core {
-    left: auto;
-    top: auto;
-    width: 100%;
-    height: 140px;
-  }
-
-  .agent-path {
-    display: none;
   }
 
   .blog-card {
