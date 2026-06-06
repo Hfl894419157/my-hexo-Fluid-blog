@@ -62,6 +62,7 @@ const caseFilters = [
 const activeMode = ref(strategyModes[0].id)
 const activeStep = ref(workflowSteps[0].id)
 const activeFilter = ref(caseFilters[0].id)
+const workflowPaused = ref(false)
 const cursorX = ref(50)
 const cursorY = ref(50)
 const scrollProgress = ref(0)
@@ -337,13 +338,17 @@ onUnmounted(() => {
     </section>
 
     <div class="marquee">
+      <div class="marquee-heading">
+        <h2>把 AI 设计能力沉淀成可复用资产</h2>
+        <p>从视觉判断、生成控制、精修交付到资源沉淀，让每一次项目都能继续复利。</p>
+      </div>
       <div class="marquee-track">
         <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
         <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
       </div>
     </div>
 
-    <section class="about-panel" data-story-section data-section-no="01">
+    <section class="about-panel" data-story-section>
       <div class="about-copy">
         <span class="badge">关于我</span>
         <h2>把设计经验变成 AI 时代的交付系统</h2>
@@ -367,12 +372,11 @@ onUnmounted(() => {
         >
           <span class="stat-val">{{ metricValues[index] }}{{ metric.suffix }}</span>
           <span class="stat-lbl">{{ metric.label }}</span>
-          <small>{{ index + 1 }}</small>
         </div>
       </div>
     </section>
 
-    <section class="section-container" id="works" data-story-section data-section-no="02">
+    <section class="section-container" id="works" data-story-section>
       <div class="common-header">
         <span class="badge">精选案例</span>
         <h3>案例与能力样本</h3>
@@ -422,16 +426,20 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container workflow-section" data-story-section data-section-no="03" ref="workflowWrap">
+    <section class="section-container workflow-section" data-story-section ref="workflowWrap">
       <div class="common-header">
         <span class="badge">工作流</span>
         <h3>AI 工作流实验室</h3>
         <p>页面向下滚动时，工作流横向推进，沉淀提示词、模型、生成与交付</p>
       </div>
-      <div class="workflow-outer-wrap">
+      <div
+        class="workflow-outer-wrap"
+        :class="{ paused: workflowPaused }"
+        @mouseenter="workflowPaused = true"
+        @mouseleave="workflowPaused = false"
+      >
         <div class="workflow-track" ref="workflowTrack">
-          <div v-for="step in workflowSteps" :key="step.id" class="step-card">
-            <div class="step-num">{{ step.signal }}</div>
+          <div v-for="(step, index) in [...workflowSteps, ...workflowSteps]" :key="`${step.id}-${index}`" class="step-card">
             <h3>{{ step.label }} · {{ step.title }}</h3>
             <p>{{ step.desc }}</p>
             <div class="aigc-mini-grid-horizontal">
@@ -448,7 +456,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section data-section-no="04">
+    <section class="section-container" data-story-section>
       <div class="common-header">
         <span class="badge">方法论</span>
         <h3>方法论与观察</h3>
@@ -486,7 +494,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section data-section-no="05">
+    <section class="section-container" data-story-section>
       <div class="common-header">
         <span class="badge">创作资源</span>
         <h3>资源库</h3>
@@ -507,7 +515,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container contact-section" data-story-section data-section-no="06">
+    <section class="section-container contact-section" data-story-section>
       <div class="contact-card">
         <div class="contact-left">
           <h3>与我联络</h3>
@@ -3671,6 +3679,470 @@ onUnmounted(() => {
 
   .about-stats {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Continuation polish: remove numbering, unify headings, and make lower sections immersive. */
+[data-section-no]::after,
+.step-num,
+.eyebrow,
+.common-header .badge,
+.about-tags,
+.about-stat small,
+.case-feature-copy span,
+.case-feature-copy b,
+.work-card .cat,
+.work-card .eng-title,
+.blog-meta {
+  display: none !important;
+}
+
+.home-container {
+  --section-max: 1180px;
+  --panel-radius: 28px;
+  --button-bg: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
+  --button-shadow: 0 18px 44px color-mix(in srgb, var(--accent-ui), transparent 76%);
+}
+
+:global(html.dark .home-container) {
+  --section-glass: rgba(12, 18, 34, 0.34);
+  --section-glass-strong: rgba(18, 26, 48, 0.72);
+}
+
+.hero-section {
+  padding-bottom: clamp(64px, 7vw, 110px) !important;
+  background: transparent !important;
+}
+
+:global(html.dark .hero-section),
+:global(html:not(.dark) .hero-section) {
+  background: transparent !important;
+}
+
+.marquee,
+.section-container,
+.about-panel,
+.workflow-section,
+.contact-section {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.section-container::before,
+.about-panel::before,
+.workflow-section::before,
+.contact-section::before,
+.marquee::before,
+.marquee::after {
+  display: none !important;
+}
+
+.contact-card::before,
+.contact-card::after {
+  display: none !important;
+}
+
+.marquee {
+  margin: 0 !important;
+  padding: clamp(58px, 7vw, 104px) 0 clamp(54px, 6vw, 92px);
+  overflow: hidden;
+}
+
+.marquee-heading,
+.common-header,
+.contact-left {
+  width: min(calc(100% - 48px), 900px);
+  margin-right: auto !important;
+  margin-left: auto !important;
+  text-align: center !important;
+}
+
+.marquee-heading {
+  margin-bottom: clamp(32px, 4vw, 58px);
+}
+
+.marquee-heading h2,
+.common-header h3,
+.contact-left h3 {
+  margin: 0;
+  padding-top: 0 !important;
+  border: 0 !important;
+  color: var(--ink);
+  font-size: clamp(38px, 5vw, 72px) !important;
+  line-height: 1.02 !important;
+  font-weight: 950 !important;
+  letter-spacing: 0 !important;
+}
+
+.marquee-heading p,
+.common-header p,
+.contact-left p {
+  max-width: 760px;
+  margin: 18px auto 0 !important;
+  color: var(--muted-ink) !important;
+  font-size: clamp(15px, 1.4vw, 18px) !important;
+  line-height: 1.8 !important;
+}
+
+.marquee-track {
+  gap: clamp(42px, 6vw, 96px) !important;
+  align-items: center;
+  animation-duration: 34s !important;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee span {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: color-mix(in srgb, var(--ink), transparent 46%) !important;
+  font-size: clamp(18px, 2vw, 30px) !important;
+  font-weight: 950 !important;
+  letter-spacing: 0 !important;
+  opacity: 0.66;
+}
+
+.section-container,
+.about-panel {
+  width: min(calc(100% - 48px), var(--section-max)) !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: clamp(72px, 8vw, 124px) !important;
+  padding-bottom: clamp(72px, 8vw, 124px) !important;
+}
+
+.common-header {
+  display: block !important;
+  margin-bottom: clamp(30px, 4vw, 56px) !important;
+}
+
+.about-panel {
+  width: min(calc(100% - 48px), 1080px) !important;
+}
+
+.about-copy .badge {
+  font-size: clamp(58px, 9vw, 118px) !important;
+}
+
+.about-copy h2 {
+  font-size: clamp(22px, 2.6vw, 36px) !important;
+  font-weight: 850;
+}
+
+.about-stats {
+  width: min(100%, 920px) !important;
+}
+
+.about-stat {
+  border-radius: var(--panel-radius);
+}
+
+.btn-view-more,
+.about-link {
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: var(--accent-contrast) !important;
+  background: var(--button-bg) !important;
+  box-shadow: var(--button-shadow) !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+}
+
+.btn-view-more:hover,
+.about-link:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08) brightness(1.02);
+}
+
+#works.section-container {
+  width: min(calc(100% - 48px), 1180px) !important;
+}
+
+.filter-row {
+  width: min(100%, 760px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 auto clamp(34px, 4vw, 56px);
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--line-ui), transparent 12%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--section-glass-strong), transparent 16%);
+  box-shadow: 0 20px 70px color-mix(in srgb, var(--shadow-ui), transparent 46%);
+  backdrop-filter: blur(18px);
+}
+
+.filter-button {
+  min-height: 52px;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: var(--muted-ink) !important;
+  background: transparent !important;
+  font-size: 15px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0 !important;
+}
+
+.filter-button.active {
+  color: var(--accent-contrast) !important;
+  background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2)) !important;
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--accent-ui), transparent 70%);
+}
+
+.case-feature {
+  width: min(100%, 980px);
+  min-height: 430px;
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+  gap: 0;
+  margin: 0 auto 24px;
+  overflow: hidden;
+  border-radius: 32px !important;
+  background: color-mix(in srgb, var(--section-glass-strong), transparent 4%) !important;
+}
+
+.case-feature-media {
+  min-height: 430px;
+  padding: clamp(22px, 3vw, 36px);
+}
+
+.case-feature-media img {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  object-fit: cover;
+}
+
+.case-feature-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(30px, 5vw, 62px);
+  text-align: left;
+}
+
+.case-feature-copy h4 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.08;
+  font-weight: 950;
+}
+
+.case-feature-copy p {
+  margin-top: 18px;
+  color: var(--muted-ink) !important;
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+}
+
+.work-grid {
+  width: min(100%, 980px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 auto;
+}
+
+.work-card {
+  min-height: 240px;
+  border-radius: 24px !important;
+  overflow: hidden;
+}
+
+.work-card .info {
+  padding: 18px;
+  border-top: 0 !important;
+  background: transparent !important;
+}
+
+.work-card h4 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.workflow-section {
+  width: 100% !important;
+  max-width: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.workflow-section .common-header,
+.workflow-section .btn-more-container {
+  width: min(calc(100% - 48px), 900px) !important;
+}
+
+.workflow-outer-wrap {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  margin-top: 0 !important;
+  overflow: hidden !important;
+}
+
+.workflow-track {
+  width: max-content !important;
+  height: auto !important;
+  gap: 18px !important;
+  padding: 8px 0 28px !important;
+  transform: none !important;
+  transition: none !important;
+  animation: workflowLoop 42s linear infinite;
+}
+
+.workflow-outer-wrap:hover .workflow-track {
+  animation-play-state: paused;
+}
+
+.workflow-outer-wrap.paused .workflow-track {
+  animation-play-state: paused !important;
+}
+
+.step-card {
+  flex: 0 0 min(78vw, 360px) !important;
+  min-height: 360px;
+  justify-content: center;
+  border-radius: 30px !important;
+  padding: 30px !important;
+}
+
+.step-card h3 {
+  font-size: 24px !important;
+  line-height: 1.18 !important;
+}
+
+.step-card p {
+  margin-top: 14px !important;
+  font-size: 15px !important;
+}
+
+.aigc-mini-grid-horizontal {
+  margin-top: 24px;
+}
+
+.mini-card-horizontal {
+  border-radius: 16px !important;
+}
+
+.contact-section {
+  width: 100% !important;
+  max-width: none !important;
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+}
+
+.contact-card {
+  width: min(100%, 1080px);
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 52px);
+  margin: 0 auto;
+  padding: clamp(70px, 7vw, 108px) 0 !important;
+  text-align: center;
+}
+
+.contact-grid {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px !important;
+}
+
+.contact-item {
+  width: auto;
+  min-height: 58px;
+  gap: 12px;
+  padding: 8px 18px 8px 10px !important;
+  border-radius: 999px !important;
+  color: var(--ink) !important;
+}
+
+.contact-item .c-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink), transparent 88%);
+}
+
+.contact-item .c-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.contact-item .c-text {
+  font-weight: 900;
+}
+
+.contact-item .c-arrow {
+  display: none;
+}
+
+@keyframes workflowLoop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 920px) {
+  .filter-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    border-radius: 999px;
+  }
+
+  .case-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .case-feature-copy {
+    text-align: center;
+  }
+
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .marquee-heading,
+  .common-header,
+  .contact-left,
+  .section-container,
+  .about-panel {
+    width: min(calc(100% - 32px), var(--section-max)) !important;
+  }
+
+  .marquee-heading h2,
+  .common-header h3,
+  .contact-left h3 {
+    font-size: clamp(34px, 11vw, 54px) !important;
+  }
+
+  .filter-row {
+    width: min(100%, 420px);
+  }
+
+  .contact-section {
+    padding-right: 16px !important;
+    padding-left: 16px !important;
   }
 }
 </style>
