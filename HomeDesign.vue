@@ -288,7 +288,7 @@ onUnmounted(() => {
       @mouseleave="resetHeroPointer"
     >
       <div class="hero-copy">
-        <span class="eyebrow">HAN FULI / AI DESIGN SYSTEM</span>
+        <span class="eyebrow">韩福利 / AI 设计系统</span>
         <h1 class="hero-title">把 AI 设计能力<br><span>变成可交互的网站资产</span></h1>
         <p class="hero-desc">
           用案例、工作流和资源库组织个人能力，让访客可以探索你能解决什么、怎么解决、有哪些可复用成果。
@@ -301,21 +301,21 @@ onUnmounted(() => {
         <div class="desk">
           <div class="desk-top">
             <div class="traffic"><i></i><i></i><i></i></div>
-            <div class="chip">LIVE DESIGN DESK</div>
+            <div class="chip">设计工作台 Live</div>
           </div>
           <div class="desk-grid">
             <div class="panel large">
-              <h3>Industrial Product Visual</h3>
+              <h3>工业产品视觉</h3>
               <p>产品结构、安装逻辑、应用场景、细节放大。</p>
               <div class="mock-product"></div>
             </div>
             <div class="panel">
-              <h3>Prompt System</h3>
-              <p>Reference image + product consistency + scene direction.</p>
-              <div class="chips"><span class="chip">Main Image</span><span class="chip">Detail Page</span></div>
+              <h3>提示词系统</h3>
+              <p>参考图控制 + 产品一致性 + 场景方向。</p>
+              <div class="chips"><span class="chip">主图</span><span class="chip">详情页</span></div>
             </div>
             <div class="panel">
-              <h3>Page Structure</h3>
+              <h3>页面结构</h3>
               <p>从首屏认知到卖点、细节、场景、参数与询盘。</p>
               <div class="bars">
                 <span class="bar"><i style="--w:82%"></i></span>
@@ -324,11 +324,11 @@ onUnmounted(() => {
               </div>
             </div>
             <div class="panel">
-              <h3>Motion Storyboard</h3>
+              <h3>动态分镜</h3>
               <p>脚本、分镜、画面提示词、图生视频、剪辑包装。</p>
             </div>
             <div class="panel">
-              <h3>Asset Library</h3>
+              <h3>资产库</h3>
               <p>提示词、模板、检查表、案例复盘与方法论。</p>
             </div>
           </div>
@@ -338,14 +338,14 @@ onUnmounted(() => {
 
     <div class="marquee">
       <div class="marquee-track">
-        <span>Main Image System</span><span>Industrial Scene</span><span>AI Prompt Library</span><span>Detail Page Strategy</span><span>3D Render</span><span>Visual Workflow</span><span>B2B Conversion</span>
-        <span>Main Image System</span><span>Industrial Scene</span><span>AI Prompt Library</span><span>Detail Page Strategy</span><span>3D Render</span><span>Visual Workflow</span><span>B2B Conversion</span>
+        <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
+        <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
       </div>
     </div>
 
     <section class="about-panel" data-story-section data-section-no="01">
       <div class="about-copy">
-        <span class="badge">ABOUT</span>
+        <span class="badge">关于我</span>
         <h2>关于我：把设计经验变成 AI 时代的交付系统</h2>
         <p>
           我更想让这个网站展示“怎么做成事”：从视觉判断、AI 生成、精修交付，到资源沉淀，让访客看到可合作的能力，而不是只看到几张静态作品图。
@@ -374,7 +374,7 @@ onUnmounted(() => {
 
     <section class="section-container" id="works" data-story-section data-section-no="02">
       <div class="common-header">
-        <span class="badge">CASES</span>
+        <span class="badge">精选案例</span>
         <h3>案例与能力样本</h3>
         <p>用真实项目结构展示设计判断、AI 辅助流程和交付能力</p>
       </div>
@@ -424,7 +424,7 @@ onUnmounted(() => {
 
     <section class="section-container workflow-section" data-story-section data-section-no="03" ref="workflowWrap">
       <div class="common-header">
-        <span class="badge">WORKFLOW</span>
+        <span class="badge">工作流</span>
         <h3>AI 工作流实验室</h3>
         <p>页面向下滚动时，工作流横向推进，沉淀提示词、模型、生成与交付</p>
       </div>
@@ -450,7 +450,7 @@ onUnmounted(() => {
 
     <section class="section-container" data-story-section data-section-no="04">
       <div class="common-header">
-        <span class="badge">METHOD</span>
+        <span class="badge">方法论</span>
         <h3>方法论与观察</h3>
         <p>记录 AI 冲击下的设计定位、效率方法和内容资产策略</p>
       </div>
@@ -488,7 +488,7 @@ onUnmounted(() => {
 
     <section class="section-container" data-story-section data-section-no="05">
       <div class="common-header">
-        <span class="badge">ASSETS</span>
+        <span class="badge">创作资源</span>
         <h3>资源库</h3>
         <p>沉淀提示词、模型、模板和设计素材，形成持续更新的个人资产</p>
       </div>
@@ -510,7 +510,7 @@ onUnmounted(() => {
     <section class="section-container contact-section" data-story-section data-section-no="06">
       <div class="contact-card">
         <div class="contact-left">
-          <h3>Let's Connect</h3>
+          <h3>与我联络</h3>
           <p>如果你想做 AI 视觉、内容升级、网站改版或资源共创，<br>可以从这里联系我。</p>
         </div>
         <div class="contact-right">
@@ -606,13 +606,21 @@ onUnmounted(() => {
   color: var(--vp-c-text-1);
 }
 
-:global(.dark) {
+:global(.dark),
+:global(html.dark),
+:global(.dark body),
+:global(.dark #app),
+:global(.dark .VPLayout),
+:global(.dark .VPContent) {
   --vp-c-bg: #070a12 !important;
   --vp-c-bg-soft: #0b1020 !important;
   --vp-c-bg-alt: #0f172a !important;
+  --vp-c-bg-elv: #070a12 !important;
   --vp-c-text-1: #f5f7fb !important;
   --vp-c-text-2: #9aa5b8 !important;
   --vp-c-border: rgba(255, 255, 255, 0.12) !important;
+  --vp-nav-bg-color: rgba(7, 10, 18, 0.70) !important;
+  background-color: #070a12 !important;
 }
 
 :global(.dark body) {
@@ -620,6 +628,12 @@ onUnmounted(() => {
               radial-gradient(circle at 82% 4%, rgba(139, 92, 246, .24), transparent 28%),
               radial-gradient(circle at 72% 55%, rgba(255, 139, 47, .08), transparent 28%),
               linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
+}
+
+:global(.dark .VPNavBar) {
+  background-color: rgba(7, 10, 18, 0.70) !important;
+  backdrop-filter: blur(18px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 :global(.dark) .home-container {
