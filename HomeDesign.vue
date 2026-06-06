@@ -99,23 +99,23 @@ const heroStyle = computed(() => ({
   '--poster-brightness': 1.03 - scrollProgress.value * 0.04
 }))
 
-const agentCards = [
+const deliveryCards = [
   {
-    label: 'MODEL',
-    title: '连接多种 AI 能力',
-    desc: '把产品图、品牌视觉、视频脚本和内容素材放进同一套工作流里。',
+    label: '需求拆解',
+    title: '先判断画面要解决什么',
+    desc: '从产品卖点、使用场景、渠道尺寸和受众情绪开始，而不是直接丢提示词生成。',
     signal: '01'
   },
   {
-    label: 'TRACE',
-    title: '每一步都能解释',
-    desc: '保留提示词、参考图、版本判断和人工精修节点，让结果不是黑盒。',
+    label: '生成控制',
+    title: '把随机结果变成可控方向',
+    desc: '用参考图、风格词、模型参数和筛选标准，把 AI 的发散能力收束到商业画面。',
     signal: '02'
   },
   {
-    label: 'HUMAN',
-    title: '审美判断持续介入',
-    desc: 'AI 负责扩展可能性，人负责方向、取舍、质感和商业表达。',
+    label: '精修交付',
+    title: '最后由设计判断兜底',
+    desc: '统一光影、版式、材质和品牌调性，再沉淀成可复用的提示词、模板和案例资产。',
     signal: '03'
   }
 ]
@@ -312,22 +312,28 @@ onUnmounted(() => {
 
     <section class="agent-section" data-story-section>
       <div class="agent-copy">
-        <span class="badge">AI SYSTEM</span>
-        <h2>Build AI design systems<br><span>you can actually explain</span></h2>
+        <span class="badge">AI 视觉交付系统</span>
+        <h2>AI 生成不是结果<br><span>设计判断才是交付</span></h2>
         <p>
-          我们可以把 n8n 那种“看得见流程”的交互感，转成你的个人网站语言：访客往下滑时，看到的不是静态作品墙，而是一套从需求、生成、判断到交付的可追踪设计系统。
+          这个网站要展示的不是“我会用 AI”，而是我怎样把产品信息、审美判断和生成工具组织成一套可以稳定产出商业画面的流程。
         </p>
+        <div class="agent-proof">
+          <span>产品图</span>
+          <span>品牌视觉</span>
+          <span>提示词沉淀</span>
+          <span>精修交付</span>
+        </div>
       </div>
       <div class="agent-canvas" aria-label="AI 设计流程展示">
         <div class="agent-core">
-          <span>AI DESIGN</span>
-          <b>CONTROL ROOM</b>
+          <span>视觉工作流</span>
+          <b>从需求到成图</b>
         </div>
         <div class="agent-path path-a"></div>
         <div class="agent-path path-b"></div>
         <div class="agent-path path-c"></div>
         <article
-          v-for="(card, index) in agentCards"
+          v-for="(card, index) in deliveryCards"
           :key="card.signal"
           class="agent-card"
           :class="`agent-card-${index + 1}`"
@@ -1225,6 +1231,24 @@ onUnmounted(() => {
   line-height: 1.85;
 }
 
+.agent-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 540px;
+}
+
+.agent-proof span {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid rgba(250, 204, 21, 0.28);
+  border-radius: 4px;
+  color: #fef3c7;
+  background: rgba(250, 204, 21, 0.08);
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .agent-canvas {
   position: relative;
   min-height: 560px;
@@ -1259,11 +1283,13 @@ onUnmounted(() => {
 .agent-core span {
   font-size: 12px;
   font-weight: 900;
+  color: #facc15;
 }
 
 .agent-core b {
-  max-width: 120px;
-  font-size: 24px;
+  max-width: 132px;
+  color: #f8fafc;
+  font-size: 26px;
   line-height: 1;
   text-align: center;
 }
