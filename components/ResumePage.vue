@@ -296,35 +296,35 @@ const awards = [
 
 .sidebar-title { 
   font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; 
-  color: #8B5CF6; display: flex; align-items: center; gap: 10px;
+  color: var(--vp-c-brand-1); display: flex; align-items: center; gap: 10px;
   text-transform: uppercase; letter-spacing: 1px;
 }
 
 .contact-list li { margin-bottom: 15px; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; color: #e2e8f0; }
 .contact-link { color: inherit; text-decoration: none; transition: 0.2s; border-bottom: 1px dashed rgba(255,255,255,0.3); }
-.contact-link:hover { color: #8B5CF6; border-bottom-style: solid; }
+.contact-link:hover { color: var(--vp-c-brand-1); border-bottom-style: solid; }
 
 .edu-item h4 { font-size: 1.1rem; color: white; margin: 0; }
 .edu-date { font-size: 0.85rem; color: #94a3b8; display: block; margin: 5px 0; }
-.edu-item .major { font-weight: bold; color: #8B5CF6; margin-bottom: 8px; }
+.edu-item .major { font-weight: bold; color: var(--vp-c-brand-1); margin-bottom: 8px; }
 .edu-item .desc { font-size: 0.85rem; opacity: 0.7; line-height: 1.6; }
 
 .skill-item { margin-bottom: 18px; }
 .skill-info { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
 .progress-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-.progress-bar { height: 100%; background: linear-gradient(90deg, #8B5CF6, #a78bfa); border-radius: 4px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-2)); border-radius: 4px; }
 
 .tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 6px; font-size: 0.85rem; transition: 0.2s; }
-.tag:hover { background: #8B5CF6; color: white; transform: translateY(-2px); }
+.tag:hover { background: var(--vp-c-brand-1); color: white; transform: translateY(-2px); }
 
 /* === 右侧主内容 === */
 .resume-main { flex-grow: 1; padding: 70px 50px; background-color: var(--vp-c-bg); }
 
 .main-title { 
-  font-size: 1.6rem; font-weight: 800; color: #8B5CF6; margin-bottom: 25px; 
+  font-size: 1.6rem; font-weight: 800; color: var(--vp-c-brand-1); margin-bottom: 25px; 
   display: flex; align-items: center; gap: 12px;
-  background: rgba(139, 92, 246, 0.05); padding: 10px 15px; border-radius: 8px; border-left: 4px solid #8B5CF6;
+  background: var(--vp-c-brand-soft); padding: 10px 15px; border-radius: 8px; border-left: 4px solid var(--vp-c-brand-1);
 }
 .title-icon { font-size: 1.4rem; }
 
@@ -336,33 +336,33 @@ const awards = [
 .timeline-item { display: flex; margin-bottom: 40px; }
 .timeline-left { width: 180px; flex-shrink: 0; padding-right: 20px; text-align: right; border-right: 2px solid var(--vp-c-divider); position: relative; }
 .timeline-left::after {
-  content: ''; width: 12px; height: 12px; background: #8B5CF6; border-radius: 50%;
+  content: ''; width: 12px; height: 12px; background: var(--vp-c-brand-1); border-radius: 50%;
   position: absolute; right: -7px; top: 5px; border: 3px solid var(--vp-c-bg);
 }
-.time-pill { font-size: 0.9rem; font-weight: 700; color: #8B5CF6; display: block; margin-bottom: 5px; }
+.time-pill { font-size: 0.9rem; font-weight: 700; color: var(--vp-c-brand-1); display: block; margin-bottom: 5px; }
 .company { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.3; }
 .job-title { font-size: 0.95rem; color: var(--vp-c-text-2); margin-top: 5px; }
 
 .timeline-right { flex-grow: 1; padding-left: 30px; }
 .job-details li { margin-bottom: 8px; line-height: 1.7; position: relative; padding-left: 15px; color: var(--vp-c-text-1); }
-.job-details li::before { content: '•'; color: #8B5CF6; position: absolute; left: 0; font-weight: bold; }
+.job-details li::before { content: '•'; color: var(--vp-c-brand-1); position: absolute; left: 0; font-weight: bold; }
 
 /* 项目经历卡片 */
 .project-card { 
   background: var(--vp-c-bg-soft); border-radius: 12px; padding: 25px; margin-bottom: 25px; 
   border: 1px solid transparent; transition: 0.3s; 
 }
-.project-card:hover { border-color: #8B5CF6; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+.project-card:hover { border-color: var(--vp-c-brand-1); transform: translateY(-3px); box-shadow: 0 8px 20px var(--liuli-glow); }
 .project-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed var(--vp-c-divider); padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
 .project-head h4 { font-size: 1.2rem; font-weight: 700; margin: 0; }
-.project-tag { font-size: 0.85rem; background: #8B5CF6; color: white; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+.project-tag { font-size: 0.85rem; background: var(--vp-c-brand-1); color: white; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
 .project-text { margin-bottom: 8px; font-size: 0.95rem; line-height: 1.6; color: var(--vp-c-text-2); }
 
 /* 荣誉列表 */
 .award-list { list-style: none; padding: 0; }
 .award-list li { 
   background: var(--vp-c-bg-soft); padding: 15px 20px; margin-bottom: 10px; border-radius: 8px; 
-  border-left: 4px solid #8B5CF6; font-weight: 500;
+  border-left: 4px solid var(--vp-c-brand-1); font-weight: 500;
 }
 
 /* === 移动端响应式 === */
@@ -384,7 +384,7 @@ const awards = [
   /* 时间轴手机端改为上下结构 */
   .timeline-item { flex-direction: column; gap: 15px; }
   .timeline-left { 
-    width: 100%; border-right: none; border-left: 2px solid #8B5CF6; 
+    width: 100%; border-right: none; border-left: 2px solid var(--vp-c-brand-1); 
     padding-right: 0; padding-left: 20px; text-align: left; 
   }
   .timeline-left::after { display: none; }

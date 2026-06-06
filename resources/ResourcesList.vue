@@ -59,14 +59,14 @@ const pageLink = (path) => withBase(path)
 
 .tool-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.2);
-  border-color: #8B5CF6;
+  box-shadow: 0 12px 24px var(--liuli-glow);
+  border-color: var(--vp-c-brand-1);
 }
 
 .tool-icon {
   font-size: 3rem;
   margin-bottom: 5px;
-  filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.3));
+  filter: drop-shadow(0 4px 12px var(--liuli-glow));
   transition: all 0.3s;
 }
 
@@ -89,7 +89,7 @@ const pageLink = (path) => withBase(path)
 .category {
   margin: 0 0 12px !important;
   font-size: 0.85rem;
-  color: #8B5CF6;
+  color: var(--vp-c-brand-1);
   font-weight: 600;
 }
 
@@ -104,7 +104,7 @@ const pageLink = (path) => withBase(path)
   width: 100%;
   padding: 10px 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
   color: white !important;
   font-weight: 600;
   margin-top: 10px;
@@ -112,7 +112,7 @@ const pageLink = (path) => withBase(path)
 }
 
 .tool-card:hover .btn-download {
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 12px var(--liuli-glow);
   transform: scale(1.02);
 }
 </style>

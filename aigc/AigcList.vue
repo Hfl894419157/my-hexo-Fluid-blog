@@ -57,8 +57,8 @@ const pageLink = (path) => withBase(path)
 
 .aigc-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.2);
-  border-color: #8B5CF6;
+  box-shadow: 0 12px 24px var(--liuli-glow);
+  border-color: var(--vp-c-brand-1);
 }
 
 .card-image { 
@@ -83,7 +83,7 @@ const pageLink = (path) => withBase(path)
   position: absolute;
   top: 12px;
   right: 12px;
-  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
   color: white;
   padding: 4px 12px;
   border-radius: 12px;
@@ -113,7 +113,7 @@ const pageLink = (path) => withBase(path)
 .btn { 
   font-size: 0.9rem; 
   font-weight: 600; 
-  color: #8B5CF6; 
+  color: var(--vp-c-brand-1); 
   transition: all 0.2s;
 }
 

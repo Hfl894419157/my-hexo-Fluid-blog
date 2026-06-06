@@ -1,0 +1,84 @@
+:root {
+  --vp-c-bg: #f7f3ea;
+  --vp-c-bg-alt: #efe8dc;
+  --vp-c-bg-soft: #fffaf1;
+  --vp-c-bg-elv: rgba(255, 255, 255, 0.92);
+  --vp-c-text-1: #16130e;
+  --vp-c-text-2: #756f65;
+  --vp-c-text-3: rgba(117, 111, 101, 0.72);
+  --vp-c-brand-1: #ff8b2f;
+  --vp-c-brand-2: #315dff;
+  --vp-c-brand-3: #7a3cff;
+  --vp-c-brand-soft: rgba(255, 139, 47, 0.16);
+  --vp-c-border: rgba(40, 32, 18, 0.12);
+  --vp-c-divider: rgba(40, 32, 18, 0.12);
+  --vp-c-gutter: rgba(40, 32, 18, 0.08);
+  --vp-button-brand-bg: #ff8b2f;
+  --vp-button-brand-hover-bg: #315dff;
+  --vp-button-brand-active-bg: #7a3cff;
+  --vp-button-brand-text: #ffffff;
+  --vp-nav-bg-color: rgba(247, 243, 234, 0.76);
+  --vp-sidebar-bg-color: rgba(255, 250, 241, 0.86);
+  --liuli-accent: #ff8b2f;
+  --liuli-accent-2: #315dff;
+  --liuli-accent-3: #7a3cff;
+  --liuli-glow: rgba(255, 139, 47, 0.28);
+  --liuli-card: rgba(255, 255, 255, 0.72);
+  --liuli-card-strong: rgba(255, 255, 255, 0.92);
+  --liuli-shadow: 0 24px 80px rgba(40, 32, 18, 0.14);
+}
+
+html {
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 139, 47, 0.25), transparent 32%),
+    radial-gradient(circle at 85% 5%, rgba(49, 93, 255, 0.16), transparent 26%),
+    linear-gradient(180deg, #fff9ef 0%, #f7f3ea 40%, #efe8dc 100%);
+}
+
+html.dark {
+  --vp-c-bg: #070a12;
+  --vp-c-bg-alt: #090b12;
+  --vp-c-bg-soft: #0b1020;
+  --vp-c-bg-elv: rgba(19, 29, 54, 0.88);
+  --vp-c-text-1: #f5f7fb;
+  --vp-c-text-2: #9aa5b8;
+  --vp-c-text-3: rgba(154, 165, 184, 0.72);
+  --vp-c-brand-1: #56b7ff;
+  --vp-c-brand-2: #8b5cf6;
+  --vp-c-brand-3: #ff8b2f;
+  --vp-c-brand-soft: rgba(86, 183, 255, 0.16);
+  --vp-c-border: rgba(255, 255, 255, 0.12);
+  --vp-c-divider: rgba(255, 255, 255, 0.12);
+  --vp-c-gutter: rgba(255, 255, 255, 0.08);
+  --vp-button-brand-bg: #56b7ff;
+  --vp-button-brand-hover-bg: #8b5cf6;
+  --vp-button-brand-active-bg: #ff8b2f;
+  --vp-button-brand-text: #06101f;
+  --vp-nav-bg-color: rgba(7, 10, 18, 0.7);
+  --vp-sidebar-bg-color: rgba(11, 16, 32, 0.86);
+  --liuli-accent: #56b7ff;
+  --liuli-accent-2: #8b5cf6;
+  --liuli-accent-3: #ff8b2f;
+  --liuli-glow: rgba(86, 183, 255, 0.3);
+  --liuli-card: rgba(16, 23, 42, 0.62);
+  --liuli-card-strong: rgba(19, 29, 54, 0.88);
+  --liuli-shadow: 0 24px 110px rgba(0, 0, 0, 0.42);
+}
+
+html.dark,
+html.dark body {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, 0.24), transparent 28%),
+    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, 0.08), transparent 28%),
+    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%);
+}
+
+.VPNavBar {
+  backdrop-filter: blur(18px);
+}
+
+.VPNavBar,
+.VPNavBar.has-sidebar .content {
+  border-bottom-color: var(--vp-c-divider);
+}

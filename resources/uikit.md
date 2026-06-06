@@ -80,13 +80,13 @@ layout: page
 
 ### 颜色系统
 
-| 颜色 | 用途 | Hex |
-|------|------|-----|
-| Primary | 主要按钮、链接 | `#8B5CF6` |
-| Secondary | 次要元素 | `#10B981` |
-| Accent | 强调内容 | `#F59E0B` |
-| Background | 背景色 | `#0F172A` |
-| Surface | 卡片背景 | `#1E293B` |
+| 颜色 | 用途 | Light / Dark |
+|------|------|--------------|
+| Primary | 主要按钮、链接 | `#FF8B2F` / `#56B7FF` |
+| Secondary | 次要元素 | `#315DFF` / `#8B5CF6` |
+| Accent | 强调内容 | `#7A3CFF` / `#FF8B2F` |
+| Background | 背景色 | `#F7F3EA` / `#070A12` |
+| Surface | 卡片背景 | `#FFFAF1` / `#0B1020` |
 
 ### 字体系统
 

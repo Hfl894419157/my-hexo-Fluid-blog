@@ -552,47 +552,49 @@ onUnmounted(() => {
 
 <style scoped>
 .home-container {
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --accent-soft: rgba(37, 99, 235, 0.12);
-  --warm: #d97706;
-  --canvas-bg: #f8fafc;
-  --surface: #ffffff;
-  --surface-soft: #f1f5f9;
-  --surface-strong: #e2e8f0;
-  --text-main: #0f172a;
-  --text-muted: rgba(15, 23, 42, 0.68);
-  --line-soft: rgba(15, 23, 42, 0.12);
-  --line-strong: rgba(37, 99, 235, 0.28);
-  --shadow-soft: rgba(15, 23, 42, 0.12);
-  --hero-text: #0f172a;
-  --hero-muted: rgba(15, 23, 42, 0.72);
-  --hero-line: rgba(15, 23, 42, 0.14);
-  --hero-glass: rgba(255, 255, 255, 0.74);
+  --accent: #ff8b2f;
+  --accent-strong: #315dff;
+  --accent-soft: rgba(255, 139, 47, 0.16);
+  --warm: #7a3cff;
+  --canvas-bg: #f7f3ea;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-soft: #fffaf1;
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --text-main: #16130e;
+  --text-muted: #756f65;
+  --line-soft: rgba(40, 32, 18, 0.12);
+  --line-strong: rgba(255, 139, 47, 0.3);
+  --shadow-soft: rgba(40, 32, 18, 0.14);
+  --hero-text: #16130e;
+  --hero-muted: #756f65;
+  --hero-line: rgba(40, 32, 18, 0.12);
+  --hero-glass: rgba(255, 255, 255, 0.72);
   --hero-panel: rgba(255, 255, 255, 0.82);
-  --hero-chip: rgba(239, 246, 255, 0.9);
+  --hero-chip: rgba(255, 250, 241, 0.9);
   --hero-chip-text: var(--accent-strong);
   --hero-bg:
-    linear-gradient(90deg, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
-    linear-gradient(135deg, #f8fafc, #eff6ff 44%, #fff7ed);
+    linear-gradient(90deg, rgba(40, 32, 18, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(40, 32, 18, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 20% 15%, rgba(255, 139, 47, 0.25), transparent 32%),
+    radial-gradient(circle at 85% 5%, rgba(49, 93, 255, 0.16), transparent 26%),
+    linear-gradient(180deg, #fff9ef 0%, #f7f3ea 44%, #efe8dc 100%);
   --hero-ambient:
-    radial-gradient(circle at var(--mx) var(--my), rgba(59, 130, 246, 0.28), transparent 34%),
-    linear-gradient(115deg, transparent 0 30%, rgba(37, 99, 235, 0.14) calc(var(--mx) - 12%), transparent var(--mx), rgba(217, 119, 6, 0.16) calc(var(--mx) + 16%), transparent 76%);
-  --primary-bg: #2563eb;
+    radial-gradient(circle at var(--mx) var(--my), rgba(255, 139, 47, 0.28), transparent 34%),
+    linear-gradient(115deg, transparent 0 30%, rgba(49, 93, 255, 0.14) calc(var(--mx) - 12%), transparent var(--mx), rgba(122, 60, 255, 0.16) calc(var(--mx) + 16%), transparent 76%);
+  --primary-bg: linear-gradient(135deg, #ff8b2f, #315dff);
   --primary-text: #ffffff;
   --secondary-bg: rgba(255, 255, 255, 0.68);
-  --secondary-text: #0f172a;
-  --delivery-bg: linear-gradient(135deg, #172554, #1e3a8a 54%, #0f172a);
+  --secondary-text: #16130e;
+  --delivery-bg: linear-gradient(135deg, #0b1020, #315dff 54%, #070a12);
   --delivery-text: #f8fafc;
   --delivery-muted: rgba(226, 232, 240, 0.78);
   --delivery-line: rgba(191, 219, 254, 0.24);
   --delivery-card: rgba(15, 23, 42, 0.62);
   --delivery-card-hover: rgba(15, 23, 42, 0.82);
-  --delivery-accent: #fbbf24;
-  --delivery-accent-soft: rgba(251, 191, 36, 0.12);
-  --image-bg: #0f172a;
-  --contact-bg: linear-gradient(135deg, var(--accent-soft), rgba(217, 119, 6, 0.08)), var(--vp-c-bg-soft);
+  --delivery-accent: #ff8b2f;
+  --delivery-accent-soft: rgba(255, 139, 47, 0.12);
+  --image-bg: #0b1020;
+  --contact-bg: linear-gradient(135deg, var(--accent-soft), rgba(49, 93, 255, 0.1)), var(--vp-c-bg-soft);
   --flow-spin: 0deg;
   --core-spin: 0deg;
   --section-line-opacity: 0.42;
@@ -612,74 +614,74 @@ onUnmounted(() => {
 :global(.dark #app),
 :global(.dark .VPLayout),
 :global(.dark .VPContent) {
-  --vp-c-bg: #121216 !important;
-  --vp-c-bg-soft: #181622 !important;
-  --vp-c-bg-alt: #1a1625 !important;
-  --vp-c-bg-elv: #121216 !important;
-  --vp-c-text-1: #f3f1f8 !important;
-  --vp-c-text-2: #a29eb4 !important;
-  --vp-c-border: rgba(255, 255, 255, 0.08) !important;
-  --vp-nav-bg-color: rgba(18, 18, 22, 0.75) !important;
-  background-color: #121216 !important;
+  --vp-c-bg: #070a12 !important;
+  --vp-c-bg-soft: #0b1020 !important;
+  --vp-c-bg-alt: #090b12 !important;
+  --vp-c-bg-elv: rgba(19, 29, 54, 0.88) !important;
+  --vp-c-text-1: #f5f7fb !important;
+  --vp-c-text-2: #9aa5b8 !important;
+  --vp-c-border: rgba(255, 255, 255, 0.12) !important;
+  --vp-nav-bg-color: rgba(7, 10, 18, 0.7) !important;
+  background-color: #070a12 !important;
 }
 
 :global(.dark body) {
-  background: radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.18), transparent 34%),
-              radial-gradient(circle at 82% 4%, rgba(236, 72, 153, 0.12), transparent 28%),
-              radial-gradient(circle at 72% 55%, rgba(167, 139, 250, 0.06), transparent 28%),
-              linear-gradient(180deg, #101014 0%, #16141f 48%, #121216 100%) !important;
+  background: radial-gradient(circle at 18% 12%, rgba(86, 183, 255, 0.2), transparent 34%),
+              radial-gradient(circle at 82% 4%, rgba(139, 92, 246, 0.24), transparent 28%),
+              radial-gradient(circle at 72% 55%, rgba(255, 139, 47, 0.08), transparent 28%),
+              linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
 }
 
 :global(.dark .VPNavBar) {
-  background-color: rgba(18, 18, 22, 0.75) !important;
+  background-color: rgba(7, 10, 18, 0.7) !important;
   backdrop-filter: blur(18px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
 :global(.dark) .home-container {
-  --accent: #a78bfa !important;
+  --accent: #56b7ff !important;
   --accent-strong: #8b5cf6 !important;
-  --accent-soft: rgba(139, 92, 246, 0.14) !important;
-  --warm: #f472b6 !important;
-  --canvas-bg: #121216 !important;
-  --surface: #181622 !important;
-  --surface-soft: #1a1625 !important;
-  --surface-strong: #201d36 !important;
-  --text-main: #f3f1f8 !important;
-  --text-muted: #a29eb4 !important;
-  --line-soft: rgba(255, 255, 255, 0.08) !important;
-  --line-strong: rgba(139, 92, 246, 0.32) !important;
-  --shadow-soft: 0 24px 110px rgba(0, 0, 0, 0.52) !important;
-  --hero-text: #f3f1f8 !important;
-  --hero-muted: #a29eb4 !important;
-  --hero-line: rgba(255, 255, 255, 0.08) !important;
-  --hero-glass: rgba(18, 18, 22, 0.75) !important;
-  --hero-panel: rgba(28, 26, 38, 0.65) !important;
-  --hero-chip: rgba(139, 92, 246, 0.12) !important;
-  --hero-chip-text: #a78bfa !important;
+  --accent-soft: rgba(86, 183, 255, 0.16) !important;
+  --warm: #ff8b2f !important;
+  --canvas-bg: #070a12 !important;
+  --surface: rgba(16, 23, 42, 0.62) !important;
+  --surface-soft: #0b1020 !important;
+  --surface-strong: rgba(19, 29, 54, 0.88) !important;
+  --text-main: #f5f7fb !important;
+  --text-muted: #9aa5b8 !important;
+  --line-soft: rgba(255, 255, 255, 0.12) !important;
+  --line-strong: rgba(86, 183, 255, 0.32) !important;
+  --shadow-soft: 0 24px 110px rgba(0, 0, 0, 0.42) !important;
+  --hero-text: #f5f7fb !important;
+  --hero-muted: #9aa5b8 !important;
+  --hero-line: rgba(255, 255, 255, 0.12) !important;
+  --hero-glass: rgba(16, 23, 42, 0.62) !important;
+  --hero-panel: rgba(19, 29, 54, 0.78) !important;
+  --hero-chip: rgba(86, 183, 255, 0.12) !important;
+  --hero-chip-text: #56b7ff !important;
   --hero-bg:
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(0deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.18), transparent 34%),
-    radial-gradient(circle at 82% 4%, rgba(236, 72, 153, 0.12), transparent 28%),
-    radial-gradient(circle at 72% 55%, rgba(167, 139, 250, 0.06), transparent 28%),
-    linear-gradient(180deg, #101014 0%, #16141f 48%, #121216 100%) !important;
+    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, 0.24), transparent 28%),
+    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, 0.08), transparent 28%),
+    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
   --hero-ambient:
-    radial-gradient(circle at var(--mx) var(--my), rgba(139, 92, 246, 0.25), transparent 34%) !important;
-  --primary-bg: linear-gradient(135deg, #a78bfa, #8b5cf6) !important;
-  --primary-text: #ffffff !important;
-  --secondary-bg: rgba(28, 26, 38, 0.65) !important;
-  --secondary-text: #f3f1f8 !important;
-  --delivery-bg: linear-gradient(135deg, #121216, #181622 56%, #201d36) !important;
+    radial-gradient(circle at var(--mx) var(--my), rgba(86, 183, 255, 0.3), transparent 34%) !important;
+  --primary-bg: linear-gradient(135deg, #56b7ff, #8b5cf6) !important;
+  --primary-text: #06101f !important;
+  --secondary-bg: rgba(16, 23, 42, 0.62) !important;
+  --secondary-text: #f5f7fb !important;
+  --delivery-bg: linear-gradient(135deg, #060915, #0b1020 56%, #090b12) !important;
   --delivery-text: #f8fafc !important;
   --delivery-muted: rgba(226, 232, 240, 0.76) !important;
-  --delivery-line: rgba(255, 255, 255, 0.08) !important;
-  --delivery-card: rgba(28, 26, 38, 0.74) !important;
-  --delivery-card-hover: rgba(32, 29, 44, 0.92) !important;
-  --delivery-accent: #f472b6 !important;
-  --delivery-accent-soft: rgba(244, 114, 182, 0.12) !important;
-  --image-bg: #121216 !important;
-  --contact-bg: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(244, 114, 182, 0.08)), var(--vp-c-bg-soft) !important;
+  --delivery-line: rgba(255, 255, 255, 0.12) !important;
+  --delivery-card: rgba(16, 23, 42, 0.72) !important;
+  --delivery-card-hover: rgba(19, 29, 54, 0.92) !important;
+  --delivery-accent: #ff8b2f !important;
+  --delivery-accent-soft: rgba(255, 139, 47, 0.12) !important;
+  --image-bg: #070a12 !important;
+  --contact-bg: linear-gradient(135deg, rgba(86, 183, 255, 0.1), rgba(139, 92, 246, 0.08)), var(--vp-c-bg-soft) !important;
 }
 
 .section-container {
@@ -2052,21 +2054,21 @@ onUnmounted(() => {
 }
 
 .home-container {
-  --ink: #101828;
-  --muted-ink: rgba(16, 24, 40, 0.66);
-  --page-bg: #f7faf7;
+  --ink: #16130e;
+  --muted-ink: #756f65;
+  --page-bg: #f7f3ea;
   --panel-bg: rgba(255, 255, 255, 0.76);
   --panel-solid: #ffffff;
-  --panel-2: #eef7f2;
-  --line: rgba(16, 24, 40, 0.12);
-  --line-hot: rgba(16, 185, 129, 0.36);
-  --brand-a: #10b981;
-  --brand-b: #2563eb;
-  --brand-c: #f59e0b;
-  --brand-d: #0f766e;
-  --glow-a: rgba(16, 185, 129, 0.28);
-  --glow-b: rgba(37, 99, 235, 0.22);
-  --glow-c: rgba(245, 158, 11, 0.24);
+  --panel-2: #fffaf1;
+  --line: rgba(40, 32, 18, 0.12);
+  --line-hot: rgba(255, 139, 47, 0.36);
+  --brand-a: #ff8b2f;
+  --brand-b: #315dff;
+  --brand-c: #7a3cff;
+  --brand-d: #ff8b2f;
+  --glow-a: rgba(255, 139, 47, 0.28);
+  --glow-b: rgba(49, 93, 255, 0.18);
+  --glow-c: rgba(122, 60, 255, 0.16);
   --button-ink: #ffffff;
   --hero-poster-filter: hue-rotate(var(--poster-hue)) saturate(calc(var(--poster-saturation) + 0.05)) brightness(var(--poster-brightness)) contrast(1.08);
   max-width: none;
@@ -2079,22 +2081,22 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --ink: #f3f1f8 !important;
-  --muted-ink: #a29eb4 !important;
-  --page-bg: #121216 !important;
-  --panel-bg: rgba(28, 26, 38, 0.65) !important;
-  --panel-solid: #181622 !important;
-  --panel-2: #1a1625 !important;
-  --line: rgba(255, 255, 255, 0.08) !important;
-  --line-hot: rgba(139, 92, 246, 0.32) !important;
-  --brand-a: #a78bfa !important;
+  --ink: #f5f7fb !important;
+  --muted-ink: #9aa5b8 !important;
+  --page-bg: #070a12 !important;
+  --panel-bg: rgba(16, 23, 42, 0.62) !important;
+  --panel-solid: #0b1020 !important;
+  --panel-2: #131d36 !important;
+  --line: rgba(255, 255, 255, 0.12) !important;
+  --line-hot: rgba(86, 183, 255, 0.32) !important;
+  --brand-a: #56b7ff !important;
   --brand-b: #8b5cf6 !important;
-  --brand-c: #f472b6 !important;
-  --brand-d: #a78bfa !important;
-  --glow-a: rgba(139, 92, 246, 0.20) !important;
-  --glow-b: rgba(236, 72, 153, 0.12) !important;
-  --glow-c: rgba(167, 139, 250, 0.06) !important;
-  --button-ink: #ffffff !important;
+  --brand-c: #ff8b2f !important;
+  --brand-d: #56b7ff !important;
+  --glow-a: rgba(86, 183, 255, 0.2) !important;
+  --glow-b: rgba(139, 92, 246, 0.24) !important;
+  --glow-c: rgba(255, 139, 47, 0.08) !important;
+  --button-ink: #06101f !important;
   --hero-poster-filter: hue-rotate(calc(var(--poster-hue) + 180deg)) saturate(calc(var(--poster-saturation) + 0.22)) brightness(0.82) contrast(1.12) !important;
 }
 
@@ -2118,8 +2120,10 @@ onUnmounted(() => {
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
     linear-gradient(0deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
-    radial-gradient(circle at 74% 24%, rgba(139, 92, 246, 0.18), transparent 34%),
-    linear-gradient(135deg, #101014, #181622 52%, #1a1625) !important;
+    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, 0.24), transparent 28%),
+    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, 0.08), transparent 28%),
+    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
 }
 
 .hero-section::before {
@@ -2529,26 +2533,26 @@ onUnmounted(() => {
 
 /* Color-system correction: semantic light/dark themes and a cleaner poster */
 .home-container {
-  --page-bg: #f6f8f4;
-  --page-bg-2: #eef5f1;
-  --ink: #12201c;
-  --muted-ink: rgba(18, 32, 28, 0.66);
+  --page-bg: #f7f3ea;
+  --page-bg-2: #efe8dc;
+  --ink: #16130e;
+  --muted-ink: #756f65;
   --surface-ui: rgba(255, 255, 255, 0.78);
   --surface-ui-strong: #ffffff;
-  --surface-ui-soft: #edf5ef;
-  --line-ui: rgba(18, 32, 28, 0.11);
-  --line-ui-strong: rgba(18, 32, 28, 0.18);
-  --accent-ui: #0f8f6f;
-  --accent-ui-2: #2d6cdf;
-  --accent-ui-3: #c58a1a;
+  --surface-ui-soft: #fffaf1;
+  --line-ui: rgba(40, 32, 18, 0.12);
+  --line-ui-strong: rgba(255, 139, 47, 0.3);
+  --accent-ui: #ff8b2f;
+  --accent-ui-2: #315dff;
+  --accent-ui-3: #7a3cff;
   --accent-contrast: #ffffff;
-  --ambient-a: rgba(15, 143, 111, 0.18);
-  --ambient-b: rgba(45, 108, 223, 0.12);
-  --ambient-c: rgba(197, 138, 26, 0.12);
-  --poster-surface: linear-gradient(145deg, #f4f8f4, #e8f1ed);
+  --ambient-a: rgba(255, 139, 47, 0.25);
+  --ambient-b: rgba(49, 93, 255, 0.16);
+  --ambient-c: rgba(122, 60, 255, 0.12);
+  --poster-surface: linear-gradient(145deg, #fff9ef, #efe8dc);
   --poster-panel: rgba(255, 255, 255, 0.72);
   --poster-filter-theme: hue-rotate(var(--poster-hue)) saturate(1.04) brightness(1.02) contrast(1.04);
-  --shadow-ui: rgba(18, 32, 28, 0.12);
+  --shadow-ui: rgba(40, 32, 18, 0.14);
   background:
     radial-gradient(circle at 18% 18%, var(--ambient-a), transparent 30%),
     radial-gradient(circle at 82% 10%, var(--ambient-c), transparent 26%),
@@ -2557,26 +2561,26 @@ onUnmounted(() => {
 }
 
 :global(.dark) .home-container {
-  --page-bg: #121216 !important;
-  --page-bg-2: #181622 !important;
-  --ink: #f3f1f8 !important;
-  --muted-ink: #a29eb4 !important;
-  --surface-ui: rgba(28, 26, 38, 0.65) !important;
-  --surface-ui-strong: rgba(32, 29, 44, 0.88) !important;
-  --surface-ui-soft: #1a1625 !important;
-  --line-ui: rgba(255, 255, 255, 0.08) !important;
-  --line-ui-strong: rgba(139, 92, 246, 0.32) !important;
-  --accent-ui: #a78bfa !important;
+  --page-bg: #070a12 !important;
+  --page-bg-2: #0b1020 !important;
+  --ink: #f5f7fb !important;
+  --muted-ink: #9aa5b8 !important;
+  --surface-ui: rgba(16, 23, 42, 0.62) !important;
+  --surface-ui-strong: rgba(19, 29, 54, 0.88) !important;
+  --surface-ui-soft: #0b1020 !important;
+  --line-ui: rgba(255, 255, 255, 0.12) !important;
+  --line-ui-strong: rgba(86, 183, 255, 0.32) !important;
+  --accent-ui: #56b7ff !important;
   --accent-ui-2: #8b5cf6 !important;
-  --accent-ui-3: #f472b6 !important;
-  --accent-contrast: #ffffff !important;
-  --ambient-a: rgba(139, 92, 246, 0.20) !important;
-  --ambient-b: rgba(236, 72, 153, 0.12) !important;
-  --ambient-c: rgba(167, 139, 250, 0.06) !important;
-  --poster-surface: linear-gradient(145deg, rgba(28, 26, 38, 0.65), rgba(32, 29, 44, 0.88)) !important;
-  --poster-panel: rgba(18, 18, 22, 0.75) !important;
+  --accent-ui-3: #ff8b2f !important;
+  --accent-contrast: #06101f !important;
+  --ambient-a: rgba(86, 183, 255, 0.2) !important;
+  --ambient-b: rgba(139, 92, 246, 0.24) !important;
+  --ambient-c: rgba(255, 139, 47, 0.08) !important;
+  --poster-surface: linear-gradient(145deg, rgba(16, 23, 42, 0.62), rgba(19, 29, 54, 0.88)) !important;
+  --poster-panel: rgba(7, 10, 18, 0.75) !important;
   --poster-filter-theme: hue-rotate(calc(var(--poster-hue) + 180deg)) saturate(1.08) brightness(0.82) contrast(1.10) !important;
-  --shadow-ui: 0 24px 110px rgba(0, 0, 0, 0.52) !important;
+  --shadow-ui: 0 24px 110px rgba(0, 0, 0, 0.42) !important;
 }
 
 .hero-section {

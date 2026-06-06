@@ -55,7 +55,7 @@ const pageLink = (path) => withBase(path)
 .project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-  border-color: #8B5CF6; 
+  border-color: var(--vp-c-brand-1); 
 }
 
 .card-image { height: 200px; overflow: hidden; background: #333; }
@@ -65,5 +65,24 @@ const pageLink = (path) => withBase(path)
 .card-info { padding: 24px; }
 .card-info h3 { margin: 0 !important; font-size: 1.2rem; font-weight: 700; line-height: 1.4; color: #ffffff; }
 .card-info p { margin: 8px 0 16px 0 !important; font-size: 0.9rem; color: #999999; }
-.btn { font-size: 0.9rem; font-weight: 600; color: #8B5CF6; }
+.btn { font-size: 0.9rem; font-weight: 600; color: var(--vp-c-brand-1); }
+
+.project-card {
+  background: var(--liuli-card);
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-1) !important;
+}
+
+.project-card:hover {
+  box-shadow: 0 12px 24px var(--liuli-glow);
+  border-color: var(--vp-c-brand-1);
+}
+
+.card-info h3 {
+  color: var(--vp-c-text-1);
+}
+
+.card-info p {
+  color: var(--vp-c-text-2);
+}
 </style>

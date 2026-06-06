@@ -63,8 +63,8 @@ const pageLink = (path) => withBase(path)
 
 .blog-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.15);
-  border-color: #8B5CF6;
+  box-shadow: 0 12px 32px var(--liuli-glow);
+  border-color: var(--vp-c-brand-1);
 }
 
 .blog-image {
@@ -101,7 +101,7 @@ const pageLink = (path) => withBase(path)
 }
 
 .blog-card:hover .blog-main h3 {
-  color: #8B5CF6;
+  color: var(--vp-c-brand-1);
 }
 
 .desc {
