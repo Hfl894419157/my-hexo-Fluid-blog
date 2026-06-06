@@ -638,7 +638,7 @@ onUnmounted(() => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
-:global(.dark) .home-container {
+:global(html.dark .home-container) {
   --accent: #56b7ff !important;
   --accent-strong: #8b5cf6 !important;
   --accent-soft: rgba(86, 183, 255, 0.16) !important;
@@ -2080,7 +2080,7 @@ onUnmounted(() => {
   color: var(--ink);
 }
 
-:global(.dark) .home-container {
+:global(html.dark .home-container) {
   --ink: #f5f7fb !important;
   --muted-ink: #9aa5b8 !important;
   --page-bg: #070a12 !important;
@@ -2116,7 +2116,7 @@ onUnmounted(() => {
   box-shadow: 0 28px 90px color-mix(in srgb, var(--ink), transparent 90%);
 }
 
-:global(.dark) .hero-section {
+:global(html.dark .hero-section) {
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
     linear-gradient(0deg, color-mix(in srgb, var(--ink), transparent 95%) 1px, transparent 1px),
@@ -2144,9 +2144,9 @@ onUnmounted(() => {
   background: color-mix(in srgb, var(--panel-bg), var(--brand-a) 8%);
 }
 
-:global(.dark) .eyebrow,
-:global(.dark) .badge,
-:global(.dark) .panel-kicker {
+:global(html.dark .eyebrow),
+:global(html.dark .badge),
+:global(html.dark .panel-kicker) {
   color: var(--brand-a);
 }
 
@@ -2420,7 +2420,7 @@ onUnmounted(() => {
   transition: transform 0.55s ease, filter 0.25s ease;
 }
 
-:global(.dark) .case-feature-media img {
+:global(html.dark .case-feature-media img) {
   filter: hue-rotate(120deg) saturate(1.2) brightness(0.72) contrast(1.14);
 }
 
@@ -2560,7 +2560,7 @@ onUnmounted(() => {
   color: var(--ink);
 }
 
-:global(.dark) .home-container {
+:global(html.dark .home-container) {
   --page-bg: #070a12 !important;
   --page-bg-2: #0b1020 !important;
   --ink: #f5f7fb !important;
@@ -2776,7 +2776,7 @@ onUnmounted(() => {
   filter: saturate(1.02) brightness(1) contrast(1.03);
 }
 
-:global(.dark) .case-feature-media img {
+:global(html.dark .case-feature-media img) {
   filter: hue-rotate(132deg) saturate(1.08) brightness(0.78) contrast(1.1);
 }
 
