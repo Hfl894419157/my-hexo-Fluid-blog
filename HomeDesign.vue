@@ -346,7 +346,7 @@ onUnmounted(() => {
     <section class="about-panel" data-story-section data-section-no="01">
       <div class="about-copy">
         <span class="badge">关于我</span>
-        <h2>关于我：把设计经验变成 AI 时代的交付系统</h2>
+        <h2>把设计经验变成 AI 时代的交付系统</h2>
         <p>
           我更想让这个网站展示“怎么做成事”：从视觉判断、AI 生成、精修交付，到资源沉淀，让访客看到可合作的能力，而不是只看到几张静态作品图。
         </p>
@@ -3388,6 +3388,289 @@ onUnmounted(() => {
   }
   .workflow-track {
     transform: none !important;
+  }
+}
+
+/* Immersive pass: make the homepage read as one continuous canvas. */
+:global(.VPHome),
+:global(.VPHome .VPHomeContent),
+:global(.VPHome .VPContent),
+:global(.VPHome .vp-doc.container) {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+:global(html:not(.dark) body),
+:global(html:not(.dark) #app),
+:global(html:not(.dark) .VPContent) {
+  background:
+    radial-gradient(circle at 8% 14%, rgba(255, 139, 47, 0.24), transparent 28%),
+    radial-gradient(circle at 86% 8%, rgba(49, 93, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, #fff9ef 0%, #f7f3ea 44%, #efe8dc 100%) !important;
+}
+
+:global(html.dark body),
+:global(html.dark #app),
+:global(html.dark .VPContent) {
+  background:
+    radial-gradient(circle at 15% 12%, rgba(86, 183, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 84% 4%, rgba(139, 92, 246, 0.22), transparent 30%),
+    radial-gradient(circle at 72% 58%, rgba(255, 139, 47, 0.08), transparent 32%),
+    linear-gradient(180deg, #060915 0%, #0b1020 46%, #090b12 100%) !important;
+}
+
+.home-container {
+  --immersive-bg-light:
+    radial-gradient(circle at 9% 14%, rgba(255, 139, 47, 0.24), transparent 28%),
+    radial-gradient(circle at 84% 8%, rgba(49, 93, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, #fff9ef 0%, #f7f3ea 44%, #efe8dc 100%);
+  --immersive-bg-dark:
+    radial-gradient(circle at 15% 12%, rgba(86, 183, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 84% 4%, rgba(139, 92, 246, 0.22), transparent 30%),
+    radial-gradient(circle at 72% 58%, rgba(255, 139, 47, 0.08), transparent 32%),
+    linear-gradient(180deg, #060915 0%, #0b1020 46%, #090b12 100%);
+  --section-glass: rgba(255, 255, 255, 0.42);
+  --section-glass-strong: rgba(255, 255, 255, 0.62);
+  background: var(--immersive-bg-light) !important;
+}
+
+:global(html.dark .home-container) {
+  --section-glass: rgba(13, 20, 38, 0.46);
+  --section-glass-strong: rgba(16, 26, 50, 0.64);
+  background: var(--immersive-bg-dark) !important;
+}
+
+.hero-section {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: calc(100svh - 56px);
+  margin: 0 !important;
+  padding:
+    clamp(72px, 8vw, 128px)
+    clamp(32px, 10vw, 168px)
+    clamp(76px, 8vw, 128px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: var(--immersive-bg-light) !important;
+  transform: none !important;
+}
+
+:global(html.dark .hero-section) {
+  background: var(--immersive-bg-dark) !important;
+}
+
+.hero-section::before {
+  inset: -18vw !important;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), var(--ambient-a), transparent 28%),
+    radial-gradient(circle at 82% 15%, var(--ambient-b), transparent 26%) !important;
+  opacity: 0.9;
+}
+
+.hero-console {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.desk {
+  border-color: color-mix(in srgb, var(--ink), transparent 86%);
+  background: color-mix(in srgb, var(--section-glass), transparent 10%);
+  box-shadow: 0 34px 100px color-mix(in srgb, var(--ink), transparent 88%);
+  backdrop-filter: blur(18px);
+}
+
+.desk-grid .panel {
+  background: color-mix(in srgb, var(--section-glass-strong), transparent 12%);
+}
+
+.stage-image,
+.case-feature-media,
+.img-wrap,
+.blog-left {
+  background: transparent !important;
+}
+
+.section-container,
+.about-panel {
+  width: min(calc(100% - 96px), 1360px) !important;
+  max-width: 1360px !important;
+}
+
+.about-panel {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 30px);
+  min-height: 0;
+  margin-top: clamp(46px, 5vw, 78px) !important;
+  padding: clamp(48px, 6vw, 82px) clamp(28px, 6vw, 96px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: center;
+}
+
+.about-copy {
+  display: contents;
+}
+
+.about-copy .badge {
+  order: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: clamp(46px, 8vw, 96px);
+  line-height: 0.95;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.about-copy h2 {
+  order: 2;
+  max-width: 920px;
+  color: var(--muted-ink);
+  font-size: clamp(22px, 3vw, 38px);
+  line-height: 1.22;
+}
+
+.about-stats {
+  order: 3;
+  width: min(100%, 980px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.about-stat {
+  min-height: 124px;
+  border-color: var(--line-ui);
+  background: color-mix(in srgb, var(--section-glass), transparent 4%);
+  box-shadow: 0 18px 54px color-mix(in srgb, var(--shadow-ui), transparent 28%);
+  backdrop-filter: blur(18px);
+}
+
+.about-copy p {
+  order: 4;
+  max-width: 880px;
+}
+
+.about-tags {
+  order: 5;
+  justify-content: center;
+}
+
+.about-link {
+  order: 6;
+  margin: 2px auto 0;
+  color: var(--accent-contrast) !important;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--accent-ui), transparent 76%);
+}
+
+.workflow-section {
+  width: 100% !important;
+  max-width: none !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  padding:
+    clamp(76px, 8vw, 124px)
+    clamp(24px, 7vw, 112px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 12% 18%, var(--ambient-a), transparent 28%),
+    radial-gradient(circle at 90% 10%, var(--ambient-b), transparent 28%),
+    transparent !important;
+  box-shadow: none !important;
+}
+
+.workflow-section .common-header,
+.workflow-outer-wrap,
+.workflow-section .btn-more-container {
+  width: min(100%, 1360px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.workflow-outer-wrap {
+  padding: 0;
+  overflow: visible;
+}
+
+.workflow-section .workflow-outer-wrap {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.workflow-section .workflow-track {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.step-card,
+.mini-card-horizontal,
+.work-card,
+.blog-card,
+.tool-card,
+.contact-card,
+.contact-item,
+.case-feature {
+  border-color: var(--line-ui) !important;
+  background: color-mix(in srgb, var(--section-glass), transparent 6%) !important;
+  box-shadow: 0 18px 54px color-mix(in srgb, var(--shadow-ui), transparent 32%);
+  backdrop-filter: blur(18px);
+}
+
+.contact-card {
+  border: 0 !important;
+}
+
+.case-feature,
+.work-card,
+.blog-card,
+.tool-card,
+.contact-card {
+  border-radius: 8px;
+}
+
+@media (max-width: 1180px) {
+  .hero-section {
+    padding-right: clamp(24px, 6vw, 64px) !important;
+    padding-left: clamp(24px, 6vw, 64px) !important;
+  }
+
+  .about-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .section-container,
+  .about-panel {
+    width: 100% !important;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding: 42px 16px 58px !important;
+  }
+
+  .about-panel,
+  .workflow-section {
+    padding-right: 16px !important;
+    padding-left: 16px !important;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
   }
 }
 </style>
