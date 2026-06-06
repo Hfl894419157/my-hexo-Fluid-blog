@@ -3700,6 +3700,8 @@ onUnmounted(() => {
 .home-container {
   --section-max: 1180px;
   --panel-radius: 28px;
+  --section-title-size: clamp(40px, 5vw, 72px);
+  --section-subtitle-size: clamp(16px, 1.35vw, 19px);
   --button-bg: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
   --button-shadow: 0 18px 44px color-mix(in srgb, var(--accent-ui), transparent 76%);
 }
@@ -3764,25 +3766,31 @@ onUnmounted(() => {
 
 .marquee-heading h2,
 .common-header h3,
-.contact-left h3 {
+.contact-left h3,
+.about-copy .badge {
   margin: 0;
   padding-top: 0 !important;
   border: 0 !important;
   color: var(--ink);
-  font-size: clamp(38px, 5vw, 72px) !important;
-  line-height: 1.02 !important;
+  font-size: var(--section-title-size) !important;
+  line-height: 1.05 !important;
   font-weight: 950 !important;
   letter-spacing: 0 !important;
+  text-align: center !important;
 }
 
 .marquee-heading p,
 .common-header p,
-.contact-left p {
+.contact-left p,
+.about-copy h2,
+.about-copy p {
   max-width: 760px;
   margin: 18px auto 0 !important;
   color: var(--muted-ink) !important;
-  font-size: clamp(15px, 1.4vw, 18px) !important;
+  font-size: var(--section-subtitle-size) !important;
   line-height: 1.8 !important;
+  font-weight: 650 !important;
+  text-align: center !important;
 }
 
 .marquee-track {
@@ -3826,13 +3834,8 @@ onUnmounted(() => {
   width: min(calc(100% - 48px), 1080px) !important;
 }
 
-.about-copy .badge {
-  font-size: clamp(58px, 9vw, 118px) !important;
-}
-
 .about-copy h2 {
-  font-size: clamp(22px, 2.6vw, 36px) !important;
-  font-weight: 850;
+  max-width: 820px;
 }
 
 .about-stats {
@@ -4132,8 +4135,9 @@ onUnmounted(() => {
 
   .marquee-heading h2,
   .common-header h3,
-  .contact-left h3 {
-    font-size: clamp(34px, 11vw, 54px) !important;
+  .contact-left h3,
+  .about-copy .badge {
+    font-size: clamp(36px, 10vw, 54px) !important;
   }
 
   .filter-row {
