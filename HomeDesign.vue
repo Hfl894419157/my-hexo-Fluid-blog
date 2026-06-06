@@ -606,6 +606,22 @@ onUnmounted(() => {
   color: var(--vp-c-text-1);
 }
 
+:global(.dark) {
+  --vp-c-bg: #070a12 !important;
+  --vp-c-bg-soft: #0b1020 !important;
+  --vp-c-bg-alt: #0f172a !important;
+  --vp-c-text-1: #f5f7fb !important;
+  --vp-c-text-2: #9aa5b8 !important;
+  --vp-c-border: rgba(255, 255, 255, 0.12) !important;
+}
+
+:global(.dark body) {
+  background: radial-gradient(circle at 18% 12%, rgba(86, 183, 255, .20), transparent 34%),
+              radial-gradient(circle at 82% 4%, rgba(139, 92, 246, .24), transparent 28%),
+              radial-gradient(circle at 72% 55%, rgba(255, 139, 47, .08), transparent 28%),
+              linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%) !important;
+}
+
 :global(.dark) .home-container {
   --accent: #56b7ff;
   --accent-strong: #8b5cf6;
