@@ -96,7 +96,9 @@ const heroStyle = computed(() => ({
   '--orbit-scale': 0.96 + scrollProgress.value * 0.04,
   '--poster-hue': `${Math.round(scrollProgress.value * 10)}deg`,
   '--poster-saturation': 1.04 + scrollProgress.value * 0.1,
-  '--poster-brightness': 1.03 - scrollProgress.value * 0.04
+  '--poster-brightness': 1.03 - scrollProgress.value * 0.04,
+  '--proof-glide': `${Math.round(scrollProgress.value * 80 - 40)}px`,
+  '--proof-opacity': 0.2 + scrollProgress.value * 0.44
 }))
 
 const deliveryCards = [
@@ -273,6 +275,12 @@ onUnmounted(() => {
             {{ mode.label }}
           </button>
         </div>
+        <div class="hero-proofline" aria-label="homepage capability path">
+          <span>视觉判断</span>
+          <span>AI 生成</span>
+          <span>精修交付</span>
+          <span>资源沉淀</span>
+        </div>
       </div>
 
       <div class="hero-console">
@@ -310,7 +318,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="agent-section" data-story-section>
+    <section class="agent-section" data-story-section data-section-no="01">
       <div class="agent-copy">
         <span class="badge">AI 视觉交付系统</span>
         <h2>AI 生成不是结果<br><span>设计判断才是交付</span></h2>
@@ -345,7 +353,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="about-panel" data-story-section>
+    <section class="about-panel" data-story-section data-section-no="02">
       <div class="about-copy">
         <span class="badge">ABOUT</span>
         <h2>关于我：把设计经验变成 AI 时代的交付系统</h2>
@@ -369,7 +377,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" id="works" data-story-section>
+    <section class="section-container" id="works" data-story-section data-section-no="03">
       <div class="common-header">
         <span class="badge">CASES</span>
         <h3>案例与能力样本</h3>
@@ -404,7 +412,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container workflow-section" data-story-section>
+    <section class="section-container workflow-section" data-story-section data-section-no="04">
       <div class="common-header">
         <span class="badge">WORKFLOW</span>
         <h3>AI 工作流实验室</h3>
@@ -441,7 +449,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section>
+    <section class="section-container" data-story-section data-section-no="05">
       <div class="common-header">
         <span class="badge">METHOD</span>
         <h3>方法论与观察</h3>
@@ -479,7 +487,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container" data-story-section>
+    <section class="section-container" data-story-section data-section-no="06">
       <div class="common-header">
         <span class="badge">ASSETS</span>
         <h3>资源库</h3>
@@ -500,7 +508,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="section-container contact-section" data-story-section>
+    <section class="section-container contact-section" data-story-section data-section-no="07">
       <div class="contact-card">
         <div class="contact-left">
           <h3>Let's Connect</h3>
@@ -594,6 +602,7 @@ onUnmounted(() => {
   --agent-path-opacity: 0.42;
   --section-line-opacity: 0.42;
   --workflow-lift: 0;
+  --section-spacing: 128px;
   width: 100%;
   max-width: 1480px;
   margin: 0 auto;
@@ -648,8 +657,30 @@ onUnmounted(() => {
 
 .section-container {
   position: relative;
-  margin-top: 96px;
+  margin-top: var(--section-spacing);
   scroll-margin-top: 92px;
+}
+
+[data-section-no] {
+  position: relative;
+}
+
+[data-section-no] > * {
+  position: relative;
+  z-index: 1;
+}
+
+[data-section-no]::after {
+  content: attr(data-section-no);
+  position: absolute;
+  top: -28px;
+  right: 8px;
+  z-index: 0;
+  color: color-mix(in srgb, var(--accent), transparent 86%);
+  font-size: clamp(72px, 12vw, 168px);
+  font-weight: 900;
+  line-height: 0.9;
+  pointer-events: none;
 }
 
 [data-story-section] {
@@ -873,6 +904,42 @@ onUnmounted(() => {
   margin-top: 28px;
 }
 
+.hero-proofline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-width: 560px;
+  margin-top: 22px;
+}
+
+.hero-proofline span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  padding: 8px;
+  overflow: hidden;
+  border: 1px solid var(--hero-line);
+  border-radius: 6px;
+  color: var(--hero-text);
+  background: color-mix(in srgb, var(--hero-glass), transparent 10%);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.hero-proofline span::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, color-mix(in srgb, var(--warm), transparent 78%), transparent);
+  opacity: var(--proof-opacity);
+  transform: translateX(var(--proof-glide));
+}
+
+.hero-proofline span:nth-child(even)::before {
+  background: linear-gradient(120deg, transparent, color-mix(in srgb, var(--accent), transparent 76%), transparent);
+}
+
 .mode-button,
 .filter-button {
   min-height: 38px;
@@ -1079,11 +1146,12 @@ onUnmounted(() => {
 
 .about-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.76fr);
-  gap: 28px;
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 0.42fr);
+  gap: 34px;
   align-items: stretch;
-  margin-top: 28px;
-  padding: 34px;
+  margin-top: 72px;
+  padding: 46px;
+  overflow: hidden;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   background:
@@ -1153,7 +1221,7 @@ onUnmounted(() => {
 
 .about-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -1161,8 +1229,8 @@ onUnmounted(() => {
   position: relative;
   display: grid;
   align-content: end;
-  min-height: 210px;
-  padding: 18px;
+  min-height: 128px;
+  padding: 20px;
   overflow: hidden;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
@@ -1406,12 +1474,21 @@ onUnmounted(() => {
 }
 
 .common-header {
-  max-width: 760px;
-  margin: 0 auto 34px;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
+  gap: 18px 34px;
+  align-items: end;
+  max-width: none;
+  margin: 0 0 42px;
+  text-align: left;
+}
+
+.common-header .badge {
+  grid-column: 1 / -1;
 }
 
 .common-header h3 {
+  grid-column: 1;
   margin: 14px 0 10px;
   color: var(--vp-c-text-1);
   font-size: clamp(28px, 4vw, 48px);
@@ -1420,7 +1497,8 @@ onUnmounted(() => {
 }
 
 .common-header p {
-  margin: 0;
+  grid-column: 2;
+  margin: 0 0 12px;
   color: var(--vp-c-text-2);
   font-size: 17px;
   line-height: 1.8;
@@ -1470,9 +1548,9 @@ onUnmounted(() => {
 .tool-card:hover,
 .contact-item:hover,
 .mini-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   border-color: var(--accent);
-  box-shadow: 0 18px 42px var(--shadow-soft);
+  box-shadow: 0 14px 34px var(--shadow-soft);
 }
 
 .img-wrap {
@@ -1498,7 +1576,7 @@ onUnmounted(() => {
 .work-card:hover .img-wrap img,
 .blog-card:hover .blog-left img,
 .mini-card:hover img {
-  transform: scale(1.06);
+  transform: scale(1.035);
 }
 
 .info {
@@ -1721,12 +1799,12 @@ onUnmounted(() => {
 .tool-card {
   position: relative;
   display: grid;
-  grid-column: span 4;
+  grid-column: span 6;
   grid-template-columns: 48px 1fr 24px;
   gap: 16px;
   align-items: center;
-  min-height: 132px;
-  padding: 22px;
+  min-height: 154px;
+  padding: 24px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
   color: inherit;
@@ -1738,7 +1816,7 @@ onUnmounted(() => {
 .tool-card:nth-child(1),
 .tool-card:nth-child(6) {
   grid-column: span 6;
-  min-height: 170px;
+  min-height: 154px;
 }
 
 .tool-icon {
@@ -1940,9 +2018,12 @@ onUnmounted(() => {
 
   .work-grid,
   .tools-grid,
-  .blog-list,
-  .about-stats {
+  .blog-list {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
   }
 
   .work-card,
@@ -1975,6 +2056,12 @@ onUnmounted(() => {
     margin-top: 64px;
   }
 
+  [data-section-no]::after {
+    top: -12px;
+    right: 0;
+    font-size: 72px;
+  }
+
   .hero-section {
     padding: 24px;
     transform: none;
@@ -1998,6 +2085,27 @@ onUnmounted(() => {
   .filter-button,
   .btn {
     flex: 1 1 auto;
+  }
+
+  .hero-proofline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .common-header {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 26px;
+  }
+
+  .common-header .badge,
+  .common-header h3,
+  .common-header p {
+    grid-column: 1;
+  }
+
+  .common-header p {
+    margin-bottom: 0;
+    font-size: 15px;
   }
 
   .console-stage {
