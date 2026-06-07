@@ -25,7 +25,6 @@ const pageLink = (path) => withBase(path)
 </template>
 
 <style scoped>
-/* 3列网格布局 */
 .resources-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -48,9 +47,9 @@ const pageLink = (path) => withBase(path)
   align-items: center;
   text-align: center;
   gap: 15px;
-  background-color: var(--vp-c-bg-soft);
+  background: var(--liuli-card);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
+  border-radius: 8px;
   text-decoration: none !important;
   color: inherit;
   transition: all 0.3s ease;
@@ -58,15 +57,21 @@ const pageLink = (path) => withBase(path)
 }
 
 .tool-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px var(--liuli-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px var(--liuli-glow);
   border-color: var(--vp-c-brand-1);
 }
 
 .tool-icon {
-  font-size: 3rem;
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--vp-c-brand-soft), color-mix(in srgb, var(--vp-c-brand-2), transparent 86%));
+  font-size: 2rem;
   margin-bottom: 5px;
-  filter: drop-shadow(0 4px 12px var(--liuli-glow));
   transition: all 0.3s;
 }
 
@@ -82,7 +87,7 @@ const pageLink = (path) => withBase(path)
 .tool-info h3 {
   margin: 0 0 8px !important;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--vp-c-text-1);
 }
 
@@ -106,7 +111,7 @@ const pageLink = (path) => withBase(path)
   border-radius: 8px;
   background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
   color: white !important;
-  font-weight: 600;
+  font-weight: 700;
   margin-top: 10px;
   transition: all 0.3s;
 }

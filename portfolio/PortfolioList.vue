@@ -24,8 +24,7 @@ const pageLink = (path) => withBase(path)
       </div>
     </a>
 
-  </div> </template> <style scoped>
-/* 强制 3 列布局 */
+</div> </template> <style scoped>
 .portfolio-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -43,46 +42,27 @@ const pageLink = (path) => withBase(path)
 
 .project-card {
   display: block;
-  background: rgba(255,255,255,0.05); /* 强制深色背景 */
-  border-radius: 16px;
+  background: var(--liuli-card);
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--vp-c-divider);
   text-decoration: none !important;
   transition: all 0.3s ease;
-  color: #ffffff !important; /* 强制白色文字 */
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-  border-color: var(--vp-c-brand-1); 
-}
-
-.card-image { height: 200px; overflow: hidden; background: #333; }
-.card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.project-card:hover .card-image img { transform: scale(1.05); }
-
-.card-info { padding: 24px; }
-.card-info h3 { margin: 0 !important; font-size: 1.2rem; font-weight: 700; line-height: 1.4; color: #ffffff; }
-.card-info p { margin: 8px 0 16px 0 !important; font-size: 0.9rem; color: #999999; }
-.btn { font-size: 0.9rem; font-weight: 600; color: var(--vp-c-brand-1); }
-
-.project-card {
-  background: var(--liuli-card);
-  border-color: var(--vp-c-divider);
   color: var(--vp-c-text-1) !important;
 }
 
 .project-card:hover {
-  box-shadow: 0 12px 24px var(--liuli-glow);
-  border-color: var(--vp-c-brand-1);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px var(--liuli-glow);
+  border-color: var(--vp-c-brand-1); 
 }
 
-.card-info h3 {
-  color: var(--vp-c-text-1);
-}
+.card-image { aspect-ratio: 4 / 3; overflow: hidden; background: var(--vp-c-bg-soft); }
+.card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.project-card:hover .card-image img { transform: scale(1.05); }
 
-.card-info p {
-  color: var(--vp-c-text-2);
-}
+.card-info { padding: 24px; }
+.card-info h3 { margin: 0 !important; font-size: 1.2rem; font-weight: 800; line-height: 1.4; color: var(--vp-c-text-1); }
+.card-info p { margin: 8px 0 16px 0 !important; font-size: 0.9rem; color: var(--vp-c-text-2); }
+.btn { font-size: 0.9rem; font-weight: 600; color: var(--vp-c-brand-1); }
 </style>

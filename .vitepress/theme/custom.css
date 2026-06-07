@@ -1,77 +1,82 @@
 :root {
   --vp-c-bg: #f8f8ff;
-  --vp-c-bg-alt: #efe8dc;
-  --vp-c-bg-soft: #fffaf1;
+  --vp-c-bg-alt: #eef2ff;
+  --vp-c-bg-soft: #f0f2ff;
   --vp-c-bg-elv: rgba(255, 255, 255, 0.92);
-  --vp-c-text-1: #16130e;
-  --vp-c-text-2: #756f65;
-  --vp-c-text-3: rgba(117, 111, 101, 0.72);
+  --vp-c-text-1: #151527;
+  --vp-c-text-2: #62657a;
+  --vp-c-text-3: rgba(98, 101, 122, 0.72);
   --vp-c-brand-1: #6c63ff;
   --vp-c-brand-2: #4f8ef7;
-  --vp-c-brand-3: #7a3cff;
-  --vp-c-brand-soft: rgba(255, 139, 47, 0.16);
-  --vp-c-border: rgba(40, 32, 18, 0.12);
-  --vp-c-divider: rgba(40, 32, 18, 0.12);
-  --vp-c-gutter: rgba(40, 32, 18, 0.08);
+  --vp-c-brand-3: #9b8cff;
+  --vp-c-brand-soft: rgba(108, 99, 255, 0.14);
+  --vp-c-border: rgba(88, 86, 135, 0.16);
+  --vp-c-divider: rgba(88, 86, 135, 0.16);
+  --vp-c-gutter: rgba(88, 86, 135, 0.08);
   --vp-button-brand-bg: #6c63ff;
   --vp-button-brand-hover-bg: #4f8ef7;
-  --vp-button-brand-active-bg: #7a3cff;
+  --vp-button-brand-active-bg: #9b8cff;
   --vp-button-brand-text: #ffffff;
-  --vp-nav-bg-color: rgba(247, 243, 234, 0.76);
-  --vp-sidebar-bg-color: rgba(255, 250, 241, 0.86);
-  --liuli-accent: #ff8b2f;
-  --liuli-accent-2: #315dff;
-  --liuli-accent-3: #7a3cff;
-  --liuli-glow: rgba(255, 139, 47, 0.28);
-  --liuli-card: rgba(255, 255, 255, 0.72);
+  --vp-nav-bg-color: rgba(248, 248, 255, 0.78);
+  --vp-sidebar-bg-color: rgba(240, 242, 255, 0.88);
+  --liuli-accent: #6c63ff;
+  --liuli-accent-2: #4f8ef7;
+  --liuli-accent-3: #9b8cff;
+  --liuli-glow: rgba(108, 99, 255, 0.22);
+  --liuli-card: rgba(255, 255, 255, 0.82);
   --liuli-card-strong: rgba(255, 255, 255, 0.92);
-  --liuli-shadow: 0 24px 80px rgba(40, 32, 18, 0.14);
+  --liuli-shadow: 0 24px 80px rgba(42, 41, 95, 0.12);
 }
 
 html {
   background:
-    radial-gradient(circle at 20% 15%, rgba(255, 139, 47, 0.25), transparent 32%),
-    radial-gradient(circle at 85% 5%, rgba(49, 93, 255, 0.16), transparent 26%),
-    linear-gradient(180deg, #fff9ef 0%, #f7f3ea 40%, #efe8dc 100%);
+    radial-gradient(circle at 20% 15%, rgba(108, 99, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 85% 5%, rgba(79, 142, 247, 0.14), transparent 26%),
+    linear-gradient(180deg, #f8f8ff 0%, #f0f2ff 44%, #eef2ff 100%);
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 html.dark {
   --vp-c-bg: #0d0d1a;
-  --vp-c-bg-alt: #090b12;
-  --vp-c-bg-soft: #0b1020;
-  --vp-c-bg-elv: rgba(19, 29, 54, 0.88);
-  --vp-c-text-1: #f5f7fb;
-  --vp-c-text-2: #9aa5b8;
-  --vp-c-text-3: rgba(154, 165, 184, 0.72);
+  --vp-c-bg-alt: #111124;
+  --vp-c-bg-soft: #15152a;
+  --vp-c-bg-elv: rgba(28, 28, 53, 0.88);
+  --vp-c-text-1: #f4f2ff;
+  --vp-c-text-2: #aaa8c7;
+  --vp-c-text-3: rgba(170, 168, 199, 0.72);
   --vp-c-brand-1: #9b8cff;
   --vp-c-brand-2: #7ab4ff;
-  --vp-c-brand-3: #ff8b2f;
-  --vp-c-brand-soft: rgba(86, 183, 255, 0.16);
-  --vp-c-border: rgba(255, 255, 255, 0.12);
-  --vp-c-divider: rgba(255, 255, 255, 0.12);
-  --vp-c-gutter: rgba(255, 255, 255, 0.08);
+  --vp-c-brand-3: #6c63ff;
+  --vp-c-brand-soft: rgba(155, 140, 255, 0.18);
+  --vp-c-border: rgba(188, 181, 255, 0.16);
+  --vp-c-divider: rgba(188, 181, 255, 0.16);
+  --vp-c-gutter: rgba(188, 181, 255, 0.08);
   --vp-button-brand-bg: #9b8cff;
-  --vp-button-brand-hover-bg: #8b5cf6;
-  --vp-button-brand-active-bg: #ff8b2f;
+  --vp-button-brand-hover-bg: #7ab4ff;
+  --vp-button-brand-active-bg: #6c63ff;
   --vp-button-brand-text: #06050f;
-  --vp-nav-bg-color: rgba(7, 10, 18, 0.7);
-  --vp-sidebar-bg-color: rgba(11, 16, 32, 0.86);
-  --liuli-accent: #56b7ff;
-  --liuli-accent-2: #8b5cf6;
-  --liuli-accent-3: #ff8b2f;
-  --liuli-glow: rgba(86, 183, 255, 0.3);
-  --liuli-card: rgba(16, 23, 42, 0.62);
-  --liuli-card-strong: rgba(19, 29, 54, 0.88);
+  --vp-nav-bg-color: rgba(13, 13, 26, 0.78);
+  --vp-sidebar-bg-color: rgba(21, 21, 42, 0.88);
+  --liuli-accent: #9b8cff;
+  --liuli-accent-2: #7ab4ff;
+  --liuli-accent-3: #6c63ff;
+  --liuli-glow: rgba(155, 140, 255, 0.26);
+  --liuli-card: rgba(19, 19, 38, 0.78);
+  --liuli-card-strong: #1c1c35;
   --liuli-shadow: 0 24px 110px rgba(0, 0, 0, 0.42);
 }
 
 html.dark,
 html.dark body {
   background:
-    radial-gradient(circle at 18% 12%, rgba(86, 183, 255, 0.2), transparent 34%),
-    radial-gradient(circle at 82% 4%, rgba(139, 92, 246, 0.24), transparent 28%),
-    radial-gradient(circle at 72% 55%, rgba(255, 139, 47, 0.08), transparent 28%),
-    linear-gradient(180deg, #060915 0%, #0b1020 48%, #090b12 100%);
+    radial-gradient(circle at 18% 12%, rgba(155, 140, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 4%, rgba(122, 180, 255, 0.18), transparent 28%),
+    linear-gradient(180deg, #0d0d1a 0%, #15152a 48%, #111124 100%);
 }
 
 .VPNavBar {
@@ -81,4 +86,117 @@ html.dark body {
 .VPNavBar,
 .VPNavBar.has-sidebar .content {
   border-bottom-color: var(--vp-c-divider);
+}
+
+.VPSocialLinks svg {
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+}
+
+.VPDoc .container {
+  max-width: 1120px !important;
+}
+
+.VPDoc .content {
+  max-width: 820px !important;
+}
+
+.VPPage > div {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: clamp(88px, 8vw, 120px) 32px 96px;
+}
+
+.VPPage > div > div > h1 {
+  margin: 0;
+  color: var(--vp-c-text-1);
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.VPPage > div > div > p {
+  max-width: 760px;
+  margin-top: 14px;
+  color: var(--vp-c-text-2);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.vp-doc h1 {
+  max-width: 760px;
+  color: var(--vp-c-text-1);
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.vp-doc h2 {
+  margin-top: 48px;
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 32px;
+  color: var(--vp-c-text-1);
+  letter-spacing: 0;
+}
+
+.vp-doc p,
+.vp-doc li {
+  color: var(--vp-c-text-2);
+  line-height: 1.82;
+}
+
+.vp-doc blockquote {
+  margin: 28px 0;
+  border-left: 4px solid var(--vp-c-brand-1);
+  border-radius: 0 8px 8px 0;
+  background: var(--vp-c-brand-soft);
+}
+
+.vp-doc img {
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 22px 70px var(--liuli-shadow);
+}
+
+.vp-doc table {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc th {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-soft);
+}
+
+.vp-doc tr:nth-child(2n) {
+  background: color-mix(in srgb, var(--vp-c-bg-soft), transparent 38%);
+}
+
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+@media (max-width: 768px) {
+  .VPPage > div {
+    padding: 82px 16px 64px;
+  }
+
+  .VPPage > div > div > h1 {
+    font-size: clamp(32px, 10vw, 42px);
+  }
+
+  .VPPage > div > div > p {
+    font-size: 15px;
+    line-height: 1.72;
+  }
 }

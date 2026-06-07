@@ -50,10 +50,10 @@ const pageLink = (path) => withBase(path)
 
 .blog-card {
   display: flex;
-  height: 280px;
-  background-color: var(--vp-c-bg-soft);
+  min-height: 260px;
+  background: var(--liuli-card);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
   text-decoration: none !important;
   color: inherit;
@@ -62,15 +62,15 @@ const pageLink = (path) => withBase(path)
 }
 
 .blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px var(--liuli-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px var(--liuli-glow);
   border-color: var(--vp-c-brand-1);
 }
 
 .blog-image {
   width: 40%;
   overflow: hidden;
-  background: #333;
+  background: var(--vp-c-bg-soft);
 }
 
 .blog-image img {
@@ -95,7 +95,7 @@ const pageLink = (path) => withBase(path)
 .blog-main h3 {
   margin: 0 0 15px !important;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--vp-c-text-1);
   transition: color 0.3s;
 }
@@ -122,7 +122,7 @@ const pageLink = (path) => withBase(path)
 }
 
 .meta-tag {
-  background: var(--vp-c-bg);
+  background: color-mix(in srgb, var(--liuli-card), var(--vp-c-bg) 40%);
   padding: 6px 12px;
   border-radius: 8px;
   border: 1px solid var(--vp-c-divider);

@@ -46,7 +46,7 @@ export const portfolioWorks = [
         titleEn: 'ECOMMERCE VISUAL UPGRADE',
         category: '商业视觉',
         desc: '主图体系 · 详情页 · 活动视觉',
-        img: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=800&q=80',
+        img: 'https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=800&q=80',
         link: '/portfolio/ecommerce-visual',
         featured: true
     },

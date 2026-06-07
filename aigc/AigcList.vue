@@ -27,7 +27,6 @@ const pageLink = (path) => withBase(path)
 </template>
 
 <style scoped>
-/* 3列网格布局 */
 .aigc-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -45,9 +44,9 @@ const pageLink = (path) => withBase(path)
 
 .aigc-card {
   display: block;
-  background-color: var(--vp-c-bg-soft);
+  background: var(--liuli-card);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
   text-decoration: none !important;
   transition: all 0.3s ease;
@@ -56,15 +55,15 @@ const pageLink = (path) => withBase(path)
 }
 
 .aigc-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px var(--liuli-glow);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px var(--liuli-glow);
   border-color: var(--vp-c-brand-1);
 }
 
 .card-image { 
-  height: 200px; 
+  aspect-ratio: 4 / 3;
   overflow: hidden; 
-  background: #333;
+  background: var(--vp-c-bg-soft);
   position: relative;
 }
 
@@ -86,7 +85,7 @@ const pageLink = (path) => withBase(path)
   background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
   color: white;
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -99,7 +98,7 @@ const pageLink = (path) => withBase(path)
 .card-info h3 { 
   margin: 0 !important; 
   font-size: 1.2rem; 
-  font-weight: 700; 
+  font-weight: 800;
   line-height: 1.4; 
   color: var(--vp-c-text-1);
 }
