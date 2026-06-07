@@ -69,6 +69,7 @@ const scrollProgress = ref(0)
 const workflowWrap = ref(null)
 const workflowTrack = ref(null)
 let storyObserver = null
+let _rafId = null
 
 const activeModeData = computed(() => strategyModes.find(item => item.id === activeMode.value) || strategyModes[0])
 const activeStepData = computed(() => workflowSteps.find(item => item.id === activeStep.value) || workflowSteps[0])
@@ -91,27 +92,25 @@ const heroStyle = computed(() => ({
   '--proof-opacity': 0.2 + scrollProgress.value * 0.44
 }))
 
-let heroPointerRaf = null
-
 const updateHeroPointer = (event) => {
   const target = event.currentTarget
   const clientX = event.clientX
   const clientY = event.clientY
 
-  if (heroPointerRaf) return
+  if (_rafId) return
 
-  heroPointerRaf = requestAnimationFrame(() => {
+  _rafId = requestAnimationFrame(() => {
     const rect = target.getBoundingClientRect()
     cursorX.value = Math.round(((clientX - rect.left) / rect.width) * 100)
     cursorY.value = Math.round(((clientY - rect.top) / rect.height) * 100)
-    heroPointerRaf = null
+    _rafId = null
   })
 }
 
 const resetHeroPointer = () => {
-  if (heroPointerRaf) {
-    cancelAnimationFrame(heroPointerRaf)
-    heroPointerRaf = null
+  if (_rafId) {
+    cancelAnimationFrame(_rafId)
+    _rafId = null
   }
   cursorX.value = 50
   cursorY.value = 50
@@ -273,8 +272,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (heroPointerRaf) {
-    cancelAnimationFrame(heroPointerRaf)
+  if (_rafId) {
+    cancelAnimationFrame(_rafId)
   }
   window.removeEventListener('scroll', handleScroll)
   storyObserver?.disconnect()
@@ -930,7 +929,7 @@ onUnmounted(() => {
 
 .filter-row {
   display: inline-flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 2px;
   margin: 28px auto 0;
   padding: 4px;
@@ -990,10 +989,10 @@ onUnmounted(() => {
 .filter-button {
   min-height: 38px;
   padding: 8px 14px;
-  border: 0;
+  border: none;
   border-radius: 999px;
   color: var(--hero-muted);
-  background: none;
+  background: transparent;
   cursor: pointer;
   font-weight: 800;
   transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease;
@@ -1007,7 +1006,7 @@ onUnmounted(() => {
 }
 
 .filter-button.active {
-  color: #fff;
+  color: var(--accent-contrast);
   background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
 }
 
@@ -1269,7 +1268,7 @@ onUnmounted(() => {
 
 .about-stats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
@@ -1891,7 +1890,7 @@ onUnmounted(() => {
   }
 
   .about-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .tool-card,
@@ -2044,10 +2043,6 @@ onUnmounted(() => {
 
   .blog-card {
     grid-template-columns: 1fr;
-  }
-
-  .blog-left {
-    min-height: 190px;
   }
 
   .workflow-detail {
@@ -3393,7 +3388,7 @@ onUnmounted(() => {
 .about-stats {
   order: 3;
   width: min(100%, 980px);
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
 
@@ -3716,20 +3711,20 @@ onUnmounted(() => {
 
 .filter-row {
   width: min(100%, 760px);
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 2px;
   margin: 0 auto clamp(34px, 4vw, 56px);
-  padding: 8px;
-  border: 1px solid color-mix(in srgb, var(--line-ui), transparent 12%);
+  padding: 4px;
+  border: 0.5px solid var(--line-ui);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--section-glass-strong), transparent 16%);
+  background: var(--surface-ui);
   box-shadow: 0 20px 70px color-mix(in srgb, var(--shadow-ui), transparent 46%);
 }
 
 .filter-button {
   min-height: 52px;
-  border: 0 !important;
+  border: none !important;
   border-radius: 999px !important;
   color: var(--muted-ink) !important;
   background: transparent !important;
@@ -3947,7 +3942,6 @@ onUnmounted(() => {
 
 @media (max-width: 920px) {
   .filter-row {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     border-radius: 999px;
   }
 
@@ -4158,7 +4152,7 @@ onUnmounted(() => {
 .about-stats {
   width: min(100%, 760px) !important;
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: 1fr 1fr !important;
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 16px !important;
 }
@@ -4189,26 +4183,27 @@ onUnmounted(() => {
   width: auto !important;
   max-width: calc(100% - 32px);
   display: inline-flex !important;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  gap: 4px !important;
+  gap: 2px !important;
   margin-right: auto !important;
   margin-left: auto !important;
   padding: 4px !important;
-  border: 1px solid var(--vp-c-divider) !important;
+  border: 0.5px solid var(--line-ui) !important;
   border-radius: 999px !important;
-  background: var(--vp-c-bg-soft) !important;
+  background: var(--surface-ui) !important;
   box-shadow: none !important;
 }
 
 .filter-button {
   min-height: 42px !important;
-  border: 0 !important;
+  border: none !important;
   border-radius: 999px !important;
+  background: transparent !important;
 }
 
 .filter-button.active {
-  color: #fff !important;
+  color: var(--accent-contrast) !important;
   background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2)) !important;
   box-shadow: 0 2px 8px color-mix(in srgb, var(--accent), transparent 50%) !important;
 }
@@ -4297,16 +4292,16 @@ onUnmounted(() => {
   }
 
   .filter-row {
-    border-radius: 18px !important;
+    border-radius: 999px !important;
   }
 
   .filter-button {
-    flex: 1 1 calc(50% - 4px);
+    flex: 0 0 auto;
   }
 
   .blog-left {
-    width: 100% !important;
-    min-width: 0 !important;
+    width: 200px !important;
+    min-width: 200px !important;
   }
 }
 </style>
