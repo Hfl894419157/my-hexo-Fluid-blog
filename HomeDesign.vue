@@ -921,12 +921,22 @@ onUnmounted(() => {
   transition: transform 0.22s ease, border-color 0.22s ease;
 }
 
-.mode-switch,
-.filter-row {
+.mode-switch {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 28px;
+}
+
+.filter-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 28px auto 0;
+  padding: 4px;
+  border: 0.5px solid var(--line-ui);
+  border-radius: 999px;
+  background: var(--surface-ui);
 }
 
 .hero-proofline {
@@ -965,8 +975,7 @@ onUnmounted(() => {
   background: linear-gradient(120deg, transparent, color-mix(in srgb, var(--accent), transparent 76%), transparent);
 }
 
-.mode-button,
-.filter-button {
+.mode-button {
   min-height: 38px;
   padding: 8px 14px;
   border: 1px solid var(--line-soft);
@@ -978,12 +987,28 @@ onUnmounted(() => {
   transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease;
 }
 
+.filter-button {
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--hero-muted);
+  background: none;
+  cursor: pointer;
+  font-weight: 800;
+  transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+
 .mode-button.active,
-.filter-button.active,
 .workflow-step.active {
   color: var(--primary-text);
   border-color: var(--primary-bg);
   background: var(--primary-bg);
+}
+
+.filter-button.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2));
 }
 
 .hero-console {
@@ -1244,7 +1269,7 @@ onUnmounted(() => {
 
 .about-stats {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -1279,7 +1304,7 @@ onUnmounted(() => {
 
 .stat-val {
   color: var(--accent);
-  font-size: clamp(34px, 5vw, 54px);
+  font-size: clamp(44px, 6vw, 72px);
   font-weight: 900;
   line-height: 1;
 }
@@ -1594,12 +1619,14 @@ onUnmounted(() => {
 }
 
 .blog-left {
-  min-height: 250px;
+  width: 200px;
+  min-width: 200px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
 .blog-card:nth-child(1) .blog-left {
-  min-height: 300px;
+  min-height: 0;
 }
 
 .blog-right {
@@ -2996,151 +3023,6 @@ onUnmounted(() => {
   }
 }
 
-/* -------------------- 动态设计工作台 -------------------- */
-.hero-console.studio {
-  position: relative;
-  min-height: 520px;
-  perspective: 1200px;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-  align-self: center;
-  width: 100%;
-  transform: none;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(6px);
-  opacity: .75;
-}
-.orb.one {
-  width: 110px;
-  height: 110px;
-  background: var(--accent);
-  right: 20px;
-  top: 10px;
-}
-.orb.two {
-  width: 160px;
-  height: 160px;
-  background: var(--accent-strong);
-  left: -10px;
-  bottom: 30px;
-  animation-delay: -2s;
-  opacity: .32;
-}
-
-.desk {
-  position: absolute;
-  inset: 40px 0 0 0;
-  border: 1px solid var(--hero-line);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: var(--shadow-soft);
-  transform: rotateY(-8deg) rotateX(6deg);
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-:global(html.dark .desk) {
-  background: rgba(19, 29, 54, 0.92);
-}
-.desk:hover {
-  transform: rotateY(-4deg) rotateX(3deg) translateY(-4px);
-}
-.desk::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 78% 10%, var(--accent-soft), transparent 30%),
-              linear-gradient(135deg, rgba(255,255,255,.14), transparent 40%);
-  pointer-events: none;
-}
-
-.desk-top {
-  position: relative;
-  padding: 18px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--hero-line);
-}
-.traffic { display: flex; gap: 8px; }
-.traffic i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); display: block; opacity: .85;}
-.traffic i:nth-child(2) { background: var(--accent-strong); }
-.traffic i:nth-child(3) { background: var(--warm); }
-
-.desk-grid {
-  position: relative;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 1.05fr .95fr;
-  gap: 14px;
-  height: calc(100% - 50px);
-  overflow-y: auto;
-}
-
-.panel {
-  min-height: 120px;
-  border: 1px solid var(--hero-line);
-  background: rgba(127,127,127,.055);
-  border-radius: 18px;
-  padding: 14px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.35s ease, border-color 0.35s ease;
-}
-:global(.home-container:not(.dark)) .panel { background: rgba(255, 255, 255, 0.58); }
-.panel:hover {
-  transform: translateY(-4px) scale(1.01);
-  border-color: var(--accent);
-}
-.panel.large { grid-row: span 2; min-height: 260px; }
-
-.mock-product {
-  width: 86%;
-  height: 150px;
-  margin: 14px auto 0;
-  border-radius: 20px;
-  background:
-    linear-gradient(90deg, transparent 48%, rgba(255,255,255,.18) 49%, transparent 51%),
-    linear-gradient(145deg, var(--accent), var(--accent-strong));
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 20px 40px rgba(0,0,0,.20);
-  position: relative;
-}
-.mock-product::after {
-  content: "";
-  position: absolute;
-  left: 24%;
-  right: 24%;
-  top: 30px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--warm);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--warm), transparent 45%);
-  opacity: 0.85;
-}
-
-.panel h3 { margin: 0 0 6px; font-size: 14px; font-weight: 800; }
-.panel p { color: var(--text-muted); margin: 0; line-height: 1.5; font-size: 12px; }
-
-.chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-.chip {
-  border: 1px solid var(--hero-line);
-  border-radius: 999px;
-  padding: 4px 8px;
-  font-size: 11px;
-  color: var(--text-muted);
-  background: rgba(127,127,127,.08);
-}
-
-.bars { display: grid; gap: 8px; margin-top: 14px; }
-.bar { height: 8px; border-radius: 99px; background: rgba(127,127,127,.16); overflow: hidden; }
-.bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); width: var(--w); }
-
-
 /* -------------------- 跑马灯标签轮播 -------------------- */
 .marquee {
   width: 100%;
@@ -3356,20 +3238,11 @@ onUnmounted(() => {
   .hero-console.studio {
     min-height: 480px;
   }
-  .desk {
-    transform: none;
-  }
-  .desk:hover {
-    transform: translateY(-4px);
-  }
 }
 
 @media (max-width: 640px) {
   .hero-console.studio {
     min-height: 400px;
-  }
-  .desk-grid {
-    grid-template-columns: 1fr;
   }
   .workflow-outer-wrap {
     height: auto;
@@ -3463,16 +3336,6 @@ onUnmounted(() => {
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-}
-
-.desk {
-  border-color: color-mix(in srgb, var(--ink), transparent 86%);
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 34px 100px color-mix(in srgb, var(--ink), transparent 88%);
-}
-
-.desk-grid .panel {
-  background: color-mix(in srgb, var(--section-glass-strong), transparent 12%);
 }
 
 .stage-image,
@@ -4134,7 +3997,6 @@ onUnmounted(() => {
 .hero-console,
 .hero-console.studio,
 .stage-panel,
-.desk,
 .filter-row {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -4144,15 +4006,6 @@ onUnmounted(() => {
   filter: none !important;
   will-change: transform;
   transition: transform 0.18s ease-out !important;
-}
-
-.orb {
-  display: none !important;
-  animation: none !important;
-}
-
-.mock-product {
-  animation: none !important;
 }
 
 .about-stat,
@@ -4356,7 +4209,7 @@ onUnmounted(() => {
 
 .filter-button.active {
   color: #fff !important;
-  background: var(--accent) !important;
+  background: linear-gradient(135deg, var(--accent-ui), var(--accent-ui-2)) !important;
   box-shadow: 0 2px 8px color-mix(in srgb, var(--accent), transparent 50%) !important;
 }
 
