@@ -76,44 +76,43 @@ const filteredWorks = computed(() => {
   if (activeFilter.value === 'all') return selectedWorks.value
   return selectedWorks.value.filter(work => work.category === activeFilter.value)
 })
+const heroPreviewWorks = computed(() => selectedWorks.value.slice(0, 2))
 const heroStyle = computed(() => ({
   '--mx': `${cursorX.value}%`,
   '--my': `${cursorY.value}%`,
   '--scroll': scrollProgress.value,
-  '--hero-offset': `${Math.round(scrollProgress.value * 8)}px`,
-  '--hero-scale': 1 - scrollProgress.value * 0.012,
   '--hero-copy-y': `${Math.round(scrollProgress.value * -8)}px`,
   '--ambient-y': `${Math.round(scrollProgress.value * 14)}px`,
-  '--console-y': `${Math.round(scrollProgress.value * -12)}px`,
-  '--tilt-x': `${((cursorY.value - 50) * -0.04).toFixed(2)}deg`,
-  '--tilt-y': `${((cursorX.value - 50) * 0.04).toFixed(2)}deg`,
   '--scan-x': `${Math.round((cursorX.value - 50) * 0.16)}px`,
   '--scan-opacity': 0.1 + scrollProgress.value * 0.12,
   '--ambient-opacity': 0.74 + scrollProgress.value * 0.12,
   '--reactor-scale': 0.12 + scrollProgress.value * 0.88,
-  '--flow-spin': `${Math.round(scrollProgress.value * 4)}deg`,
-  '--poster-y': `${Math.round(scrollProgress.value * -16)}px`,
-  '--poster-x': `${((cursorX.value - 50) * -0.08).toFixed(1)}px`,
-  '--poster-y-soft': `${Math.round(scrollProgress.value * -9)}px`,
-  '--poster-x-soft': `${((cursorX.value - 50) * -0.04).toFixed(1)}px`,
-  '--poster-scale-soft': 1 + scrollProgress.value * 0.025,
-  '--poster-scale': 1.035 + scrollProgress.value * 0.04,
-  '--orbit-opacity': 0.16 + scrollProgress.value * 0.24,
-  '--orbit-scale': 0.96 + scrollProgress.value * 0.04,
-  '--poster-hue': `${Math.round(scrollProgress.value * 10)}deg`,
-  '--poster-saturation': 1.04 + scrollProgress.value * 0.1,
-  '--poster-brightness': 1.03 - scrollProgress.value * 0.04,
   '--proof-glide': `${Math.round(scrollProgress.value * 80 - 40)}px`,
   '--proof-opacity': 0.2 + scrollProgress.value * 0.44
 }))
 
+let heroPointerRaf = null
+
 const updateHeroPointer = (event) => {
-  const rect = event.currentTarget.getBoundingClientRect()
-  cursorX.value = Math.round(((event.clientX - rect.left) / rect.width) * 100)
-  cursorY.value = Math.round(((event.clientY - rect.top) / rect.height) * 100)
+  const target = event.currentTarget
+  const clientX = event.clientX
+  const clientY = event.clientY
+
+  if (heroPointerRaf) return
+
+  heroPointerRaf = requestAnimationFrame(() => {
+    const rect = target.getBoundingClientRect()
+    cursorX.value = Math.round(((clientX - rect.left) / rect.width) * 100)
+    cursorY.value = Math.round(((clientY - rect.top) / rect.height) * 100)
+    heroPointerRaf = null
+  })
 }
 
 const resetHeroPointer = () => {
+  if (heroPointerRaf) {
+    cancelAnimationFrame(heroPointerRaf)
+    heroPointerRaf = null
+  }
   cursorX.value = 50
   cursorY.value = 50
 }
@@ -274,6 +273,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  if (heroPointerRaf) {
+    cancelAnimationFrame(heroPointerRaf)
+  }
   window.removeEventListener('scroll', handleScroll)
   storyObserver?.disconnect()
   metricObserver?.disconnect()
@@ -296,44 +298,25 @@ onUnmounted(() => {
         </p>
       </div>
 
-      <div class="hero-console studio">
-        <div class="orb one"></div>
-        <div class="orb two"></div>
-        <div class="desk">
-          <div class="desk-top">
-            <div class="traffic"><i></i><i></i><i></i></div>
-            <div class="chip">设计工作台 Live</div>
-          </div>
-          <div class="desk-grid">
-            <div class="panel large">
-              <h3>工业产品视觉</h3>
-              <p>产品结构、安装逻辑、应用场景、细节放大。</p>
-              <div class="mock-product"></div>
-            </div>
-            <div class="panel">
-              <h3>提示词系统</h3>
-              <p>参考图控制 + 产品一致性 + 场景方向。</p>
-              <div class="chips"><span class="chip">主图</span><span class="chip">详情页</span></div>
-            </div>
-            <div class="panel">
-              <h3>页面结构</h3>
-              <p>从首屏认知到卖点、细节、场景、参数与询盘。</p>
-              <div class="bars">
-                <span class="bar"><i style="--w:82%"></i></span>
-                <span class="bar"><i style="--w:64%"></i></span>
-                <span class="bar"><i style="--w:91%"></i></span>
-              </div>
-            </div>
-            <div class="panel">
-              <h3>动态分镜</h3>
-              <p>脚本、分镜、画面提示词、图生视频、剪辑包装。</p>
-            </div>
-            <div class="panel">
-              <h3>资产库</h3>
-              <p>提示词、模板、检查表、案例复盘与方法论。</p>
-            </div>
-          </div>
+      <div class="hero-console studio showcase">
+        <div class="showcase-badge">
+          <strong>120+</strong>
+          <span>项目经验</span>
         </div>
+        <a
+          v-for="(work, index) in heroPreviewWorks"
+          :key="work.id"
+          :href="pageLink(work.link)"
+          class="showcase-card"
+          :class="`showcase-card-${index + 1}`"
+        >
+          <img :src="work.img" :alt="work.title" loading="eager" />
+          <div class="showcase-copy">
+            <span>{{ work.category }}</span>
+            <h3>{{ work.title }}</h3>
+            <p>{{ work.desc }}</p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -439,7 +422,12 @@ onUnmounted(() => {
         @mouseleave="workflowPaused = false"
       >
         <div class="workflow-track" ref="workflowTrack">
-          <div v-for="(step, index) in [...workflowSteps, ...workflowSteps]" :key="`${step.id}-${index}`" class="step-card">
+          <div
+            v-for="(step, index) in [...workflowSteps, ...workflowSteps]"
+            :key="`${step.id}-${index}`"
+            class="step-card"
+            :data-signal="step.signal"
+          >
             <h3>{{ step.label }} · {{ step.title }}</h3>
             <p>{{ step.desc }}</p>
             <div class="aigc-mini-grid-horizontal">
@@ -4147,6 +4135,319 @@ onUnmounted(() => {
   .contact-section {
     padding-right: 16px !important;
     padding-left: 16px !important;
+  }
+}
+/* -------------------- 2026-06 performance and showcase refinement -------------------- */
+.hero-section {
+  transform: none !important;
+}
+
+.hero-console,
+.hero-console.studio,
+.stage-panel,
+.desk,
+.filter-row {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.stage-image img {
+  filter: none !important;
+  will-change: transform;
+  transition: transform 0.18s ease-out !important;
+}
+
+.orb {
+  display: none !important;
+}
+
+.hero-console.studio.showcase {
+  position: relative;
+  width: min(100%, 480px);
+  min-height: 560px;
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 0;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  perspective: none !important;
+}
+
+.showcase-badge {
+  position: absolute;
+  z-index: 3;
+  top: 22px;
+  right: 18px;
+  display: grid;
+  gap: 2px;
+  min-width: 116px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent), transparent 34%);
+  border-radius: 8px;
+  color: var(--accent-contrast);
+  background: var(--accent);
+  box-shadow: 0 18px 42px color-mix(in srgb, var(--accent), transparent 66%);
+}
+
+.showcase-badge strong {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.92;
+  font-weight: 950;
+}
+
+.showcase-badge span {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.showcase-card {
+  position: relative;
+  min-height: 236px;
+  overflow: hidden;
+  border: 1px solid var(--hero-line);
+  border-radius: 8px;
+  color: var(--hero-text);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--shadow-ui), transparent 48%);
+  transform: translateY(0);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.dark .showcase-card {
+  background: rgba(16, 23, 42, 0.88);
+}
+
+.showcase-card:hover {
+  border-color: color-mix(in srgb, var(--accent), transparent 46%);
+  box-shadow: 0 30px 72px color-mix(in srgb, var(--shadow-ui), transparent 38%);
+  transform: translateY(-6px);
+}
+
+.showcase-card-2 {
+  margin-left: clamp(22px, 6vw, 72px);
+}
+
+.showcase-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 236px;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform 0.28s ease;
+}
+
+.showcase-card:hover img {
+  transform: scale(1.04);
+}
+
+.showcase-copy {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 6px;
+  padding: 72px 20px 18px;
+  color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.84));
+}
+
+.showcase-copy span {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.showcase-copy h3 {
+  margin: 0;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.12;
+  font-weight: 950;
+}
+
+.showcase-copy p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 700;
+  opacity: 0.88;
+}
+
+.marquee-track {
+  gap: 2em !important;
+}
+
+.marquee span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2em;
+  color: var(--accent) !important;
+  font-size: 18px !important;
+  letter-spacing: 0 !important;
+  opacity: 0.92 !important;
+}
+
+.marquee span::after {
+  content: "|";
+  color: var(--accent);
+  opacity: 0.62;
+}
+
+.about-stats {
+  width: min(100%, 760px) !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 16px !important;
+}
+
+.about-stat {
+  min-height: 154px !important;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border-radius: 8px !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.about-stat .stat-val {
+  font-size: clamp(44px, 6vw, 72px) !important;
+  line-height: 0.92 !important;
+  font-weight: 950 !important;
+}
+
+.about-stat .stat-lbl {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 850 !important;
+}
+
+.filter-row {
+  width: auto !important;
+  max-width: calc(100% - 32px);
+  display: inline-flex !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: 4px !important;
+  border: 1px solid var(--vp-c-divider) !important;
+  border-radius: 999px !important;
+  background: var(--vp-c-bg-soft) !important;
+  box-shadow: none !important;
+}
+
+.filter-button {
+  min-height: 42px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+}
+
+.filter-button.active {
+  color: #fff !important;
+  background: var(--accent) !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent), transparent 50%) !important;
+}
+
+.step-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.step-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.step-card::after {
+  content: attr(data-signal);
+  position: absolute;
+  right: 18px;
+  bottom: 4px;
+  z-index: 0;
+  color: color-mix(in srgb, var(--accent), transparent 88%);
+  font-size: clamp(76px, 10vw, 132px);
+  line-height: 0.78;
+  font-weight: 950;
+  pointer-events: none;
+}
+
+.blog-left {
+  width: 200px !important;
+  min-width: 200px !important;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.blog-left img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.contact-section {
+  border-top: 1px solid var(--line-strong) !important;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent), transparent 92%) 0%,
+      var(--vp-c-bg-soft) 60%
+    ) !important;
+}
+
+@media (max-width: 920px) {
+  .hero-console.studio.showcase {
+    width: min(100%, 620px);
+    min-height: auto;
+    margin: 0 auto;
+  }
+
+  .showcase-card-2 {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .showcase-badge {
+    top: 12px;
+    right: 12px;
+    min-width: 96px;
+  }
+
+  .showcase-card {
+    min-height: 220px;
+  }
+
+  .showcase-card img {
+    min-height: 220px;
+  }
+
+  .about-stats {
+    gap: 10px !important;
+  }
+
+  .about-stat {
+    min-height: 132px !important;
+    padding: 18px 12px !important;
+  }
+
+  .filter-row {
+    border-radius: 18px !important;
+  }
+
+  .filter-button {
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  .blog-left {
+    width: 100% !important;
+    min-width: 0 !important;
   }
 }
 </style>
