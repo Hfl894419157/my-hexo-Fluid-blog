@@ -993,7 +993,6 @@ onUnmounted(() => {
   border-radius: 8px;
   background: var(--hero-glass);
   box-shadow: 0 28px 80px var(--shadow-soft);
-  backdrop-filter: blur(14px);
   transform:
     perspective(1000px)
     translateY(var(--console-y))
@@ -1121,7 +1120,6 @@ onUnmounted(() => {
   border: 1px solid var(--hero-line);
   border-radius: 8px;
   background: var(--hero-panel);
-  backdrop-filter: blur(12px);
 }
 
 .stage-panel h2 {
@@ -2189,7 +2187,6 @@ onUnmounted(() => {
   color: var(--ink) !important;
   border-color: var(--line);
   background: var(--panel-bg);
-  backdrop-filter: blur(18px);
 }
 
 .hero-metrics {
@@ -2210,7 +2207,6 @@ onUnmounted(() => {
   background:
     linear-gradient(140deg, color-mix(in srgb, var(--panel-bg), var(--brand-a) 8%), transparent),
     var(--panel-bg);
-  backdrop-filter: blur(16px);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -2320,7 +2316,6 @@ onUnmounted(() => {
 .signal-card {
   border-color: var(--line-hot);
   background: color-mix(in srgb, var(--panel-bg), transparent 4%);
-  backdrop-filter: blur(18px);
 }
 
 .signal-card b,
@@ -2360,7 +2355,6 @@ onUnmounted(() => {
 .work-card {
   border-color: var(--line);
   background: var(--panel-bg);
-  backdrop-filter: blur(16px);
 }
 
 .about-stat {
@@ -2386,7 +2380,6 @@ onUnmounted(() => {
   color: inherit;
   text-decoration: none !important;
   background: var(--panel-bg);
-  backdrop-filter: blur(16px);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -3022,7 +3015,6 @@ onUnmounted(() => {
   border-radius: 999px;
   filter: blur(6px);
   opacity: .75;
-  animation: float 7s ease-in-out infinite;
 }
 .orb.one {
   width: 110px;
@@ -3046,12 +3038,14 @@ onUnmounted(() => {
   inset: 40px 0 0 0;
   border: 1px solid var(--hero-line);
   border-radius: 28px;
-  background: linear-gradient(145deg, var(--hero-panel), rgba(255,255,255,.06));
-  backdrop-filter: blur(24px);
+  background: rgba(255, 255, 255, 0.88);
   box-shadow: var(--shadow-soft);
   transform: rotateY(-8deg) rotateX(6deg);
   overflow: hidden;
   transition: transform 0.3s ease;
+}
+:global(html.dark .desk) {
+  background: rgba(19, 29, 54, 0.92);
 }
 .desk:hover {
   transform: rotateY(-4deg) rotateX(3deg) translateY(-4px);
@@ -3115,7 +3109,6 @@ onUnmounted(() => {
     linear-gradient(145deg, var(--accent), var(--accent-strong));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 20px 40px rgba(0,0,0,.20);
   position: relative;
-  animation: float 5.8s ease-in-out infinite;
 }
 .mock-product::after {
   content: "";
@@ -3474,9 +3467,8 @@ onUnmounted(() => {
 
 .desk {
   border-color: color-mix(in srgb, var(--ink), transparent 86%);
-  background: color-mix(in srgb, var(--section-glass), transparent 10%);
+  background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 34px 100px color-mix(in srgb, var(--ink), transparent 88%);
-  backdrop-filter: blur(18px);
 }
 
 .desk-grid .panel {
@@ -3547,7 +3539,6 @@ onUnmounted(() => {
   border-color: var(--line-ui);
   background: color-mix(in srgb, var(--section-glass), transparent 4%);
   box-shadow: 0 18px 54px color-mix(in srgb, var(--shadow-ui), transparent 28%);
-  backdrop-filter: blur(18px);
 }
 
 .about-copy p {
@@ -3622,7 +3613,6 @@ onUnmounted(() => {
   border-color: var(--line-ui) !important;
   background: color-mix(in srgb, var(--section-glass), transparent 6%) !important;
   box-shadow: 0 18px 54px color-mix(in srgb, var(--shadow-ui), transparent 32%);
-  backdrop-filter: blur(18px);
 }
 
 .contact-card {
@@ -3872,7 +3862,6 @@ onUnmounted(() => {
   border-radius: 999px;
   background: color-mix(in srgb, var(--section-glass-strong), transparent 16%);
   box-shadow: 0 20px 70px color-mix(in srgb, var(--shadow-ui), transparent 46%);
-  backdrop-filter: blur(18px);
 }
 
 .filter-button {
@@ -4159,6 +4148,23 @@ onUnmounted(() => {
 
 .orb {
   display: none !important;
+  animation: none !important;
+}
+
+.mock-product {
+  animation: none !important;
+}
+
+.about-stat,
+.workflow-detail,
+.work-card,
+.blog-card,
+.tool-card,
+.contact-item,
+.case-feature,
+.metric-card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 .hero-console.studio.showcase {
