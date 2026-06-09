@@ -4870,7 +4870,7 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   z-index: 1;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .hero-poster::before,
@@ -4885,6 +4885,7 @@ onUnmounted(() => {
   width: min(82%, 390px) !important;
   max-width: 390px;
   z-index: 2;
+  pointer-events: none;
   transform: none !important;
   filter: drop-shadow(0 26px 54px color-mix(in srgb, var(--poster-accent), transparent 68%));
 }

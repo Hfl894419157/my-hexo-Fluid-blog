@@ -1,4 +1,5 @@
 import React from 'react'
+import Galaxy from './Galaxy.jsx'
 import './bits-effects.css'
 
 const copy = {
@@ -52,6 +53,27 @@ const variantClass = {
 export default function BitsEffects({ variant = 'home-hero', tone = 'default', density = 'medium' }) {
   const data = copy[variant] || copy['home-hero']
   const isFlow = variant === 'workflow-flow'
+
+  if (variant === 'home-hero') {
+    return (
+      <section className="rb-shell rb-home" data-tone={tone} data-density={density} aria-hidden="true">
+        <Galaxy
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={1.65}
+          glowIntensity={0.42}
+          saturation={0.82}
+          hueShift={232}
+          twinkleIntensity={0.34}
+          rotationSpeed={0.045}
+          speed={0.48}
+          starSpeed={0.52}
+          repulsionStrength={1.45}
+          transparent={true}
+        />
+      </section>
+    )
+  }
 
   return (
     <section className={`rb-shell ${variantClass[variant] || 'rb-home'}`} data-tone={tone} data-density={density}>
