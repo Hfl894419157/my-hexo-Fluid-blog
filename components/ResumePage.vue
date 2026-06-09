@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import ReactIsland from './ReactIsland.vue'
 
 // === 1. 个人基础信息 ===
 const profile = {
@@ -174,6 +175,9 @@ const awards = [
           <div class="summary-box">
             <p>{{ profile.summary }}</p>
           </div>
+          <ClientOnly>
+            <ReactIsland variant="resume-profile" tone="profile" density="medium" />
+          </ClientOnly>
         </section>
 
         <hr class="divider" />

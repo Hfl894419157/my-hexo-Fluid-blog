@@ -1,4 +1,12 @@
+<script setup>
+import ReactIsland from '../components/ReactIsland.vue'
+</script>
+
 # 个人资源库比普通博客更重要
+
+<ClientOnly>
+  <ReactIsland variant="article-accent" tone="article" density="low" />
+</ClientOnly>
 
 这篇方法论正在整理中。核心方向是：把资料从随机收藏变成按项目、场景和复用价值组织的内容资产。
 

@@ -1,0 +1,260 @@
+.rb-shell {
+  --rb-accent: #8f82ff;
+  --rb-accent-2: #74b6ff;
+  --rb-ink: #f8f7ff;
+  --rb-muted: rgba(248, 247, 255, 0.68);
+  position: relative;
+  min-height: 190px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(150, 143, 255, 0.24);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(116, 182, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 12% 84%, rgba(143, 130, 255, 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(19, 19, 38, 0.78), rgba(17, 17, 36, 0.62));
+  color: var(--rb-ink);
+  box-shadow: 0 22px 54px rgba(6, 8, 20, 0.18);
+}
+
+.rb-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+  opacity: 0.36;
+}
+
+.rb-copy {
+  position: relative;
+  z-index: 2;
+  width: min(68%, 520px);
+  display: grid;
+  gap: 10px;
+  padding: clamp(22px, 4vw, 34px);
+}
+
+.rb-copy p {
+  margin: 0;
+  color: var(--rb-accent-2);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rb-copy h3 {
+  margin: 0;
+  color: var(--rb-ink);
+  font-size: clamp(24px, 4vw, 46px);
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.rb-copy span {
+  max-width: 420px;
+  color: var(--rb-muted);
+  font-size: 14px;
+  line-height: 1.72;
+  font-weight: 700;
+}
+
+.rb-orbit {
+  position: absolute;
+  right: clamp(14px, 4vw, 42px);
+  top: 50%;
+  width: clamp(120px, 18vw, 210px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+}
+
+.rb-orbit span {
+  position: absolute;
+  inset: calc(var(--i, 0) * 16px);
+  border: 1px solid rgba(143, 130, 255, 0.28);
+  border-radius: 50%;
+  animation: rb-spin 13s linear infinite;
+}
+
+.rb-orbit span:nth-child(1) {
+  --i: 0;
+}
+
+.rb-orbit span:nth-child(2) {
+  --i: 1;
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+.rb-orbit span:nth-child(3) {
+  --i: 2;
+  animation-duration: 9s;
+}
+
+.rb-orbit span::before {
+  content: "";
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--rb-accent), var(--rb-accent-2));
+  box-shadow: 0 0 24px rgba(143, 130, 255, 0.8);
+}
+
+.rb-chipline,
+.rb-flow {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 clamp(22px, 4vw, 34px) clamp(22px, 4vw, 34px);
+}
+
+.rb-chipline i,
+.rb-flow i {
+  display: inline-grid;
+  place-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(143, 130, 255, 0.32);
+  border-radius: 999px;
+  color: var(--rb-ink);
+  background: rgba(143, 130, 255, 0.12);
+  font-size: 12px;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 900;
+  animation: rb-rise 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.16s);
+}
+
+.rb-flow {
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.rb-flow i {
+  position: relative;
+  min-width: 88px;
+}
+
+.rb-flow i:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: 18px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--rb-accent), transparent);
+}
+
+.rb-home {
+  min-height: clamp(260px, 31vw, 420px);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.rb-home::before {
+  opacity: 0.2;
+}
+
+.rb-home .rb-copy {
+  display: none;
+}
+
+.rb-home .rb-orbit {
+  right: 50%;
+  width: min(88%, 340px);
+  transform: translate(50%, -50%);
+}
+
+.rb-home .rb-chipline {
+  position: absolute;
+  right: 50%;
+  bottom: 10%;
+  width: min(92%, 370px);
+  justify-content: center;
+  padding: 0;
+  transform: translateX(50%);
+}
+
+.rb-resume,
+.rb-case,
+.rb-workflow {
+  margin: 24px 0;
+}
+
+.rb-resource,
+.rb-article {
+  min-height: 132px;
+  margin: 22px 0;
+}
+
+.rb-resource .rb-copy,
+.rb-article .rb-copy {
+  width: min(76%, 620px);
+  padding-block: 20px;
+}
+
+.rb-resource .rb-copy h3,
+.rb-article .rb-copy h3 {
+  font-size: clamp(20px, 3vw, 30px);
+}
+
+.rb-resource .rb-orbit,
+.rb-article .rb-orbit {
+  width: 108px;
+}
+
+@keyframes rb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rb-rise {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 720px) {
+  .rb-shell {
+    min-height: 220px;
+  }
+
+  .rb-copy {
+    width: 100%;
+    padding-right: 24px;
+  }
+
+  .rb-orbit {
+    opacity: 0.42;
+  }
+
+  .rb-chipline,
+  .rb-flow {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .rb-home {
+    min-height: 320px;
+  }
+}

@@ -1,4 +1,12 @@
+<script setup>
+import ReactIsland from '../components/ReactIsland.vue'
+</script>
+
 # AI 冲击下，设计师网站应该展示什么
+
+<ClientOnly>
+  <ReactIsland variant="article-accent" tone="article" density="low" />
+</ClientOnly>
 
 这篇方法论正在整理中。核心方向是：网站不只展示结果图，更要展示能力结构、工作流程、判断依据和可合作的交付方式。
 

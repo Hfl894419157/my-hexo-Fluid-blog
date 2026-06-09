@@ -1,11 +1,15 @@
 <script setup>
 import { withBase } from 'vitepress'
 import { aigcWorks } from '../.shared/aigcData.js'
+import ReactIsland from '../components/ReactIsland.vue'
 
 const pageLink = (path) => withBase(path)
 </script>
 
 <template>
+  <ClientOnly>
+    <ReactIsland variant="workflow-flow" tone="workflow" density="medium" />
+  </ClientOnly>
   <div class="aigc-list">
     <a 
       v-for="work in aigcWorks" 

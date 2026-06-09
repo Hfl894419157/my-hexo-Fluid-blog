@@ -1,11 +1,15 @@
 <script setup>
 import { withBase } from 'vitepress'
 import { portfolioWorks } from '../.shared/portfolioData.js'
+import ReactIsland from '../components/ReactIsland.vue'
 
 const pageLink = (path) => withBase(path)
 </script>
 
 <template>
+  <ClientOnly>
+    <ReactIsland variant="case-showcase" tone="case" density="medium" />
+  </ClientOnly>
   <div class="portfolio-list">
 
     <a 

@@ -1,11 +1,15 @@
 <script setup>
 import { withBase } from 'vitepress'
 import { toolsResources } from '../.shared/resourcesData.js'
+import ReactIsland from '../components/ReactIsland.vue'
 
 const pageLink = (path) => withBase(path)
 </script>
 
 <template>
+  <ClientOnly>
+    <ReactIsland variant="resource-micro" tone="resource" density="low" />
+  </ClientOnly>
   <div class="resources-list">
     <a 
       v-for="tool in toolsResources" 

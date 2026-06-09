@@ -1,9 +1,13 @@
 import { defineConfig } from 'vitepress'
+import react from '@vitejs/plugin-react'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "韩福利 | AI 设计与数字内容工作流",
   description: "聚焦 AI 时代的设计案例、AIGC 工作流、资源沉淀与个人方法论",
+  vite: {
+    plugins: [react()]
+  },
   themeConfig: {
     // 搜索配置
     search: {

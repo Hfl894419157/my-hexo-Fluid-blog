@@ -1,11 +1,15 @@
 <script setup>
 import { withBase } from 'vitepress'
 import { blogPosts } from '../.shared/blogData.js'
+import ReactIsland from '../components/ReactIsland.vue'
 
 const pageLink = (path) => withBase(path)
 </script>
 
 <template>
+  <ClientOnly>
+    <ReactIsland variant="article-accent" tone="article" density="low" />
+  </ClientOnly>
   <div class="blog-list">
     <a 
       v-for="post in blogPosts" 

@@ -5,6 +5,7 @@ import { portfolioWorks } from './.shared/portfolioData.js'
 import { aigcWorks as allAigcWorks } from './.shared/aigcData.js'
 import { blogPosts as allBlogPosts } from './.shared/blogData.js'
 import { toolsResources } from './.shared/resourcesData.js'
+import ReactIsland from './components/ReactIsland.vue'
 
 // === 1. 精选作品数据 (从共享数据源获取) ===
 const selectedWorks = computed(() => portfolioWorks.filter(work => work.featured))
@@ -52,6 +53,16 @@ const workflowSteps = [
   { id: 'ship', label: 'Ship', title: '交付', desc: '输出物料、复盘过程，并沉淀为可复用资源。', signal: '05' }
 ]
 
+const marqueeItems = [
+  { label: '主图视觉系统', icon: 'grid' },
+  { label: '工业应用场景', icon: 'industry' },
+  { label: 'AI 提示词库', icon: 'prompt' },
+  { label: '详情页转化策略', icon: 'page' },
+  { label: '3D 渲染表现', icon: 'cube' },
+  { label: '视觉设计工作流', icon: 'flow' },
+  { label: 'B2B 商业转化', icon: 'growth' }
+]
+
 const caseFilters = [
   { id: 'all', label: '全部' },
   { id: '品牌视觉', label: '品牌' },
@@ -63,6 +74,7 @@ const activeMode = ref(strategyModes[0].id)
 const activeStep = ref(workflowSteps[0].id)
 const activeFilter = ref(caseFilters[0].id)
 const workflowPaused = ref(false)
+const marqueePaused = ref(false)
 const cursorX = ref(50)
 const cursorY = ref(50)
 const scrollProgress = ref(0)
@@ -286,8 +298,6 @@ onUnmounted(() => {
     <section
       class="hero-section"
       :style="heroStyle"
-      @mousemove="updateHeroPointer"
-      @mouseleave="resetHeroPointer"
     >
       <div class="hero-copy">
         <span class="eyebrow">韩福利 / AI 设计系统</span>
@@ -298,13 +308,9 @@ onUnmounted(() => {
       </div>
 
       <div class="hero-poster" aria-label="AI 设计系统海报">
-        <div class="hero-poster-copy">
-          <span>AI DESIGN SYSTEM</span>
-          <strong>Build a stronger<br><em>Creative Workflow</em></strong>
-          <p>
-            把案例证据、生成控制和资源沉淀组织成稳定的个人品牌系统。
-          </p>
-        </div>
+        <ClientOnly>
+          <ReactIsland variant="home-hero" tone="hero" density="high" />
+        </ClientOnly>
         <div class="hero-poster-mark" aria-hidden="true">
           <span class="poster-dot poster-dot-left"></span>
           <span class="poster-dot poster-dot-center"></span>
@@ -324,9 +330,17 @@ onUnmounted(() => {
         <h2>把 AI 设计能力沉淀成可复用资产</h2>
         <p>从视觉判断、生成控制、精修交付到资源沉淀，让每一次项目都能继续复利。</p>
       </div>
-      <div class="marquee-track">
-        <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
-        <span>主图视觉系统</span><span>工业应用场景</span><span>AI 提示词库</span><span>详情页转化策略</span><span>3D 渲染表现</span><span>视觉设计工作流</span><span>B2B 商业转化</span>
+      <div class="marquee-track" :class="{ paused: marqueePaused }">
+        <span
+          v-for="(item, index) in [...marqueeItems, ...marqueeItems]"
+          :key="`${item.label}-${index}`"
+          class="marquee-item"
+          @mouseenter="marqueePaused = true"
+          @mouseleave="marqueePaused = false"
+        >
+          <i class="marquee-icon" :data-icon="item.icon" aria-hidden="true"><span></span></i>
+          <b>{{ item.label }}</b>
+        </span>
       </div>
     </div>
 
@@ -4827,6 +4841,290 @@ onUnmounted(() => {
     width: 280px;
     height: 280px;
     transform: translateX(50%);
+  }
+}
+
+/* 2026-06-09 hero poster and icon marquee refinement */
+.hero-section {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.62fr) !important;
+  align-items: center !important;
+}
+
+.hero-section::before,
+:global(html.dark) .hero-section::before {
+  background: none !important;
+}
+
+.hero-poster {
+  min-height: clamp(300px, 36vw, 430px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hero-poster .react-island {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-poster::before,
+.hero-poster-copy {
+  display: none !important;
+}
+
+.hero-poster-mark {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  width: min(82%, 390px) !important;
+  max-width: 390px;
+  z-index: 2;
+  transform: none !important;
+  filter: drop-shadow(0 26px 54px color-mix(in srgb, var(--poster-accent), transparent 68%));
+}
+
+.poster-dot,
+.poster-body,
+.poster-upload {
+  background: linear-gradient(135deg, var(--poster-accent), var(--poster-accent-2)) !important;
+  box-shadow: 0 18px 52px color-mix(in srgb, var(--poster-accent), transparent 72%) !important;
+}
+
+.poster-body-left::before,
+.poster-body-right::before {
+  display: none !important;
+}
+
+.poster-upload,
+:global(html.dark) .poster-upload {
+  border-color: color-mix(in srgb, var(--poster-accent), white 18%) !important;
+  background: color-mix(in srgb, var(--poster-accent), transparent 88%) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.poster-upload::after,
+:global(html.dark) .poster-upload::after {
+  border-color: color-mix(in srgb, var(--poster-accent), white 18%) !important;
+  background: color-mix(in srgb, var(--poster-accent), transparent 88%) !important;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: running !important;
+}
+
+.marquee-track {
+  gap: clamp(16px, 2.4vw, 30px) !important;
+  padding: 4px 0 10px !important;
+}
+
+.marquee-track.paused {
+  animation-play-state: paused !important;
+}
+
+.marquee-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 54px;
+  padding: 7px 18px 7px 8px !important;
+  border: 1px solid color-mix(in srgb, var(--accent-ui), transparent 70%) !important;
+  border-radius: 999px !important;
+  color: color-mix(in srgb, var(--ink), transparent 20%) !important;
+  background: color-mix(in srgb, var(--surface-ui), transparent 22%) !important;
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--shadow-ui), transparent 78%) !important;
+  opacity: 1 !important;
+  transition: border-color 0.22s ease, background 0.22s ease, color 0.22s ease, transform 0.22s ease !important;
+  cursor: pointer;
+}
+
+.marquee-item::after {
+  display: none !important;
+}
+
+.marquee-item:hover {
+  border-color: color-mix(in srgb, var(--accent-ui), transparent 34%) !important;
+  color: var(--ink) !important;
+  background: color-mix(in srgb, var(--accent-ui), transparent 86%) !important;
+  transform: translateY(-2px);
+}
+
+.marquee-item b {
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1;
+  font-weight: 920;
+  white-space: nowrap;
+}
+
+.marquee-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 999px;
+  color: var(--accent-ui);
+  background:
+    radial-gradient(circle at 68% 26%, color-mix(in srgb, var(--accent-ui-2), transparent 55%), transparent 36%),
+    color-mix(in srgb, var(--accent-ui), transparent 88%);
+}
+
+.marquee-icon::before,
+.marquee-icon::after,
+.marquee-icon span::before,
+.marquee-icon span::after {
+  content: "";
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+}
+
+.marquee-icon[data-icon="grid"]::before {
+  inset: 11px;
+  border: 2px solid currentColor;
+  box-shadow: 7px 0 0 -4px currentColor, 0 7px 0 -4px currentColor;
+}
+
+.marquee-icon[data-icon="industry"]::before {
+  left: 10px;
+  bottom: 10px;
+  width: 18px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top: 0;
+}
+
+.marquee-icon[data-icon="industry"]::after {
+  left: 12px;
+  top: 9px;
+  width: 6px;
+  height: 14px;
+  border-radius: 3px 3px 0 0;
+  background: currentColor;
+  box-shadow: 10px 3px 0 -1px currentColor;
+}
+
+.marquee-icon[data-icon="prompt"]::before {
+  left: 9px;
+  top: 11px;
+  width: 20px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 5px;
+}
+
+.marquee-icon[data-icon="prompt"]::after {
+  left: 14px;
+  top: 17px;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 5px 0 currentColor;
+}
+
+.marquee-icon[data-icon="page"]::before {
+  inset: 9px 11px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+}
+
+.marquee-icon[data-icon="page"]::after {
+  left: 15px;
+  top: 15px;
+  width: 9px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 6px 0 currentColor;
+}
+
+.marquee-icon[data-icon="cube"]::before {
+  left: 11px;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  transform: rotate(45deg) skew(-8deg, -8deg);
+}
+
+.marquee-icon[data-icon="flow"]::before {
+  left: 10px;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  box-shadow: 11px 11px 0 -2px transparent, 11px 11px 0 0 currentColor;
+}
+
+.marquee-icon[data-icon="flow"]::after {
+  left: 18px;
+  top: 18px;
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.marquee-icon[data-icon="growth"]::before {
+  left: 10px;
+  bottom: 11px;
+  width: 20px;
+  height: 14px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.marquee-icon[data-icon="growth"]::after {
+  left: 15px;
+  top: 13px;
+  width: 13px;
+  height: 13px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(-8deg);
+}
+
+@media (max-width: 1040px) {
+  .hero-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-poster {
+    min-height: clamp(260px, 52vw, 400px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-poster {
+    min-height: 320px !important;
+  }
+
+  .hero-poster-mark {
+    width: min(82vw, 280px) !important;
+  }
+
+  .marquee-track {
+    gap: 14px !important;
+  }
+
+  .marquee-item {
+    min-height: 48px;
+    gap: 10px !important;
+    padding-right: 14px !important;
+  }
+
+  .marquee-icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
   }
 }
 </style>
