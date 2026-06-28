@@ -13,11 +13,6 @@ const workflowItems = computed(() => allAigcWorks.filter((work) => work.featured
 const resourceItems = computed(() => toolsResources.filter((tool) => tool.featured).slice(0, 6))
 const postItems = computed(() => allBlogPosts.filter((post) => post.featured).slice(0, 3))
 
-const themePreview = [
-  { label: 'Dark', bg: '#05040A', surface: '#0F0B18', text: '#F7F2EA', accent: '#FF4A1F' },
-  { label: 'Light', bg: '#F3F1EE', surface: '#FFF9F2', text: '#17120F', accent: '#7657D8' }
-]
-
 const workflowSteps = [
   {
     step: '01',
@@ -241,24 +236,6 @@ onUnmounted(() => {
         <div class="about-actions">
           <a :href="pageLink('/resume')">查看简历</a>
           <a href="mailto:1442855983@qq.com">联系合作</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="theme-system" aria-label="亮色与暗色配色系统">
-      <div>
-        <span>Theme System</span>
-        <h2>暗色主视觉，亮色保持同一套个人品牌气质。</h2>
-      </div>
-      <div class="theme-swatches">
-        <div v-for="theme in themePreview" :key="theme.label" class="theme-card">
-          <strong>{{ theme.label }}</strong>
-          <div class="swatches">
-            <i :style="{ background: theme.bg }"></i>
-            <i :style="{ background: theme.surface }"></i>
-            <i :style="{ background: theme.text }"></i>
-            <i :style="{ background: theme.accent }"></i>
-          </div>
         </div>
       </div>
     </section>
@@ -518,8 +495,7 @@ onUnmounted(() => {
 .workflow-step span,
 .workflow-item span,
 .resource-card span,
-.about-panel > span,
-.theme-system span {
+.about-panel > span {
   display: block;
   color: var(--orange);
   font-size: 12px;
@@ -591,8 +567,7 @@ onUnmounted(() => {
 .workflow-section,
 .resource-section,
 .notes-panel,
-.about-panel,
-.theme-system {
+.about-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -603,8 +578,7 @@ onUnmounted(() => {
 :global(html.dark) .workflow-section,
 :global(html.dark) .resource-section,
 :global(html.dark) .notes-panel,
-:global(html.dark) .about-panel,
-:global(html.dark) .theme-system {
+:global(html.dark) .about-panel {
   box-shadow: 0 24px 90px rgba(0, 0, 0, 0.24);
 }
 
@@ -809,8 +783,7 @@ onUnmounted(() => {
 }
 
 .section-heading.compact h2,
-.about-panel h2,
-.theme-system h2 {
+.about-panel h2 {
   margin: 12px 0 0;
   color: var(--text);
   font-size: clamp(30px, 3.4vw, 44px);
@@ -874,47 +847,6 @@ onUnmounted(() => {
   background: rgba(255, 255, 255, 0.06);
 }
 
-.theme-system {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
-  gap: 28px;
-  align-items: center;
-  padding: 34px;
-  margin-bottom: 110px;
-}
-
-.theme-swatches {
-  display: grid;
-  gap: 12px;
-}
-
-.theme-card {
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--surface-solid), transparent 10%);
-}
-
-.theme-card strong {
-  display: block;
-  margin-bottom: 12px;
-  color: var(--text);
-  font-size: 14px;
-}
-
-.swatches {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.swatches i {
-  display: block;
-  height: 34px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-}
-
 .back-to-top {
   position: fixed;
   right: 22px;
@@ -966,8 +898,7 @@ onUnmounted(() => {
   .feature-main,
   .workflow-layout,
   .resource-grid,
-  .notes-section,
-  .theme-system {
+  .notes-section {
     grid-template-columns: 1fr;
   }
 
@@ -1026,8 +957,7 @@ onUnmounted(() => {
   --quiet-line: color-mix(in srgb, var(--line), transparent 28%);
 }
 
-.section-block,
-.theme-system {
+.section-block {
   width: var(--content-measure);
 }
 
@@ -1045,8 +975,7 @@ onUnmounted(() => {
 
 .section-heading h2,
 .section-heading.compact h2,
-.about-panel h2,
-.theme-system h2 {
+.about-panel h2 {
   max-width: 1040px;
   font-size: clamp(28px, 3.1vw, 42px);
   font-weight: 720;
@@ -1058,8 +987,7 @@ onUnmounted(() => {
 .workflow-step span,
 .workflow-item span,
 .resource-card span,
-.about-panel > span,
-.theme-system span {
+.about-panel > span {
   color: color-mix(in srgb, var(--orange), var(--text) 26%);
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -1079,8 +1007,7 @@ onUnmounted(() => {
 .workflow-section,
 .resource-section,
 .notes-panel,
-.about-panel,
-.theme-system {
+.about-panel {
   border-color: var(--quiet-line);
   background: var(--quiet-surface);
   box-shadow: none;
@@ -1090,8 +1017,7 @@ onUnmounted(() => {
 :global(html.dark) .workflow-section,
 :global(html.dark) .resource-section,
 :global(html.dark) .notes-panel,
-:global(html.dark) .about-panel,
-:global(html.dark) .theme-system {
+:global(html.dark) .about-panel {
   box-shadow: none;
 }
 
@@ -1148,8 +1074,7 @@ onUnmounted(() => {
 .workflow-section,
 .resource-section,
 .notes-panel,
-.about-panel,
-.theme-system {
+.about-panel {
   padding: clamp(26px, 4vw, 42px);
 }
 
@@ -1160,8 +1085,7 @@ onUnmounted(() => {
 
 .workflow-step,
 .workflow-item,
-.resource-card,
-.theme-card {
+.resource-card {
   border-color: var(--quiet-line);
   background: transparent;
 }
@@ -1212,6 +1136,7 @@ onUnmounted(() => {
 .notes-section {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
+  margin-bottom: 110px;
 }
 
 .post-row {
@@ -1225,11 +1150,6 @@ onUnmounted(() => {
 
 :global(html.dark) .about-panel {
   background: color-mix(in srgb, #0f0b18, #05040a 34%);
-}
-
-.theme-system {
-  margin-top: clamp(82px, 9vw, 118px);
-  margin-bottom: 110px;
 }
 
 @media (max-width: 960px) {
