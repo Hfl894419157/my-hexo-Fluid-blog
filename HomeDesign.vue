@@ -13,6 +13,8 @@ const workflowItems = computed(() => allAigcWorks.filter((work) => work.featured
 const resourceItems = computed(() => toolsResources.filter((tool) => tool.featured).slice(0, 6))
 const postItems = computed(() => allBlogPosts.filter((post) => post.featured).slice(0, 3))
 
+const heroTiles = ['AI', 'UI', '3D', 'CV', 'BR', 'PM', 'UX', 'SD', 'MG', 'AR', 'ID', 'GD']
+
 const workflowSteps = [
   {
     step: '01',
@@ -35,8 +37,10 @@ const activeWork = ref(0)
 const pointerX = ref(50)
 const pointerY = ref(50)
 const showBackToTop = ref(false)
+const isDarkTheme = ref(false)
 
 let activeTimer = null
+let themeObserver = null
 
 const activeWorkData = computed(() => selectedWorks.value[activeWork.value] || selectedWorks.value[0])
 
@@ -64,8 +68,26 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+const syncThemeState = () => {
+  isDarkTheme.value = document.documentElement.classList.contains('dark')
+}
+
+const setTheme = (dark) => {
+  document.documentElement.classList.toggle('dark', dark)
+  document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+  localStorage.setItem('vitepress-theme-appearance', dark ? 'dark' : 'light')
+  syncThemeState()
+}
+
+const toggleTheme = () => {
+  setTheme(!isDarkTheme.value)
+}
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
+  syncThemeState()
+  themeObserver = new MutationObserver(syncThemeState)
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   activeTimer = window.setInterval(() => {
     if (selectedWorks.value.length > 1) {
       activeWork.value = (activeWork.value + 1) % selectedWorks.value.length
@@ -76,6 +98,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   if (activeTimer) window.clearInterval(activeTimer)
+  if (themeObserver) themeObserver.disconnect()
 })
 </script>
 
@@ -87,13 +110,33 @@ onUnmounted(() => {
       @mousemove="updateHeroPointer"
       @mouseleave="resetHeroPointer"
     >
+      <button
+        type="button"
+        class="theme-toggle"
+        :class="{ active: isDarkTheme }"
+        :aria-label="isDarkTheme ? '切换到亮色模式' : '切换到暗色模式'"
+        @click="toggleTheme"
+      >
+        <span></span>
+      </button>
+
+      <div class="hero-visual" aria-hidden="true">
+        <span
+          v-for="(tile, index) in heroTiles"
+          :key="tile"
+          class="hero-tile"
+          :style="{ '--tile-index': index }"
+        >
+          {{ tile }}
+        </span>
+      </div>
+
       <div class="hero-inner">
-        <p class="hero-kicker">AI DESIGN / DIGITAL CONTENT / PERSONAL ARCHIVE</p>
         <h1>
-          韩宇杰 · <span>AI</span><br>
-          设计与数字内容
+          Build the<br>
+          design system
         </h1>
-        <p class="hero-desc">作品、方案、简历、方法论的个人档案。</p>
+        <p class="hero-desc">用 AI 工作流、项目表达和资源沉淀，把设计能力组织成清晰、可复用、可持续更新的个人系统。</p>
         <div class="hero-actions">
           <a class="primary-action" :href="pageLink('/portfolio/')">进入案例</a>
           <a class="secondary-action" :href="pageLink('/resume')">查看简历</a>
@@ -107,19 +150,13 @@ onUnmounted(() => {
 
       <div class="hero-dock" aria-label="首页内容概览">
         <a class="dock-card dock-case" :href="pageLink('/portfolio/')">
-          <span>01</span>
           <strong>案例</strong>
-          <em>精选作品与项目表达</em>
         </a>
         <a class="dock-card dock-flow" :href="pageLink('/aigc/')">
-          <span>02</span>
           <strong>AI工作流</strong>
-          <em>从灵感到交付的流程</em>
         </a>
         <a class="dock-card dock-resource" :href="pageLink('/resources/')">
-          <span>03</span>
           <strong>资源库</strong>
-          <em>工具、模板与资料沉淀</em>
         </a>
       </div>
     </section>
@@ -1186,6 +1223,443 @@ onUnmounted(() => {
 
   .workflow-item {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Product-grade homepage direction */
+.home-container {
+  --content-measure: min(1060px, calc(100% - 48px));
+  --page-bg: #f4f1eb;
+  --stage-bg: #f4f1eb;
+  --surface: rgba(255, 252, 245, 0.72);
+  --surface-solid: #fffaf2;
+  --text: #17130f;
+  --text-invert: #17130f;
+  --muted: rgba(23, 19, 15, 0.58);
+  --line: rgba(42, 35, 28, 0.1);
+  --line-invert: rgba(42, 35, 28, 0.1);
+  --violet: #7058df;
+  --orange: #ff5a32;
+  --orange-soft: rgba(255, 90, 50, 0.12);
+  background:
+    radial-gradient(circle at 50% -6%, rgba(120, 92, 224, 0.2), transparent 34%),
+    radial-gradient(circle at 18% 20%, rgba(38, 171, 225, 0.12), transparent 28%),
+    linear-gradient(180deg, #f4f1eb 0%, #eee9e1 100%);
+  transition: background 0.45s ease, color 0.45s ease;
+}
+
+:global(html.dark) .home-container {
+  --page-bg: #03010a;
+  --stage-bg: #03010a;
+  --surface: rgba(27, 23, 34, 0.74);
+  --surface-solid: #17131f;
+  --text: #f6f2ea;
+  --text-invert: #f6f2ea;
+  --muted: rgba(246, 242, 234, 0.56);
+  --line: rgba(255, 255, 255, 0.08);
+  --line-invert: rgba(255, 255, 255, 0.09);
+  --violet: #7a5cff;
+  --orange: #ff5a32;
+  --orange-soft: rgba(255, 90, 50, 0.14);
+  background:
+    radial-gradient(circle at 48% -8%, rgba(73, 205, 171, 0.2), transparent 24%),
+    radial-gradient(circle at 30% 0%, rgba(117, 58, 189, 0.42), transparent 34%),
+    radial-gradient(circle at 72% 5%, rgba(218, 44, 86, 0.24), transparent 30%),
+    linear-gradient(180deg, #03010a 0%, #070412 45%, #03010a 100%);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 34px;
+  right: clamp(20px, 6vw, 88px);
+  z-index: 8;
+  width: 56px;
+  height: 30px;
+  border: 1px solid var(--line-invert);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-solid), transparent 24%);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  transition: background 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
+}
+
+.theme-toggle span {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffffff, #f1e5d5);
+  box-shadow: 0 0 0 1px rgba(23, 19, 15, 0.08), 0 8px 22px rgba(0, 0, 0, 0.22);
+  transition: transform 0.34s cubic-bezier(.2, .8, .2, 1), background 0.34s ease;
+}
+
+.theme-toggle.active {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 34px rgba(122, 92, 255, 0.22);
+}
+
+.theme-toggle.active span {
+  transform: translateX(26px);
+  background: linear-gradient(135deg, #7a5cff, #49cdab);
+}
+
+.hero-stage {
+  min-height: 880px;
+  padding: 72px clamp(20px, 4vw, 56px) 70px;
+  color: var(--text-invert);
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(122, 92, 255, 0.18), transparent 24%),
+    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--page-bg), transparent 0%) 100%);
+}
+
+:global(html.dark) .hero-stage {
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(122, 92, 255, 0.24), transparent 24%),
+    radial-gradient(ellipse at 50% 0%, rgba(168, 48, 120, 0.28), transparent 36%),
+    linear-gradient(180deg, rgba(3, 1, 10, 0.04), #03010a 100%);
+}
+
+.hero-stage::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 36%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 120px);
+  opacity: 0.22;
+}
+
+:global(html:not(.dark)) .hero-stage::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.46), transparent 36%),
+    repeating-linear-gradient(90deg, rgba(30, 24, 18, 0.035) 0 1px, transparent 1px 120px);
+  opacity: 0.72;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(6, 62px);
+  justify-content: center;
+  gap: 18px;
+  width: min(560px, 100%);
+  margin: 10px auto 78px;
+  perspective: 900px;
+}
+
+.hero-tile {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  border: 1px solid var(--line-invert);
+  border-radius: 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 760;
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--surface-solid), transparent 8%), color-mix(in srgb, var(--surface-solid), transparent 42%));
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.14);
+  transform: translateY(calc((var(--tile-index) - 6) * -1px)) rotateX(12deg);
+}
+
+:global(html.dark) .hero-tile {
+  color: rgba(246, 242, 234, 0.88);
+  background:
+    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.18), transparent 30%),
+    linear-gradient(145deg, rgba(42, 34, 58, 0.9), rgba(18, 15, 26, 0.76));
+  box-shadow: 0 22px 68px rgba(0, 0, 0, 0.4), 0 0 44px rgba(122, 92, 255, 0.12);
+}
+
+.hero-inner {
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.hero-kicker,
+.section-heading span,
+.feature-copy span,
+.workflow-item span,
+.resource-card span,
+.about-panel > span,
+.dock-card span,
+.dock-card em,
+.case-rail button span {
+  display: none !important;
+}
+
+.hero-inner h1 {
+  color: var(--text);
+  font-size: clamp(54px, 7.8vw, 96px);
+  font-weight: 780;
+  line-height: 0.92;
+  text-shadow: none;
+}
+
+:global(html.dark) .hero-inner h1 {
+  color: #fbf7ef;
+  text-shadow: 0 0 70px rgba(122, 92, 255, 0.22);
+}
+
+.hero-inner h1 span {
+  color: inherit;
+  text-shadow: none;
+}
+
+.hero-desc {
+  max-width: 560px;
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.72;
+}
+
+.hero-actions a {
+  min-height: 42px;
+  padding: 0 22px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+.primary-action {
+  color: #17130f;
+  background: linear-gradient(135deg, #ffffff, #eae3d7);
+  box-shadow: 0 22px 62px rgba(255, 90, 50, 0.2);
+}
+
+:global(html.dark) .primary-action {
+  color: #130f18;
+  background: linear-gradient(135deg, #ffffff, #e5e0ff);
+  box-shadow: 0 0 42px rgba(122, 92, 255, 0.3), 0 20px 62px rgba(0, 0, 0, 0.24);
+}
+
+.secondary-action {
+  color: var(--text);
+  border-color: var(--line-invert);
+  background: color-mix(in srgb, var(--surface-solid), transparent 38%);
+}
+
+.hero-orbit {
+  display: none;
+}
+
+.hero-dock {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: min(840px, calc(100% - 40px));
+  margin: 96px auto 0;
+  gap: 12px;
+}
+
+.dock-card {
+  min-height: 88px;
+  padding: 22px;
+  border-color: var(--line-invert);
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-solid), transparent 36%);
+  box-shadow: none;
+}
+
+:global(html.dark) .dock-card {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.dock-card strong {
+  margin-top: 0;
+  font-size: 19px;
+}
+
+.section-block {
+  width: var(--content-measure);
+  margin-top: clamp(96px, 12vw, 150px);
+}
+
+.section-heading,
+.section-heading.split {
+  display: block;
+  margin-bottom: 34px;
+  text-align: left;
+}
+
+.section-heading h2,
+.section-heading.compact h2,
+.about-panel h2 {
+  max-width: 620px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 760;
+  line-height: 1;
+}
+
+.section-heading a,
+.feature-copy a,
+.about-actions a {
+  margin-top: 22px;
+  min-height: 34px;
+  border-radius: 7px;
+  border-color: var(--line);
+  color: var(--text);
+  background: transparent;
+}
+
+.feature-main,
+.workflow-section,
+.resource-section,
+.notes-panel,
+.about-panel {
+  border-color: var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: none;
+  backdrop-filter: blur(20px);
+}
+
+.feature-main {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+}
+
+.feature-media,
+.feature-media img,
+.feature-copy {
+  min-height: 420px;
+}
+
+.feature-copy h3 {
+  font-size: clamp(30px, 3.8vw, 48px);
+}
+
+.feature-copy p,
+.workflow-step p,
+.resource-card p,
+.about-panel p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.case-rail {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.case-rail button {
+  min-height: 72px;
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--surface-solid), transparent 54%);
+}
+
+.case-rail button strong {
+  font-size: 14px;
+}
+
+.workflow-section,
+.resource-section {
+  padding: clamp(32px, 5vw, 58px);
+}
+
+.workflow-layout {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+}
+
+.workflow-step {
+  border-color: var(--line);
+}
+
+.workflow-step h3 {
+  font-size: 22px;
+}
+
+.workflow-item,
+.resource-card {
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--surface-solid), transparent 58%);
+}
+
+.workflow-item {
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+
+.workflow-item img {
+  height: 82px;
+}
+
+.resource-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.resource-card strong {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.notes-section {
+  gap: 12px;
+  margin-bottom: 130px;
+}
+
+.about-panel {
+  color: #f6f2ea;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(122, 92, 255, 0.26), transparent 32%),
+    linear-gradient(135deg, #17131f, #08050f);
+}
+
+.about-panel h2 {
+  color: #f6f2ea;
+}
+
+.about-panel p {
+  color: rgba(246, 242, 234, 0.62);
+}
+
+.back-to-top {
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+@media (max-width: 960px) {
+  .hero-visual {
+    grid-template-columns: repeat(4, 56px);
+    gap: 12px;
+    margin-bottom: 58px;
+  }
+
+  .hero-tile {
+    width: 56px;
+    height: 56px;
+  }
+
+  .hero-dock,
+  .feature-main,
+  .workflow-layout,
+  .notes-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .theme-toggle {
+    top: 22px;
+    right: 18px;
+  }
+
+  .hero-stage {
+    padding-top: 72px;
+  }
+
+  .hero-visual {
+    grid-template-columns: repeat(3, 52px);
+  }
+
+  .hero-tile {
+    width: 52px;
+    height: 52px;
+  }
+
+  .hero-inner h1 {
+    font-size: clamp(46px, 15vw, 68px);
   }
 }
 </style>
