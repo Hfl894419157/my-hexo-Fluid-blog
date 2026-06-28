@@ -25,6 +25,9 @@
   --liuli-glow: rgba(24, 24, 29, 0.08);
   --liuli-card: #ffffff;
   --liuli-card-strong: #f8f8f9;
+  --liuli-icon-surface: #f2f3f5;
+  --liuli-icon-border: #dedfe3;
+  --liuli-button-text: #18181d;
   --liuli-shadow: 0 22px 70px rgba(24, 24, 29, 0.08);
 }
 
@@ -67,6 +70,9 @@ html.dark {
   --liuli-glow: rgba(154, 134, 255, 0.24);
   --liuli-card: rgba(17, 16, 34, 0.92);
   --liuli-card-strong: #111022;
+  --liuli-icon-surface: #292947;
+  --liuli-icon-border: #3a3862;
+  --liuli-button-text: #ffffff;
   --liuli-shadow: 0 24px 110px rgba(0, 0, 0, 0.42);
 }
 

@@ -72,17 +72,12 @@ const pageLink = (path) => withBase(path)
   height: 68px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--liuli-icon-border);
   border-radius: 8px;
-  background: #f2f3f5;
+  background: var(--liuli-icon-surface);
   font-size: 2rem;
   margin-bottom: 5px;
   transition: all 0.3s;
-}
-
-:global(html.dark) .tool-icon {
-  background: #292947;
-  border-color: #3a3862;
 }
 
 .tool-card:hover .tool-icon {
@@ -121,13 +116,9 @@ const pageLink = (path) => withBase(path)
   padding: 11px 0;
   border-radius: 8px;
   background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
-  color: var(--vp-c-text-1) !important;
+  color: var(--liuli-button-text) !important;
   font-weight: 700;
   transition: all 0.3s;
-}
-
-:global(html.dark) .btn-download {
-  color: white !important;
 }
 
 .tool-card:hover .btn-download {

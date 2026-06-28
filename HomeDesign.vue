@@ -108,7 +108,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="ray-home">
+  <main class="ray-home" :class="isDarkTheme ? 'dark-mode' : 'light-mode'">
     <section
       class="ray-hero"
       :style="heroStyle()"
@@ -297,7 +297,7 @@ onUnmounted(() => {
   transition: background 0.45s ease, color 0.45s ease;
 }
 
-:global(html.dark) .ray-home {
+.ray-home.dark-mode {
   --bg: #080714;
   --bg-soft: #0b0a18;
   --text: #ffffff;
@@ -375,7 +375,7 @@ a {
   mask-image: linear-gradient(180deg, #000, transparent 76%);
 }
 
-:global(html:not(.dark)) .ray-hero::before {
+.ray-home.light-mode .ray-hero::before {
   background:
     radial-gradient(circle at var(--mx) var(--my), rgba(24, 24, 29, 0.07), transparent 24%),
     repeating-linear-gradient(90deg, rgba(24, 24, 29, 0.045) 0 1px, transparent 1px 112px);
@@ -408,7 +408,7 @@ a {
   transform: translateY(calc((var(--i) - 6) * -1px)) rotateX(12deg);
 }
 
-:global(html.dark) .app-cloud span {
+.ray-home.dark-mode .app-cloud span {
   color: rgba(255, 255, 255, 0.92);
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.18), transparent 30%),
@@ -497,7 +497,7 @@ a {
   color: #18181d;
 }
 
-:global(html.dark) .code-card {
+.ray-home.dark-mode .code-card {
   background:
     radial-gradient(circle at 18% 0%, rgba(154, 134, 255, 0.26), transparent 30%),
     linear-gradient(135deg, rgba(154, 134, 255, 0.9), rgba(118, 173, 255, 0.58));
@@ -568,7 +568,7 @@ a {
   color: rgba(24, 24, 29, 0.68);
 }
 
-:global(html.dark) .code-card p {
+.ray-home.dark-mode .code-card p {
   color: rgba(255, 255, 255, 0.72);
 }
 
@@ -588,7 +588,7 @@ a {
   background: rgba(255, 255, 255, 0.42);
 }
 
-:global(html.dark) .code-card a {
+.ray-home.dark-mode .code-card a {
   color: #ffffff;
   background: rgba(17, 16, 34, 0.22);
 }
