@@ -1,53 +1,53 @@
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { withBase } from 'vitepress'
-import { portfolioWorks } from './.shared/portfolioData.js'
-import { aigcWorks as allAigcWorks } from './.shared/aigcData.js'
-import { blogPosts as allBlogPosts } from './.shared/blogData.js'
-import { toolsResources } from './.shared/resourcesData.js'
 
 const pageLink = (path) => withBase(path)
+const navLink = (path) => (path.startsWith('http') || path.startsWith('mailto:') ? path : pageLink(path))
 
-const selectedWorks = computed(() => portfolioWorks.filter((work) => work.featured).slice(0, 4))
-const workflowItems = computed(() => allAigcWorks.filter((work) => work.featured).slice(0, 3))
-const resourceItems = computed(() => toolsResources.filter((tool) => tool.featured).slice(0, 6))
-const postItems = computed(() => allBlogPosts.filter((post) => post.featured).slice(0, 3))
-
-const heroTiles = ['AI', 'UI', '3D', 'CV', 'BR', 'PM', 'UX', 'SD', 'MG', 'AR', 'ID', 'GD']
-
-const workflowSteps = [
-  {
-    step: '01',
-    title: '拆解目标',
-    desc: '先把项目目标、受众、渠道和交付物整理清楚。'
-  },
-  {
-    step: '02',
-    title: '建立风格',
-    desc: '用参考图、关键词和模型参数确定可执行的视觉方向。'
-  },
-  {
-    step: '03',
-    title: '产出资产',
-    desc: '把方案、图像、页面和复盘记录沉淀为可复用资源。'
-  }
-]
-
-const activeWork = ref(0)
+const isDarkTheme = ref(false)
 const pointerX = ref(50)
 const pointerY = ref(50)
 const showBackToTop = ref(false)
-const isDarkTheme = ref(false)
 
-let activeTimer = null
 let themeObserver = null
 
-const activeWorkData = computed(() => selectedWorks.value[activeWork.value] || selectedWorks.value[0])
+const heroApps = ['AI', 'UI', '3D', 'BR', 'UX', 'CV', 'SD', 'PM', 'MG', 'AR', 'ID', 'GD']
 
-const heroStyle = computed(() => ({
-  '--mx': `${pointerX.value}%`,
-  '--my': `${pointerY.value}%`
-}))
+const principles = [
+  ['熟悉但更强的工具', '把设计、内容、素材和项目表达放进同一套稳定流程。'],
+  ['不费力的界面', '页面只保留真正有用的入口，让浏览者快速理解你是谁。'],
+  ['可协作的资源', '案例、方法和素材都能沉淀成可复用的个人资产。'],
+  ['面向创作者体验', '不是堆作品，而是展示判断、过程和交付能力。'],
+  ['从灵感到交付', 'AI 工作流帮助你更快试错，更稳地进入最终方案。'],
+  ['发布到真实世界', '让网站成为作品集、资源库和方法论的长期载体。']
+]
+
+const quotes = [
+  ['设计需要被理解，不只是被看见。这个网站把结果、过程和判断放在一起。', '品牌设计项目'],
+  ['AI 不是装饰，而是把重复工作变成系统能力。这里能看到完整链路。', 'AIGC 工作流'],
+  ['案例表达很清晰，能快速知道项目目标、视觉方向和最终价值。', '作品集复盘'],
+  ['资源库让内容不再散落，适合长期维护个人品牌和创作资产。', '个人资源沉淀']
+]
+
+const footerGroups = [
+  {
+    title: '作品',
+    links: [['案例库', '/portfolio/'], ['AI 工作流', '/aigc/'], ['资源库', '/resources/'], ['方法论', '/blog/']]
+  },
+  {
+    title: '关于',
+    links: [['个人简历', '/resume'], ['合作联系', 'mailto:1442855983@qq.com'], ['项目复盘', '/blog/'], ['内容更新', '/resources/']]
+  },
+  {
+    title: '社区',
+    links: [['GitHub', 'https://github.com/han-yujie'], ['YouTube', 'https://www.youtube.com/@yujie1992'], ['小红书', 'https://www.xiaohongshu.com/'], ['抖音', 'https://www.douyin.com/']]
+  },
+  {
+    title: '系统',
+    links: [['设计资产', '/resources/'], ['提示词', '/resources/mj-prompt'], ['模板', '/resources/notion'], ['实验记录', '/aigc/']]
+  }
+]
 
 const updateHeroPointer = (event) => {
   const rect = event.currentTarget.getBoundingClientRect()
@@ -60,13 +60,10 @@ const resetHeroPointer = () => {
   pointerY.value = 50
 }
 
-const handleScroll = () => {
-  showBackToTop.value = window.scrollY > 420
-}
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+const heroStyle = () => ({
+  '--mx': `${pointerX.value}%`,
+  '--my': `${pointerY.value}%`
+})
 
 const syncThemeState = () => {
   isDarkTheme.value = document.documentElement.classList.contains('dark')
@@ -83,30 +80,38 @@ const toggleTheme = () => {
   setTheme(!isDarkTheme.value)
 }
 
+const handleScroll = () => {
+  showBackToTop.value = window.scrollY > 520
+}
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true })
-  syncThemeState()
+  const savedTheme = localStorage.getItem('vitepress-theme-appearance')
+  if (!savedTheme) {
+    setTheme(true)
+  } else {
+    syncThemeState()
+  }
+
   themeObserver = new MutationObserver(syncThemeState)
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-  activeTimer = window.setInterval(() => {
-    if (selectedWorks.value.length > 1) {
-      activeWork.value = (activeWork.value + 1) % selectedWorks.value.length
-    }
-  }, 4200)
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
-  if (activeTimer) window.clearInterval(activeTimer)
   if (themeObserver) themeObserver.disconnect()
 })
 </script>
 
 <template>
-  <main class="home-container">
+  <main class="ray-home">
     <section
-      class="hero-stage"
-      :style="heroStyle"
+      class="ray-hero"
+      :style="heroStyle()"
       @mousemove="updateHeroPointer"
       @mouseleave="resetHeroPointer"
     >
@@ -120,162 +125,108 @@ onUnmounted(() => {
         <span></span>
       </button>
 
-      <div class="hero-visual" aria-hidden="true">
-        <span
-          v-for="(tile, index) in heroTiles"
-          :key="tile"
-          class="hero-tile"
-          :style="{ '--tile-index': index }"
-        >
-          {{ tile }}
-        </span>
+      <div class="app-cloud" aria-hidden="true">
+        <span v-for="(item, index) in heroApps" :key="item" :style="{ '--i': index }">{{ item }}</span>
       </div>
 
-      <div class="hero-inner">
-        <h1>
-          Build the<br>
-          design system
-        </h1>
-        <p class="hero-desc">用 AI 工作流、项目表达和资源沉淀，把设计能力组织成清晰、可复用、可持续更新的个人系统。</p>
-        <div class="hero-actions">
-          <a class="primary-action" :href="pageLink('/portfolio/')">进入案例</a>
-          <a class="secondary-action" :href="pageLink('/resume')">查看简历</a>
-        </div>
-      </div>
-
-      <div class="hero-orbit" aria-hidden="true">
-        <span class="orbit-line"></span>
-        <span class="orbit-core"></span>
-      </div>
-
-      <div class="hero-dock" aria-label="首页内容概览">
-        <a class="dock-card dock-case" :href="pageLink('/portfolio/')">
-          <strong>案例</strong>
-        </a>
-        <a class="dock-card dock-flow" :href="pageLink('/aigc/')">
-          <strong>AI工作流</strong>
-        </a>
-        <a class="dock-card dock-resource" :href="pageLink('/resources/')">
-          <strong>资源库</strong>
-        </a>
+      <div class="hero-copy">
+        <h1>打造完美的<br>设计工具系统</h1>
+        <p>把作品、AI 流程、资源库和方法论连接起来，让你的个人网站成为真正可复用的创作中枢。</p>
+        <a class="main-button" :href="pageLink('/portfolio/')">查看精选案例</a>
+        <small>已经有系统？继续进入资源库与方法论</small>
       </div>
     </section>
 
-    <section class="section-block featured-section" id="cases">
-      <div class="section-heading">
-        <span>01 / 案例</span>
-        <h2>把作品做成可以被理解的项目证据。</h2>
-        <a :href="pageLink('/portfolio/')">查看全部案例</a>
-      </div>
-
-      <div class="featured-grid">
-        <article class="feature-main" v-if="activeWorkData">
-          <div class="feature-media">
-            <img :src="activeWorkData.img" :alt="activeWorkData.title">
-          </div>
-          <div class="feature-copy">
-            <span>{{ activeWorkData.category }}</span>
-            <h3>{{ activeWorkData.title }}</h3>
-            <p>{{ activeWorkData.desc }}</p>
-            <a :href="pageLink(activeWorkData.link)">查看项目</a>
-          </div>
-        </article>
-
-        <div class="case-rail">
-          <button
-            v-for="(work, index) in selectedWorks"
-            :key="work.id"
-            type="button"
-            :class="{ active: activeWork === index }"
-            @click="activeWork = index"
-          >
-            <span>{{ String(index + 1).padStart(2, '0') }}</span>
-            <strong>{{ work.title }}</strong>
-          </button>
+    <section class="dual-showcase">
+      <article class="showcase-card code-card">
+        <div class="code-window">
+          <span>import design from "personal-system"</span>
+          <span>const workflow = createAIProcess()</span>
+          <span>return publish(workflow, portfolio)</span>
         </div>
-      </div>
-    </section>
+        <h2>开始构建</h2>
+        <p>用案例、流程和工具把个人能力组织起来，不再只是展示图片，而是展示一套可以持续交付的设计方法。</p>
+        <a :href="pageLink('/aigc/')">查看工作流</a>
+      </article>
 
-    <section class="section-block workflow-section" id="workflow">
-      <div class="section-heading split">
-        <div>
-          <span>02 / AI工作流</span>
-          <h2>让每次创作都留下可复用的方法。</h2>
+      <article class="showcase-card extension-card">
+        <div class="mini-apps" aria-hidden="true">
+          <span>F</span>
+          <span>AI</span>
+          <span>3D</span>
+          <span>V</span>
+          <span>UI</span>
         </div>
-        <a :href="pageLink('/aigc/')">进入工作流</a>
-      </div>
-
-      <div class="workflow-layout">
-        <div class="workflow-steps">
-          <article v-for="item in workflowSteps" :key="item.step" class="workflow-step">
-            <span>{{ item.step }}</span>
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.desc }}</p>
-          </article>
-        </div>
-        <div class="workflow-preview">
-          <a
-            v-for="item in workflowItems"
-            :key="item.id"
-            class="workflow-item"
-            :href="pageLink(item.link)"
-          >
-            <img :src="item.img" :alt="item.title">
-            <div>
-              <span>{{ item.category }}</span>
-              <strong>{{ item.title }}</strong>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-block resource-section" id="resources">
-      <div class="section-heading">
-        <span>03 / 资源库</span>
-        <h2>像个人插件商店一样管理创作资产。</h2>
+        <h2>扩展能力</h2>
+        <p>把分散的灵感、素材、提示词和复盘变成网站里的清晰入口，让浏览者快速理解你的专业边界。</p>
         <a :href="pageLink('/resources/')">打开资源库</a>
-      </div>
+      </article>
+    </section>
 
-      <div class="resource-grid">
-        <a
-          v-for="item in resourceItems"
-          :key="item.id"
-          class="resource-card"
-          :href="pageLink(item.link)"
-        >
-          <span>{{ item.category }}</span>
-          <strong>{{ item.name }}</strong>
-          <p>{{ item.desc }}</p>
-        </a>
+    <section class="ecosystem">
+      <div class="section-title">
+        <h2>保持系统清晰、漂亮、可持续</h2>
+      </div>
+      <div class="principle-grid">
+        <article v-for="item in principles" :key="item[0]">
+          <i></i>
+          <h3>{{ item[0] }}</h3>
+          <p>{{ item[1] }}</p>
+        </article>
       </div>
     </section>
 
-    <section class="section-block notes-section" id="methods">
-      <div class="notes-panel">
-        <div class="section-heading compact">
-          <span>04 / 方法论</span>
-          <h2>写下判断，也写下过程。</h2>
-          <a :href="pageLink('/blog/')">阅读方法论</a>
-        </div>
-        <div class="post-list">
-          <a v-for="post in postItems" :key="post.id" :href="pageLink(post.link)" class="post-row">
-            <span>{{ post.date }}</span>
-            <strong>{{ post.title }}</strong>
-          </a>
-        </div>
+    <section class="company">
+      <div class="center-title">
+        <h2>你站在正确的方向里</h2>
+        <p>它依然很早，但你的作品、流程和资源已经可以被系统地看见。</p>
       </div>
-
-      <div class="about-panel">
-        <span>05 / 关于我</span>
-        <h2>AI 设计与数字内容工作流创作者。</h2>
-        <p>关注设计方案、AIGC 流程、项目表达和个人资源沉淀，把零散能力整理成可以长期更新的网站资产。</p>
-        <div class="about-actions">
-          <a :href="pageLink('/resume')">查看简历</a>
-          <a href="mailto:1442855983@qq.com">联系合作</a>
-        </div>
+      <div class="quote-row">
+        <article v-for="quote in quotes" :key="quote[1]">
+          <b></b>
+          <p>“{{ quote[0] }}”</p>
+          <span>{{ quote[1] }}</span>
+        </article>
       </div>
+      <a class="community-link" :href="pageLink('/blog/')">阅读方法论 →</a>
     </section>
+
+    <section class="takeoff">
+      <h2>准备好起飞了吗？</h2>
+      <p>从一个案例开始，把你的设计判断、AI 流程和资源沉淀成长期资产。</p>
+      <a class="main-button" :href="pageLink('/resume')">了解我是谁</a>
+      <code>npx create-personal-system</code>
+    </section>
+
+    <section class="signal-cards">
+      <article class="signal-card blue">
+        <h3>保持更新</h3>
+        <p>关注新的设计方法、AI 工具和真实项目复盘，让网站持续变强。</p>
+      </article>
+      <article class="signal-card red">
+        <h3>一起塑造产品</h3>
+        <p>如果你正在做品牌、内容或数字产品，可以把想法带进一次真实合作。</p>
+      </article>
+    </section>
+
+    <section class="newsletter">
+      <div>
+        <h3>订阅更新</h3>
+        <p>收到作品集、AI 工作流和资源沉淀的最新内容。</p>
+      </div>
+      <form>
+        <input aria-label="邮箱地址" placeholder="your@email.com">
+        <button type="button">订阅</button>
+      </form>
+    </section>
+
+    <footer class="ray-footer">
+      <a class="footer-mark" :href="pageLink('/')">HYJ</a>
+      <nav v-for="group in footerGroups" :key="group.title">
+        <strong>{{ group.title }}</strong>
+        <a v-for="item in group.links" :key="item[0]" :href="navLink(item[1])">{{ item[0] }}</a>
+      </nav>
+    </footer>
 
     <button
       v-show="showBackToTop"
@@ -302,7 +253,7 @@ onUnmounted(() => {
 :global(.VPDoc .container),
 :global(.VPDoc .content),
 :global(.VPDoc .content-container) {
-  background: var(--site-bg, #f3f1ee) !important;
+  background: var(--site-bg, #05030d) !important;
 }
 
 :global(.VPDoc .container),
@@ -319,968 +270,65 @@ onUnmounted(() => {
   display: none !important;
 }
 
-.home-container {
-  --page-bg: #f3f1ee;
-  --stage-bg: #05040a;
-  --stage-bg-2: #0f0b18;
-  --surface: rgba(255, 249, 242, 0.84);
-  --surface-solid: #fff9f2;
-  --surface-dark: rgba(15, 11, 24, 0.78);
+.ray-home {
+  --bg: #f5f0e8;
+  --bg-soft: #ece5dc;
   --text: #17120f;
-  --text-invert: #f7f2ea;
-  --muted: #756d66;
-  --muted-invert: #9b92a8;
-  --line: rgba(23, 18, 15, 0.12);
-  --line-invert: rgba(255, 255, 255, 0.12);
-  --violet: #7657d8;
-  --orange: #ff4a1f;
-  --orange-soft: rgba(255, 74, 31, 0.16);
-  --shadow: rgba(23, 18, 15, 0.12);
+  --muted: rgba(23, 18, 15, 0.58);
+  --card: rgba(255, 250, 242, 0.76);
+  --card-strong: #fffaf2;
+  --line: rgba(27, 21, 18, 0.12);
+  --glow-a: rgba(112, 88, 223, 0.24);
+  --glow-b: rgba(44, 178, 210, 0.16);
+  --accent: #f25a39;
   width: 100vw;
+  min-height: 100vh;
   margin-right: calc(50% - 50vw);
   margin-left: calc(50% - 50vw);
-  min-height: 100vh;
   overflow: hidden;
   color: var(--text);
   background:
-    radial-gradient(circle at 50% 0%, rgba(118, 87, 216, 0.12), transparent 30%),
-    var(--page-bg);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    radial-gradient(circle at 50% -5%, var(--glow-a), transparent 34%),
+    radial-gradient(circle at 20% 20%, var(--glow-b), transparent 26%),
+    linear-gradient(180deg, var(--bg), var(--bg-soft));
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  transition: background 0.45s ease, color 0.45s ease;
 }
 
-:global(html.dark) .home-container {
-  --page-bg: #05040a;
-  --surface: rgba(15, 11, 24, 0.84);
-  --surface-solid: #0f0b18;
-  --text: #f7f2ea;
-  --muted: #9b92a8;
-  --line: rgba(255, 255, 255, 0.12);
-  --shadow: rgba(0, 0, 0, 0.42);
+:global(html.dark) .ray-home {
+  --bg: #05020d;
+  --bg-soft: #080412;
+  --text: #f6f2ea;
+  --muted: rgba(246, 242, 234, 0.52);
+  --card: rgba(28, 24, 36, 0.72);
+  --card-strong: #17131f;
+  --line: rgba(255, 255, 255, 0.08);
+  --glow-a: rgba(128, 72, 205, 0.46);
+  --glow-b: rgba(53, 199, 170, 0.16);
   background:
-    radial-gradient(circle at 50% -10%, rgba(118, 87, 216, 0.26), transparent 36%),
-    #05040a;
+    radial-gradient(circle at 49% -5%, rgba(53, 199, 170, 0.2), transparent 20%),
+    radial-gradient(circle at 30% 0%, rgba(118, 57, 189, 0.48), transparent 34%),
+    radial-gradient(circle at 72% 4%, rgba(202, 45, 88, 0.24), transparent 28%),
+    linear-gradient(180deg, #05020d 0%, #06020d 52%, #04010a 100%);
 }
 
 :global(html.dark body),
 :global(html.dark #app),
 :global(html.dark .VPContent) {
-  --site-bg: #05040a;
-}
-
-.hero-stage {
-  position: relative;
-  min-height: 940px;
-  padding: 28px clamp(20px, 4vw, 56px) 72px;
-  color: var(--text-invert);
-  background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(124, 77, 255, 0.26), transparent 26%),
-    radial-gradient(circle at 50% 72%, rgba(255, 74, 31, 0.22), transparent 25%),
-    linear-gradient(180deg, #05040a 0%, #0d0716 54%, #05040a 100%);
-  isolation: isolate;
-}
-
-.hero-stage::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  content: "";
-  background:
-    linear-gradient(90deg, transparent 0 18%, rgba(255, 255, 255, 0.04) 50%, transparent 82%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 96px);
-  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 70%, transparent);
-}
-
-.hero-actions a,
-.section-heading a,
-.feature-copy a,
-.about-actions a {
-  text-decoration: none;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  width: min(1040px, 100%);
-  margin: 112px auto 0;
-  text-align: center;
-}
-
-.hero-kicker {
-  margin: 0 0 22px;
-  color: rgba(247, 242, 234, 0.56);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-}
-
-.hero-inner h1 {
-  margin: 0;
-  color: #fffaf3;
-  font-size: clamp(52px, 8.2vw, 104px);
-  font-weight: 760;
-  line-height: 0.95;
-  letter-spacing: 0;
-}
-
-.hero-inner h1 span {
-  color: var(--orange);
-  text-shadow: 0 0 42px rgba(255, 74, 31, 0.54);
-}
-
-.hero-desc {
-  max-width: 520px;
-  margin: 28px auto 0;
-  color: rgba(247, 242, 234, 0.68);
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.hero-actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 34px;
-}
-
-.hero-actions a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.primary-action {
-  color: #fff;
-  background: linear-gradient(135deg, var(--orange), #ff7a32);
-  box-shadow: 0 16px 40px rgba(255, 74, 31, 0.32);
-}
-
-.secondary-action {
-  color: rgba(247, 242, 234, 0.82);
-  border: 1px solid var(--line-invert);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.hero-orbit {
-  position: absolute;
-  right: -8vw;
-  bottom: 168px;
-  left: -8vw;
-  z-index: 1;
-  height: 340px;
-  pointer-events: none;
-}
-
-.orbit-line {
-  position: absolute;
-  inset: 0;
-  border-top: 5px solid rgba(255, 74, 31, 0.88);
-  border-radius: 50% 50% 0 0;
-  filter: drop-shadow(0 -8px 20px rgba(255, 74, 31, 0.5));
-  transform: translateY(130px);
-}
-
-.orbit-core {
-  position: absolute;
-  inset: 130px 0 -220px;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(124, 77, 255, 0.44), transparent 35%),
-    radial-gradient(ellipse at 50% 0%, rgba(255, 74, 31, 0.2), transparent 44%),
-    linear-gradient(180deg, rgba(124, 77, 255, 0.2), #05040a 55%);
-  filter: blur(2px);
-}
-
-.hero-dock {
-  position: absolute;
-  right: clamp(20px, 5vw, 72px);
-  bottom: 54px;
-  left: clamp(20px, 5vw, 72px);
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-}
-
-.dock-card {
-  min-height: 124px;
-  padding: 20px;
-  border: 1px solid var(--line-invert);
-  border-radius: 8px;
-  color: var(--text-invert);
-  background: rgba(255, 255, 255, 0.055);
-  backdrop-filter: blur(18px);
-  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-}
-
-.dock-card:hover {
-  border-color: rgba(255, 74, 31, 0.44);
-  background: rgba(255, 74, 31, 0.08);
-  transform: translateY(-4px);
-}
-
-.dock-card span,
-.section-heading span,
-.feature-copy span,
-.workflow-step span,
-.workflow-item span,
-.resource-card span,
-.about-panel > span {
-  display: block;
-  color: var(--orange);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.dock-card strong {
-  display: block;
-  margin-top: 18px;
-  font-size: 24px;
-  line-height: 1.1;
-}
-
-.dock-card em {
-  display: block;
-  margin-top: 10px;
-  color: rgba(247, 242, 234, 0.62);
-  font-size: 14px;
-  font-style: normal;
-}
-
-.section-block {
-  width: min(1180px, calc(100% - 48px));
-  margin: 120px auto 0;
-}
-
-.section-heading {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 30px;
-  margin-bottom: 28px;
-}
-
-.section-heading h2 {
-  max-width: 760px;
-  margin: 12px 0 0;
-  color: var(--text);
-  font-size: clamp(34px, 4.4vw, 58px);
-  font-weight: 760;
-  line-height: 1.08;
-  letter-spacing: 0;
-}
-
-.section-heading a,
-.feature-copy a,
-.about-actions a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
-  background: var(--surface);
-}
-
-.featured-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
-  gap: 18px;
-}
-
-.feature-main,
-.workflow-section,
-.resource-section,
-.notes-panel,
-.about-panel {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: 0 24px 80px rgba(23, 18, 15, 0.08);
-}
-
-:global(html.dark) .feature-main,
-:global(html.dark) .workflow-section,
-:global(html.dark) .resource-section,
-:global(html.dark) .notes-panel,
-:global(html.dark) .about-panel {
-  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.24);
-}
-
-.feature-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-  overflow: hidden;
-}
-
-.feature-media {
-  min-height: 440px;
-  background: var(--stage-bg);
-}
-
-.feature-media img {
-  width: 100%;
-  height: 100%;
-  min-height: 440px;
-  object-fit: cover;
-  filter: saturate(0.9) contrast(1.04);
-}
-
-.feature-copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 440px;
-  padding: clamp(28px, 4vw, 48px);
-}
-
-.feature-copy h3 {
-  margin: 18px 0 0;
-  color: var(--text);
-  font-size: clamp(28px, 3.6vw, 46px);
-  line-height: 1.08;
-}
-
-.feature-copy p {
-  margin: 18px 0 28px;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.case-rail {
-  display: grid;
-  gap: 10px;
-}
-
-.case-rail button {
-  display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
-  align-items: center;
-  min-height: 78px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  text-align: left;
-  background: var(--surface);
-  cursor: pointer;
-}
-
-.case-rail button span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.case-rail button strong {
-  overflow: hidden;
-  font-size: 16px;
-  line-height: 1.35;
-  text-overflow: ellipsis;
-}
-
-.case-rail button.active {
-  border-color: rgba(255, 74, 31, 0.48);
-  background:
-    linear-gradient(135deg, rgba(255, 74, 31, 0.12), transparent 54%),
-    var(--surface);
-}
-
-.workflow-section,
-.resource-section {
-  padding: clamp(28px, 5vw, 58px);
-}
-
-.section-heading.split {
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-
-.workflow-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
-  gap: 18px;
-}
-
-.workflow-steps {
-  display: grid;
-  gap: 12px;
-}
-
-.workflow-step {
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--surface-solid), transparent 18%);
-}
-
-.workflow-step h3 {
-  margin: 12px 0 0;
-  color: var(--text);
-  font-size: 24px;
-}
-
-.workflow-step p {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.workflow-preview {
-  display: grid;
-  gap: 12px;
-}
-
-.workflow-item {
-  display: grid;
-  grid-template-columns: 142px minmax(0, 1fr);
-  gap: 18px;
-  align-items: center;
-  min-height: 130px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  text-decoration: none;
-  background: color-mix(in srgb, var(--surface-solid), transparent 12%);
-}
-
-.workflow-item img {
-  width: 100%;
-  height: 100px;
-  border-radius: 6px;
-  object-fit: cover;
-}
-
-.workflow-item strong {
-  display: block;
-  margin-top: 10px;
-  font-size: 20px;
-  line-height: 1.3;
-}
-
-.resource-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.resource-card {
-  min-height: 172px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  text-decoration: none;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(118, 87, 216, 0.12), transparent 34%),
-    color-mix(in srgb, var(--surface-solid), transparent 14%);
-}
-
-.resource-card strong {
-  display: block;
-  margin-top: 24px;
-  font-size: 22px;
-}
-
-.resource-card p {
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.notes-section {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
-  gap: 18px;
-}
-
-.notes-panel,
-.about-panel {
-  padding: clamp(28px, 4vw, 48px);
-}
-
-.section-heading.compact {
-  display: block;
-  margin-bottom: 26px;
-}
-
-.section-heading.compact h2,
-.about-panel h2 {
-  margin: 12px 0 0;
-  color: var(--text);
-  font-size: clamp(30px, 3.4vw, 44px);
-  line-height: 1.12;
-}
-
-.post-list {
-  display: grid;
-  border-top: 1px solid var(--line);
-}
-
-.post-row {
-  display: grid;
-  grid-template-columns: 100px minmax(0, 1fr);
-  gap: 18px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--text);
-  text-decoration: none;
-}
-
-.post-row span {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.post-row strong {
-  overflow: hidden;
-  font-size: 17px;
-  line-height: 1.45;
-  text-overflow: ellipsis;
-}
-
-.about-panel {
-  color: var(--text-invert);
-  background:
-    radial-gradient(circle at 18% 8%, rgba(255, 74, 31, 0.24), transparent 28%),
-    linear-gradient(135deg, #0f0b18, #05040a);
-}
-
-.about-panel h2 {
-  color: var(--text-invert);
-}
-
-.about-panel p {
-  margin: 18px 0 0;
-  color: rgba(247, 242, 234, 0.7);
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.about-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.about-actions a {
-  color: var(--text-invert);
-  border-color: var(--line-invert);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.back-to-top {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 20;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  background: var(--surface);
-  box-shadow: 0 16px 40px var(--shadow);
-  cursor: pointer;
-}
-
-@media (max-width: 960px) {
-  .hero-stage {
-    min-height: auto;
-    padding-bottom: 34px;
-  }
-
-  .hero-actions,
-  .about-actions {
-    flex-wrap: wrap;
-  }
-
-  .hero-inner {
-    margin-top: 82px;
-  }
-
-  .hero-dock {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    grid-template-columns: 1fr;
-    width: 100%;
-    margin-top: 260px;
-  }
-
-  .hero-orbit {
-    bottom: 260px;
-    height: 240px;
-  }
-
-  .section-heading,
-  .section-heading.split,
-  .featured-grid,
-  .feature-main,
-  .workflow-layout,
-  .resource-grid,
-  .notes-section {
-    grid-template-columns: 1fr;
-  }
-
-  .section-block {
-    width: min(100% - 32px, 720px);
-    margin-top: 76px;
-  }
-
-  .feature-media,
-  .feature-media img,
-  .feature-copy {
-    min-height: 300px;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-stage {
-    padding: 18px 14px 28px;
-  }
-
-  .hero-inner h1 {
-    font-size: clamp(42px, 15vw, 68px);
-  }
-
-  .hero-desc {
-    font-size: 15px;
-  }
-
-  .hero-actions {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .hero-actions a {
-    width: 100%;
-  }
-
-  .section-heading h2 {
-    font-size: 34px;
-  }
-
-  .workflow-item,
-  .post-row {
-    grid-template-columns: 1fr;
-  }
-
-  .workflow-item img {
-    height: 160px;
-  }
-}
-
-/* Refined lower homepage sections */
-.home-container {
-  --content-measure: min(1040px, calc(100% - 48px));
-  --quiet-surface: color-mix(in srgb, var(--surface-solid), transparent 34%);
-  --quiet-line: color-mix(in srgb, var(--line), transparent 28%);
-}
-
-.section-block {
-  width: var(--content-measure);
-}
-
-.section-block {
-  margin-top: clamp(82px, 9vw, 118px);
-}
-
-.section-heading,
-.section-heading.split {
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 24px;
-  margin-bottom: 22px;
-}
-
-.section-heading h2,
-.section-heading.compact h2,
-.about-panel h2 {
-  max-width: 1040px;
-  font-size: clamp(28px, 3.1vw, 42px);
-  font-weight: 720;
-  line-height: 1.14;
-}
-
-.section-heading span,
-.feature-copy span,
-.workflow-step span,
-.workflow-item span,
-.resource-card span,
-.about-panel > span {
-  color: color-mix(in srgb, var(--orange), var(--text) 26%);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-}
-
-.section-heading a,
-.feature-copy a,
-.about-actions a {
-  min-height: 36px;
-  padding: 0 14px;
-  border-color: var(--quiet-line);
-  background: transparent;
-  font-size: 13px;
-}
-
-.feature-main,
-.workflow-section,
-.resource-section,
-.notes-panel,
-.about-panel {
-  border-color: var(--quiet-line);
-  background: var(--quiet-surface);
-  box-shadow: none;
-}
-
-:global(html.dark) .feature-main,
-:global(html.dark) .workflow-section,
-:global(html.dark) .resource-section,
-:global(html.dark) .notes-panel,
-:global(html.dark) .about-panel {
-  box-shadow: none;
-}
-
-.featured-grid {
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-.feature-main {
-  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1fr);
-}
-
-.feature-media,
-.feature-media img,
-.feature-copy {
-  min-height: 360px;
-}
-
-.feature-copy {
-  padding: clamp(26px, 4vw, 42px);
-}
-
-.feature-copy h3 {
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1.14;
-}
-
-.feature-copy p,
-.workflow-step p,
-.resource-card p,
-.about-panel p {
-  max-width: 560px;
-  font-size: 14px;
-  line-height: 1.72;
-}
-
-.case-rail {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.case-rail button {
-  min-height: 66px;
-  padding: 14px;
-  border-color: var(--quiet-line);
-  background: transparent;
-}
-
-.case-rail button.active {
-  border-color: color-mix(in srgb, var(--orange), transparent 48%);
-  background: color-mix(in srgb, var(--orange-soft), transparent 46%);
-}
-
-.workflow-section,
-.resource-section,
-.notes-panel,
-.about-panel {
-  padding: clamp(26px, 4vw, 42px);
-}
-
-.workflow-layout {
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  gap: 14px;
-}
-
-.workflow-step,
-.workflow-item,
-.resource-card {
-  border-color: var(--quiet-line);
-  background: transparent;
-}
-
-.workflow-step {
-  padding: 18px 0;
-  border-width: 0 0 1px;
-  border-radius: 0;
-}
-
-.workflow-step:first-child {
-  padding-top: 0;
-}
-
-.workflow-step h3 {
-  font-size: 20px;
-}
-
-.workflow-item {
-  min-height: 108px;
-  grid-template-columns: 118px minmax(0, 1fr);
-  padding: 10px;
-}
-
-.workflow-item img {
-  height: 88px;
-}
-
-.workflow-item strong {
-  font-size: 18px;
-}
-
-.resource-grid {
-  gap: 8px;
-}
-
-.resource-card {
-  min-height: 154px;
-  padding: 20px;
-  background: transparent;
-}
-
-.resource-card strong {
-  margin-top: 20px;
-  font-size: 20px;
-}
-
-.notes-section {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 12px;
-  margin-bottom: 110px;
-}
-
-.post-row {
-  padding: 16px 0;
-  border-color: var(--quiet-line);
-}
-
-.about-panel {
-  background: #0f0b18;
-}
-
-:global(html.dark) .about-panel {
-  background: color-mix(in srgb, #0f0b18, #05040a 34%);
-}
-
-@media (max-width: 960px) {
-  .home-container {
-    --content-measure: min(100% - 32px, 720px);
-  }
-
-  .feature-main,
-  .workflow-layout,
-  .notes-section {
-    grid-template-columns: 1fr;
-  }
-
-  .case-rail,
-  .resource-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .home-container {
-    --content-measure: calc(100% - 28px);
-  }
-
-  .section-heading,
-  .section-heading.split {
-    grid-template-columns: 1fr;
-  }
-
-  .case-rail,
-  .resource-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .workflow-item {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Product-grade homepage direction */
-.home-container {
-  --content-measure: min(1060px, calc(100% - 48px));
-  --page-bg: #f4f1eb;
-  --stage-bg: #f4f1eb;
-  --surface: rgba(255, 252, 245, 0.72);
-  --surface-solid: #fffaf2;
-  --text: #17130f;
-  --text-invert: #17130f;
-  --muted: rgba(23, 19, 15, 0.58);
-  --line: rgba(42, 35, 28, 0.1);
-  --line-invert: rgba(42, 35, 28, 0.1);
-  --violet: #7058df;
-  --orange: #ff5a32;
-  --orange-soft: rgba(255, 90, 50, 0.12);
-  background:
-    radial-gradient(circle at 50% -6%, rgba(120, 92, 224, 0.2), transparent 34%),
-    radial-gradient(circle at 18% 20%, rgba(38, 171, 225, 0.12), transparent 28%),
-    linear-gradient(180deg, #f4f1eb 0%, #eee9e1 100%);
-  transition: background 0.45s ease, color 0.45s ease;
-}
-
-:global(html.dark) .home-container {
-  --page-bg: #03010a;
-  --stage-bg: #03010a;
-  --surface: rgba(27, 23, 34, 0.74);
-  --surface-solid: #17131f;
-  --text: #f6f2ea;
-  --text-invert: #f6f2ea;
-  --muted: rgba(246, 242, 234, 0.56);
-  --line: rgba(255, 255, 255, 0.08);
-  --line-invert: rgba(255, 255, 255, 0.09);
-  --violet: #7a5cff;
-  --orange: #ff5a32;
-  --orange-soft: rgba(255, 90, 50, 0.14);
-  background:
-    radial-gradient(circle at 48% -8%, rgba(73, 205, 171, 0.2), transparent 24%),
-    radial-gradient(circle at 30% 0%, rgba(117, 58, 189, 0.42), transparent 34%),
-    radial-gradient(circle at 72% 5%, rgba(218, 44, 86, 0.24), transparent 30%),
-    linear-gradient(180deg, #03010a 0%, #070412 45%, #03010a 100%);
+  --site-bg: #05020d;
 }
 
 .theme-toggle {
   position: absolute;
-  top: 34px;
-  right: clamp(20px, 6vw, 88px);
+  top: 32px;
+  right: clamp(22px, 7vw, 112px);
   z-index: 8;
   width: 56px;
   height: 30px;
-  border: 1px solid var(--line-invert);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface-solid), transparent 24%);
-  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.14);
+  background: rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: background 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
 }
 
 .theme-toggle span {
@@ -1290,376 +338,582 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff, #f1e5d5);
-  box-shadow: 0 0 0 1px rgba(23, 19, 15, 0.08), 0 8px 22px rgba(0, 0, 0, 0.22);
-  transition: transform 0.34s cubic-bezier(.2, .8, .2, 1), background 0.34s ease;
-}
-
-.theme-toggle.active {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 34px rgba(122, 92, 255, 0.22);
+  background: linear-gradient(135deg, #fff, #e7dfd4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  transition: transform 0.32s cubic-bezier(.2, .8, .2, 1), background 0.32s ease;
 }
 
 .theme-toggle.active span {
   transform: translateX(26px);
-  background: linear-gradient(135deg, #7a5cff, #49cdab);
+  background: linear-gradient(135deg, #8564ff, #42d2b0);
 }
 
-.hero-stage {
-  min-height: 880px;
-  padding: 72px clamp(20px, 4vw, 56px) 70px;
-  color: var(--text-invert);
-  background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(122, 92, 255, 0.18), transparent 24%),
-    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--page-bg), transparent 0%) 100%);
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-:global(html.dark) .hero-stage {
-  background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(122, 92, 255, 0.24), transparent 24%),
-    radial-gradient(ellipse at 50% 0%, rgba(168, 48, 120, 0.28), transparent 36%),
-    linear-gradient(180deg, rgba(3, 1, 10, 0.04), #03010a 100%);
-}
-
-.hero-stage::before {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 36%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 120px);
-  opacity: 0.22;
-}
-
-:global(html:not(.dark)) .hero-stage::before {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.46), transparent 36%),
-    repeating-linear-gradient(90deg, rgba(30, 24, 18, 0.035) 0 1px, transparent 1px 120px);
-  opacity: 0.72;
-}
-
-.hero-visual {
+.ray-hero {
   position: relative;
-  z-index: 2;
+  min-height: 760px;
+  padding: 70px 24px 110px;
+  isolation: isolate;
+}
+
+.ray-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(134, 91, 255, 0.2), transparent 24%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 112px);
+  mask-image: linear-gradient(180deg, #000, transparent 76%);
+}
+
+:global(html:not(.dark)) .ray-hero::before {
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(134, 91, 255, 0.15), transparent 24%),
+    repeating-linear-gradient(90deg, rgba(23, 18, 15, 0.04) 0 1px, transparent 1px 112px);
+}
+
+.app-cloud {
   display: grid;
-  grid-template-columns: repeat(6, 62px);
+  grid-template-columns: repeat(6, 58px);
   justify-content: center;
-  gap: 18px;
-  width: min(560px, 100%);
-  margin: 10px auto 78px;
+  gap: 16px;
+  width: min(540px, calc(100% - 32px));
+  margin: 4px auto 92px;
   perspective: 900px;
 }
 
-.hero-tile {
+.app-cloud span {
   display: grid;
-  width: 62px;
-  height: 62px;
+  width: 58px;
+  height: 58px;
   place-items: center;
-  border: 1px solid var(--line-invert);
-  border-radius: 16px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
   color: var(--text);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 760;
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--surface-solid), transparent 8%), color-mix(in srgb, var(--surface-solid), transparent 42%));
-  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.14);
-  transform: translateY(calc((var(--tile-index) - 6) * -1px)) rotateX(12deg);
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.2), transparent 30%),
+    linear-gradient(145deg, var(--card-strong), color-mix(in srgb, var(--card-strong), transparent 46%));
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.2);
+  transform: translateY(calc((var(--i) - 6) * -1px)) rotateX(12deg);
 }
 
-:global(html.dark) .hero-tile {
-  color: rgba(246, 242, 234, 0.88);
+:global(html.dark) .app-cloud span {
+  color: rgba(246, 242, 234, 0.9);
   background:
-    radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.18), transparent 30%),
-    linear-gradient(145deg, rgba(42, 34, 58, 0.9), rgba(18, 15, 26, 0.76));
-  box-shadow: 0 22px 68px rgba(0, 0, 0, 0.4), 0 0 44px rgba(122, 92, 255, 0.12);
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.18), transparent 30%),
+    linear-gradient(145deg, rgba(42, 35, 58, 0.9), rgba(16, 13, 24, 0.72));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(122, 92, 255, 0.1);
 }
 
-.hero-inner {
-  width: min(720px, 100%);
+.hero-copy {
+  width: min(660px, calc(100% - 32px));
   margin: 0 auto;
+  text-align: center;
 }
 
-.hero-kicker,
-.section-heading span,
-.feature-copy span,
-.workflow-item span,
-.resource-card span,
-.about-panel > span,
-.dock-card span,
-.dock-card em,
-.case-rail button span {
-  display: none !important;
-}
-
-.hero-inner h1 {
+.hero-copy h1 {
+  margin: 0;
   color: var(--text);
-  font-size: clamp(54px, 7.8vw, 96px);
+  font-size: clamp(54px, 7vw, 86px);
   font-weight: 780;
   line-height: 0.92;
-  text-shadow: none;
+  letter-spacing: 0;
 }
 
-:global(html.dark) .hero-inner h1 {
-  color: #fbf7ef;
-  text-shadow: 0 0 70px rgba(122, 92, 255, 0.22);
-}
-
-.hero-inner h1 span {
-  color: inherit;
-  text-shadow: none;
-}
-
-.hero-desc {
-  max-width: 560px;
-  margin-top: 26px;
+.hero-copy p {
+  width: min(520px, 100%);
+  margin: 26px auto 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.72;
 }
 
-.hero-actions a {
+.main-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 178px;
   min-height: 42px;
-  padding: 0 22px;
+  margin-top: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
   border-radius: 7px;
+  color: #17120f;
+  font-size: 13px;
+  font-weight: 760;
+  background: linear-gradient(135deg, #fff, #e9e2ff);
+  box-shadow: 0 0 42px rgba(122, 92, 255, 0.2), 0 20px 60px rgba(0, 0, 0, 0.24);
+}
+
+.hero-copy small {
+  display: block;
+  margin-top: 16px;
+  color: color-mix(in srgb, var(--muted), transparent 16%);
+  font-size: 12px;
+}
+
+.dual-showcase,
+.ecosystem,
+.company,
+.takeoff,
+.signal-cards,
+.newsletter,
+.ray-footer {
+  width: min(1060px, calc(100% - 48px));
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.dual-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 0;
+}
+
+.showcase-card {
+  min-height: 360px;
+  padding: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  backdrop-filter: blur(22px);
+}
+
+.code-card {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.42), transparent 28%),
+    linear-gradient(135deg, rgba(118, 236, 202, 0.95), rgba(33, 183, 155, 0.72));
+  color: #10221e;
+}
+
+.code-window {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 360px);
+  margin-bottom: 58px;
+  padding: 28px;
+  border-radius: 8px;
+  color: #e7d8ff;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  background: #171226;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.32);
+}
+
+.extension-card {
+  background:
+    radial-gradient(circle at 58% 12%, rgba(37, 190, 174, 0.18), transparent 24%),
+    radial-gradient(circle at 80% 0%, rgba(208, 48, 90, 0.18), transparent 24%),
+    var(--card);
+}
+
+.mini-apps {
+  display: flex;
+  gap: 16px;
+  margin: 58px 0 76px;
+}
+
+.mini-apps span {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: 14px;
+  color: #f6f2ea;
+  font-size: 12px;
+  font-weight: 760;
+  background: linear-gradient(135deg, rgba(122, 92, 255, 0.78), rgba(255, 90, 50, 0.7));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
+}
+
+.showcase-card h2,
+.showcase-card p,
+.showcase-card a {
+  margin-left: 0;
+}
+
+.showcase-card h2 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.showcase-card p {
+  max-width: 370px;
+  margin: 14px 0 22px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.code-card p {
+  color: rgba(16, 34, 30, 0.68);
+}
+
+.showcase-card a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.code-card a {
+  color: #10221e;
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.ecosystem {
+  margin-top: 152px;
+}
+
+.section-title {
+  max-width: 640px;
+}
+
+.section-title h2,
+.center-title h2,
+.takeoff h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 760;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.principle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  width: min(820px, 100%);
+  margin: 70px auto 0;
+}
+
+.principle-grid article {
+  min-height: 220px;
+  padding: 30px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.principle-grid i {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 26px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.42), transparent 36%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.principle-grid h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.principle-grid p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.66;
+}
+
+.company {
+  margin-top: 170px;
+}
+
+.center-title {
+  text-align: center;
+}
+
+.center-title p {
+  width: min(520px, 100%);
+  margin: 22px auto 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.quote-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+  gap: 2px;
+  width: 100vw;
+  margin: 76px 0 0 calc(50% - 50vw);
+  padding: 0 18px;
+}
+
+.quote-row article {
+  min-height: 260px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--card), transparent 18%);
+}
+
+.quote-row b {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3d5bf, #7b61ff);
+}
+
+.quote-row p {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.78;
+}
+
+.quote-row span {
+  display: block;
+  margin-top: 22px;
+  color: #56b8ff;
+  font-size: 12px;
+}
+
+.community-link {
+  display: table;
+  margin: 58px auto 0;
+  color: var(--text);
   font-size: 13px;
 }
 
-.primary-action {
-  color: #17130f;
-  background: linear-gradient(135deg, #ffffff, #eae3d7);
-  box-shadow: 0 22px 62px rgba(255, 90, 50, 0.2);
+.takeoff {
+  margin-top: 170px;
+  text-align: center;
 }
 
-:global(html.dark) .primary-action {
-  color: #130f18;
-  background: linear-gradient(135deg, #ffffff, #e5e0ff);
-  box-shadow: 0 0 42px rgba(122, 92, 255, 0.3), 0 20px 62px rgba(0, 0, 0, 0.24);
-}
-
-.secondary-action {
-  color: var(--text);
-  border-color: var(--line-invert);
-  background: color-mix(in srgb, var(--surface-solid), transparent 38%);
-}
-
-.hero-orbit {
-  display: none;
-}
-
-.hero-dock {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  left: auto;
-  width: min(840px, calc(100% - 40px));
-  margin: 96px auto 0;
-  gap: 12px;
-}
-
-.dock-card {
-  min-height: 88px;
-  padding: 22px;
-  border-color: var(--line-invert);
-  color: var(--text);
-  background: color-mix(in srgb, var(--surface-solid), transparent 36%);
-  box-shadow: none;
-}
-
-:global(html.dark) .dock-card {
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.dock-card strong {
-  margin-top: 0;
-  font-size: 19px;
-}
-
-.section-block {
-  width: var(--content-measure);
-  margin-top: clamp(96px, 12vw, 150px);
-}
-
-.section-heading,
-.section-heading.split {
-  display: block;
-  margin-bottom: 34px;
-  text-align: left;
-}
-
-.section-heading h2,
-.section-heading.compact h2,
-.about-panel h2 {
-  max-width: 620px;
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(34px, 4vw, 54px);
-  font-weight: 760;
-  line-height: 1;
-}
-
-.section-heading a,
-.feature-copy a,
-.about-actions a {
-  margin-top: 22px;
-  min-height: 34px;
-  border-radius: 7px;
-  border-color: var(--line);
-  color: var(--text);
-  background: transparent;
-}
-
-.feature-main,
-.workflow-section,
-.resource-section,
-.notes-panel,
-.about-panel {
-  border-color: var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: none;
-  backdrop-filter: blur(20px);
-}
-
-.feature-main {
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
-}
-
-.feature-media,
-.feature-media img,
-.feature-copy {
-  min-height: 420px;
-}
-
-.feature-copy h3 {
-  font-size: clamp(30px, 3.8vw, 48px);
-}
-
-.feature-copy p,
-.workflow-step p,
-.resource-card p,
-.about-panel p {
+.takeoff p {
+  width: min(520px, 100%);
+  margin: 18px auto 0;
   color: var(--muted);
   font-size: 14px;
+  line-height: 1.72;
 }
 
-.case-rail {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.takeoff code {
+  display: table;
+  margin: 20px auto 0;
+  padding: 12px 18px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.case-rail button {
-  min-height: 72px;
-  border-color: var(--line);
-  background: color-mix(in srgb, var(--surface-solid), transparent 54%);
+.signal-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 170px;
 }
 
-.case-rail button strong {
-  font-size: 14px;
+.signal-card {
+  min-height: 174px;
+  padding: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
-.workflow-section,
-.resource-section {
-  padding: clamp(32px, 5vw, 58px);
+.signal-card.blue {
+  background: linear-gradient(135deg, rgba(25, 145, 220, 0.9), rgba(89, 64, 210, 0.42));
 }
 
-.workflow-layout {
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+.signal-card.red {
+  background: linear-gradient(135deg, rgba(146, 28, 55, 0.86), rgba(255, 90, 50, 0.24));
 }
 
-.workflow-step {
-  border-color: var(--line);
+.signal-card h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
 }
 
-.workflow-step h3 {
-  font-size: 22px;
+.signal-card p {
+  max-width: 410px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-.workflow-item,
-.resource-card {
-  border-color: var(--line);
-  background: color-mix(in srgb, var(--surface-solid), transparent 58%);
+.newsletter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+  gap: 60px;
+  align-items: center;
+  margin-top: 78px;
 }
 
-.workflow-item {
-  grid-template-columns: 104px minmax(0, 1fr);
+.newsletter h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
 }
 
-.workflow-item img {
-  height: 82px;
+.newsletter p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
-.resource-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.newsletter form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 116px;
   gap: 10px;
 }
 
-.resource-card strong {
-  margin-top: 0;
-  font-size: 20px;
+.newsletter input,
+.newsletter button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: inherit;
 }
 
-.notes-section {
-  gap: 12px;
-  margin-bottom: 130px;
+.newsletter input {
+  padding: 0 14px;
+  color: var(--text);
+  background: var(--card);
 }
 
-.about-panel {
-  color: #f6f2ea;
-  background:
-    radial-gradient(circle at 12% 4%, rgba(122, 92, 255, 0.26), transparent 32%),
-    linear-gradient(135deg, #17131f, #08050f);
+.newsletter button {
+  color: #17120f;
+  background: #f6f2ea;
 }
 
-.about-panel h2 {
-  color: #f6f2ea;
+.ray-footer {
+  display: grid;
+  grid-template-columns: 70px repeat(4, 1fr);
+  gap: 42px;
+  margin-top: 130px;
+  padding: 76px 0 92px;
+  border-top: 1px solid var(--line);
 }
 
-.about-panel p {
-  color: rgba(246, 242, 234, 0.62);
+.footer-mark {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 760;
+  background: linear-gradient(135deg, #ff5a32, #7a5cff);
+}
+
+.ray-footer nav {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.ray-footer strong {
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.ray-footer a {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 20;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface);
+  color: var(--text);
+  background: var(--card);
+  cursor: pointer;
 }
 
 @media (max-width: 960px) {
-  .hero-visual {
-    grid-template-columns: repeat(4, 56px);
+  .app-cloud {
+    grid-template-columns: repeat(4, 54px);
     gap: 12px;
-    margin-bottom: 58px;
   }
 
-  .hero-tile {
-    width: 56px;
-    height: 56px;
+  .app-cloud span {
+    width: 54px;
+    height: 54px;
   }
 
-  .hero-dock,
-  .feature-main,
-  .workflow-layout,
-  .notes-section {
+  .dual-showcase,
+  .principle-grid,
+  .signal-cards,
+  .newsletter,
+  .ray-footer {
     grid-template-columns: 1fr;
+  }
+
+  .quote-row {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .theme-toggle {
-    top: 22px;
-    right: 18px;
+  .ray-hero {
+    padding-top: 76px;
   }
 
-  .hero-stage {
-    padding-top: 72px;
+  .app-cloud {
+    grid-template-columns: repeat(3, 50px);
   }
 
-  .hero-visual {
-    grid-template-columns: repeat(3, 52px);
+  .app-cloud span {
+    width: 50px;
+    height: 50px;
   }
 
-  .hero-tile {
-    width: 52px;
-    height: 52px;
+  .hero-copy h1 {
+    font-size: clamp(44px, 15vw, 66px);
   }
 
-  .hero-inner h1 {
-    font-size: clamp(46px, 15vw, 68px);
+  .dual-showcase,
+  .ecosystem,
+  .company,
+  .takeoff,
+  .signal-cards,
+  .newsletter,
+  .ray-footer {
+    width: calc(100% - 28px);
+  }
+
+  .showcase-card,
+  .principle-grid article,
+  .quote-row article,
+  .signal-card {
+    padding: 26px;
+  }
+
+  .quote-row {
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter form {
+    grid-template-columns: 1fr;
   }
 }
 </style>
