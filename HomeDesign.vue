@@ -271,16 +271,18 @@ onUnmounted(() => {
 }
 
 .ray-home {
-  --bg: #f5f0e8;
-  --bg-soft: #ece5dc;
-  --text: #17120f;
-  --muted: rgba(23, 18, 15, 0.58);
-  --card: rgba(255, 250, 242, 0.76);
-  --card-strong: #fffaf2;
-  --line: rgba(27, 21, 18, 0.12);
-  --glow-a: rgba(112, 88, 223, 0.24);
-  --glow-b: rgba(44, 178, 210, 0.16);
-  --accent: #f25a39;
+  --bg: #f6f6f7;
+  --bg-soft: #eeeeef;
+  --text: #18181d;
+  --muted: rgba(111, 115, 123, 0.82);
+  --card: rgba(255, 255, 255, 0.86);
+  --card-strong: #ffffff;
+  --line: #dedfe3;
+  --glow-a: rgba(255, 255, 255, 0.88);
+  --glow-b: rgba(24, 24, 29, 0.06);
+  --accent: #7a7f89;
+  --accent-2: #b7bbc3;
+  --button-gradient: linear-gradient(135deg, #e8e9ed, #cfd3da);
   width: 100vw;
   min-height: 100vh;
   margin-right: calc(50% - 50vw);
@@ -296,26 +298,28 @@ onUnmounted(() => {
 }
 
 :global(html.dark) .ray-home {
-  --bg: #05020d;
-  --bg-soft: #080412;
-  --text: #f6f2ea;
-  --muted: rgba(246, 242, 234, 0.52);
-  --card: rgba(28, 24, 36, 0.72);
-  --card-strong: #17131f;
-  --line: rgba(255, 255, 255, 0.08);
-  --glow-a: rgba(128, 72, 205, 0.46);
-  --glow-b: rgba(53, 199, 170, 0.16);
+  --bg: #080714;
+  --bg-soft: #0b0a18;
+  --text: #ffffff;
+  --muted: rgba(199, 210, 255, 0.7);
+  --card: rgba(17, 16, 34, 0.92);
+  --card-strong: #111022;
+  --line: #2d2a52;
+  --glow-a: rgba(154, 134, 255, 0.26);
+  --glow-b: rgba(118, 173, 255, 0.14);
+  --accent: #9a86ff;
+  --accent-2: #76adff;
+  --button-gradient: linear-gradient(135deg, #9a86ff, #76adff);
   background:
-    radial-gradient(circle at 49% -5%, rgba(53, 199, 170, 0.2), transparent 20%),
-    radial-gradient(circle at 30% 0%, rgba(118, 57, 189, 0.48), transparent 34%),
-    radial-gradient(circle at 72% 4%, rgba(202, 45, 88, 0.24), transparent 28%),
-    linear-gradient(180deg, #05020d 0%, #06020d 52%, #04010a 100%);
+    radial-gradient(circle at 50% -6%, rgba(154, 134, 255, 0.22), transparent 34%),
+    radial-gradient(circle at 72% 3%, rgba(118, 173, 255, 0.13), transparent 28%),
+    linear-gradient(180deg, #080714 0%, #0b0a18 52%, #080714 100%);
 }
 
 :global(html.dark body),
 :global(html.dark #app),
 :global(html.dark .VPContent) {
-  --site-bg: #05020d;
+  --site-bg: #080714;
 }
 
 .theme-toggle {
@@ -338,14 +342,14 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fff, #e7dfd4);
+  background: linear-gradient(135deg, #fff, #d7d9de);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
   transition: transform 0.32s cubic-bezier(.2, .8, .2, 1), background 0.32s ease;
 }
 
 .theme-toggle.active span {
   transform: translateX(26px);
-  background: linear-gradient(135deg, #8564ff, #42d2b0);
+  background: linear-gradient(135deg, #9a86ff, #76adff);
 }
 
 a {
@@ -373,8 +377,8 @@ a {
 
 :global(html:not(.dark)) .ray-hero::before {
   background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(134, 91, 255, 0.15), transparent 24%),
-    repeating-linear-gradient(90deg, rgba(23, 18, 15, 0.04) 0 1px, transparent 1px 112px);
+    radial-gradient(circle at var(--mx) var(--my), rgba(24, 24, 29, 0.07), transparent 24%),
+    repeating-linear-gradient(90deg, rgba(24, 24, 29, 0.045) 0 1px, transparent 1px 112px);
 }
 
 .app-cloud {
@@ -405,11 +409,11 @@ a {
 }
 
 :global(html.dark) .app-cloud span {
-  color: rgba(246, 242, 234, 0.9);
+  color: rgba(255, 255, 255, 0.92);
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.18), transparent 30%),
-    linear-gradient(145deg, rgba(42, 35, 58, 0.9), rgba(16, 13, 24, 0.72));
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(122, 92, 255, 0.1);
+    linear-gradient(145deg, #262541, rgba(17, 16, 34, 0.78));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(154, 134, 255, 0.1);
 }
 
 .hero-copy {
@@ -442,13 +446,13 @@ a {
   min-width: 178px;
   min-height: 42px;
   margin-top: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  border: 1px solid var(--line);
   border-radius: 7px;
-  color: #17120f;
+  color: var(--text);
   font-size: 13px;
   font-weight: 760;
-  background: linear-gradient(135deg, #fff, #e9e2ff);
-  box-shadow: 0 0 42px rgba(122, 92, 255, 0.2), 0 20px 60px rgba(0, 0, 0, 0.24);
+  background: var(--button-gradient);
+  box-shadow: 0 0 42px rgba(118, 173, 255, 0.16), 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 .hero-copy small {
@@ -488,9 +492,16 @@ a {
 
 .code-card {
   background:
-    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.42), transparent 28%),
-    linear-gradient(135deg, rgba(118, 236, 202, 0.95), rgba(33, 183, 155, 0.72));
-  color: #10221e;
+    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.5), transparent 28%),
+    linear-gradient(135deg, #f5f6f8, #dfe2e8);
+  color: #18181d;
+}
+
+:global(html.dark) .code-card {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(154, 134, 255, 0.26), transparent 30%),
+    linear-gradient(135deg, rgba(154, 134, 255, 0.9), rgba(118, 173, 255, 0.58));
+  color: #ffffff;
 }
 
 .code-window {
@@ -509,8 +520,8 @@ a {
 
 .extension-card {
   background:
-    radial-gradient(circle at 58% 12%, rgba(37, 190, 174, 0.18), transparent 24%),
-    radial-gradient(circle at 80% 0%, rgba(208, 48, 90, 0.18), transparent 24%),
+    radial-gradient(circle at 58% 12%, rgba(154, 134, 255, 0.18), transparent 24%),
+    radial-gradient(circle at 80% 0%, rgba(118, 173, 255, 0.13), transparent 24%),
     var(--card);
 }
 
@@ -526,10 +537,10 @@ a {
   height: 50px;
   place-items: center;
   border-radius: 14px;
-  color: #f6f2ea;
+  color: var(--text);
   font-size: 12px;
   font-weight: 760;
-  background: linear-gradient(135deg, rgba(122, 92, 255, 0.78), rgba(255, 90, 50, 0.7));
+  background: var(--button-gradient);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
 }
 
@@ -554,7 +565,11 @@ a {
 }
 
 .code-card p {
-  color: rgba(16, 34, 30, 0.68);
+  color: rgba(24, 24, 29, 0.68);
+}
+
+:global(html.dark) .code-card p {
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .showcase-card a {
@@ -569,8 +584,13 @@ a {
 }
 
 .code-card a {
-  color: #10221e;
-  background: rgba(255, 255, 255, 0.26);
+  color: #18181d;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+:global(html.dark) .code-card a {
+  color: #ffffff;
+  background: rgba(17, 16, 34, 0.22);
 }
 
 .ecosystem {
@@ -669,7 +689,7 @@ a {
   height: 36px;
   margin-bottom: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f3d5bf, #7b61ff);
+  background: linear-gradient(135deg, #9a86ff, #76adff);
 }
 
 .quote-row p {
@@ -682,7 +702,7 @@ a {
 .quote-row span {
   display: block;
   margin-top: 22px;
-  color: #56b8ff;
+  color: var(--accent-2);
   font-size: 12px;
 }
 
@@ -731,23 +751,23 @@ a {
 }
 
 .signal-card.blue {
-  background: linear-gradient(135deg, rgba(25, 145, 220, 0.9), rgba(89, 64, 210, 0.42));
+  background: var(--button-gradient);
 }
 
 .signal-card.red {
-  background: linear-gradient(135deg, rgba(146, 28, 55, 0.86), rgba(255, 90, 50, 0.24));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent), #ffffff 10%), color-mix(in srgb, var(--accent-2), transparent 12%));
 }
 
 .signal-card h3 {
   margin: 0;
-  color: #fff;
+  color: var(--text);
   font-size: 18px;
 }
 
 .signal-card p {
   max-width: 410px;
   margin: 14px 0 0;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--muted);
   font-size: 13px;
   line-height: 1.7;
 }
@@ -793,8 +813,8 @@ a {
 }
 
 .newsletter button {
-  color: #17120f;
-  background: #f6f2ea;
+  color: var(--text);
+  background: var(--button-gradient);
 }
 
 .ray-footer {
@@ -812,10 +832,10 @@ a {
   height: 28px;
   place-items: center;
   border-radius: 8px;
-  color: #fff;
+  color: var(--text);
   font-size: 11px;
   font-weight: 760;
-  background: linear-gradient(135deg, #ff5a32, #7a5cff);
+  background: var(--button-gradient);
 }
 
 .ray-footer nav {

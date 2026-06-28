@@ -45,12 +45,13 @@ const pageLink = (path) => withBase(path)
 }
 
 .tool-card {
+  min-height: 308px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 15px;
+  gap: 16px;
   background: var(--liuli-card);
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
@@ -62,7 +63,7 @@ const pageLink = (path) => withBase(path)
 
 .tool-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 36px var(--liuli-glow);
+  box-shadow: 0 18px 42px var(--liuli-glow);
   border-color: var(--vp-c-brand-1);
 }
 
@@ -73,10 +74,15 @@ const pageLink = (path) => withBase(path)
   place-items: center;
   border: 1px solid var(--vp-c-divider);
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--vp-c-brand-soft), color-mix(in srgb, var(--vp-c-brand-2), transparent 86%));
+  background: #f2f3f5;
   font-size: 2rem;
   margin-bottom: 5px;
   transition: all 0.3s;
+}
+
+:global(html.dark) .tool-icon {
+  background: #292947;
+  border-color: #3a3862;
 }
 
 .tool-card:hover .tool-icon {
@@ -90,7 +96,7 @@ const pageLink = (path) => withBase(path)
 
 .tool-info h3 {
   margin: 0 0 8px !important;
-  font-size: 1.2rem;
+  font-size: 1.22rem;
   font-weight: 800;
   color: var(--vp-c-text-1);
 }
@@ -99,7 +105,7 @@ const pageLink = (path) => withBase(path)
   margin: 0 0 12px !important;
   font-size: 0.85rem;
   color: var(--vp-c-brand-1);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .desc {
@@ -111,13 +117,17 @@ const pageLink = (path) => withBase(path)
 
 .btn-download {
   width: 100%;
-  padding: 10px 0;
+  margin-top: auto;
+  padding: 11px 0;
   border-radius: 8px;
   background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
-  color: white !important;
+  color: var(--vp-c-text-1) !important;
   font-weight: 700;
-  margin-top: 10px;
   transition: all 0.3s;
+}
+
+:global(html.dark) .btn-download {
+  color: white !important;
 }
 
 .tool-card:hover .btn-download {
