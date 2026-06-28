@@ -1018,4 +1018,254 @@ onUnmounted(() => {
     height: 160px;
   }
 }
+
+/* Refined lower homepage sections */
+.home-container {
+  --content-measure: min(1040px, calc(100% - 48px));
+  --quiet-surface: color-mix(in srgb, var(--surface-solid), transparent 34%);
+  --quiet-line: color-mix(in srgb, var(--line), transparent 28%);
+}
+
+.section-block,
+.theme-system {
+  width: var(--content-measure);
+}
+
+.section-block {
+  margin-top: clamp(82px, 9vw, 118px);
+}
+
+.section-heading,
+.section-heading.split {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.section-heading h2,
+.section-heading.compact h2,
+.about-panel h2,
+.theme-system h2 {
+  max-width: 1040px;
+  font-size: clamp(28px, 3.1vw, 42px);
+  font-weight: 720;
+  line-height: 1.14;
+}
+
+.section-heading span,
+.feature-copy span,
+.workflow-step span,
+.workflow-item span,
+.resource-card span,
+.about-panel > span,
+.theme-system span {
+  color: color-mix(in srgb, var(--orange), var(--text) 26%);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.section-heading a,
+.feature-copy a,
+.about-actions a {
+  min-height: 36px;
+  padding: 0 14px;
+  border-color: var(--quiet-line);
+  background: transparent;
+  font-size: 13px;
+}
+
+.feature-main,
+.workflow-section,
+.resource-section,
+.notes-panel,
+.about-panel,
+.theme-system {
+  border-color: var(--quiet-line);
+  background: var(--quiet-surface);
+  box-shadow: none;
+}
+
+:global(html.dark) .feature-main,
+:global(html.dark) .workflow-section,
+:global(html.dark) .resource-section,
+:global(html.dark) .notes-panel,
+:global(html.dark) .about-panel,
+:global(html.dark) .theme-system {
+  box-shadow: none;
+}
+
+.featured-grid {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.feature-main {
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1fr);
+}
+
+.feature-media,
+.feature-media img,
+.feature-copy {
+  min-height: 360px;
+}
+
+.feature-copy {
+  padding: clamp(26px, 4vw, 42px);
+}
+
+.feature-copy h3 {
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.14;
+}
+
+.feature-copy p,
+.workflow-step p,
+.resource-card p,
+.about-panel p {
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.case-rail {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.case-rail button {
+  min-height: 66px;
+  padding: 14px;
+  border-color: var(--quiet-line);
+  background: transparent;
+}
+
+.case-rail button.active {
+  border-color: color-mix(in srgb, var(--orange), transparent 48%);
+  background: color-mix(in srgb, var(--orange-soft), transparent 46%);
+}
+
+.workflow-section,
+.resource-section,
+.notes-panel,
+.about-panel,
+.theme-system {
+  padding: clamp(26px, 4vw, 42px);
+}
+
+.workflow-layout {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 14px;
+}
+
+.workflow-step,
+.workflow-item,
+.resource-card,
+.theme-card {
+  border-color: var(--quiet-line);
+  background: transparent;
+}
+
+.workflow-step {
+  padding: 18px 0;
+  border-width: 0 0 1px;
+  border-radius: 0;
+}
+
+.workflow-step:first-child {
+  padding-top: 0;
+}
+
+.workflow-step h3 {
+  font-size: 20px;
+}
+
+.workflow-item {
+  min-height: 108px;
+  grid-template-columns: 118px minmax(0, 1fr);
+  padding: 10px;
+}
+
+.workflow-item img {
+  height: 88px;
+}
+
+.workflow-item strong {
+  font-size: 18px;
+}
+
+.resource-grid {
+  gap: 8px;
+}
+
+.resource-card {
+  min-height: 154px;
+  padding: 20px;
+  background: transparent;
+}
+
+.resource-card strong {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.notes-section {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.post-row {
+  padding: 16px 0;
+  border-color: var(--quiet-line);
+}
+
+.about-panel {
+  background: #0f0b18;
+}
+
+:global(html.dark) .about-panel {
+  background: color-mix(in srgb, #0f0b18, #05040a 34%);
+}
+
+.theme-system {
+  margin-top: clamp(82px, 9vw, 118px);
+  margin-bottom: 110px;
+}
+
+@media (max-width: 960px) {
+  .home-container {
+    --content-measure: min(100% - 32px, 720px);
+  }
+
+  .feature-main,
+  .workflow-layout,
+  .notes-section {
+    grid-template-columns: 1fr;
+  }
+
+  .case-rail,
+  .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .home-container {
+    --content-measure: calc(100% - 28px);
+  }
+
+  .section-heading,
+  .section-heading.split {
+    grid-template-columns: 1fr;
+  }
+
+  .case-rail,
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-item {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
