@@ -109,6 +109,33 @@ html.dark body {
   padding: clamp(88px, 8vw, 120px) 32px 96px;
 }
 
+.VPPage:has(.blog-list) > div {
+  width: 100%;
+  max-width: none;
+  padding-right: clamp(18px, 4vw, 72px);
+  padding-left: clamp(18px, 4vw, 72px);
+}
+
+.VPPage:has(.blog-list) .vp-doc,
+.VPDoc:has(.blog-list) .container,
+.VPDoc:has(.blog-list) .content,
+.VPDoc:has(.blog-list) .content-container {
+  width: 100%;
+  max-width: none !important;
+}
+
+.VPPage:has(.blog-list) .vp-doc > h1,
+.VPPage:has(.blog-list) .vp-doc > p {
+  max-width: 1180px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.VPPage:has(.blog-list) .blog-list {
+  width: 100%;
+  max-width: none;
+}
+
 .VPPage > div > div > h1 {
   margin: 0;
   color: var(--vp-c-text-1);
@@ -189,6 +216,11 @@ html.dark body {
 @media (max-width: 768px) {
   .VPPage > div {
     padding: 82px 16px 64px;
+  }
+
+  .VPPage:has(.blog-list) > div {
+    padding-right: 14px;
+    padding-left: 14px;
   }
 
   .VPPage > div > div > h1 {

@@ -13,15 +13,6 @@ const workflowItems = computed(() => allAigcWorks.filter((work) => work.featured
 const resourceItems = computed(() => toolsResources.filter((tool) => tool.featured).slice(0, 6))
 const postItems = computed(() => allBlogPosts.filter((post) => post.featured).slice(0, 3))
 
-const navItems = [
-  { label: '首页', href: '/' },
-  { label: '案例', href: '/portfolio/' },
-  { label: 'AI工作流', href: '/aigc/' },
-  { label: '资源库', href: '/resources/' },
-  { label: '方法论', href: '/blog/' },
-  { label: '关于我', href: '/resume' }
-]
-
 const themePreview = [
   { label: 'Dark', bg: '#05040A', surface: '#0F0B18', text: '#F7F2EA', accent: '#FF4A1F' },
   { label: 'Light', bg: '#F3F1EE', surface: '#FFF9F2', text: '#17120F', accent: '#7657D8' }
@@ -101,18 +92,6 @@ onUnmounted(() => {
       @mousemove="updateHeroPointer"
       @mouseleave="resetHeroPointer"
     >
-      <nav class="home-nav" aria-label="首页导航">
-        <a class="brand-mark" :href="pageLink('/')">
-          <span class="brand-symbol">HYJ</span>
-          <span>韩宇杰</span>
-        </a>
-        <div class="nav-links">
-          <a v-for="item in navItems" :key="item.label" :href="pageLink(item.href)">
-            {{ item.label }}
-          </a>
-        </div>
-      </nav>
-
       <div class="hero-inner">
         <p class="hero-kicker">AI DESIGN / DIGITAL CONTENT / PERSONAL ARCHIVE</p>
         <h1>
@@ -396,23 +375,6 @@ onUnmounted(() => {
   mask-image: linear-gradient(180deg, transparent, #000 18%, #000 70%, transparent);
 }
 
-.home-nav {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: min(1180px, 100%);
-  margin: 0 auto;
-  padding: 12px 14px;
-  border: 1px solid var(--line-invert);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(18px);
-}
-
-.brand-mark,
-.nav-links a,
 .hero-actions a,
 .section-heading a,
 .feature-copy a,
@@ -420,49 +382,11 @@ onUnmounted(() => {
   text-decoration: none;
 }
 
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-invert);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.brand-symbol {
-  display: inline-grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 11px;
-  background: linear-gradient(135deg, var(--violet), var(--orange));
-  box-shadow: 0 0 28px rgba(255, 74, 31, 0.28);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(12px, 2vw, 28px);
-}
-
-.nav-links a {
-  color: rgba(247, 242, 234, 0.72);
-  font-size: 13px;
-  line-height: 1;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: #fff;
-}
-
 .hero-inner {
   position: relative;
   z-index: 2;
   width: min(1040px, 100%);
-  margin: 136px auto 0;
+  margin: 112px auto 0;
   text-align: center;
 }
 
@@ -1009,21 +933,13 @@ onUnmounted(() => {
     padding-bottom: 34px;
   }
 
-  .home-nav,
-  .nav-links,
   .hero-actions,
   .about-actions {
     flex-wrap: wrap;
   }
 
-  .nav-links {
-    justify-content: flex-start;
-    width: 100%;
-    margin-top: 12px;
-  }
-
   .hero-inner {
-    margin-top: 96px;
+    margin-top: 82px;
   }
 
   .hero-dock {
@@ -1067,14 +983,6 @@ onUnmounted(() => {
 @media (max-width: 640px) {
   .hero-stage {
     padding: 18px 14px 28px;
-  }
-
-  .home-nav {
-    padding: 12px;
-  }
-
-  .nav-links {
-    gap: 12px 16px;
   }
 
   .hero-inner h1 {
