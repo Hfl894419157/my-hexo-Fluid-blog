@@ -322,6 +322,9 @@ onUnmounted(() => {
   --orange: #ff4a1f;
   --orange-soft: rgba(255, 74, 31, 0.16);
   --shadow: rgba(23, 18, 15, 0.12);
+  width: 100vw;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
   min-height: 100vh;
   overflow: hidden;
   color: var(--text);

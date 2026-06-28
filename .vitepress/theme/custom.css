@@ -109,6 +109,16 @@ html.dark body {
   padding: clamp(88px, 8vw, 120px) 32px 96px;
 }
 
+.VPContent.is-home,
+.VPContent.is-home .VPHome,
+.VPContent.is-home .container,
+.VPContent.is-home .vp-doc {
+  width: 100%;
+  max-width: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
 .VPPage:has(.blog-list) > div {
   width: 100%;
   max-width: none;
