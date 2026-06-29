@@ -125,15 +125,24 @@ onUnmounted(() => {
         <span></span>
       </button>
 
-      <div class="app-cloud" aria-hidden="true">
-        <span v-for="(item, index) in heroApps" :key="item" :style="{ '--i': index }">{{ item }}</span>
+      <div class="hero-poster" aria-hidden="true">
+        <div class="poster-halo"></div>
+        <div class="poster-grid"></div>
+        <div class="app-cloud">
+          <span v-for="(item, index) in heroApps" :key="item" :style="{ '--i': index }">{{ item }}</span>
+        </div>
+        <div class="poster-card">
+          <span>AI 设计工作流</span>
+          <strong>个人创作系统</strong>
+          <small>案例 / 资源 / 方法论</small>
+        </div>
       </div>
 
       <div class="hero-copy">
-        <h1>打造完美的<br>设计工具系统</h1>
-        <p>把作品、AI 流程、资源库和方法论连接起来，让你的个人网站成为真正可复用的创作中枢。</p>
+        <h1>让设计、内容与 AI 流程成为一套系统</h1>
+        <p>把案例、AIGC 工作流、资源库和方法论连接起来，让个人网站不只是展示作品，而是呈现你的长期创作能力。</p>
         <a class="main-button" :href="pageLink('/portfolio/')">查看精选案例</a>
-        <small>已经有系统？继续进入资源库与方法论</small>
+        <small>作品集 / 工作流 / 资源库</small>
       </div>
     </section>
 
@@ -253,7 +262,7 @@ onUnmounted(() => {
 :global(.VPDoc .container),
 :global(.VPDoc .content),
 :global(.VPDoc .content-container) {
-  background: var(--site-bg, #05030d) !important;
+  background: var(--site-bg, #f6f6f7) !important;
 }
 
 :global(.VPDoc .container),
@@ -283,6 +292,11 @@ onUnmounted(() => {
   --accent: #7a7f89;
   --accent-2: #b7bbc3;
   --button-gradient: linear-gradient(135deg, #e8e9ed, #cfd3da);
+  --poster-bg: rgba(255, 255, 255, 0.74);
+  --poster-panel: rgba(255, 255, 255, 0.88);
+  --poster-ink: #18181d;
+  --poster-line: rgba(24, 24, 29, 0.1);
+  --poster-shadow: rgba(24, 24, 29, 0.12);
   width: 100vw;
   min-height: 100vh;
   margin-right: calc(50% - 50vw);
@@ -310,6 +324,11 @@ onUnmounted(() => {
   --accent: #9a86ff;
   --accent-2: #76adff;
   --button-gradient: linear-gradient(135deg, #9a86ff, #76adff);
+  --poster-bg: rgba(17, 16, 34, 0.7);
+  --poster-panel: rgba(17, 16, 34, 0.86);
+  --poster-ink: #ffffff;
+  --poster-line: #2d2a52;
+  --poster-shadow: rgba(0, 0, 0, 0.44);
   background:
     radial-gradient(circle at 50% -6%, rgba(154, 134, 255, 0.22), transparent 34%),
     radial-gradient(circle at 72% 3%, rgba(118, 173, 255, 0.13), transparent 28%),
@@ -381,30 +400,100 @@ a {
     repeating-linear-gradient(90deg, rgba(24, 24, 29, 0.045) 0 1px, transparent 1px 112px);
 }
 
+.hero-poster {
+  position: relative;
+  width: min(760px, calc(100% - 32px));
+  height: clamp(260px, 32vw, 330px);
+  margin: 0 auto 54px;
+  overflow: hidden;
+  border: 1px solid var(--poster-line);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent), transparent 72%), transparent 34%),
+    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent-2), transparent 76%), transparent 30%),
+    linear-gradient(180deg, var(--poster-bg), color-mix(in srgb, var(--poster-bg), var(--bg-soft) 22%));
+  box-shadow: 0 28px 100px var(--poster-shadow);
+}
+
+.poster-halo,
+.poster-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.poster-halo {
+  background:
+    radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--accent), transparent 54%), transparent 18%),
+    radial-gradient(circle at 50% 76%, color-mix(in srgb, var(--accent-2), transparent 66%), transparent 24%);
+  filter: blur(14px);
+}
+
+.poster-grid {
+  opacity: 0.58;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 52%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--line), transparent 60%) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at 50% 48%, #000, transparent 72%);
+}
+
+.poster-card {
+  position: absolute;
+  right: 50%;
+  bottom: 34px;
+  z-index: 2;
+  display: grid;
+  min-width: min(360px, calc(100% - 56px));
+  gap: 10px;
+  padding: 24px 28px;
+  border: 1px solid var(--poster-line);
+  border-radius: 8px;
+  color: var(--poster-ink);
+  background: var(--poster-panel);
+  box-shadow: 0 24px 70px var(--poster-shadow);
+  transform: translateX(50%);
+  backdrop-filter: blur(22px);
+}
+
+.poster-card span,
+.poster-card small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.poster-card strong {
+  color: var(--poster-ink);
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.95;
+}
 .app-cloud {
   display: grid;
-  grid-template-columns: repeat(6, 58px);
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  z-index: 2;
+  grid-template-columns: repeat(6, 48px);
   justify-content: center;
-  gap: 16px;
-  width: min(540px, calc(100% - 32px));
-  margin: 4px auto 92px;
+  gap: 12px;
+  transform: translateX(-50%);
   perspective: 900px;
 }
 
 .app-cloud span {
   display: grid;
-  width: 58px;
-  height: 58px;
+  width: 48px;
+  height: 48px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 15px;
+  border-radius: 12px;
   color: var(--text);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 760;
   background:
-    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.2), transparent 30%),
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.32), transparent 30%),
     linear-gradient(145deg, var(--card-strong), color-mix(in srgb, var(--card-strong), transparent 46%));
-  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
   transform: translateY(calc((var(--i) - 6) * -1px)) rotateX(12deg);
 }
 
@@ -413,7 +502,7 @@ a {
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.18), transparent 30%),
     linear-gradient(145deg, #262541, rgba(17, 16, 34, 0.78));
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(154, 134, 255, 0.1);
+  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.42), 0 0 44px rgba(154, 134, 255, 0.1);
 }
 
 .hero-copy {
@@ -425,9 +514,9 @@ a {
 .hero-copy h1 {
   margin: 0;
   color: var(--text);
-  font-size: clamp(54px, 7vw, 86px);
+  font-size: clamp(46px, 6vw, 76px);
   font-weight: 780;
-  line-height: 0.92;
+  line-height: 0.96;
   letter-spacing: 0;
 }
 
@@ -871,13 +960,13 @@ a {
 
 @media (max-width: 960px) {
   .app-cloud {
-    grid-template-columns: repeat(4, 54px);
+    grid-template-columns: repeat(4, 46px);
     gap: 12px;
   }
 
   .app-cloud span {
-    width: 54px;
-    height: 54px;
+    width: 46px;
+    height: 46px;
   }
 
   .dual-showcase,
@@ -898,13 +987,18 @@ a {
     padding-top: 76px;
   }
 
+  .hero-poster {
+    height: 320px;
+    margin-bottom: 44px;
+  }
+
   .app-cloud {
-    grid-template-columns: repeat(3, 50px);
+    grid-template-columns: repeat(3, 44px);
   }
 
   .app-cloud span {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
   }
 
   .hero-copy h1 {

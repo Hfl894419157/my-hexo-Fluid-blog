@@ -2,6 +2,7 @@
   --vp-c-bg: #f6f6f7;
   --vp-c-bg-alt: #eeeeef;
   --vp-c-bg-soft: #f1f1f2;
+  --site-bg: #f6f6f7;
   --vp-c-bg-elv: rgba(255, 255, 255, 0.94);
   --vp-c-text-1: #18181d;
   --vp-c-text-2: #6f737b;
@@ -47,6 +48,7 @@ html.dark {
   --vp-c-bg: #080714;
   --vp-c-bg-alt: #0f0e1f;
   --vp-c-bg-soft: #111022;
+  --site-bg: #080714;
   --vp-c-bg-elv: rgba(17, 16, 34, 0.94);
   --vp-c-text-1: #ffffff;
   --vp-c-text-2: #c7d2ff;
@@ -91,6 +93,49 @@ html.dark body {
 .VPNavBar,
 .VPNavBar.has-sidebar .content {
   border-bottom-color: var(--vp-c-divider);
+}
+
+html:not(.dark) .VPNav {
+  color: #18181d;
+}
+
+html:not(.dark) .VPNavBar,
+html:not(.dark) .VPNavBar.has-sidebar .content {
+  background: rgba(246, 246, 247, 0.9) !important;
+}
+
+html:not(.dark) .VPNavBarTitle .title,
+html:not(.dark) .VPNavBarMenuLink,
+html:not(.dark) .VPSocialLink,
+html:not(.dark) .VPNavBarAppearance,
+html:not(.dark) .VPNavScreenMenuLink {
+  color: #3d4148 !important;
+}
+
+html:not(.dark) .VPNavBarMenuLink:hover,
+html:not(.dark) .VPNavBarMenuLink.active,
+html:not(.dark) .VPNavBarTitle .title:hover,
+html:not(.dark) .VPSocialLink:hover {
+  color: #111217 !important;
+}
+
+html:not(.dark) .DocSearch-Button {
+  border: 1px solid #d8d9de;
+  background: #ffffff;
+  color: #59606a;
+  box-shadow: 0 10px 28px rgba(24, 24, 29, 0.08);
+}
+
+html:not(.dark) .DocSearch-Button:hover {
+  border-color: #c8cad1;
+  color: #18181d;
+}
+
+html:not(.dark) .DocSearch-Button-Key {
+  border-color: #d8d9de;
+  background: #f4f4f5;
+  color: #6f737b;
+  box-shadow: none;
 }
 
 .VPSocialLinks svg {
