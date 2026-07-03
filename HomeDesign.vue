@@ -12,28 +12,28 @@ const showBackToTop = ref(false)
 
 let themeObserver = null
 
-const heroApps = ['AI', 'UI', '3D', 'BR', 'UX', 'CV', 'SD', 'PM', 'MG', 'AR', 'ID', 'GD']
+const heroApps = ['需求', '资料', '提示', '生成', '筛选', '资产', '复盘', '交付']
 
 const principles = [
-  ['熟悉但更强的工具', '把设计、内容、素材和项目表达放进同一套稳定流程。'],
-  ['不费力的界面', '页面只保留真正有用的入口，让浏览者快速理解你是谁。'],
-  ['可协作的资源', '案例、方法和素材都能沉淀成可复用的个人资产。'],
-  ['面向创作者体验', '不是堆作品，而是展示判断、过程和交付能力。'],
-  ['从灵感到交付', 'AI 工作流帮助你更快试错，更稳地进入最终方案。'],
-  ['发布到真实世界', '让网站成为作品集、资源库和方法论的长期载体。']
+  ['需求拆解', '把目标、受众、约束和交付物转成 AI 能理解的创意简报。'],
+  ['资料结构化', '整理参考、竞品、卖点、尺寸和内容素材，减少反复沟通。'],
+  ['提示词策略', '建立变量、风格边界和批量规则，让方案探索可控。'],
+  ['多方案生成', '快速获得方向、构图、文案和素材版本，扩大试错空间。'],
+  ['人工筛选', '用设计判断保留有效结果，把时间放回决策与优化。'],
+  ['资产沉淀', '把模板、提示词和复盘变成下一次项目的提效起点。']
 ]
 
 const quotes = [
-  ['设计需要被理解，不只是被看见。这个网站把结果、过程和判断放在一起。', '品牌设计项目'],
-  ['AI 不是装饰，而是把重复工作变成系统能力。这里能看到完整链路。', 'AIGC 工作流'],
-  ['案例表达很清晰，能快速知道项目目标、视觉方向和最终价值。', '作品集复盘'],
-  ['资源库让内容不再散落，适合长期维护个人品牌和创作资产。', '个人资源沉淀']
+  ['定位高耗时环节：资料整理、初稿探索、文案变体、尺寸适配和复盘沉淀。', '01 诊断'],
+  ['设计可复用流程：简报模板、提示词结构、生成批次、筛选标准和交付清单。', '02 搭建'],
+  ['把 AI 输出接入设计判断：保留审美、策略和业务目标，不让工具替代决策。', '03 协同'],
+  ['沉淀项目资产：每次交付都回收提示词、模板、案例和方法，持续提高效率。', '04 复盘']
 ]
 
 const footerGroups = [
   {
-    title: '作品',
-    links: [['案例库', '/portfolio/'], ['AI 工作流', '/aigc/'], ['资源库', '/resources/'], ['方法论', '/blog/']]
+    title: '方案',
+    links: [['提效案例', '/portfolio/'], ['AI 工作流', '/aigc/'], ['资源模板', '/resources/'], ['方法论', '/blog/']]
   },
   {
     title: '关于',
@@ -44,8 +44,8 @@ const footerGroups = [
     links: [['GitHub', 'https://github.com/han-yujie'], ['YouTube', 'https://www.youtube.com/@yujie1992'], ['小红书', 'https://www.xiaohongshu.com/'], ['抖音', 'https://www.douyin.com/']]
   },
   {
-    title: '系统',
-    links: [['设计资产', '/resources/'], ['提示词', '/resources/mj-prompt'], ['模板', '/resources/notion'], ['实验记录', '/aigc/']]
+    title: '提效',
+    links: [['设计资产', '/resources/'], ['提示词', '/resources/mj-prompt'], ['项目模板', '/resources/notion'], ['实验记录', '/aigc/']]
   }
 ]
 
@@ -128,53 +128,55 @@ onUnmounted(() => {
       <div class="hero-poster" aria-hidden="true">
         <div class="poster-halo"></div>
         <div class="poster-grid"></div>
+        <div class="poster-ring ring-one"></div>
+        <div class="poster-ring ring-two"></div>
         <div class="app-cloud">
           <span v-for="(item, index) in heroApps" :key="item" :style="{ '--i': index }">{{ item }}</span>
         </div>
         <div class="poster-card">
-          <span>AI 设计工作流</span>
-          <strong>个人创作系统</strong>
-          <small>案例 / 资源 / 方法论</small>
+          <span>AI DESIGN OPS</span>
+          <strong>设计提效中枢</strong>
+          <small>Brief / Prompt / Generate / Review</small>
         </div>
       </div>
 
       <div class="hero-copy">
-        <h1>让设计、内容与 AI 流程成为一套系统</h1>
-        <p>把案例、AIGC 工作流、资源库和方法论连接起来，让个人网站不只是展示作品，而是呈现你的长期创作能力。</p>
-        <a class="main-button" :href="pageLink('/portfolio/')">查看精选案例</a>
-        <small>作品集 / 工作流 / 资源库</small>
+        <h1>用 AI 推动设计提效，让产出变成可复用流程</h1>
+        <p>这里呈现一套从需求拆解、提示词策略、多方案生成到资产沉淀的设计提效方案，让 AI 成为设计判断和项目交付的加速器。</p>
+        <a class="main-button" :href="pageLink('/aigc/')">查看 AI 工作流</a>
+        <small>需求诊断 / 流程搭建 / 资产沉淀</small>
       </div>
     </section>
 
     <section class="dual-showcase">
       <article class="showcase-card code-card">
         <div class="code-window">
-          <span>import design from "personal-system"</span>
-          <span>const workflow = createAIProcess()</span>
-          <span>return publish(workflow, portfolio)</span>
+          <span>brief = extract(project.goal, user.need)</span>
+          <span>prompt = map(brief, style, format)</span>
+          <span>output = review(generate(prompt))</span>
         </div>
-        <h2>开始构建</h2>
-        <p>用案例、流程和工具把个人能力组织起来，不再只是展示图片，而是展示一套可以持续交付的设计方法。</p>
-        <a :href="pageLink('/aigc/')">查看工作流</a>
+        <h2>先诊断：哪些环节最值得提效</h2>
+        <p>把项目拆成需求、资料、探索、筛选、交付和复盘，找到真正耗时的节点，再决定 AI 介入方式。</p>
+        <a :href="pageLink('/blog/')">查看方法论</a>
       </article>
 
       <article class="showcase-card extension-card">
         <div class="mini-apps" aria-hidden="true">
-          <span>F</span>
-          <span>AI</span>
-          <span>3D</span>
-          <span>V</span>
-          <span>UI</span>
+          <span>B</span>
+          <span>P</span>
+          <span>G</span>
+          <span>R</span>
+          <span>A</span>
         </div>
-        <h2>扩展能力</h2>
-        <p>把分散的灵感、素材、提示词和复盘变成网站里的清晰入口，让浏览者快速理解你的专业边界。</p>
-        <a :href="pageLink('/resources/')">打开资源库</a>
+        <h2>再搭建：可复用的 AI 设计工作流</h2>
+        <p>把简报模板、提示词结构、生成批次、筛选标准和交付清单固化下来，让每次项目都能复用。</p>
+        <a :href="pageLink('/resources/')">查看资源模板</a>
       </article>
     </section>
 
     <section class="ecosystem">
       <div class="section-title">
-        <h2>保持系统清晰、漂亮、可持续</h2>
+        <h2>AI 提效不是换工具，而是重组设计流程</h2>
       </div>
       <div class="principle-grid">
         <article v-for="item in principles" :key="item[0]">
@@ -187,41 +189,41 @@ onUnmounted(() => {
 
     <section class="company">
       <div class="center-title">
-        <h2>你站在正确的方向里</h2>
-        <p>它依然很早，但你的作品、流程和资源已经可以被系统地看见。</p>
+        <h2>首页内容按策划方案展开</h2>
+        <p>浏览者先理解你解决什么问题，再看到你如何用 AI 组织流程、提升效率并沉淀方法。</p>
       </div>
       <div class="quote-row">
         <article v-for="quote in quotes" :key="quote[1]">
           <b></b>
-          <p>“{{ quote[0] }}”</p>
           <span>{{ quote[1] }}</span>
+          <p>{{ quote[0] }}</p>
         </article>
       </div>
-      <a class="community-link" :href="pageLink('/blog/')">阅读方法论 →</a>
+      <a class="community-link" :href="pageLink('/portfolio/')">查看提效案例 →</a>
     </section>
 
     <section class="takeoff">
-      <h2>准备好起飞了吗？</h2>
-      <p>从一个案例开始，把你的设计判断、AI 流程和资源沉淀成长期资产。</p>
-      <a class="main-button" :href="pageLink('/resume')">了解我是谁</a>
-      <code>npx create-personal-system</code>
+      <h2>从一个项目开始做提效改造</h2>
+      <p>选择海报、详情页、短视频脚本或品牌内容中的一个高频任务，先搭出一套可复用流程，再逐步沉淀为系统。</p>
+      <a class="main-button" :href="pageLink('/resume')">讨论合作方向</a>
+      <code>Brief → Prompt → Batch → Review → Asset</code>
     </section>
 
     <section class="signal-cards">
       <article class="signal-card blue">
-        <h3>保持更新</h3>
-        <p>关注新的设计方法、AI 工具和真实项目复盘，让网站持续变强。</p>
+        <h3>给设计师</h3>
+        <p>把重复执行交给流程，把时间留给判断、策略、审美和最终交付质量。</p>
       </article>
       <article class="signal-card red">
-        <h3>一起塑造产品</h3>
-        <p>如果你正在做品牌、内容或数字产品，可以把想法带进一次真实合作。</p>
+        <h3>给项目方</h3>
+        <p>用更快的方案验证、更稳定的内容产出和更清晰的资产管理，降低沟通成本。</p>
       </article>
     </section>
 
     <section class="newsletter">
       <div>
         <h3>订阅更新</h3>
-        <p>收到作品集、AI 工作流和资源沉淀的最新内容。</p>
+        <p>接收 AI 设计提效、提示词策略和项目复盘的最新内容。</p>
       </div>
       <form>
         <input aria-label="邮箱地址" placeholder="your@email.com">
@@ -378,8 +380,8 @@ a {
 
 .ray-hero {
   position: relative;
-  min-height: 760px;
-  padding: 70px 24px 110px;
+  min-height: 840px;
+  padding: 82px 24px 112px;
   isolation: isolate;
 }
 
@@ -402,8 +404,8 @@ a {
 
 .hero-poster {
   position: relative;
-  width: min(760px, calc(100% - 32px));
-  height: clamp(260px, 32vw, 330px);
+  width: min(880px, calc(100% - 32px));
+  height: clamp(330px, 36vw, 420px);
   margin: 0 auto 54px;
   overflow: hidden;
   border: 1px solid var(--poster-line);
@@ -438,63 +440,149 @@ a {
   mask-image: radial-gradient(circle at 50% 48%, #000, transparent 72%);
 }
 
+.poster-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid color-mix(in srgb, var(--line), transparent 12%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ring-one {
+  width: min(520px, 76%);
+  aspect-ratio: 1;
+}
+
+.ring-two {
+  width: min(360px, 58%);
+  aspect-ratio: 1;
+  border-style: dashed;
+}
+
+.poster-ring::before,
+.poster-ring::after {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 26px color-mix(in srgb, var(--accent), transparent 34%);
+  content: "";
+}
+
+.poster-ring::before {
+  top: 16%;
+  left: 12%;
+}
+
+.poster-ring::after {
+  right: 14%;
+  bottom: 18%;
+}
+
 .poster-card {
   position: absolute;
   right: 50%;
-  bottom: 34px;
+  top: 50%;
   z-index: 2;
   display: grid;
-  min-width: min(360px, calc(100% - 56px));
-  gap: 10px;
-  padding: 24px 28px;
+  width: min(330px, calc(100% - 72px));
+  gap: 8px;
+  padding: 26px 28px;
   border: 1px solid var(--poster-line);
   border-radius: 8px;
   color: var(--poster-ink);
+  text-align: center;
   background: var(--poster-panel);
   box-shadow: 0 24px 70px var(--poster-shadow);
-  transform: translateX(50%);
+  transform: translate(50%, -50%);
   backdrop-filter: blur(22px);
+}
+
+.poster-card span,
+.poster-card small,
+.poster-card strong,
+.app-cloud span {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .poster-card span,
 .poster-card small {
   color: var(--muted);
-  font-size: 12px;
+  font-weight: 700;
 }
 
 .poster-card strong {
   color: var(--poster-ink);
-  font-size: clamp(30px, 4vw, 48px);
-  line-height: 0.95;
+  font-weight: 820;
 }
 .app-cloud {
-  display: grid;
   position: absolute;
-  top: 28px;
-  left: 50%;
+  inset: 0;
   z-index: 2;
-  grid-template-columns: repeat(6, 48px);
-  justify-content: center;
-  gap: 12px;
-  transform: translateX(-50%);
+  display: block;
   perspective: 900px;
 }
 
 .app-cloud span {
+  position: absolute;
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 76px;
+  height: 42px;
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 12px;
   color: var(--text);
-  font-size: 12px;
-  font-weight: 760;
+  font-weight: 780;
   background:
     radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.32), transparent 30%),
     linear-gradient(145deg, var(--card-strong), color-mix(in srgb, var(--card-strong), transparent 46%));
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
-  transform: translateY(calc((var(--i) - 6) * -1px)) rotateX(12deg);
+  transform: translate(-50%, -50%);
+}
+
+.app-cloud span:nth-child(1) {
+  top: 17%;
+  left: 50%;
+}
+
+.app-cloud span:nth-child(2) {
+  top: 28%;
+  left: 73%;
+}
+
+.app-cloud span:nth-child(3) {
+  top: 50%;
+  left: 82%;
+}
+
+.app-cloud span:nth-child(4) {
+  top: 72%;
+  left: 73%;
+}
+
+.app-cloud span:nth-child(5) {
+  top: 83%;
+  left: 50%;
+}
+
+.app-cloud span:nth-child(6) {
+  top: 72%;
+  left: 27%;
+}
+
+.app-cloud span:nth-child(7) {
+  top: 50%;
+  left: 18%;
+}
+
+.app-cloud span:nth-child(8) {
+  top: 28%;
+  left: 27%;
 }
 
 .ray-home.dark-mode .app-cloud span {
@@ -959,14 +1047,9 @@ a {
 }
 
 @media (max-width: 960px) {
-  .app-cloud {
-    grid-template-columns: repeat(4, 46px);
-    gap: 12px;
-  }
-
   .app-cloud span {
-    width: 46px;
-    height: 46px;
+    width: 70px;
+    height: 40px;
   }
 
   .dual-showcase,
@@ -988,21 +1071,29 @@ a {
   }
 
   .hero-poster {
-    height: 320px;
+    height: 360px;
     margin-bottom: 44px;
   }
 
-  .app-cloud {
-    grid-template-columns: repeat(3, 44px);
+  .app-cloud span {
+    width: 62px;
+    height: 36px;
+    font-size: 12px;
   }
 
-  .app-cloud span {
-    width: 44px;
-    height: 44px;
+  .poster-card {
+    width: min(270px, calc(100% - 54px));
+    padding: 22px 20px;
+  }
+
+  .poster-card span,
+  .poster-card small,
+  .poster-card strong {
+    font-size: 12px;
   }
 
   .hero-copy h1 {
-    font-size: clamp(44px, 15vw, 66px);
+    font-size: clamp(38px, 12vw, 58px);
   }
 
   .dual-showcase,
