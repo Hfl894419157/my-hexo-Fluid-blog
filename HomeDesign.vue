@@ -402,7 +402,6 @@ a {
   mask-image: linear-gradient(180deg, #000, transparent 78%);
 }
 
-.hero-shell,
 .strategy-section,
 .launch-section,
 .ray-footer {
@@ -411,13 +410,21 @@ a {
   margin-left: auto;
 }
 
+.hero-shell {
+  width: 100vw;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+}
+
 .hero-arc {
   position: relative;
   min-height: 620px;
   overflow: hidden;
   padding: 88px 28px 174px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
   background:
     radial-gradient(circle at 50% 108%, var(--arc-glow), transparent 28%),
     radial-gradient(circle at 50% -18%, color-mix(in srgb, var(--accent), transparent 76%), transparent 36%),
@@ -561,10 +568,13 @@ a {
   z-index: 4;
   overflow: hidden;
   min-height: 410px;
-  margin: -92px auto 0;
+  width: 100vw;
+  margin: -92px calc(50% - 50vw) 0;
   padding: 44px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--poster-bg), var(--surface-strong) 18%), var(--poster-bg)),
     linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 72%) 1px, transparent 1px),
@@ -614,7 +624,8 @@ a {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 42px;
+  width: min(1160px, calc(100% - 48px));
+  margin: 42px auto 0;
 }
 
 .poster-flow::before {
@@ -680,7 +691,8 @@ a {
   gap: 10px;
   align-items: center;
   justify-content: center;
-  margin-top: 28px;
+  width: min(1160px, calc(100% - 48px));
+  margin: 28px auto 0;
   color: var(--text-soft);
   font-size: 12px;
   font-weight: 720;
@@ -939,7 +951,6 @@ a {
     padding: 70px 0 84px;
   }
 
-  .hero-shell,
   .strategy-section,
   .launch-section,
   .ray-footer {
@@ -988,9 +999,14 @@ a {
   }
 
   .blueprint-poster {
+    width: 100vw;
     margin-top: -78px;
     min-height: auto;
     padding: 28px 18px;
+  }
+
+  .poster-flow {
+    width: calc(100% - 28px);
   }
 
   .poster-header h2 {
