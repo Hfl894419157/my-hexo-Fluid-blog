@@ -12,22 +12,62 @@ const showBackToTop = ref(false)
 
 let themeObserver = null
 
-const heroApps = ['需求', '资料', '提示', '生成', '筛选', '资产', '复盘', '交付']
-
-const principles = [
-  ['需求拆解', '把目标、受众、约束和交付物转成 AI 能理解的创意简报。'],
-  ['资料结构化', '整理参考、竞品、卖点、尺寸和内容素材，减少反复沟通。'],
-  ['提示词策略', '建立变量、风格边界和批量规则，让方案探索可控。'],
-  ['多方案生成', '快速获得方向、构图、文案和素材版本，扩大试错空间。'],
-  ['人工筛选', '用设计判断保留有效结果，把时间放回决策与优化。'],
-  ['资产沉淀', '把模板、提示词和复盘变成下一次项目的提效起点。']
+const blueprintSteps = [
+  {
+    code: '01',
+    title: '需求拆解',
+    poster: '目标、受众、限制、交付物',
+    detail: '把模糊需求整理成 AI 能理解、团队能判断的创意简报。'
+  },
+  {
+    code: '02',
+    title: 'Prompt 策略',
+    poster: '变量、边界、批量规则',
+    detail: '把风格要求、内容结构和输出标准写成可复用提示词。'
+  },
+  {
+    code: '03',
+    title: '多方案生成',
+    poster: '方向探索、构图、文案变体',
+    detail: '用批量生成扩大探索范围，让初稿从单点尝试变成方案池。'
+  },
+  {
+    code: '04',
+    title: '人工筛选',
+    poster: '审美、策略、业务目标',
+    detail: '用设计判断筛掉噪声，保留真正能推进项目的方案。'
+  },
+  {
+    code: '05',
+    title: '资产沉淀',
+    poster: '模板、案例、复盘、规范',
+    detail: '把每次交付回收成下一次项目可以直接调用的资产。'
+  }
 ]
 
-const quotes = [
-  ['定位高耗时环节：资料整理、初稿探索、文案变体、尺寸适配和复盘沉淀。', '01 诊断'],
-  ['设计可复用流程：简报模板、提示词结构、生成批次、筛选标准和交付清单。', '02 搭建'],
-  ['把 AI 输出接入设计判断：保留审美、策略和业务目标，不让工具替代决策。', '03 协同'],
-  ['沉淀项目资产：每次交付都回收提示词、模板、案例和方法，持续提高效率。', '04 复盘']
+const diagnosisCards = [
+  {
+    title: '资料被反复整理',
+    text: '需求、竞品、卖点、尺寸和参考图分散在不同沟通里，设计开始前就消耗大量时间。',
+    result: '输出：项目简报模板'
+  },
+  {
+    title: '初稿依赖低效试错',
+    text: '方向探索、构图尝试和文案变体靠手动推进，容易慢，也很难复盘哪一步有效。',
+    result: '输出：Prompt 变量表'
+  },
+  {
+    title: '交付无法沉淀复用',
+    text: '项目结束后只留下成稿，筛选标准、有效提示词和资产结构没有进入下一次流程。',
+    result: '输出：资产回收清单'
+  }
+]
+
+const deliverables = [
+  ['AI 简报系统', '统一需求输入、目标拆解和交付边界，减少开工前的来回确认。'],
+  ['提示词策略库', '按海报、详情页、短视频脚本、品牌内容等场景沉淀可复用结构。'],
+  ['方案筛选标准', '把审美、策略、转化目标和执行成本变成可讨论的判断维度。'],
+  ['项目复盘资产', '把案例、模板、Prompt、素材规则回收成下一次提效的起点。']
 ]
 
 const footerGroups = [
@@ -125,110 +165,103 @@ onUnmounted(() => {
         <span></span>
       </button>
 
-      <div class="hero-poster" aria-hidden="true">
-        <div class="poster-halo"></div>
-        <div class="poster-grid"></div>
-        <div class="poster-ring ring-one"></div>
-        <div class="poster-ring ring-two"></div>
-        <div class="app-cloud">
-          <span v-for="(item, index) in heroApps" :key="item" :style="{ '--i': index }">{{ item }}</span>
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <p class="hero-kicker">AI Design Efficiency System</p>
+          <h1>AI 推动设计提效，把创意生产变成可复用系统</h1>
+          <p class="hero-lead">
+            从需求诊断、Prompt 策略、多方案生成到交付复盘，建立一套能被重复使用的设计提效流程。
+          </p>
+          <div class="hero-actions">
+            <a class="main-button" :href="pageLink('/aigc/')">查看 AI 工作流</a>
+            <a class="ghost-button" :href="pageLink('/resources/')">查看资源模板</a>
+          </div>
         </div>
-        <div class="poster-card">
-          <span>AI DESIGN OPS</span>
-          <strong>设计提效中枢</strong>
-          <small>Brief / Prompt / Generate / Review</small>
-        </div>
-      </div>
 
-      <div class="hero-copy">
-        <h1>用 AI 推动设计提效，让产出变成可复用流程</h1>
-        <p>这里呈现一套从需求拆解、提示词策略、多方案生成到资产沉淀的设计提效方案，让 AI 成为设计判断和项目交付的加速器。</p>
-        <a class="main-button" :href="pageLink('/aigc/')">查看 AI 工作流</a>
-        <small>需求诊断 / 流程搭建 / 资产沉淀</small>
+        <article class="blueprint-poster">
+          <div class="poster-header">
+            <span>AI DESIGN BLUEPRINT</span>
+            <h2>AI 设计提效蓝图</h2>
+            <p>把一次项目拆成清晰输入、可控生成、人工判断和资产回收。</p>
+          </div>
+
+          <div class="poster-flow">
+            <article v-for="step in blueprintSteps" :key="step.code">
+              <span>{{ step.code }}</span>
+              <h3>{{ step.title }}</h3>
+              <p>{{ step.poster }}</p>
+            </article>
+          </div>
+
+          <div class="poster-route" aria-hidden="true">
+            <span>Brief</span>
+            <i></i>
+            <span>Prompt</span>
+            <i></i>
+            <span>Generate</span>
+            <i></i>
+            <span>Review</span>
+            <i></i>
+            <span>Asset</span>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="dual-showcase">
-      <article class="showcase-card code-card">
-        <div class="code-window">
-          <span>brief = extract(project.goal, user.need)</span>
-          <span>prompt = map(brief, style, format)</span>
-          <span>output = review(generate(prompt))</span>
-        </div>
-        <h2>先诊断：哪些环节最值得提效</h2>
-        <p>把项目拆成需求、资料、探索、筛选、交付和复盘，找到真正耗时的节点，再决定 AI 介入方式。</p>
-        <a :href="pageLink('/blog/')">查看方法论</a>
-      </article>
+    <section class="strategy-section diagnosis-section">
+      <div class="section-head">
+        <span>01 诊断</span>
+        <h2>先找到最值得被 AI 放大的环节</h2>
+        <p>提效不是把所有步骤都自动化，而是先判断哪里最耗时、哪里最容易复用、哪里必须保留人工决策。</p>
+      </div>
 
-      <article class="showcase-card extension-card">
-        <div class="mini-apps" aria-hidden="true">
-          <span>B</span>
-          <span>P</span>
-          <span>G</span>
-          <span>R</span>
-          <span>A</span>
-        </div>
-        <h2>再搭建：可复用的 AI 设计工作流</h2>
-        <p>把简报模板、提示词结构、生成批次、筛选标准和交付清单固化下来，让每次项目都能复用。</p>
-        <a :href="pageLink('/resources/')">查看资源模板</a>
-      </article>
+      <div class="diagnosis-grid">
+        <article v-for="item in diagnosisCards" :key="item.title">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.text }}</p>
+          <strong>{{ item.result }}</strong>
+        </article>
+      </div>
     </section>
 
-    <section class="ecosystem">
-      <div class="section-title">
-        <h2>AI 提效不是换工具，而是重组设计流程</h2>
+    <section class="strategy-section workflow-section">
+      <div class="section-head center">
+        <span>02 流程</span>
+        <h2>把 AI 介入点组织成可复制工作流</h2>
+        <p>每一步都有明确输入、判断标准和沉淀结果，项目不再只依赖临场发挥。</p>
       </div>
-      <div class="principle-grid">
-        <article v-for="item in principles" :key="item[0]">
-          <i></i>
+
+      <div class="workflow-board">
+        <article v-for="step in blueprintSteps" :key="step.title">
+          <span>{{ step.code }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.detail }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="strategy-section deliverable-section">
+      <div class="section-head">
+        <span>03 交付</span>
+        <h2>最终沉淀为团队能继续使用的资产</h2>
+        <p>页面不再只展示作品，而是展示一套可以持续提高效率的设计方法。</p>
+      </div>
+
+      <div class="deliverable-grid">
+        <article v-for="item in deliverables" :key="item[0]">
           <h3>{{ item[0] }}</h3>
           <p>{{ item[1] }}</p>
         </article>
       </div>
     </section>
 
-    <section class="company">
-      <div class="center-title">
-        <h2>首页内容按策划方案展开</h2>
-        <p>浏览者先理解你解决什么问题，再看到你如何用 AI 组织流程、提升效率并沉淀方法。</p>
-      </div>
-      <div class="quote-row">
-        <article v-for="quote in quotes" :key="quote[1]">
-          <b></b>
-          <span>{{ quote[1] }}</span>
-          <p>{{ quote[0] }}</p>
-        </article>
-      </div>
-      <a class="community-link" :href="pageLink('/portfolio/')">查看提效案例 →</a>
-    </section>
-
-    <section class="takeoff">
-      <h2>从一个项目开始做提效改造</h2>
-      <p>选择海报、详情页、短视频脚本或品牌内容中的一个高频任务，先搭出一套可复用流程，再逐步沉淀为系统。</p>
-      <a class="main-button" :href="pageLink('/resume')">讨论合作方向</a>
-      <code>Brief → Prompt → Batch → Review → Asset</code>
-    </section>
-
-    <section class="signal-cards">
-      <article class="signal-card blue">
-        <h3>给设计师</h3>
-        <p>把重复执行交给流程，把时间留给判断、策略、审美和最终交付质量。</p>
-      </article>
-      <article class="signal-card red">
-        <h3>给项目方</h3>
-        <p>用更快的方案验证、更稳定的内容产出和更清晰的资产管理，降低沟通成本。</p>
-      </article>
-    </section>
-
-    <section class="newsletter">
+    <section class="launch-section">
       <div>
-        <h3>订阅更新</h3>
-        <p>接收 AI 设计提效、提示词策略和项目复盘的最新内容。</p>
+        <span>04 开始</span>
+        <h2>从一个高频项目开始做提效改造</h2>
+        <p>选择海报、详情页、短视频脚本或品牌内容中的一个重复任务，先搭出流程，再把经验沉淀为系统。</p>
       </div>
-      <form>
-        <input aria-label="邮箱地址" placeholder="your@email.com">
-        <button type="button">订阅</button>
-      </form>
+      <a class="main-button" :href="pageLink('/resume')">讨论合作方向</a>
     </section>
 
     <footer class="ray-footer">
@@ -284,21 +317,21 @@ onUnmounted(() => {
 .ray-home {
   --bg: #f6f6f7;
   --bg-soft: #eeeeef;
-  --text: #18181d;
-  --muted: rgba(111, 115, 123, 0.82);
-  --card: rgba(255, 255, 255, 0.86);
-  --card-strong: #ffffff;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-strong: #ffffff;
+  --surface-muted: rgba(244, 244, 245, 0.88);
+  --text: #17181d;
+  --text-soft: #4d525c;
+  --muted: #737781;
   --line: #dedfe3;
-  --glow-a: rgba(255, 255, 255, 0.88);
-  --glow-b: rgba(24, 24, 29, 0.06);
-  --accent: #7a7f89;
-  --accent-2: #b7bbc3;
-  --button-gradient: linear-gradient(135deg, #e8e9ed, #cfd3da);
-  --poster-bg: rgba(255, 255, 255, 0.74);
-  --poster-panel: rgba(255, 255, 255, 0.88);
-  --poster-ink: #18181d;
-  --poster-line: rgba(24, 24, 29, 0.1);
-  --poster-shadow: rgba(24, 24, 29, 0.12);
+  --line-strong: #cacdd4;
+  --accent: #7b7f89;
+  --accent-2: #b8bcc4;
+  --button-bg: linear-gradient(135deg, #f2f3f5, #d8dce3);
+  --button-text: #18191f;
+  --poster-bg: rgba(255, 255, 255, 0.82);
+  --poster-panel: rgba(248, 248, 249, 0.92);
+  --poster-shadow: rgba(24, 24, 29, 0.11);
   width: 100vw;
   min-height: 100vh;
   margin-right: calc(50% - 50vw);
@@ -306,9 +339,8 @@ onUnmounted(() => {
   overflow: hidden;
   color: var(--text);
   background:
-    radial-gradient(circle at 50% -5%, var(--glow-a), transparent 34%),
-    radial-gradient(circle at 20% 20%, var(--glow-b), transparent 26%),
-    linear-gradient(180deg, var(--bg), var(--bg-soft));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, transparent 28%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   transition: background 0.45s ease, color 0.45s ease;
 }
@@ -316,25 +348,25 @@ onUnmounted(() => {
 .ray-home.dark-mode {
   --bg: #080714;
   --bg-soft: #0b0a18;
+  --surface: rgba(17, 16, 34, 0.9);
+  --surface-strong: #111022;
+  --surface-muted: rgba(22, 21, 42, 0.88);
   --text: #ffffff;
+  --text-soft: #d9defd;
   --muted: rgba(199, 210, 255, 0.7);
-  --card: rgba(17, 16, 34, 0.92);
-  --card-strong: #111022;
   --line: #2d2a52;
-  --glow-a: rgba(154, 134, 255, 0.26);
-  --glow-b: rgba(118, 173, 255, 0.14);
+  --line-strong: #3a3862;
   --accent: #9a86ff;
   --accent-2: #76adff;
-  --button-gradient: linear-gradient(135deg, #9a86ff, #76adff);
-  --poster-bg: rgba(17, 16, 34, 0.7);
-  --poster-panel: rgba(17, 16, 34, 0.86);
-  --poster-ink: #ffffff;
-  --poster-line: #2d2a52;
-  --poster-shadow: rgba(0, 0, 0, 0.44);
+  --button-bg: linear-gradient(135deg, #9a86ff, #76adff);
+  --button-text: #070612;
+  --poster-bg: rgba(17, 16, 34, 0.82);
+  --poster-panel: rgba(22, 21, 42, 0.9);
+  --poster-shadow: rgba(0, 0, 0, 0.48);
   background:
-    radial-gradient(circle at 50% -6%, rgba(154, 134, 255, 0.22), transparent 34%),
-    radial-gradient(circle at 72% 3%, rgba(118, 173, 255, 0.13), transparent 28%),
-    linear-gradient(180deg, #080714 0%, #0b0a18 52%, #080714 100%);
+    radial-gradient(circle at 50% -6%, rgba(154, 134, 255, 0.24), transparent 30%),
+    radial-gradient(circle at 74% 8%, rgba(118, 173, 255, 0.13), transparent 26%),
+    linear-gradient(180deg, #080714 0%, #0b0a18 46%, #080714 100%);
 }
 
 :global(html.dark body),
@@ -343,17 +375,32 @@ onUnmounted(() => {
   --site-bg: #080714;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .theme-toggle {
   position: absolute;
-  top: 32px;
-  right: clamp(22px, 7vw, 112px);
+  top: 30px;
+  right: max(24px, calc((100vw - 1120px) / 2));
   z-index: 8;
-  width: 56px;
+  width: 54px;
   height: 30px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--surface), transparent 18%);
   cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent-2), transparent 20%);
+  outline-offset: 3px;
 }
 
 .theme-toggle span {
@@ -363,25 +410,20 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fff, #d7d9de);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  background: linear-gradient(135deg, #ffffff, #d7d9de);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
   transition: transform 0.32s cubic-bezier(.2, .8, .2, 1), background 0.32s ease;
 }
 
 .theme-toggle.active span {
-  transform: translateX(26px);
+  transform: translateX(24px);
   background: linear-gradient(135deg, #9a86ff, #76adff);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }
 
 .ray-hero {
   position: relative;
-  min-height: 840px;
-  padding: 82px 24px 112px;
+  min-height: 820px;
+  padding: 106px 0 118px;
   isolation: isolate;
 }
 
@@ -391,628 +433,397 @@ a {
   z-index: -1;
   content: "";
   background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(134, 91, 255, 0.2), transparent 24%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 112px);
-  mask-image: linear-gradient(180deg, #000, transparent 76%);
+    radial-gradient(circle at var(--mx) var(--my), color-mix(in srgb, var(--accent), transparent 78%), transparent 28%),
+    linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 74%) 1px, transparent 1px);
+  background-size: auto, 120px 100%;
+  mask-image: linear-gradient(180deg, #000, transparent 78%);
 }
 
-.ray-home.light-mode .ray-hero::before {
-  background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(24, 24, 29, 0.07), transparent 24%),
-    repeating-linear-gradient(90deg, rgba(24, 24, 29, 0.045) 0 1px, transparent 1px 112px);
-}
-
-.hero-poster {
-  position: relative;
-  width: min(880px, calc(100% - 32px));
-  height: clamp(330px, 36vw, 420px);
-  margin: 0 auto 54px;
-  overflow: hidden;
-  border: 1px solid var(--poster-line);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent), transparent 72%), transparent 34%),
-    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent-2), transparent 76%), transparent 30%),
-    linear-gradient(180deg, var(--poster-bg), color-mix(in srgb, var(--poster-bg), var(--bg-soft) 22%));
-  box-shadow: 0 28px 100px var(--poster-shadow);
-}
-
-.poster-halo,
-.poster-grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.poster-halo {
-  background:
-    radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--accent), transparent 54%), transparent 18%),
-    radial-gradient(circle at 50% 76%, color-mix(in srgb, var(--accent-2), transparent 66%), transparent 24%);
-  filter: blur(14px);
-}
-
-.poster-grid {
-  opacity: 0.58;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 52%) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in srgb, var(--line), transparent 60%) 1px, transparent 1px);
-  background-size: 54px 54px;
-  mask-image: radial-gradient(circle at 50% 48%, #000, transparent 72%);
-}
-
-.poster-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  border: 1px solid color-mix(in srgb, var(--line), transparent 12%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.ring-one {
-  width: min(520px, 76%);
-  aspect-ratio: 1;
-}
-
-.ring-two {
-  width: min(360px, 58%);
-  aspect-ratio: 1;
-  border-style: dashed;
-}
-
-.poster-ring::before,
-.poster-ring::after {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 26px color-mix(in srgb, var(--accent), transparent 34%);
-  content: "";
-}
-
-.poster-ring::before {
-  top: 16%;
-  left: 12%;
-}
-
-.poster-ring::after {
-  right: 14%;
-  bottom: 18%;
-}
-
-.poster-card {
-  position: absolute;
-  right: 50%;
-  top: 50%;
-  z-index: 2;
-  display: grid;
-  width: min(330px, calc(100% - 72px));
-  gap: 8px;
-  padding: 26px 28px;
-  border: 1px solid var(--poster-line);
-  border-radius: 8px;
-  color: var(--poster-ink);
-  text-align: center;
-  background: var(--poster-panel);
-  box-shadow: 0 24px 70px var(--poster-shadow);
-  transform: translate(50%, -50%);
-  backdrop-filter: blur(22px);
-}
-
-.poster-card span,
-.poster-card small,
-.poster-card strong,
-.app-cloud span {
-  font-family: inherit;
-  font-size: 14px;
-  line-height: 1.25;
-  text-align: center;
-}
-
-.poster-card span,
-.poster-card small {
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.poster-card strong {
-  color: var(--poster-ink);
-  font-weight: 820;
-}
-.app-cloud {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: block;
-  perspective: 900px;
-}
-
-.app-cloud span {
-  position: absolute;
-  display: grid;
-  width: 76px;
-  height: 42px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  color: var(--text);
-  font-weight: 780;
-  background:
-    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.32), transparent 30%),
-    linear-gradient(145deg, var(--card-strong), color-mix(in srgb, var(--card-strong), transparent 46%));
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
-  transform: translate(-50%, -50%);
-}
-
-.app-cloud span:nth-child(1) {
-  top: 17%;
-  left: 50%;
-}
-
-.app-cloud span:nth-child(2) {
-  top: 28%;
-  left: 73%;
-}
-
-.app-cloud span:nth-child(3) {
-  top: 50%;
-  left: 82%;
-}
-
-.app-cloud span:nth-child(4) {
-  top: 72%;
-  left: 73%;
-}
-
-.app-cloud span:nth-child(5) {
-  top: 83%;
-  left: 50%;
-}
-
-.app-cloud span:nth-child(6) {
-  top: 72%;
-  left: 27%;
-}
-
-.app-cloud span:nth-child(7) {
-  top: 50%;
-  left: 18%;
-}
-
-.app-cloud span:nth-child(8) {
-  top: 28%;
-  left: 27%;
-}
-
-.ray-home.dark-mode .app-cloud span {
-  color: rgba(255, 255, 255, 0.92);
-  background:
-    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.18), transparent 30%),
-    linear-gradient(145deg, #262541, rgba(17, 16, 34, 0.78));
-  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.42), 0 0 44px rgba(154, 134, 255, 0.1);
-}
-
-.hero-copy {
-  width: min(660px, calc(100% - 32px));
-  margin: 0 auto;
-  text-align: center;
-}
-
-.hero-copy h1 {
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(46px, 6vw, 76px);
-  font-weight: 780;
-  line-height: 0.96;
-  letter-spacing: 0;
-}
-
-.hero-copy p {
-  width: min(520px, 100%);
-  margin: 26px auto 0;
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.72;
-}
-
-.main-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 178px;
-  min-height: 42px;
-  margin-top: 30px;
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 760;
-  background: var(--button-gradient);
-  box-shadow: 0 0 42px rgba(118, 173, 255, 0.16), 0 20px 60px rgba(0, 0, 0, 0.2);
-}
-
-.hero-copy small {
-  display: block;
-  margin-top: 16px;
-  color: color-mix(in srgb, var(--muted), transparent 16%);
-  font-size: 12px;
-}
-
-.dual-showcase,
-.ecosystem,
-.company,
-.takeoff,
-.signal-cards,
-.newsletter,
+.hero-shell,
+.strategy-section,
+.launch-section,
 .ray-footer {
-  width: min(1060px, calc(100% - 48px));
+  width: min(1120px, calc(100% - 48px));
   margin-right: auto;
   margin-left: auto;
 }
 
-.dual-showcase {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 0;
+.hero-copy {
+  width: min(780px, 100%);
+  margin: 0 auto 58px;
+  text-align: center;
 }
 
-.showcase-card {
-  min-height: 360px;
-  padding: 44px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--card);
-  backdrop-filter: blur(22px);
-}
-
-.code-card {
-  background:
-    radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.5), transparent 28%),
-    linear-gradient(135deg, #f5f6f8, #dfe2e8);
-  color: #18181d;
-}
-
-.ray-home.dark-mode .code-card {
-  background:
-    radial-gradient(circle at 18% 0%, rgba(154, 134, 255, 0.26), transparent 30%),
-    linear-gradient(135deg, rgba(154, 134, 255, 0.9), rgba(118, 173, 255, 0.58));
-  color: #ffffff;
-}
-
-.code-window {
-  display: grid;
-  gap: 10px;
-  width: min(100%, 360px);
-  margin-bottom: 58px;
-  padding: 28px;
-  border-radius: 8px;
-  color: #e7d8ff;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-  background: #171226;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.32);
-}
-
-.extension-card {
-  background:
-    radial-gradient(circle at 58% 12%, rgba(154, 134, 255, 0.18), transparent 24%),
-    radial-gradient(circle at 80% 0%, rgba(118, 173, 255, 0.13), transparent 24%),
-    var(--card);
-}
-
-.mini-apps {
-  display: flex;
-  gap: 16px;
-  margin: 58px 0 76px;
-}
-
-.mini-apps span {
-  display: grid;
-  width: 50px;
-  height: 50px;
-  place-items: center;
-  border-radius: 14px;
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 760;
-  background: var(--button-gradient);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
-}
-
-.showcase-card h2,
-.showcase-card p,
-.showcase-card a {
-  margin-left: 0;
-}
-
-.showcase-card h2 {
+.hero-kicker,
+.section-head span,
+.launch-section span,
+.poster-header span,
+.poster-flow span,
+.workflow-board span {
+  display: block;
   margin: 0;
-  font-size: 22px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 780;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
-.showcase-card p {
-  max-width: 370px;
-  margin: 14px 0 22px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.72;
-}
-
-.code-card p {
-  color: rgba(24, 24, 29, 0.68);
-}
-
-.ray-home.dark-mode .code-card p {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.showcase-card a {
-  display: inline-flex;
-  min-height: 32px;
-  align-items: center;
-  padding: 0 14px;
-  border-radius: 6px;
+.hero-copy h1 {
+  margin: 18px 0 0;
   color: var(--text);
-  font-size: 12px;
-  background: rgba(255, 255, 255, 0.11);
-}
-
-.code-card a {
-  color: #18181d;
-  background: rgba(255, 255, 255, 0.42);
-}
-
-.ray-home.dark-mode .code-card a {
-  color: #ffffff;
-  background: rgba(17, 16, 34, 0.22);
-}
-
-.ecosystem {
-  margin-top: 152px;
-}
-
-.section-title {
-  max-width: 640px;
-}
-
-.section-title h2,
-.center-title h2,
-.takeoff h2 {
-  margin: 0;
-  color: var(--text);
-  font-size: clamp(38px, 5vw, 58px);
-  font-weight: 760;
-  line-height: 0.98;
+  font-size: 58px;
+  font-weight: 800;
+  line-height: 1.08;
   letter-spacing: 0;
 }
 
-.principle-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  width: min(820px, 100%);
-  margin: 70px auto 0;
-}
-
-.principle-grid article {
-  min-height: 220px;
-  padding: 30px;
-  border: 1px solid var(--line);
-  background: var(--card);
-}
-
-.principle-grid i {
-  display: block;
-  width: 36px;
-  height: 36px;
-  margin-bottom: 26px;
-  border-radius: 10px;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.42), transparent 36%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
-}
-
-.principle-grid h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 15px;
-}
-
-.principle-grid p {
-  margin: 12px 0 0;
+.hero-lead {
+  width: min(620px, 100%);
+  margin: 24px auto 0;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.66;
+  font-size: 17px;
+  line-height: 1.75;
 }
 
-.company {
-  margin-top: 170px;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 34px;
 }
 
-.center-title {
+.main-button,
+.ghost-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 760;
+  line-height: 1;
+}
+
+.main-button {
+  min-width: 166px;
+  border: 1px solid color-mix(in srgb, var(--accent-2), transparent 25%);
+  color: var(--button-text);
+  background: var(--button-bg);
+  box-shadow: 0 18px 52px color-mix(in srgb, var(--accent-2), transparent 72%);
+}
+
+.ghost-button {
+  min-width: 148px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface), transparent 18%);
+}
+
+.blueprint-poster {
+  position: relative;
+  overflow: hidden;
+  min-height: 410px;
+  padding: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--poster-bg), var(--surface-strong) 18%), var(--poster-bg)),
+    linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 72%) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in srgb, var(--line), transparent 78%) 1px, transparent 1px);
+  background-size: auto, 72px 72px, 72px 72px;
+  box-shadow: 0 30px 100px var(--poster-shadow);
+}
+
+.blueprint-poster::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--accent), transparent 82%) 50%, transparent 100%),
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--accent-2), transparent 78%), transparent 36%);
+  pointer-events: none;
+}
+
+.poster-header {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  margin: 0 auto;
   text-align: center;
 }
 
-.center-title p {
+.poster-header h2 {
+  margin: 12px 0 0;
+  color: var(--text);
+  font-size: 34px;
+  font-weight: 820;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.poster-header p {
   width: min(520px, 100%);
-  margin: 22px auto 0;
+  margin: 14px auto 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
 }
 
-.quote-row {
+.poster-flow {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(4, minmax(260px, 1fr));
-  gap: 2px;
-  width: 100vw;
-  margin: 76px 0 0 calc(50% - 50vw);
-  padding: 0 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 42px;
 }
 
-.quote-row article {
-  min-height: 260px;
-  padding: 34px;
+.poster-flow::before {
+  position: absolute;
+  top: 34px;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  content: "";
+}
+
+.poster-flow article {
+  position: relative;
+  display: grid;
+  min-height: 150px;
+  align-content: start;
+  justify-items: center;
+  padding: 20px 14px 18px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--card), transparent 18%);
+  border-radius: 8px;
+  text-align: center;
+  background: color-mix(in srgb, var(--poster-panel), transparent 5%);
+  backdrop-filter: blur(18px);
 }
 
-.quote-row b {
-  display: block;
-  width: 36px;
-  height: 36px;
-  margin-bottom: 26px;
+.poster-flow article::before {
+  width: 10px;
+  height: 10px;
+  margin: 9px 0 18px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #9a86ff, #76adff);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-2), transparent 35%);
+  content: "";
 }
 
-.quote-row p {
+.poster-flow span {
+  color: var(--accent-2);
+  font-size: 11px;
+}
+
+.poster-flow h3 {
   margin: 0;
   color: var(--text);
-  font-size: 13px;
-  line-height: 1.78;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
-.quote-row span {
-  display: block;
-  margin-top: 22px;
-  color: var(--accent-2);
+.poster-flow p {
+  margin: 10px 0 0;
+  color: var(--muted);
   font-size: 12px;
+  line-height: 1.55;
 }
 
-.community-link {
-  display: table;
-  margin: 58px auto 0;
-  color: var(--text);
-  font-size: 13px;
+.poster-route {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 720;
 }
 
-.takeoff {
-  margin-top: 170px;
+.poster-route i {
+  width: 28px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.strategy-section {
+  margin-top: 126px;
+}
+
+.section-head {
+  width: min(620px, 100%);
+}
+
+.section-head.center {
+  margin-right: auto;
+  margin-left: auto;
   text-align: center;
 }
 
-.takeoff p {
-  width: min(520px, 100%);
-  margin: 18px auto 0;
+.section-head h2,
+.launch-section h2 {
+  margin: 14px 0 0;
+  color: var(--text);
+  font-size: 42px;
+  font-weight: 790;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.section-head p,
+.launch-section p {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.78;
+}
+
+.diagnosis-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 42px;
+}
+
+.diagnosis-grid article,
+.workflow-board article,
+.deliverable-grid article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+.diagnosis-grid article {
+  min-height: 238px;
+  padding: 30px;
+}
+
+.diagnosis-grid article:hover,
+.workflow-board article:hover,
+.deliverable-grid article:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent), var(--line) 36%);
+}
+
+.diagnosis-grid h3,
+.workflow-board h3,
+.deliverable-grid h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 780;
+  line-height: 1.32;
+}
+
+.diagnosis-grid p,
+.workflow-board p,
+.deliverable-grid p {
+  margin: 16px 0 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.72;
 }
 
-.takeoff code {
-  display: table;
-  margin: 20px auto 0;
-  padding: 12px 18px;
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.04);
+.diagnosis-grid strong {
+  display: block;
+  margin-top: 26px;
+  color: var(--accent-2);
+  font-size: 13px;
+  font-weight: 760;
 }
 
-.signal-cards {
+.workflow-board {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 170px;
-}
-
-.signal-card {
-  min-height: 174px;
-  padding: 38px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 48px;
+  padding: 1px;
   border: 1px solid var(--line);
   border-radius: 8px;
+  background: var(--line);
 }
 
-.signal-card.blue {
-  background: var(--button-gradient);
-}
-
-.signal-card.red {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent), #ffffff 10%), color-mix(in srgb, var(--accent-2), transparent 12%));
-}
-
-.signal-card h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 18px;
-}
-
-.signal-card p {
-  max-width: 410px;
-  margin: 14px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.newsletter {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
-  gap: 60px;
-  align-items: center;
-  margin-top: 78px;
-}
-
-.newsletter h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 17px;
-}
-
-.newsletter p {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.newsletter form {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 116px;
-  gap: 10px;
-}
-
-.newsletter input,
-.newsletter button {
-  min-height: 42px;
-  border: 1px solid var(--line);
+.workflow-board article {
+  min-height: 286px;
+  padding: 28px 24px;
+  border: 0;
   border-radius: 7px;
-  font: inherit;
+  background: var(--surface-strong);
 }
 
-.newsletter input {
-  padding: 0 14px;
-  color: var(--text);
-  background: var(--card);
+.workflow-board span {
+  color: var(--accent-2);
 }
 
-.newsletter button {
-  color: var(--text);
-  background: var(--button-gradient);
+.workflow-board h3 {
+  margin-top: 28px;
+}
+
+.deliverable-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 58px;
+  align-items: start;
+}
+
+.deliverable-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.deliverable-grid article {
+  min-height: 178px;
+  padding: 28px;
+  background: var(--surface-muted);
+}
+
+.launch-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 36px;
+  align-items: center;
+  margin-top: 134px;
+  padding: 42px 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface), var(--accent) 7%), var(--surface));
+}
+
+.launch-section p {
+  width: min(620px, 100%);
 }
 
 .ray-footer {
   display: grid;
-  grid-template-columns: 70px repeat(4, 1fr);
+  grid-template-columns: 72px repeat(4, 1fr);
   gap: 42px;
-  margin-top: 130px;
-  padding: 76px 0 92px;
+  margin-top: 118px;
+  padding: 74px 0 90px;
   border-top: 1px solid var(--line);
 }
 
 .footer-mark {
   display: grid;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border-radius: 8px;
-  color: var(--text);
+  color: var(--button-text);
   font-size: 11px;
-  font-weight: 760;
-  background: var(--button-gradient);
+  font-weight: 800;
+  background: var(--button-bg);
 }
 
 .ray-footer nav {
@@ -1025,11 +836,17 @@ a {
   margin-bottom: 4px;
   color: var(--text);
   font-size: 13px;
+  font-weight: 780;
 }
 
 .ray-footer a {
   color: var(--muted);
   font-size: 12px;
+  transition: color 0.2s ease;
+}
+
+.ray-footer a:hover {
+  color: var(--text);
 }
 
 .back-to-top {
@@ -1042,83 +859,122 @@ a {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--text);
-  background: var(--card);
+  background: var(--surface);
   cursor: pointer;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
 }
 
-@media (max-width: 960px) {
-  .app-cloud span {
-    width: 70px;
-    height: 40px;
+@media (max-width: 1080px) {
+  .hero-copy h1 {
+    font-size: 50px;
   }
 
-  .dual-showcase,
-  .principle-grid,
-  .signal-cards,
-  .newsletter,
-  .ray-footer {
+  .poster-flow,
+  .workflow-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .poster-flow::before {
+    display: none;
+  }
+
+  .workflow-board article {
+    min-height: 220px;
+  }
+
+  .deliverable-section,
+  .launch-section {
     grid-template-columns: 1fr;
   }
 
-  .quote-row {
-    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  .ray-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
+  .theme-toggle {
+    right: 18px;
+  }
+
   .ray-hero {
-    padding-top: 76px;
+    min-height: auto;
+    padding: 84px 0 84px;
   }
 
-  .hero-poster {
-    height: 360px;
-    margin-bottom: 44px;
-  }
-
-  .app-cloud span {
-    width: 62px;
-    height: 36px;
-    font-size: 12px;
-  }
-
-  .poster-card {
-    width: min(270px, calc(100% - 54px));
-    padding: 22px 20px;
-  }
-
-  .poster-card span,
-  .poster-card small,
-  .poster-card strong {
-    font-size: 12px;
-  }
-
-  .hero-copy h1 {
-    font-size: clamp(38px, 12vw, 58px);
-  }
-
-  .dual-showcase,
-  .ecosystem,
-  .company,
-  .takeoff,
-  .signal-cards,
-  .newsletter,
+  .hero-shell,
+  .strategy-section,
+  .launch-section,
   .ray-footer {
     width: calc(100% - 28px);
   }
 
-  .showcase-card,
-  .principle-grid article,
-  .quote-row article,
-  .signal-card {
-    padding: 26px;
+  .hero-copy {
+    margin-bottom: 38px;
   }
 
-  .quote-row {
+  .hero-copy h1 {
+    font-size: 38px;
+    line-height: 1.1;
+  }
+
+  .hero-lead {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    display: grid;
     grid-template-columns: 1fr;
   }
 
-  .newsletter form {
+  .main-button,
+  .ghost-button {
+    width: 100%;
+  }
+
+  .blueprint-poster {
+    min-height: auto;
+    padding: 28px 18px;
+  }
+
+  .poster-header h2 {
+    font-size: 30px;
+  }
+
+  .poster-flow,
+  .diagnosis-grid,
+  .workflow-board,
+  .deliverable-grid,
+  .ray-footer {
     grid-template-columns: 1fr;
+  }
+
+  .poster-flow article {
+    min-height: 132px;
+  }
+
+  .poster-route {
+    display: none;
+  }
+
+  .strategy-section {
+    margin-top: 86px;
+  }
+
+  .section-head h2,
+  .launch-section h2 {
+    font-size: 32px;
+  }
+
+  .diagnosis-grid article,
+  .workflow-board article,
+  .deliverable-grid article,
+  .launch-section {
+    padding: 24px;
+  }
+
+  .launch-section {
+    margin-top: 96px;
   }
 }
 </style>
