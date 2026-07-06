@@ -95,6 +95,72 @@ html.dark body {
   border-bottom-color: var(--vp-c-divider);
 }
 
+.VPNav {
+  color: var(--vp-c-text-1);
+}
+
+.VPNavBar,
+.VPNavBar.has-sidebar .content {
+  background: var(--vp-nav-bg-color) !important;
+}
+
+.VPNavBarTitle .title,
+.VPNavBarMenuLink,
+.VPSocialLink,
+.VPNavBarAppearance,
+.VPNavScreenMenuLink {
+  color: var(--vp-c-text-2) !important;
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active,
+.VPNavBarTitle .title:hover,
+.VPSocialLink:hover {
+  color: var(--vp-c-text-1) !important;
+}
+
+.DocSearch-Button {
+  border: 1px solid var(--vp-c-border) !important;
+  background: var(--vp-c-bg-elv) !important;
+  color: var(--vp-c-text-2) !important;
+  box-shadow: var(--liuli-shadow);
+}
+
+.DocSearch-Button:hover {
+  border-color: var(--vp-c-brand-2) !important;
+  color: var(--vp-c-text-1) !important;
+}
+
+.DocSearch-Button-Key {
+  border-color: var(--vp-c-border) !important;
+  background: var(--vp-c-bg-soft) !important;
+  color: var(--vp-c-text-2) !important;
+  box-shadow: none !important;
+}
+
+.VPSwitch,
+.VPNavBarAppearance .VPSwitch {
+  border: 1px solid var(--vp-c-border) !important;
+  background: var(--vp-c-bg-elv) !important;
+}
+
+.VPSwitch .check {
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2)) !important;
+}
+
+.VPButton.brand {
+  border-color: var(--vp-c-brand-2) !important;
+  color: var(--vp-button-brand-text) !important;
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2)) !important;
+}
+
+.VPButton.alt,
+.VPButton.sponsor {
+  border-color: var(--vp-c-border) !important;
+  color: var(--vp-c-text-1) !important;
+  background: var(--vp-c-bg-elv) !important;
+}
+
 html:not(.dark) .VPNav {
   color: #18181d;
 }
@@ -136,6 +202,25 @@ html:not(.dark) .DocSearch-Button-Key {
   background: #f4f4f5;
   color: #6f737b;
   box-shadow: none;
+}
+
+html.dark .DocSearch-Button {
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.28);
+}
+
+html.dark .VPNavBarTitle .title,
+html.dark .VPNavBarMenuLink,
+html.dark .VPSocialLink,
+html.dark .VPNavBarAppearance,
+html.dark .VPNavScreenMenuLink {
+  color: rgba(199, 210, 255, 0.72) !important;
+}
+
+html.dark .VPNavBarMenuLink:hover,
+html.dark .VPNavBarMenuLink.active,
+html.dark .VPNavBarTitle .title:hover,
+html.dark .VPSocialLink:hover {
+  color: #ffffff !important;
 }
 
 .VPSocialLinks svg {

@@ -116,10 +116,6 @@ const setTheme = (dark) => {
   syncThemeState()
 }
 
-const toggleTheme = () => {
-  setTheme(!isDarkTheme.value)
-}
-
 const handleScroll = () => {
   showBackToTop.value = window.scrollY > 520
 }
@@ -155,27 +151,20 @@ onUnmounted(() => {
       @mousemove="updateHeroPointer"
       @mouseleave="resetHeroPointer"
     >
-      <button
-        type="button"
-        class="theme-toggle"
-        :class="{ active: isDarkTheme }"
-        :aria-label="isDarkTheme ? '切换到亮色模式' : '切换到暗色模式'"
-        @click="toggleTheme"
-      >
-        <span></span>
-      </button>
-
       <div class="hero-shell">
-        <div class="hero-copy">
-          <p class="hero-kicker">AI Design Efficiency System</p>
-          <h1>AI 推动设计提效，把创意生产变成可复用系统</h1>
-          <p class="hero-lead">
-            从需求诊断、Prompt 策略、多方案生成到交付复盘，建立一套能被重复使用的设计提效流程。
-          </p>
-          <div class="hero-actions">
-            <a class="main-button" :href="pageLink('/aigc/')">查看 AI 工作流</a>
-            <a class="ghost-button" :href="pageLink('/resources/')">查看资源模板</a>
+        <div class="hero-arc">
+          <div class="hero-copy">
+            <p class="hero-kicker">AI Design Efficiency System</p>
+            <h1>AI 推动设计提效，把创意生产变成可复用系统</h1>
+            <p class="hero-lead">
+              从需求诊断、Prompt 策略、多方案生成到交付复盘，建立一套能被重复使用的设计提效流程。
+            </p>
+            <div class="hero-actions">
+              <a class="main-button" :href="pageLink('/aigc/')">查看 AI 工作流</a>
+              <a class="ghost-button" :href="pageLink('/resources/')">查看资源模板</a>
+            </div>
           </div>
+          <div class="arc-drop" aria-hidden="true">↓</div>
         </div>
 
         <article class="blueprint-poster">
@@ -327,8 +316,15 @@ onUnmounted(() => {
   --line-strong: #cacdd4;
   --accent: #7b7f89;
   --accent-2: #b8bcc4;
-  --button-bg: linear-gradient(135deg, #f2f3f5, #d8dce3);
+  --button-bg: linear-gradient(135deg, #f6f7f8, #d8dce3);
+  --button-ghost-bg: rgba(255, 255, 255, 0.82);
+  --button-border: #d5d8df;
   --button-text: #18191f;
+  --button-shadow: rgba(24, 24, 29, 0.1);
+  --hero-arc-bg: #f4f5f7;
+  --hero-arc-depth: rgba(255, 255, 255, 0.86);
+  --arc-edge: rgba(122, 127, 137, 0.24);
+  --arc-glow: rgba(184, 188, 196, 0.42);
   --poster-bg: rgba(255, 255, 255, 0.82);
   --poster-panel: rgba(248, 248, 249, 0.92);
   --poster-shadow: rgba(24, 24, 29, 0.11);
@@ -359,7 +355,14 @@ onUnmounted(() => {
   --accent: #9a86ff;
   --accent-2: #76adff;
   --button-bg: linear-gradient(135deg, #9a86ff, #76adff);
+  --button-ghost-bg: rgba(15, 14, 32, 0.78);
+  --button-border: #3a3862;
   --button-text: #070612;
+  --button-shadow: rgba(118, 173, 255, 0.24);
+  --hero-arc-bg: #090816;
+  --hero-arc-depth: rgba(17, 16, 34, 0.92);
+  --arc-edge: rgba(218, 214, 255, 0.42);
+  --arc-glow: rgba(154, 134, 255, 0.56);
   --poster-bg: rgba(17, 16, 34, 0.82);
   --poster-panel: rgba(22, 21, 42, 0.9);
   --poster-shadow: rgba(0, 0, 0, 0.48);
@@ -380,50 +383,10 @@ a {
   text-decoration: none;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 30px;
-  right: max(24px, calc((100vw - 1120px) / 2));
-  z-index: 8;
-  width: 54px;
-  height: 30px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--surface), transparent 18%);
-  cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-.theme-toggle:focus {
-  outline: none;
-}
-
-.theme-toggle:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--accent-2), transparent 20%);
-  outline-offset: 3px;
-}
-
-.theme-toggle span {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff, #d7d9de);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
-  transition: transform 0.32s cubic-bezier(.2, .8, .2, 1), background 0.32s ease;
-}
-
-.theme-toggle.active span {
-  transform: translateX(24px);
-  background: linear-gradient(135deg, #9a86ff, #76adff);
-}
-
 .ray-hero {
   position: relative;
-  min-height: 820px;
-  padding: 106px 0 118px;
+  min-height: 860px;
+  padding: 78px 0 118px;
   isolation: isolate;
 }
 
@@ -433,7 +396,7 @@ a {
   z-index: -1;
   content: "";
   background:
-    radial-gradient(circle at var(--mx) var(--my), color-mix(in srgb, var(--accent), transparent 78%), transparent 28%),
+    radial-gradient(circle at var(--mx) var(--my), color-mix(in srgb, var(--accent), transparent 80%), transparent 28%),
     linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 74%) 1px, transparent 1px);
   background-size: auto, 120px 100%;
   mask-image: linear-gradient(180deg, #000, transparent 78%);
@@ -443,14 +406,61 @@ a {
 .strategy-section,
 .launch-section,
 .ray-footer {
-  width: min(1120px, calc(100% - 48px));
+  width: min(1160px, calc(100% - 48px));
   margin-right: auto;
   margin-left: auto;
 }
 
+.hero-arc {
+  position: relative;
+  min-height: 620px;
+  overflow: hidden;
+  padding: 88px 28px 174px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 108%, var(--arc-glow), transparent 28%),
+    radial-gradient(circle at 50% -18%, color-mix(in srgb, var(--accent), transparent 76%), transparent 36%),
+    linear-gradient(180deg, var(--hero-arc-depth), var(--hero-arc-bg));
+  box-shadow: 0 38px 120px var(--poster-shadow);
+}
+
+.hero-arc::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image: radial-gradient(color-mix(in srgb, var(--accent-2), transparent 38%) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.36;
+  mask-image: linear-gradient(180deg, #000, transparent 72%);
+  pointer-events: none;
+}
+
+.hero-arc::after {
+  position: absolute;
+  left: 50%;
+  bottom: -290px;
+  width: 128%;
+  height: 520px;
+  border: 2px solid var(--arc-edge);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    radial-gradient(circle at 50% 0%, var(--arc-glow), transparent 36%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent), transparent 68%), transparent 64%);
+  box-shadow:
+    0 -14px 42px var(--arc-glow),
+    inset 0 34px 80px color-mix(in srgb, var(--accent), transparent 78%);
+  content: "";
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 .hero-copy {
+  position: relative;
+  z-index: 2;
   width: min(780px, 100%);
-  margin: 0 auto 58px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -497,34 +507,61 @@ a {
 .main-button,
 .ghost-button {
   display: inline-flex;
+  min-width: 166px;
   min-height: 44px;
   align-items: center;
   justify-content: center;
+  padding: 0 22px;
+  border: 1px solid var(--button-border);
   border-radius: 7px;
   font-size: 14px;
   font-weight: 760;
   line-height: 1;
+  box-shadow: 0 18px 52px var(--button-shadow);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.main-button:hover,
+.ghost-button:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent-2), var(--button-border) 28%);
 }
 
 .main-button {
-  min-width: 166px;
-  border: 1px solid color-mix(in srgb, var(--accent-2), transparent 25%);
   color: var(--button-text);
   background: var(--button-bg);
-  box-shadow: 0 18px 52px color-mix(in srgb, var(--accent-2), transparent 72%);
 }
 
 .ghost-button {
-  min-width: 148px;
-  border: 1px solid var(--line);
   color: var(--text);
-  background: color-mix(in srgb, var(--surface), transparent 18%);
+  background: var(--button-ghost-bg);
+}
+
+.arc-drop {
+  position: absolute;
+  left: 50%;
+  bottom: 104px;
+  z-index: 3;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent-2), #ffffff 22%);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 34px;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 48px var(--arc-glow);
+  transform: translateX(-50%);
 }
 
 .blueprint-poster {
   position: relative;
+  z-index: 4;
   overflow: hidden;
   min-height: 410px;
+  margin: -92px auto 0;
   padding: 44px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -661,9 +698,6 @@ a {
 
 .section-head {
   width: min(620px, 100%);
-}
-
-.section-head.center {
   margin-right: auto;
   margin-left: auto;
   text-align: center;
@@ -770,16 +804,14 @@ a {
 }
 
 .deliverable-section {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: 58px;
-  align-items: start;
+  display: block;
 }
 
 .deliverable-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  margin-top: 42px;
 }
 
 .deliverable-grid article {
@@ -790,19 +822,23 @@ a {
 
 .launch-section {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
   gap: 36px;
   align-items: center;
+  justify-items: center;
   margin-top: 134px;
   padding: 42px 44px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--surface), var(--accent) 7%), var(--surface));
+  text-align: center;
 }
 
 .launch-section p {
   width: min(620px, 100%);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .ray-footer {
@@ -869,6 +905,11 @@ a {
     font-size: 50px;
   }
 
+  .hero-arc {
+    min-height: 580px;
+    padding-bottom: 156px;
+  }
+
   .poster-flow,
   .workflow-board {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -893,13 +934,9 @@ a {
 }
 
 @media (max-width: 760px) {
-  .theme-toggle {
-    right: 18px;
-  }
-
   .ray-hero {
     min-height: auto;
-    padding: 84px 0 84px;
+    padding: 70px 0 84px;
   }
 
   .hero-shell,
@@ -910,7 +947,7 @@ a {
   }
 
   .hero-copy {
-    margin-bottom: 38px;
+    margin-bottom: 0;
   }
 
   .hero-copy h1 {
@@ -927,12 +964,31 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .hero-arc {
+    min-height: 610px;
+    padding: 70px 18px 150px;
+  }
+
+  .hero-arc::after {
+    bottom: -250px;
+    width: 152%;
+    height: 430px;
+  }
+
+  .arc-drop {
+    bottom: 90px;
+    width: 58px;
+    height: 58px;
+    font-size: 26px;
+  }
+
   .main-button,
   .ghost-button {
     width: 100%;
   }
 
   .blueprint-poster {
+    margin-top: -78px;
     min-height: auto;
     padding: 28px 18px;
   }
