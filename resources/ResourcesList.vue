@@ -1,128 +1,76 @@
 <script setup>
-import { withBase } from 'vitepress'
 import { toolsResources } from '../.shared/resourcesData.js'
+import BaseButton from '../components/BaseButton.vue'
+import BaseCard from '../components/BaseCard.vue'
 import ReactIsland from '../components/ReactIsland.vue'
-
-const pageLink = (path) => withBase(path)
 </script>
 
 <template>
   <ClientOnly>
     <ReactIsland variant="resource-micro" tone="resource" density="low" />
   </ClientOnly>
+
   <div class="resources-list">
-    <a 
-      v-for="tool in toolsResources" 
-      :key="tool.id" 
-      :href="pageLink(tool.link)" 
-      class="tool-card"
-    >
+    <BaseCard v-for="tool in toolsResources" :key="tool.id" :href="tool.link">
       <div class="tool-icon">{{ tool.icon }}</div>
-      <div class="tool-info">
-        <h3>{{ tool.name }}</h3>
-        <p class="category">{{ tool.category }}</p>
-        <p class="desc">{{ tool.desc }}</p>
-      </div>
-      <div class="btn-download">查看详情 →</div>
-    </a>
+      <p class="category">{{ tool.category }}</p>
+      <h3>{{ tool.name }}</h3>
+      <p class="desc">{{ tool.desc }}</p>
+      <BaseButton as="span" variant="text">查看详情 →</BaseButton>
+    </BaseCard>
   </div>
 </template>
 
 <style scoped>
 .resources-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 40px;
-}
-
-@media (max-width: 960px) {
-  .resources-list { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 640px) {
-  .resources-list { grid-template-columns: 1fr; }
-}
-
-.tool-card {
-  min-height: 308px;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
-  background: var(--liuli-card);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  text-decoration: none !important;
-  color: inherit;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.tool-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 42px var(--liuli-glow);
-  border-color: var(--vp-c-brand-1);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 42px;
 }
 
 .tool-icon {
-  width: 68px;
-  height: 68px;
   display: grid;
+  width: 58px;
+  height: 58px;
   place-items: center;
-  border: 1px solid var(--liuli-icon-border);
-  border-radius: 8px;
-  background: var(--liuli-icon-surface);
-  font-size: 2rem;
-  margin-bottom: 5px;
-  transition: all 0.3s;
-}
-
-.tool-card:hover .tool-icon {
-  transform: scale(1.1);
-}
-
-.tool-info {
-  flex: 1;
-  width: 100%;
-}
-
-.tool-info h3 {
-  margin: 0 0 8px !important;
-  font-size: 1.22rem;
-  font-weight: 800;
-  color: var(--vp-c-text-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: var(--bg-soft);
+  font-size: 26px;
 }
 
 .category {
-  margin: 0 0 12px !important;
-  font-size: 0.85rem;
-  color: var(--vp-c-brand-1);
-  font-weight: 700;
+  margin: 22px 0 8px !important;
+  color: var(--brand-cyan);
+  font-size: 13px;
+  font-weight: 740;
+}
+
+h3 {
+  margin: 0 !important;
+  color: var(--text-main);
+  font-size: 24px;
+  line-height: 1.22;
+  letter-spacing: 0;
 }
 
 .desc {
-  margin: 0 !important;
-  font-size: 0.9rem;
-  color: var(--vp-c-text-2);
-  line-height: 1.5;
+  margin: 12px 0 22px !important;
+  color: var(--text-sub);
+  font-size: var(--font-small);
+  line-height: 1.7;
 }
 
-.btn-download {
-  width: 100%;
-  margin-top: auto;
-  padding: 11px 0;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-2) 100%);
-  color: var(--liuli-button-text) !important;
-  font-weight: 700;
-  transition: all 0.3s;
+@media (max-width: 960px) {
+  .resources-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.tool-card:hover .btn-download {
-  box-shadow: 0 4px 12px var(--liuli-glow);
-  transform: scale(1.02);
+@media (max-width: 640px) {
+  .resources-list {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
