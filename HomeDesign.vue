@@ -154,7 +154,6 @@ onUnmounted(() => {
       <div class="hero-shell">
         <div class="hero-arc">
           <div class="hero-copy">
-            <p class="hero-kicker">AI Design Efficiency System</p>
             <h1>AI 推动设计提效，把创意生产变成可复用系统</h1>
             <p class="hero-lead">
               从需求诊断、Prompt 策略、多方案生成到交付复盘，建立一套能被重复使用的设计提效流程。
@@ -169,7 +168,6 @@ onUnmounted(() => {
 
         <article class="blueprint-poster">
           <div class="poster-header">
-            <span>AI DESIGN BLUEPRINT</span>
             <h2>AI 设计提效蓝图</h2>
             <p>把一次项目拆成清晰输入、可控生成、人工判断和资产回收。</p>
           </div>
@@ -199,7 +197,6 @@ onUnmounted(() => {
 
     <section class="strategy-section diagnosis-section">
       <div class="section-head">
-        <span>01 诊断</span>
         <h2>先找到最值得被 AI 放大的环节</h2>
         <p>提效不是把所有步骤都自动化，而是先判断哪里最耗时、哪里最容易复用、哪里必须保留人工决策。</p>
       </div>
@@ -215,7 +212,6 @@ onUnmounted(() => {
 
     <section class="strategy-section workflow-section">
       <div class="section-head center">
-        <span>02 流程</span>
         <h2>把 AI 介入点组织成可复制工作流</h2>
         <p>每一步都有明确输入、判断标准和沉淀结果，项目不再只依赖临场发挥。</p>
       </div>
@@ -231,7 +227,6 @@ onUnmounted(() => {
 
     <section class="strategy-section deliverable-section">
       <div class="section-head">
-        <span>03 交付</span>
         <h2>最终沉淀为团队能继续使用的资产</h2>
         <p>页面不再只展示作品，而是展示一套可以持续提高效率的设计方法。</p>
       </div>
@@ -246,7 +241,6 @@ onUnmounted(() => {
 
     <section class="launch-section">
       <div>
-        <span>04 开始</span>
         <h2>从一个高频项目开始做提效改造</h2>
         <p>选择海报、详情页、短视频脚本或品牌内容中的一个重复任务，先搭出流程，再把经验沉淀为系统。</p>
       </div>
@@ -386,7 +380,7 @@ a {
 .ray-hero {
   position: relative;
   min-height: 860px;
-  padding: 78px 0 118px;
+  padding: 0 0 118px;
   isolation: isolate;
 }
 
@@ -420,7 +414,7 @@ a {
   position: relative;
   min-height: 620px;
   overflow: hidden;
-  padding: 88px 28px 174px;
+  padding: 78px 28px 174px;
   border: 1px solid var(--line);
   border-right: 0;
   border-left: 0;
@@ -471,10 +465,6 @@ a {
   text-align: center;
 }
 
-.hero-kicker,
-.section-head span,
-.launch-section span,
-.poster-header span,
 .poster-flow span,
 .workflow-board span {
   display: block;
@@ -487,7 +477,7 @@ a {
 }
 
 .hero-copy h1 {
-  margin: 18px 0 0;
+  margin: 0;
   color: var(--text);
   font-size: 58px;
   font-weight: 800;
@@ -602,7 +592,7 @@ a {
 }
 
 .poster-header h2 {
-  margin: 12px 0 0;
+  margin: 0;
   color: var(--text);
   font-size: 34px;
   font-weight: 820;
@@ -717,7 +707,7 @@ a {
 
 .section-head h2,
 .launch-section h2 {
-  margin: 14px 0 0;
+  margin: 0;
   color: var(--text);
   font-size: 42px;
   font-weight: 790;
@@ -948,7 +938,7 @@ a {
 @media (max-width: 760px) {
   .ray-hero {
     min-height: auto;
-    padding: 70px 0 84px;
+    padding: 0 0 84px;
   }
 
   .strategy-section,
@@ -977,7 +967,7 @@ a {
 
   .hero-arc {
     min-height: 610px;
-    padding: 70px 18px 150px;
+    padding: 54px 18px 150px;
   }
 
   .hero-arc::after {
