@@ -9,13 +9,11 @@ const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
 </script>
 
 <template>
-  <SectionShell id="featured-cases">
+  <SectionShell id="featured-cases" compact>
     <div class="section-row">
       <SectionHeader
-        align="left"
-        eyebrow="Featured Cases"
-        title="精选案例不是陈列，而是方法的证据"
-        desc="用案例证明 AI 视觉、商业目标和交付流程可以被组织成稳定产能。"
+        title="案例验证方法"
+        desc="用案例呈现 AI 视觉从目标到交付的完整方法。"
       />
       <BaseButton href="/portfolio/" variant="ghost">全部案例</BaseButton>
     </div>
@@ -38,17 +36,17 @@ const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
 
 <style scoped>
 .section-row {
-  display: flex;
-  gap: 28px;
-  align-items: end;
-  justify-content: space-between;
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  text-align: center;
 }
 
 .case-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  margin-top: 46px;
+  margin-top: 34px;
 }
 
 .case-card__image {
@@ -97,8 +95,7 @@ p {
 
 @media (max-width: 900px) {
   .section-row {
-    display: grid;
-    justify-items: start;
+    justify-items: center;
   }
 
   .case-grid {

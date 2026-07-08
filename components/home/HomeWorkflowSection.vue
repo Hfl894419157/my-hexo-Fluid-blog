@@ -15,8 +15,7 @@ const steps = [
 <template>
   <SectionShell id="workflow" tone="soft">
     <SectionHeader
-      eyebrow="Workflow"
-      title="从灵感生成到资产沉淀，每一步都有明确输出"
+      title="AI 视觉工作流"
       desc="AI 不替代设计判断，而是把重复探索、变量试验和资产整理变成更稳定的生产流程。"
     />
 

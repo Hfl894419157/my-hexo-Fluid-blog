@@ -14,9 +14,7 @@ const notes = [
   <SectionShell id="about" tone="soft">
     <div class="about-layout">
       <SectionHeader
-        align="left"
-        eyebrow="About"
-        title="这里不是传统作品集，而是 AI 视觉实验室"
+        title="AI 视觉实验室"
         desc="网站的表达重点从“我做过什么”升级为“我如何把设计经验变成可复用系统”。"
       />
       <div class="about-list">
@@ -32,14 +30,20 @@ const notes = [
 <style scoped>
 .about-layout {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 52px;
+  grid-template-columns: 1fr;
+  gap: 30px;
   align-items: start;
 }
 
 .about-list {
   display: grid;
-  gap: 16px;
+  gap: 12px;
+  width: min(580px, 100%);
+  margin: 0 auto;
+}
+
+:deep(.base-card--padded) {
+  padding: 22px 28px;
 }
 
 h3 {

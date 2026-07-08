@@ -33,6 +33,8 @@ import SectionShell from '../SectionShell.vue'
 h2 {
   width: min(820px, 100%);
   margin: 0;
+  padding-top: 0 !important;
+  border-top: 0 !important;
   color: var(--text-main);
   font-size: var(--font-h2);
   line-height: 1.08;

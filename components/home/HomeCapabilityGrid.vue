@@ -16,8 +16,7 @@ const capabilities = [
 <template>
   <SectionShell id="capabilities" tone="soft">
     <SectionHeader
-      eyebrow="Capabilities"
-      title="把个人经验组织成可交付的 AI 设计系统"
+      title="AI 设计系统"
       desc="网站的重点不再是传统作品集陈列，而是让能力、流程、案例和资源彼此连接，形成清晰的 AI Creative Lab。"
     />
 

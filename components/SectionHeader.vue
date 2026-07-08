@@ -52,6 +52,8 @@ defineProps({
 
 h2 {
   margin: 0;
+  padding-top: 0 !important;
+  border-top: 0 !important;
   color: var(--text-main);
   font-size: var(--font-h2);
   font-weight: 820;

@@ -12,8 +12,7 @@ const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
   <SectionShell id="resources">
     <div class="resource-layout">
       <SectionHeader
-        align="left"
-        eyebrow="Resources"
+        align="center"
         title="资源库是设计系统的燃料层"
         desc="把模型、提示词、模板和组件放在同一个可迭代结构里，减少每次项目从零开始的成本。"
       />
@@ -33,15 +32,19 @@ const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
 <style scoped>
 .resource-layout {
   display: grid;
-  grid-template-columns: minmax(280px, 0.82fr) 1.18fr;
-  gap: 44px;
+  grid-template-columns: 1fr;
+  gap: 34px;
   align-items: start;
 }
 
 .resource-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+:deep(.base-card--padded) {
+  padding: 22px;
 }
 
 .resource-card__icon {
@@ -56,22 +59,27 @@ const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
 }
 
 h3 {
-  margin: 22px 0 0;
+  margin: 18px 0 0;
   color: var(--text-main);
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1.22;
   letter-spacing: 0;
 }
 
 p {
-  margin: 12px 0 22px;
+  margin: 10px 0 18px;
   color: var(--text-sub);
   font-size: var(--font-small);
   line-height: 1.7;
 }
 
-@media (max-width: 920px) {
-  .resource-layout,
+@media (max-width: 680px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
   .resource-grid {
     grid-template-columns: 1fr;
   }
