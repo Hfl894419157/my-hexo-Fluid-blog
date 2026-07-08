@@ -26,12 +26,12 @@ defineProps({
 <style scoped>
 .section-shell {
   position: relative;
-  padding: clamp(86px, 10vw, 136px) 24px;
+  padding: clamp(56px, 7vw, 92px) 24px;
 }
 
 .section-shell--compact {
-  padding-top: clamp(62px, 8vw, 96px);
-  padding-bottom: clamp(62px, 8vw, 96px);
+  padding-top: clamp(42px, 6vw, 68px);
+  padding-bottom: clamp(42px, 6vw, 68px);
 }
 
 .section-shell--soft {

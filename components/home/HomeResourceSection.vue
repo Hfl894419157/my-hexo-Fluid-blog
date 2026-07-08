@@ -33,7 +33,7 @@ const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
 .resource-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 34px;
+  gap: 28px;
   align-items: start;
 }
 

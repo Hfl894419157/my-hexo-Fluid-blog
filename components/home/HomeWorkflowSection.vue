@@ -34,7 +34,7 @@ const steps = [
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 50px;
+  margin-top: 34px;
   padding: 1px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);

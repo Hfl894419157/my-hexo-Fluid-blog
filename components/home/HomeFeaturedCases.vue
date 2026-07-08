@@ -37,7 +37,7 @@ const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
 <style scoped>
 .section-row {
   display: grid;
-  gap: 20px;
+  gap: 16px;
   justify-items: center;
   text-align: center;
 }
@@ -46,7 +46,7 @@ const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  margin-top: 34px;
+  margin-top: 28px;
 }
 
 .case-card__image {

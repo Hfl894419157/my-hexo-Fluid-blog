@@ -31,7 +31,7 @@ const notes = [
 .about-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 30px;
+  gap: 24px;
   align-items: start;
 }
 

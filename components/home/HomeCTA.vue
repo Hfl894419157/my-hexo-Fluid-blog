@@ -54,7 +54,7 @@ p {
   flex-wrap: wrap;
   gap: 14px;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 26px;
 }
 
 @media (max-width: 640px) {
