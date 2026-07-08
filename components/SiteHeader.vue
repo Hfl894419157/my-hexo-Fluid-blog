@@ -39,8 +39,12 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <div
+    class="site-header__glass"
+    :class="{ 'site-header__glass--scrolled': hasScrolled, 'site-header__glass--up': scrollingUp }"
+    aria-hidden="true"
+  />
   <header class="site-header" :class="{ 'site-header--scrolled': hasScrolled, 'site-header--up': scrollingUp }">
-    <div class="site-header__glass" aria-hidden="true" />
     <a class="site-header__brand" :href="pageLink('/')">AI Creative Lab</a>
     <nav class="site-header__nav" aria-label="全站导航">
       <a
@@ -73,8 +77,6 @@ onUnmounted(() => {
 
 <style scoped>
 .site-header {
-  --header-glass-offset: -18px;
-  --header-glass-height: 76px;
   position: fixed;
   top: 18px;
   left: 50%;
@@ -88,22 +90,22 @@ onUnmounted(() => {
   padding: 0 12px 0 18px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--nav-bg), transparent 4%);
+  background: color-mix(in srgb, var(--nav-bg), transparent 46%);
   backdrop-filter: blur(22px) saturate(1.18);
   -webkit-backdrop-filter: blur(22px) saturate(1.18);
-  box-shadow: 0 10px 34px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 34px rgba(15, 23, 42, 0.06);
   transform: translateX(-50%);
   transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .site-header--scrolled {
-  border-color: var(--border-strong);
-  background: color-mix(in srgb, var(--nav-bg), transparent 0%);
-  box-shadow: 0 12px 38px rgba(15, 23, 42, 0.10);
+  border-color: color-mix(in srgb, var(--border-strong), transparent 26%);
+  background: color-mix(in srgb, var(--nav-bg), transparent 40%);
+  box-shadow: 0 12px 38px rgba(15, 23, 42, 0.08);
 }
 
 .site-header--up {
-  background: color-mix(in srgb, var(--nav-bg), transparent 8%);
+  background: color-mix(in srgb, var(--nav-bg), transparent 44%);
   backdrop-filter: blur(30px) saturate(1.28);
   -webkit-backdrop-filter: blur(30px) saturate(1.28);
   transform: translateX(-50%) translateY(2px);
@@ -111,27 +113,27 @@ onUnmounted(() => {
 
 .site-header__glass {
   position: fixed;
-  top: var(--header-glass-offset);
-  left: 50%;
-  z-index: -1;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 49;
   width: 100vw;
-  height: var(--header-glass-height);
+  height: 78px;
   pointer-events: none;
-  background: color-mix(in srgb, var(--nav-bg), transparent 20%);
-  backdrop-filter: blur(22px) saturate(1.16);
-  -webkit-backdrop-filter: blur(22px) saturate(1.16);
-  mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(24px) saturate(1.22);
+  -webkit-backdrop-filter: blur(24px) saturate(1.22);
+  mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
   opacity: 0;
-  transform: translateX(-50%);
-  transition: opacity 0.22s ease, height 0.22s ease, backdrop-filter 0.22s ease;
+  transition: opacity 0.22s ease, backdrop-filter 0.22s ease;
 }
 
-.site-header--scrolled .site-header__glass {
+.site-header__glass--scrolled {
   opacity: 1;
 }
 
-.site-header--up .site-header__glass {
+.site-header__glass--up {
   backdrop-filter: blur(30px) saturate(1.28);
   -webkit-backdrop-filter: blur(30px) saturate(1.28);
 }
@@ -216,10 +218,13 @@ onUnmounted(() => {
 
 @media (max-width: 900px) {
   .site-header {
-    --header-glass-height: 126px;
     grid-template-columns: 1fr auto;
     gap: 10px;
     padding: 10px 12px;
+  }
+
+  .site-header__glass {
+    height: 122px;
   }
 
   .site-header__nav {
@@ -239,11 +244,13 @@ onUnmounted(() => {
 
 @media (max-width: 560px) {
   .site-header {
-    --header-glass-offset: -10px;
-    --header-glass-height: 120px;
     top: 10px;
     width: calc(100% - 20px);
     min-height: 0;
+  }
+
+  .site-header__glass {
+    height: 120px;
   }
 
   .site-header__brand {
