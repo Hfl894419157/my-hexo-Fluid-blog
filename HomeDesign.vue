@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import SiteHeader from './components/SiteHeader.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import HomeHero from './components/home/HomeHero.vue'
 import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
@@ -21,7 +20,6 @@ onUnmounted(() => {
 
 <template>
   <main class="home-design">
-    <SiteHeader />
     <HomeHero />
     <HomeCapabilityGrid />
     <HomeFeaturedCases />

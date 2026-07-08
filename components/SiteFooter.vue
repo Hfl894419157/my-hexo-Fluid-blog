@@ -1,20 +1,6 @@
 <script setup>
 import { withBase } from 'vitepress'
-
-const groups = [
-  {
-    title: '内容',
-    links: [['作品案例', '/portfolio/'], ['AI 工作流', '/aigc/'], ['资源库', '/resources/'], ['方法论', '/blog/']]
-  },
-  {
-    title: '合作',
-    links: [['关于我', '/resume'], ['邮件联系', 'mailto:1442855983@qq.com'], ['项目案例', '/portfolio/'], ['资源沉淀', '/resources/']]
-  },
-  {
-    title: '社区',
-    links: [['GitHub', 'https://github.com/han-yujie'], ['YouTube', 'https://www.youtube.com/@yujie1992'], ['小红书', 'https://www.xiaohongshu.com/'], ['抖音', 'https://www.douyin.com/']]
-  }
-]
+import { siteFooterGroups as groups } from '../.shared/siteNavigation.js'
 
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
 </script>
@@ -27,7 +13,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
     </div>
     <nav v-for="group in groups" :key="group.title">
       <strong>{{ group.title }}</strong>
-      <a v-for="item in group.links" :key="item[0]" :href="navLink(item[1])">{{ item[0] }}</a>
+      <a v-for="item in group.links" :key="item.text" :href="navLink(item.link)">{{ item.text }}</a>
     </nav>
   </footer>
 </template>

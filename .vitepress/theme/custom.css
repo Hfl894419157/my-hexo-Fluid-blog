@@ -106,7 +106,7 @@ body {
   letter-spacing: 0;
 }
 
-body.ai-lab-home .VPNav,
+.VPNav,
 body.ai-lab-home .VPDocFooter,
 body.ai-lab-home .VPDocFooterEdit,
 body.ai-lab-home .VPDocAside,
@@ -133,28 +133,6 @@ body.ai-lab-home .vp-doc {
 
 a {
   color: inherit;
-}
-
-.VPNavBar {
-  border-bottom-color: var(--border-soft) !important;
-  background: var(--nav-bg) !important;
-  backdrop-filter: blur(18px);
-}
-
-.VPNavBar.has-sidebar .content,
-.VPNavBarTitle .title,
-.VPNavBarMenuLink,
-.VPSocialLink,
-.VPNavBarAppearance,
-.VPNavScreenMenuLink {
-  color: var(--text-sub) !important;
-}
-
-.VPNavBarMenuLink:hover,
-.VPNavBarMenuLink.active,
-.VPNavBarTitle .title:hover,
-.VPSocialLink:hover {
-  color: var(--text-main) !important;
 }
 
 .DocSearch-Button,
@@ -198,7 +176,7 @@ a {
 .VPPage > div {
   width: min(100%, 1180px);
   margin: 0 auto;
-  padding: clamp(88px, 8vw, 122px) 28px 96px;
+  padding: clamp(128px, 11vw, 156px) 28px 96px;
 }
 
 .VPPage > div > div > h1,
