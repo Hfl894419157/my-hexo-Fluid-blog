@@ -73,6 +73,8 @@ onUnmounted(() => {
 
 <style scoped>
 .site-header {
+  --header-glass-offset: -18px;
+  --header-glass-height: 76px;
   position: fixed;
   top: 18px;
   left: 50%;
@@ -89,7 +91,7 @@ onUnmounted(() => {
   background: color-mix(in srgb, var(--nav-bg), transparent 4%);
   backdrop-filter: blur(22px) saturate(1.18);
   -webkit-backdrop-filter: blur(22px) saturate(1.18);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 10px 34px rgba(15, 23, 42, 0.08);
   transform: translateX(-50%);
   transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
@@ -97,7 +99,7 @@ onUnmounted(() => {
 .site-header--scrolled {
   border-color: var(--border-strong);
   background: color-mix(in srgb, var(--nav-bg), transparent 0%);
-  box-shadow: 0 18px 70px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 12px 38px rgba(15, 23, 42, 0.10);
 }
 
 .site-header--up {
@@ -109,16 +111,17 @@ onUnmounted(() => {
 
 .site-header__glass {
   position: fixed;
-  top: -18px;
+  top: var(--header-glass-offset);
   left: 50%;
   z-index: -1;
   width: 100vw;
-  height: 128px;
+  height: var(--header-glass-height);
   pointer-events: none;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--nav-bg), transparent 4%) 0%, color-mix(in srgb, var(--nav-bg), transparent 26%) 48%, transparent 100%);
-  backdrop-filter: blur(20px) saturate(1.16);
-  -webkit-backdrop-filter: blur(20px) saturate(1.16);
+  background: color-mix(in srgb, var(--nav-bg), transparent 20%);
+  backdrop-filter: blur(22px) saturate(1.16);
+  -webkit-backdrop-filter: blur(22px) saturate(1.16);
+  mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
   opacity: 0;
   transform: translateX(-50%);
   transition: opacity 0.22s ease, height 0.22s ease, backdrop-filter 0.22s ease;
@@ -129,7 +132,6 @@ onUnmounted(() => {
 }
 
 .site-header--up .site-header__glass {
-  height: 148px;
   backdrop-filter: blur(30px) saturate(1.28);
   -webkit-backdrop-filter: blur(30px) saturate(1.28);
 }
@@ -214,6 +216,7 @@ onUnmounted(() => {
 
 @media (max-width: 900px) {
   .site-header {
+    --header-glass-height: 126px;
     grid-template-columns: 1fr auto;
     gap: 10px;
     padding: 10px 12px;
@@ -236,6 +239,8 @@ onUnmounted(() => {
 
 @media (max-width: 560px) {
   .site-header {
+    --header-glass-offset: -10px;
+    --header-glass-height: 120px;
     top: 10px;
     width: calc(100% - 20px);
     min-height: 0;
