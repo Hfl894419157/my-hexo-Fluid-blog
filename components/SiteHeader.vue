@@ -100,24 +100,24 @@ onUnmounted(() => {
   padding: 0 12px 0 18px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--nav-bg), transparent 46%);
-  backdrop-filter: blur(22px) saturate(1.18);
-  -webkit-backdrop-filter: blur(22px) saturate(1.18);
-  box-shadow: 0 10px 34px rgba(15, 23, 42, 0.06);
+  background: var(--nav-bg);
+  backdrop-filter: blur(22px) saturate(1.08);
+  -webkit-backdrop-filter: blur(22px) saturate(1.08);
+  box-shadow: var(--nav-shadow);
   transform: translateX(-50%);
   transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .site-header--scrolled {
   border-color: color-mix(in srgb, var(--border-strong), transparent 26%);
-  background: color-mix(in srgb, var(--nav-bg), transparent 40%);
-  box-shadow: 0 12px 38px rgba(15, 23, 42, 0.08);
+  background: var(--nav-bg-strong);
+  box-shadow: var(--nav-shadow);
 }
 
 .site-header--up {
-  background: color-mix(in srgb, var(--nav-bg), transparent 44%);
-  backdrop-filter: blur(30px) saturate(1.28);
-  -webkit-backdrop-filter: blur(30px) saturate(1.28);
+  background: var(--nav-bg-strong);
+  backdrop-filter: blur(30px) saturate(1.12);
+  -webkit-backdrop-filter: blur(30px) saturate(1.12);
   transform: translateX(-50%) translateY(2px);
 }
 
@@ -131,8 +131,8 @@ onUnmounted(() => {
   height: 78px;
   pointer-events: none;
   background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(24px) saturate(1.22);
-  -webkit-backdrop-filter: blur(24px) saturate(1.22);
+  backdrop-filter: blur(24px) saturate(1.08);
+  -webkit-backdrop-filter: blur(24px) saturate(1.08);
   mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
   opacity: 0;
@@ -152,6 +152,7 @@ onUnmounted(() => {
   position: relative;
   z-index: 1;
   color: var(--text-main);
+  font-family: var(--font-site);
   font-size: 14px;
   font-weight: 820;
   text-decoration: none;
@@ -171,6 +172,7 @@ onUnmounted(() => {
   padding: 10px 12px;
   border-radius: var(--radius-control);
   color: var(--text-sub);
+  font-family: var(--font-site);
   font-size: 13px;
   font-weight: 680;
   text-decoration: none;
@@ -181,7 +183,12 @@ onUnmounted(() => {
 .site-header__nav a:hover,
 .site-header__nav a.active {
   color: var(--text-main);
-  background: var(--bg-soft);
+  background: rgba(138, 79, 45, 0.07);
+}
+
+:global(html.dark) .site-header__nav a:hover,
+:global(html.dark) .site-header__nav a.active {
+  background: rgba(184, 138, 74, 0.12);
 }
 
 .site-header__actions {
@@ -212,8 +219,12 @@ onUnmounted(() => {
 
 .site-header__social:hover {
   color: var(--text-main);
-  background: var(--bg-soft);
+  background: rgba(138, 79, 45, 0.07);
   transform: translateY(-1px);
+}
+
+:global(html.dark) .site-header__social:hover {
+  background: rgba(184, 138, 74, 0.12);
 }
 
 .site-header__social :deep(svg) {

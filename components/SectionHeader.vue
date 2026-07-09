@@ -44,7 +44,7 @@ defineProps({
 
 .section-header__eyebrow {
   margin: 0 0 14px;
-  color: var(--brand-cyan);
+  color: var(--brand-main);
   font-size: var(--font-small);
   font-weight: 780;
   line-height: 1.2;
@@ -55,10 +55,11 @@ h2 {
   padding-top: 0 !important;
   border-top: 0 !important;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-h2);
-  font-weight: 820;
+  font-weight: 760;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
 }
 
 .section-header__desc {

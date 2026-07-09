@@ -10,8 +10,8 @@
   border: 1px solid var(--border-soft);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 82% 18%, var(--glow-blue), transparent 34%),
-    radial-gradient(circle at 12% 84%, var(--glow-purple), transparent 34%),
+    radial-gradient(circle at 82% 18%, var(--surface-glow), transparent 34%),
+    radial-gradient(circle at 12% 84%, var(--surface-glow), transparent 34%),
     linear-gradient(135deg, var(--bg-card), var(--bg-soft));
   color: var(--rb-ink);
   box-shadow: var(--shadow-card);
@@ -106,8 +106,8 @@
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--rb-accent), var(--rb-accent-2));
-  box-shadow: 0 0 24px var(--glow-purple);
+  background: var(--rb-accent);
+  box-shadow: none;
 }
 
 .rb-chipline,
@@ -156,7 +156,7 @@
   top: 50%;
   width: 18px;
   height: 2px;
-  background: linear-gradient(90deg, var(--rb-accent), transparent);
+  background: color-mix(in srgb, var(--rb-accent), transparent 45%);
 }
 
 .rb-home {

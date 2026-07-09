@@ -60,6 +60,10 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'article'))
 .base-card--interactive:hover {
   transform: translateY(-4px);
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 18px 46px rgba(23, 19, 15, 0.1);
+}
+
+:global(html.dark) .base-card--interactive:hover {
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.28);
 }
 </style>

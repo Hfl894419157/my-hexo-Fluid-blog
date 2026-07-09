@@ -1,19 +1,20 @@
 :root {
-  --bg-page: #F6F8FC;
-  --bg-section: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-soft: #EEF3FA;
-  --text-main: #0F172A;
-  --text-sub: #475569;
-  --text-muted: #94A3B8;
-  --border-soft: rgba(15, 23, 42, 0.08);
-  --border-strong: rgba(15, 23, 42, 0.14);
-  --brand-main: #2563EB;
-  --brand-second: #7C3AED;
-  --brand-cyan: #06B6D4;
-  --glow-blue: rgba(37, 99, 235, 0.32);
-  --glow-purple: rgba(124, 58, 237, 0.28);
-  --font-site: Inter, "HarmonyOS Sans SC", "Source Han Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg-page: #FBFAF7;
+  --bg-section: #F7F6F1;
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --bg-soft: #F1EFE8;
+  --text-main: #17130F;
+  --text-sub: #7B7F84;
+  --text-muted: #A1A4A8;
+  --border-soft: rgba(23, 19, 15, 0.09);
+  --border-strong: rgba(138, 79, 45, 0.28);
+  --brand-main: #8A4F2D;
+  --brand-second: #A86C45;
+  --brand-cyan: #8A4F2D;
+  --glow-blue: rgba(138, 79, 45, 0.035);
+  --glow-purple: rgba(168, 108, 69, 0.045);
+  --font-site: "HarmonyOS Sans SC", Inter, "Source Han Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-title: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
   --font-hero: clamp(54px, 7vw, 96px);
   --font-h1: clamp(42px, 5vw, 72px);
   --font-h2: clamp(32px, 4vw, 52px);
@@ -22,14 +23,25 @@
   --font-small: 14px;
   --radius-card: 8px;
   --radius-control: 8px;
-  --shadow-card: 0 22px 70px rgba(15, 23, 42, 0.08);
-  --shadow-glow: 0 28px 90px var(--glow-blue);
+  --shadow-card: 0 22px 70px rgba(23, 19, 15, 0.07);
+  --shadow-glow: 0 18px 48px rgba(138, 79, 45, 0.1);
+  --site-background: radial-gradient(circle at 50% 34%, rgba(138, 79, 45, 0.035), transparent 34%), linear-gradient(180deg, #FBFAF7 0%, #F7F6F1 72%, #F1EFE8 100%);
+  --surface-glow: rgba(138, 79, 45, 0.055);
+  --hero-english-color: #8A4F2D;
+  --hero-ornament: rgba(138, 79, 45, 0.16);
+  --button-primary-bg: #17130F;
+  --button-primary-border: #17130F;
   --button-primary-text: #FFFFFF;
-  --button-secondary-text: var(--text-main);
-  --nav-bg: rgba(246, 248, 252, 0.76);
-  --card-overlay: rgba(255, 255, 255, 0.76);
-  --grid-line: rgba(15, 23, 42, 0.06);
-  --mask-solid: #000000;
+  --button-primary-shadow: 0 14px 34px rgba(23, 19, 15, 0.12);
+  --button-secondary-bg: transparent;
+  --button-secondary-border: #A86C45;
+  --button-secondary-text: #8A4F2D;
+  --nav-bg: rgba(255, 255, 255, 0.7);
+  --nav-bg-strong: rgba(255, 255, 255, 0.78);
+  --nav-shadow: 0 12px 34px rgba(23, 19, 15, 0.08);
+  --card-overlay: rgba(255, 255, 255, 0.7);
+  --grid-line: rgba(138, 79, 45, 0.075);
+  --mask-solid: #17130F;
   --vp-c-bg: var(--bg-page);
   --vp-c-bg-alt: var(--bg-soft);
   --vp-c-bg-soft: var(--bg-soft);
@@ -60,26 +72,38 @@
 }
 
 html.dark {
-  --bg-page: #070A12;
-  --bg-section: #0B1020;
-  --bg-card: #111827;
-  --bg-soft: #151D2E;
-  --text-main: #F8FAFC;
-  --text-sub: #A8B3C7;
-  --text-muted: #64748B;
-  --border-soft: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --brand-main: #60A5FA;
-  --brand-second: #A78BFA;
-  --brand-cyan: #22D3EE;
-  --glow-blue: rgba(96, 165, 250, 0.34);
-  --glow-purple: rgba(167, 139, 250, 0.30);
-  --shadow-card: 0 24px 90px rgba(0, 0, 0, 0.36);
-  --button-primary-text: #07101F;
-  --button-secondary-text: var(--text-main);
-  --nav-bg: rgba(7, 10, 18, 0.76);
-  --card-overlay: rgba(17, 24, 39, 0.76);
-  --grid-line: rgba(255, 255, 255, 0.07);
+  --bg-page: #111214;
+  --bg-section: #17181B;
+  --bg-card: rgba(23, 24, 27, 0.78);
+  --bg-soft: #0E0F11;
+  --text-main: #F4F1EA;
+  --text-sub: #A8ADB4;
+  --text-muted: #787E86;
+  --border-soft: rgba(244, 241, 234, 0.08);
+  --border-strong: rgba(184, 138, 74, 0.34);
+  --brand-main: #B88A4A;
+  --brand-second: #BFC3C8;
+  --brand-cyan: #B88A4A;
+  --glow-blue: rgba(184, 138, 74, 0.11);
+  --glow-purple: rgba(255, 255, 255, 0.035);
+  --shadow-card: 0 24px 90px rgba(0, 0, 0, 0.32);
+  --shadow-glow: 0 18px 54px rgba(184, 138, 74, 0.11);
+  --site-background: radial-gradient(circle at 50% 34%, rgba(184, 138, 74, 0.11), transparent 34%), radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.035), transparent 38%), linear-gradient(180deg, #17181B 0%, #111214 58%, #0E0F11 100%);
+  --surface-glow: rgba(184, 138, 74, 0.12);
+  --hero-english-color: #BFC3C8;
+  --hero-ornament: rgba(184, 138, 74, 0.22);
+  --button-primary-bg: #F2EEE6;
+  --button-primary-border: #F2EEE6;
+  --button-primary-text: #151515;
+  --button-primary-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+  --button-secondary-bg: rgba(23, 24, 27, 0.42);
+  --button-secondary-border: rgba(184, 138, 74, 0.58);
+  --button-secondary-text: #B88A4A;
+  --nav-bg: rgba(17, 18, 20, 0.68);
+  --nav-bg-strong: rgba(17, 18, 20, 0.76);
+  --nav-shadow: 0 14px 42px rgba(0, 0, 0, 0.24);
+  --card-overlay: rgba(23, 24, 27, 0.7);
+  --grid-line: rgba(244, 241, 234, 0.055);
   color-scheme: dark;
 }
 
@@ -97,10 +121,7 @@ body {
 body {
   margin: 0;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at 18% 0%, var(--glow-blue), transparent 28%),
-    radial-gradient(circle at 82% 8%, var(--glow-purple), transparent 24%),
-    linear-gradient(180deg, var(--bg-page), var(--bg-soft));
+  background: var(--site-background);
   font-family: var(--font-site);
   font-size: var(--font-body);
   letter-spacing: 0;
@@ -146,7 +167,7 @@ a {
 
 .VPSwitch .check,
 .VPButton.brand {
-  background: linear-gradient(135deg, var(--brand-main), var(--brand-second)) !important;
+  background: var(--brand-main) !important;
 }
 
 .VPButton.brand {
@@ -183,9 +204,11 @@ a {
 .vp-doc h1 {
   margin-bottom: 18px;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-h1);
+  font-weight: 800;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
 }
 
 .VPPage > div > div > p,
@@ -198,8 +221,10 @@ a {
 .vp-doc h2 {
   border-top: 1px solid var(--border-soft);
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-h2);
-  letter-spacing: 0;
+  font-weight: 760;
+  letter-spacing: 0.04em;
 }
 
 .vp-doc h3 {

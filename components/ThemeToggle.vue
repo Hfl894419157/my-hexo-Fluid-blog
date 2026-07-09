@@ -48,7 +48,7 @@ onUnmounted(() => {
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
   color: var(--text-main);
-  background: color-mix(in srgb, var(--bg-card), transparent 12%);
+  background: color-mix(in srgb, var(--bg-card), transparent 18%);
   cursor: pointer;
 }
 
@@ -57,7 +57,7 @@ onUnmounted(() => {
   width: 24px;
   height: 14px;
   border-radius: 999px;
-  background: var(--bg-soft);
+  background: color-mix(in srgb, var(--brand-main), transparent 88%);
 }
 
 .theme-toggle__thumb {
@@ -67,11 +67,12 @@ onUnmounted(() => {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--brand-main), var(--brand-second));
-  transition: transform 0.22s ease;
+  background: var(--brand-main);
+  transition: background 0.22s ease, transform 0.22s ease;
 }
 
 .theme-toggle[aria-pressed="true"] .theme-toggle__thumb {
+  background: var(--button-primary-bg);
   transform: translateX(10px);
 }
 </style>

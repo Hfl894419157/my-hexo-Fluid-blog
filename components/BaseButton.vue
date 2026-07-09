@@ -54,6 +54,7 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
   gap: 8px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
+  font-family: var(--font-site);
   font-size: var(--font-small);
   font-weight: 760;
   line-height: 1;
@@ -80,14 +81,16 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
 
 .base-button--primary {
   color: var(--button-primary-text);
-  background: linear-gradient(135deg, var(--brand-main), var(--brand-second));
-  box-shadow: 0 18px 58px var(--glow-blue);
+  border-color: var(--button-primary-border);
+  background: var(--button-primary-bg);
+  box-shadow: var(--button-primary-shadow);
 }
 
 .base-button--secondary {
   color: var(--button-secondary-text);
-  background: color-mix(in srgb, var(--bg-card), transparent 14%);
-  box-shadow: 0 16px 48px var(--glow-purple);
+  border-color: var(--button-secondary-border);
+  background: var(--button-secondary-bg);
+  box-shadow: none;
 }
 
 .base-button--ghost {
@@ -108,5 +111,6 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
 .base-button--secondary:hover,
 .base-button--ghost:hover {
   border-color: var(--border-strong);
+  box-shadow: 0 16px 38px rgba(23, 19, 15, 0.1);
 }
 </style>

@@ -36,9 +36,7 @@ onUnmounted(() => {
   overflow-x: hidden;
   min-height: 100vh;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at 50% 0%, var(--glow-blue), transparent 24%),
-    linear-gradient(180deg, var(--bg-page) 0%, var(--bg-section) 48%, var(--bg-page) 100%);
+  background: var(--site-background);
   font-family: var(--font-site);
   letter-spacing: 0;
 }

@@ -26,7 +26,7 @@ import SectionShell from '../SectionShell.vue'
   border-radius: var(--radius-card);
   text-align: center;
   background:
-    radial-gradient(circle at 50% 0%, var(--glow-blue), transparent 36%),
+    radial-gradient(circle at 50% 0%, var(--surface-glow), transparent 36%),
     linear-gradient(135deg, var(--bg-card), var(--bg-soft));
 }
 
@@ -36,9 +36,11 @@ h2 {
   padding-top: 0 !important;
   border-top: 0 !important;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-h2);
+  font-weight: 760;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: 0.04em;
 }
 
 p {

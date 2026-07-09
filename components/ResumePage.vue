@@ -260,7 +260,7 @@ const awards = [
   border-right: 1px solid var(--border-soft);
   color: var(--text-main);
   background:
-    radial-gradient(circle at 50% 0%, var(--glow-blue), transparent 42%),
+    radial-gradient(circle at 50% 0%, var(--surface-glow), transparent 42%),
     linear-gradient(180deg, var(--bg-soft), var(--bg-card));
 }
 
@@ -395,7 +395,7 @@ const awards = [
 .progress-bar {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand-main), var(--brand-second));
+  background: var(--brand-main);
 }
 
 .tags-cloud {
@@ -473,7 +473,7 @@ const awards = [
   height: 10px;
   border-radius: 999px;
   background: var(--brand-main);
-  box-shadow: 0 0 22px var(--glow-blue);
+  box-shadow: none;
   content: "";
 }
 
@@ -540,7 +540,11 @@ const awards = [
 .project-card:hover {
   transform: translateY(-3px);
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 18px 46px rgba(23, 19, 15, 0.1);
+}
+
+:global(html.dark) .project-card:hover {
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.28);
 }
 
 .project-head {
@@ -568,7 +572,7 @@ const awards = [
   padding: 0 10px;
   border-radius: var(--radius-control);
   color: var(--button-primary-text);
-  background: linear-gradient(135deg, var(--brand-main), var(--brand-second));
+  background: var(--brand-main);
   font-size: 13px;
   font-weight: 700;
 }
