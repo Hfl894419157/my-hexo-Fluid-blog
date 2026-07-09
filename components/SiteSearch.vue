@@ -21,6 +21,13 @@ const labels = {
   hint: '\u8f93\u5165\u5173\u952e\u8bcd'
 }
 
+const matchLabels = {
+  current: '\u5f53\u524d\u9875\u9762',
+  title: '\u6807\u9898\u5339\u914d',
+  section: '\u680f\u76ee\u5339\u914d',
+  body: '\u6b63\u6587\u5339\u914d'
+}
+
 const searchIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.8 4.4a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8Zm-8.4 6.4a8.4 8.4 0 1 1 15.08 5.1l4.02 4.02-1.58 1.58-4.02-4.02A8.4 8.4 0 0 1 2.4 10.8Z"/></svg>'
 const closeIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5Z"/></svg>'
 
@@ -45,19 +52,6 @@ const closeSearch = () => {
 
 const normalizeText = (value) => String(value || '').toLowerCase()
 
-const getSnippet = (text, terms) => {
-  const source = String(text || '')
-  const lower = source.toLowerCase()
-  const firstIndex = terms.reduce((best, term) => {
-    const index = lower.indexOf(term)
-    if (index === -1) return best
-    return best === -1 ? index : Math.min(best, index)
-  }, -1)
-  const start = Math.max(0, firstIndex === -1 ? 0 : firstIndex - 34)
-  const snippet = source.slice(start, start + 116).replace(/\s+/g, ' ').trim()
-  return `${start > 0 ? '...' : ''}${snippet}${start + 116 < source.length ? '...' : ''}`
-}
-
 const scorePage = (page, terms) => {
   const title = normalizeText(page.title)
   const headingText = normalizeText(page.headings.map((heading) => heading.text).join(' '))
@@ -75,6 +69,22 @@ const scorePage = (page, terms) => {
   return score
 }
 
+const getMatchLabel = (page, terms) => {
+  const title = normalizeText(page.title)
+  const section = normalizeText(page.section)
+  const headingText = normalizeText(page.headings.map((heading) => heading.text).join(' '))
+  const isCurrent = normalizePath(page.url) === currentPath.value
+  let source = matchLabels.body
+
+  if (terms.some((term) => title.includes(term))) {
+    source = matchLabels.title
+  } else if (terms.some((term) => section.includes(term) || headingText.includes(term))) {
+    source = matchLabels.section
+  }
+
+  return isCurrent ? `${matchLabels.current} / ${source}` : source
+}
+
 const buildResult = (page, terms) => {
   const titleMatch = terms.some((term) => normalizeText(page.title).includes(term))
   const heading = page.headings.find((item) => terms.some((term) => normalizeText(item.text).includes(term)))
@@ -83,7 +93,7 @@ const buildResult = (page, terms) => {
   return {
     ...page,
     target,
-    snippet: heading ? heading.text : getSnippet(page.text, terms)
+    matchLabel: getMatchLabel(page, terms)
   }
 }
 
@@ -184,9 +194,11 @@ onUnmounted(() => {
           @mouseenter="selectedIndex = index"
           @click="goToResult(result)"
         >
-          <span class="site-search__result-kicker">{{ result.section }}</span>
+          <span class="site-search__result-meta">
+            <span class="site-search__result-kicker">{{ result.section }}</span>
+            <span class="site-search__result-match">{{ result.matchLabel }}</span>
+          </span>
           <span class="site-search__result-title">{{ result.title }}</span>
-          <span class="site-search__result-snippet">{{ result.snippet }}</span>
         </button>
         <div v-if="!results.length" class="site-search__empty">{{ labels.empty }}</div>
       </div>
@@ -325,9 +337,9 @@ onUnmounted(() => {
 
 .site-search__result {
   display: grid;
-  gap: 4px;
+  gap: 5px;
   width: 100%;
-  padding: 10px 11px;
+  padding: 9px 11px;
   border: 0;
   border-radius: var(--radius-control);
   background: transparent;
@@ -341,10 +353,30 @@ onUnmounted(() => {
   background: var(--bg-soft);
 }
 
+.site-search__result-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+}
+
 .site-search__result-kicker {
   color: var(--brand-main);
   font-size: 11px;
   font-weight: 780;
+  white-space: nowrap;
+}
+
+.site-search__result-match {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site-search__result-title {
@@ -352,12 +384,9 @@ onUnmounted(() => {
   font-size: 14px;
   font-weight: 780;
   line-height: 1.35;
-}
-
-.site-search__result-snippet {
-  color: var(--text-sub);
-  font-size: 12px;
-  line-height: 1.45;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
