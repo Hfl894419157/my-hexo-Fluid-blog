@@ -2,11 +2,13 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, withBase } from 'vitepress'
 import ThemeToggle from './ThemeToggle.vue'
+import SiteSearch from './SiteSearch.vue'
 import { navItems, socialLinks } from '../.shared/siteNavigation.js'
 
 const route = useRoute()
 const hasScrolled = ref(false)
 const scrollingUp = ref(false)
+const searchOpen = ref(false)
 let lastScrollY = 0
 
 const pageLink = (path) => withBase(path)
@@ -44,7 +46,14 @@ onUnmounted(() => {
     :class="{ 'site-header__glass--scrolled': hasScrolled, 'site-header__glass--up': scrollingUp }"
     aria-hidden="true"
   />
-  <header class="site-header" :class="{ 'site-header--scrolled': hasScrolled, 'site-header--up': scrollingUp }">
+  <header
+    class="site-header"
+    :class="{
+      'site-header--scrolled': hasScrolled,
+      'site-header--up': scrollingUp,
+      'site-header--search-open': searchOpen
+    }"
+  >
     <a class="site-header__brand" :href="pageLink('/')">AI Creative Lab</a>
     <nav class="site-header__nav" aria-label="全站导航">
       <a
@@ -57,6 +66,7 @@ onUnmounted(() => {
       </a>
     </nav>
     <div class="site-header__actions">
+      <SiteSearch @open-change="searchOpen = $event" />
       <div class="site-header__socials" aria-label="社交链接">
         <a
           v-for="item in socialLinks"
@@ -221,6 +231,19 @@ onUnmounted(() => {
     grid-template-columns: 1fr auto;
     gap: 10px;
     padding: 10px 12px;
+  }
+
+  .site-header--search-open {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-header--search-open .site-header__brand {
+    display: none;
+  }
+
+  .site-header--search-open .site-header__actions {
+    width: 100%;
+    min-width: 0;
   }
 
   .site-header__glass {
