@@ -49,8 +49,10 @@ const notes = [
 h3 {
   margin: 0;
   color: var(--brand-cyan);
+  font-family: var(--font-title);
   font-size: 18px;
-  letter-spacing: 0;
+  font-weight: 760;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 p {

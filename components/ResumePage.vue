@@ -283,11 +283,12 @@ const awards = [
 .name {
   margin: 0 0 14px;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 40px;
   font-weight: 840;
   line-height: 1.06;
   text-align: center;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .role {
@@ -318,9 +319,10 @@ const awards = [
   align-items: center;
   margin: 0 0 18px;
   color: var(--brand-main);
+  font-family: var(--font-title);
   font-size: var(--font-small);
   font-weight: 780;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .contact-list {
@@ -350,7 +352,9 @@ const awards = [
 .edu-item h4 {
   margin: 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 18px;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .edu-date {
@@ -429,13 +433,19 @@ const awards = [
   border-radius: var(--radius-card);
   color: var(--text-main);
   background: var(--bg-soft);
+  font-family: var(--font-title);
   font-size: 24px;
   font-weight: 820;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .title-icon {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
   font-size: 20px;
+}
+
+.icon {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 }
 
 .summary-box p {
@@ -488,8 +498,10 @@ const awards = [
 .company {
   margin: 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 18px;
   line-height: 1.32;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .job-title {
@@ -561,8 +573,10 @@ const awards = [
 .project-head h4 {
   margin: 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 20px;
   line-height: 1.32;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 .project-tag {

@@ -61,9 +61,11 @@ const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
 h3 {
   margin: 18px 0 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 18px;
+  font-weight: 760;
   line-height: 1.22;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 p {

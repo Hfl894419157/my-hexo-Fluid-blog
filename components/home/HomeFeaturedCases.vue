@@ -81,9 +81,11 @@ span {
 h3 {
   margin: 12px 0 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 24px;
+  font-weight: 760;
   line-height: 1.22;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 p {

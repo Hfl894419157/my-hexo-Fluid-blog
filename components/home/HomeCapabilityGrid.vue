@@ -40,9 +40,11 @@ const capabilities = [
 h3 {
   margin: 0;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-h3);
+  font-weight: 760;
   line-height: 1.18;
-  letter-spacing: 0;
+  letter-spacing: var(--title-letter-spacing);
 }
 
 p {

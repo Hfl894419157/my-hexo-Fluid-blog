@@ -252,12 +252,16 @@ onUnmounted(() => {
   align-items: center;
   width: min(360px, calc(100vw - 38px));
   height: 38px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid color-mix(in srgb, var(--border-strong), transparent 28%);
   border-radius: var(--radius-control);
-  background: color-mix(in srgb, var(--bg-card), transparent 18%);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
-  backdrop-filter: blur(18px) saturate(1.14);
-  -webkit-backdrop-filter: blur(18px) saturate(1.14);
+  background: color-mix(in srgb, var(--nav-bg-strong), transparent 38%);
+  box-shadow: 0 16px 42px rgba(23, 19, 15, 0.10);
+  backdrop-filter: blur(28px) saturate(1.2);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+}
+
+:global(html.dark) .site-search__form {
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.26);
 }
 
 .site-search__leading {
@@ -319,12 +323,16 @@ onUnmounted(() => {
   max-height: min(480px, calc(100vh - 118px));
   overflow-y: auto;
   padding: 8px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid color-mix(in srgb, var(--border-strong), transparent 30%);
   border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--bg-card), transparent 8%);
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
-  backdrop-filter: blur(22px) saturate(1.18);
-  -webkit-backdrop-filter: blur(22px) saturate(1.18);
+  background: color-mix(in srgb, var(--nav-bg-strong), transparent 36%);
+  box-shadow: 0 26px 72px rgba(23, 19, 15, 0.13);
+  backdrop-filter: blur(34px) saturate(1.22);
+  -webkit-backdrop-filter: blur(34px) saturate(1.22);
+}
+
+:global(html.dark) .site-search__panel {
+  box-shadow: 0 26px 78px rgba(0, 0, 0, 0.34);
 }
 
 .site-search__panel--hint,
@@ -350,7 +358,7 @@ onUnmounted(() => {
 
 .site-search__result:hover,
 .site-search__result.active {
-  background: var(--bg-soft);
+  background: color-mix(in srgb, var(--bg-soft), transparent 24%);
 }
 
 .site-search__result-meta {
@@ -381,8 +389,10 @@ onUnmounted(() => {
 
 .site-search__result-title {
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 14px;
   font-weight: 780;
+  letter-spacing: var(--title-letter-spacing);
   line-height: 1.35;
   overflow: hidden;
   text-overflow: ellipsis;

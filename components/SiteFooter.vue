@@ -31,8 +31,10 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 
 .site-footer__brand a {
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: 16px;
   font-weight: 820;
+  letter-spacing: var(--title-letter-spacing);
   text-decoration: none;
 }
 
@@ -53,7 +55,9 @@ nav {
 strong {
   margin-bottom: 4px;
   color: var(--text-main);
+  font-family: var(--font-title);
   font-size: var(--font-small);
+  letter-spacing: var(--title-letter-spacing);
 }
 
 nav a {
