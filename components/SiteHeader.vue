@@ -57,7 +57,7 @@ onUnmounted(() => {
       'site-header--search-open': searchOpen
     }"
   >
-    <a class="site-header__brand" :href="pageLink('/')">Liuli Lab</a>
+    <a class="site-header__brand" :href="pageLink('/')">AI Creative Lab</a>
     <nav class="site-header__nav" aria-label="全站导航">
       <a
         v-for="item in navItems"
