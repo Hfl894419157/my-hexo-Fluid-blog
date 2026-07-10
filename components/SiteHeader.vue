@@ -45,8 +45,7 @@ onUnmounted(() => {
     class="site-header__glass"
     :class="{
       'site-header__glass--scrolled': hasScrolled,
-      'site-header__glass--up': scrollingUp,
-      'site-header__glass--search-open': searchOpen
+      'site-header__glass--up': scrollingUp
     }"
     aria-hidden="true"
   />
@@ -125,22 +124,6 @@ onUnmounted(() => {
   transform: translateX(-50%) translateY(2px);
 }
 
-.site-header--search-open {
-  border-color: color-mix(in srgb, var(--border-strong), transparent 18%);
-  background: color-mix(in srgb, var(--nav-bg-strong), transparent 28%);
-  /*
-  backdrop-filter: blur(34px) saturate(1.18);
-  -webkit-backdrop-filter: blur(34px) saturate(1.18);
-  */
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: 0 18px 52px rgba(23, 19, 15, 0.10);
-}
-
-:global(html.dark) .site-header--search-open {
-  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.28);
-}
-
 .site-header__glass {
   position: fixed;
   top: 0;
@@ -166,20 +149,6 @@ onUnmounted(() => {
 .site-header__glass--up {
   backdrop-filter: blur(30px) saturate(1.28);
   -webkit-backdrop-filter: blur(30px) saturate(1.28);
-}
-
-.site-header__glass--search-open {
-  /*
-  height: min(720px, 92vh);
-  opacity: 1;
-  backdrop-filter: blur(36px) saturate(1.22);
-  -webkit-backdrop-filter: blur(36px) saturate(1.22);
-  mask-image: linear-gradient(180deg, #000 0%, #000 78%, rgba(0, 0, 0, 0.55) 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 78%, rgba(0, 0, 0, 0.55) 90%, transparent 100%);
-  */
-  opacity: 0;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
 .site-header__brand {
@@ -296,12 +265,6 @@ onUnmounted(() => {
     height: 122px;
   }
 
-  .site-header__glass--search-open {
-    /*
-    height: min(640px, 82vh);
-    */
-  }
-
   .site-header__nav {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -326,12 +289,6 @@ onUnmounted(() => {
 
   .site-header__glass {
     height: 120px;
-  }
-
-  .site-header__glass--search-open {
-    /*
-    height: min(620px, 78vh);
-    */
   }
 
   .site-header__brand {
