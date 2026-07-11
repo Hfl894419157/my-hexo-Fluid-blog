@@ -44,10 +44,12 @@
   --space-3xl: 88px;
   --space-4xl: 120px;
 
-  --radius-card: 8px;
+  --radius-card: 14px;
   --radius-control: 8px;
-  --shadow-card: 0 22px 70px rgba(23, 19, 15, 0.07);
-  --shadow-glow: 0 18px 48px rgba(138, 79, 45, 0.1);
+  --shadow-card: 0 24px 80px rgba(23, 19, 15, 0.09);
+  --shadow-glow: 0 20px 56px rgba(138, 79, 45, 0.12);
+  --transition-smooth: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   --image-treatment: saturate(0.9) contrast(1.03) brightness(0.98);
   --site-background: radial-gradient(circle at 50% 34%, rgba(138, 79, 45, 0.035), transparent 34%), linear-gradient(180deg, #FBFAF7 0%, #F7F6F1 72%, #F1EFE8 100%);
   --surface-glow: rgba(138, 79, 45, 0.055);
