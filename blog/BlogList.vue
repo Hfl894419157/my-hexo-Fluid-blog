@@ -71,7 +71,7 @@ import ReactIsland from '../components/ReactIsland.vue'
 .blog-date {
   margin: 0 0 12px !important;
   color: var(--brand-cyan);
-  font-size: 11px;
+  font-size: var(--text-micro);
   font-weight: 400;
   letter-spacing: 0.08em;
 }
@@ -89,7 +89,7 @@ h3 {
 .desc {
   margin: 14px 0 0 !important;
   color: var(--text-sub);
-  font-size: 12px;
+  font-size: var(--text-label);
   font-weight: 400;
   line-height: 1.75;
 }
@@ -103,7 +103,7 @@ h3 {
 
 .blog-meta span {
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--text-micro);
 }
 
 @media (max-width: 760px) {

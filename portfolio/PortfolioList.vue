@@ -79,7 +79,7 @@ import ReactIsland from '../components/ReactIsland.vue'
 
 span {
   color: var(--brand-cyan);
-  font-size: 11px;
+  font-size: var(--text-micro);
   font-weight: 400;
   letter-spacing: 0.14em;
 }

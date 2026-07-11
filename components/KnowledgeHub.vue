@@ -54,8 +54,8 @@ const lanes = [
 h1 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
 .knowledge-hub__lead { max-width: 760px; margin: 20px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.9; }
 .knowledge-hub__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 42px; }
-.knowledge-hub__grid span { color: var(--brand-cyan); font-size: 11px; font-weight: 400; letter-spacing: 0.08em; }
-.knowledge-hub__grid h2 { margin: 22px 0 0; color: var(--text-main); font-family: var(--font-sans); font-size: 18px; font-weight: 700; line-height: 1.4; letter-spacing: 0; }
+.knowledge-hub__grid span { color: var(--brand-cyan); font-size: var(--text-micro); font-weight: 400; letter-spacing: 0.08em; }
+.knowledge-hub__grid h2 { margin: 22px 0 0; color: var(--text-main); font-family: var(--font-sans); font-size: var(--text-lead); font-weight: 700; line-height: 1.4; letter-spacing: 0; }
 .knowledge-hub__grid p { margin: 14px 0 22px; color: var(--text-sub); font-size: var(--text-small); line-height: 1.8; }
 .knowledge-hub__principles { margin-top: 54px; padding: 30px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .knowledge-hub__principles h2 { margin: 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-section-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }

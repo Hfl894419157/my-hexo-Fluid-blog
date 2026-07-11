@@ -43,7 +43,7 @@ const notes = [
   margin: 0 auto;
 }
 
-.about-link { width: fit-content; margin: 0 auto; color: var(--brand-main); font-size: 14px; font-weight: 400; text-decoration: none; }
+.about-link { width: fit-content; margin: 0 auto; color: var(--brand-main); font-size: var(--text-small); font-weight: 400; text-decoration: none; }
 
 :deep(.base-card--padded) {
   padding: 22px 28px;

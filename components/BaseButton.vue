@@ -55,7 +55,7 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--text-body);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;

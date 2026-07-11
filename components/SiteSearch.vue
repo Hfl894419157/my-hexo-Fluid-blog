@@ -281,7 +281,7 @@ onUnmounted(() => {
   background: transparent;
   color: var(--text-main);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--text-small);
   font-weight: 400;
 }
 
@@ -296,7 +296,7 @@ onUnmounted(() => {
   border-radius: var(--radius-control);
   background: var(--brand-main);
   color: var(--button-primary-text);
-  font-size: 16px;
+  font-size: var(--text-body);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -375,7 +375,7 @@ onUnmounted(() => {
 
 .site-search__result-kicker {
   color: var(--brand-main);
-  font-size: 11px;
+  font-size: var(--text-micro);
   font-weight: 400;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -384,7 +384,7 @@ onUnmounted(() => {
 .site-search__result-match {
   min-width: 0;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: var(--text-micro);
   font-weight: 400;
   overflow: hidden;
   text-align: right;

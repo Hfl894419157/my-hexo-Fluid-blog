@@ -500,7 +500,7 @@ const awards = [
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: var(--text-lead);
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0;
