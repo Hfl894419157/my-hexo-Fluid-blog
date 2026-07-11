@@ -16,37 +16,22 @@
   --font-display: "Noto Serif SC Variable", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
   --font-sans: Inter, "Noto Sans SC Variable", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
   --font-mono: "JetBrains Mono", Consolas, monospace;
-  /* === 统一的全局字号变量 === */
-  --font-display-home:  clamp(56px, 6vw, 88px);   /* 首页 Hero */
-  --font-page-title:    clamp(40px, 4.2vw, 56px); /* 总览栏目页 H1 */
-  --font-detail-title:  clamp(34px, 3.6vw, 48px); /* 案例与详情页 H1 */
-  --font-section-title: clamp(28px, 2.8vw, 38px); /* 模块标题/关于我模块标题 */
-  --font-content-h2:    clamp(24px, 2.2vw, 30px); /* 正文 H2 */
-  --font-content-h3:    clamp(19px, 1.8vw, 23px); /* 正文 H3 */
-  --font-card-title:    clamp(18px, 1.6vw, 22px); /* 卡片标题 */
-  
-  --font-body-large:    18px;  /* 引言/大段落 */
-  --font-body:          16px;  /* 默认正文 */
-  --font-body-small:    14px;  /* 次要文本/辅助说明 */
-  --font-meta:          12px;  /* 元数据/标签 */
-  --font-micro:         11px;  /* 最小元数据 */
-
-  /* === 向下兼容旧的 --text 变量 === */
-  --text-hero:          var(--font-display-home);
-  --text-display:       var(--font-display-home);
-  --text-page-title:    var(--font-page-title);
-  --text-section-title: var(--font-section-title);
-  --text-cta:           var(--font-section-title);
-  --text-card-large:    var(--font-card-title);
-  --text-card-title:    var(--font-card-title);
-  --text-compact-title: var(--font-content-h3);
-  --text-lead:          var(--font-body-large);
-  --text-body-large:    var(--font-body-large);
-  --text-body:          var(--font-body);
-  --text-small:         var(--font-body-small);
-  --text-caption:       var(--font-body-small);
-  --text-label:         var(--font-meta);
-  --text-micro:         var(--font-micro);
+  /* === 全局核心排版与字号变量 (100% 还原首页与全局默认值) === */
+  --text-hero:          clamp(52px, 6.2vw, 88px);   /* 首页 Hero 标题 */
+  --text-display:       clamp(38px, 5vw, 62px);
+  --text-page-title:    clamp(36px, 5vw, 60px);
+  --text-section-title: clamp(38px, 4vw, 56px);     /* 首页板块标题 */
+  --text-cta:           clamp(38px, 4vw, 56px);
+  --text-card-large:    24px;                       /* 首页大型案例卡片标题 */
+  --text-card-title:    19px;                       /* 首页普通卡片标题 */
+  --text-compact-title: 15px;                       /* 首页微型卡片标题 */
+  --text-lead:          18px;
+  --text-body-large:    18px;
+  --text-body:          16px;                       /* 首页普通正文 */
+  --text-small:         14px;
+  --text-caption:       13px;
+  --text-label:         12px;
+  --text-micro:         11px;
 
   /* === 统一的纵向间距系统 === */
   --space-2xs: 8px;
@@ -305,155 +290,276 @@ a {
 .VPPage > div {
   width: min(100%, 1180px);
   margin: 0 auto;
-  padding: var(--space-3xl) 28px var(--space-2xl); /* 桌面端 88px/156px 顶部 padding */
+  padding: var(--space-3xl) 28px var(--space-2xl);
   padding-top: 156px;
 }
 
-/* 统一内页一级标题 (总览栏目页) */
-.VPPage > div > div > h1,
-.vp-doc h1 {
-  margin-bottom: var(--space-md);
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--font-page-title);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  max-width: 800px;
-  text-wrap: balance;
-}
-
-/* 统一内页引导介绍段落 (总览栏目页) */
-.VPPage > div > div > p,
-.vp-doc > p {
-  color: var(--text-sub);
-  font-size: var(--font-body-large);
-  line-height: 1.8;
-  max-width: 720px;
-  margin-bottom: var(--space-xl);
-}
-
-/* 中英文混排字重强制统一 */
-.vp-doc h1 *,
-.vp-doc h2 *,
-.vp-doc h3 *,
-.vp-doc h4 * {
-  font-weight: inherit !important;
-}
-
-/* 全站通用 H2 样式 (默认) */
-.vp-doc h2 {
-  border-top: 1px solid var(--border-soft);
-  margin-top: var(--space-2xl) !important;
+/* ==================== 栏目总览页 ==================== */
+.page-overview-list .vp-doc h1 {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(38px, 4vw, 52px) !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.02em !important;
+  max-width: 820px !important;
+  text-wrap: balance !important;
+  margin-top: 0 !important;
   margin-bottom: var(--space-md) !important;
-  padding-top: var(--space-md);
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--font-section-title);
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  border: none !important;
+  padding-top: 0 !important;
 }
 
-/* 全站通用 H3 样式 (默认) */
-.vp-doc h3 {
-  margin-top: var(--space-xl) !important;
-  margin-bottom: var(--space-sm) !important;
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-size: var(--font-card-title);
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: 0;
+.page-overview-list .vp-doc > p:first-of-type,
+.page-overview-list .vp-doc > p {
+  font-family: var(--font-sans) !important;
+  font-size: 17px !important;
+  font-weight: 400 !important;
+  line-height: 1.85 !important;
+  max-width: 720px !important;
+  color: var(--text-sub) !important;
+  margin-bottom: var(--space-xl) !important;
 }
 
-.vp-doc h4,
-.vp-doc h5,
-.vp-doc h6 {
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+/* 列表页卡片与布局间距 */
+.page-overview-list .vp-doc h3 {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(20px, 2.2vw, 24px) !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
 }
 
-.vp-doc p,
-.vp-doc li {
-  color: var(--text-sub);
-  font-size: var(--font-body);
-  font-weight: 400;
-  line-height: 1.9;
-  margin-bottom: var(--space-sm);
+.page-overview-list .vp-doc p.desc,
+.page-overview-list .vp-doc p {
+  font-size: clamp(14px, 1.5vw, 16px) !important;
+  line-height: 1.75 !important;
 }
 
-/* B. 案例/工作流详情页排版系统 */
+/* ==================== 案例与工作流详情页 ==================== */
 .page-case-detail .VPDoc .content,
 .page-case-detail .VPDoc .content-container,
 .page-workflow-detail .VPDoc .content,
 .page-workflow-detail .VPDoc .content-container {
-  max-width: 880px !important;
+  max-width: 800px !important;
 }
 
 .page-case-detail .vp-doc h1,
 .page-workflow-detail .vp-doc h1 {
-  font-size: var(--font-detail-title) !important;
-  line-height: 1.18;
-  letter-spacing: -0.015em;
-  max-width: 820px;
+  font-family: var(--font-serif) !important;
+  font-size: clamp(36px, 3.8vw, 48px) !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.015em !important;
+  max-width: 820px !important;
+  text-wrap: balance !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+/* 当标题超过18个中文字符时，限制最大字号在44px */
+@media (min-width: 1200px) {
+  .page-case-detail .vp-doc h1:has(span),
+  .page-case-detail .vp-doc h1 {
+    font-size: clamp(36px, 3.2vw, 44px) !important;
+  }
+}
+
+.page-case-detail .vp-doc > p:first-of-type,
+.page-workflow-detail .vp-doc > p:first-of-type {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(17px, 1.8vw, 18px) !important;
+  line-height: 1.8 !important;
+  max-width: 720px !important;
+  color: var(--text-sub) !important;
+  margin-bottom: var(--space-lg) !important;
+}
+
+.page-case-detail .vp-doc ul:first-of-type,
+.page-workflow-detail .vp-doc ul:first-of-type {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
 }
 
 .page-case-detail .vp-doc p,
 .page-case-detail .vp-doc li,
 .page-workflow-detail .vp-doc p,
 .page-workflow-detail .vp-doc li {
-  font-size: var(--font-body-large);
-  line-height: 1.9;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.9 !important;
+  letter-spacing: 0 !important;
+  color: var(--text-sub) !important;
 }
 
-/* C. 知识文章/资源详情阅读型排版系统 */
+.page-case-detail .vp-doc h2,
+.page-workflow-detail .vp-doc h2 {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(28px, 2.8vw, 34px) !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  margin-top: 64px !important;
+  margin-bottom: 20px !important;
+  border-top: none !important;
+  padding-top: 0 !important;
+}
+
+.page-case-detail .vp-doc h3,
+.page-workflow-detail .vp-doc h3 {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(21px, 2.2vw, 24px) !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  margin-top: 40px !important;
+  margin-bottom: 16px !important;
+}
+
+/* ==================== 知识文章与资源详情 ==================== */
 .page-article-detail .VPDoc .content,
 .page-article-detail .VPDoc .content-container,
 .page-resource-detail .VPDoc .content,
 .page-resource-detail .VPDoc .content-container {
-  max-width: 780px !important;
+  max-width: 760px !important;
 }
 
 .page-article-detail .vp-doc h1,
 .page-resource-detail .vp-doc h1 {
-  font-size: var(--font-detail-title) !important;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  max-width: 780px;
+  font-family: var(--font-serif) !important;
+  font-size: clamp(34px, 3.5vw, 46px) !important;
+  font-weight: 600 !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.015em !important;
+  max-width: 800px !important;
+  text-wrap: balance !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+.page-article-detail .vp-doc > p:first-of-type,
+.page-resource-detail .vp-doc > p:first-of-type {
+  font-size: clamp(17px, 1.8vw, 18px) !important;
+  line-height: 1.85 !important;
+  max-width: 720px !important;
+  color: var(--text-sub) !important;
+  margin-bottom: var(--space-lg) !important;
+}
+
+.page-article-detail .vp-doc ul:first-of-type,
+.page-resource-detail .vp-doc ul:first-of-type {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+.page-article-detail .vp-doc p,
+.page-resource-detail .vp-doc p {
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.9 !important;
+  letter-spacing: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
 }
 
 .page-article-detail .vp-doc h2,
 .page-resource-detail .vp-doc h2 {
-  font-family: var(--font-display) !important;
-  font-size: var(--font-content-h2) !important;
-  font-weight: 600;
-  line-height: 1.35;
-  border-top: none;
-  padding-top: 0;
-  margin-top: var(--space-2xl) !important;   /* 64px */
-  margin-bottom: var(--space-md) !important;  /* 24px */
+  font-family: var(--font-serif) !important;
+  font-size: clamp(26px, 2.5vw, 32px) !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em !important;
+  margin-top: 60px !important;
+  margin-bottom: 20px !important;
+  border-top: none !important;
+  padding-top: 0 !important;
 }
 
 .page-article-detail .vp-doc h3,
 .page-resource-detail .vp-doc h3 {
   font-family: var(--font-sans) !important;
-  font-size: var(--font-content-h3) !important;
-  font-weight: 600;
-  line-height: 1.45;
-  margin-top: var(--space-xl) !important;     /* 48px */
-  margin-bottom: var(--space-sm) !important;  /* 16px */
+  font-size: clamp(21px, 2.2vw, 24px) !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+  margin-top: 40px !important;
+  margin-bottom: 16px !important;
 }
 
-.page-article-detail .vp-doc p,
+.page-article-detail .vp-doc h4,
+.page-resource-detail .vp-doc h4 {
+  font-size: clamp(18px, 1.9vw, 20px) !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+}
+
 .page-article-detail .vp-doc li,
-.page-resource-detail .vp-doc p,
 .page-resource-detail .vp-doc li {
-  font-size: var(--font-body);
-  line-height: 1.9;
-  max-width: 780px;
+  font-size: 16px !important;
+  line-height: 1.85 !important;
+  margin-bottom: 8px !important;
+}
+
+.page-article-detail .vp-doc blockquote p,
+.page-resource-detail .vp-doc blockquote p {
+  font-size: clamp(16px, 1.7vw, 18px) !important;
+  line-height: 1.8 !important;
+}
+
+.page-article-detail .vp-doc .figure-caption,
+.page-resource-detail .vp-doc .figure-caption,
+.page-article-detail .vp-doc figcaption,
+.page-resource-detail .vp-doc figcaption {
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  color: var(--text-muted) !important;
+}
+
+/* ==================== 关于我页面 ==================== */
+.page-about-detail .VPDoc .content,
+.page-about-detail .VPDoc .content-container {
+  max-width: 820px !important;
+}
+
+.page-about-detail .vp-doc h1 {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(38px, 4vw, 52px) !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  max-width: 820px !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-md) !important;
+}
+
+.page-about-detail .vp-doc > p:first-of-type,
+.page-about-detail .about-hero__lead {
+  font-size: 17px !important;
+  line-height: 1.9 !important;
+  max-width: 720px !important;
+}
+
+.page-about-detail .vp-doc h2,
+.page-about-detail .about-section h2,
+.page-about-detail .about-contact h2 {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(28px, 3vw, 36px) !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 56px !important;
+  margin-bottom: 20px !important;
+}
+
+.page-about-detail .about-grid h3 {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(19px, 2vw, 22px) !important;
+  font-weight: 600 !important;
+}
+
+.page-about-detail .vp-doc p,
+.page-about-detail .about-grid p,
+.page-about-detail .about-contact p {
+  font-size: 16px !important;
+  line-height: 1.9 !important;
 }
 
 /* 统一目录边栏样式 */
@@ -552,17 +658,8 @@ a {
 
 @media (max-width: 760px) {
   :root {
-    --font-display-home:  48px;
-    --font-page-title:    32px;
-    --font-detail-title:  30px;
-    --font-section-title: 24px;
-    --font-content-h2:    22px;
-    --font-content-h3:    18px;
-    --font-card-title:    18px;
-    --font-body-large:    16px;
-    --font-body:          15px;
-    --font-body-small:    13px;
-    --font-meta:          12px;
+    --text-hero: 44px;
+    --text-section-title: 32px;
   }
 }
 
@@ -577,8 +674,74 @@ a {
   }
 }
 
+/* ==================== 移动端 390px 极窄屏自适应 ==================== */
 @media (max-width: 480px) {
-  :root {
-    --font-display-home:  40px;
+  /* 首页 H1 标题 */
+  .ai-lab-home .home-hero h1 {
+    font-size: clamp(38px, 10vw, 44px) !important;
+    line-height: 1.12 !important;
+  }
+  
+  /* 首页板块标题 */
+  .ai-lab-home .section-header h2,
+  .ai-lab-home .home-cta h2,
+  .ai-lab-home .home-about h2 {
+    font-size: clamp(30px, 8vw, 36px) !important;
+  }
+  
+  /* 首页海报标题 */
+  .ai-lab-home .poster-title,
+  .ai-lab-home .cover-title {
+    font-size: clamp(18px, 5vw, 22px) !important;
+  }
+
+  /* 栏目总览页 H1 */
+  .page-overview-list .vp-doc h1 {
+    font-size: clamp(32px, 8vw, 36px) !important;
+  }
+
+  /* 案例与工作流详情页 H1 */
+  .page-case-detail .vp-doc h1,
+  .page-workflow-detail .vp-doc h1 {
+    font-size: clamp(30px, 8vw, 35px) !important;
+  }
+
+  /* 知识文章与资源详情 H1 */
+  .page-article-detail .vp-doc h1,
+  .page-resource-detail .vp-doc h1 {
+    font-size: clamp(30px, 8vw, 34px) !important;
+  }
+
+  /* 文章/详情正文 H2 标题 */
+  .page-case-detail .vp-doc h2,
+  .page-workflow-detail .vp-doc h2,
+  .page-article-detail .vp-doc h2,
+  .page-resource-detail .vp-doc h2 {
+    font-size: clamp(24px, 6vw, 27px) !important;
+    margin-top: 36px !important;
+    margin-bottom: 14px !important;
+  }
+
+  /* 文章/详情正文 H3 标题 */
+  .page-case-detail .vp-doc h3,
+  .page-workflow-detail .vp-doc h3,
+  .page-article-detail .vp-doc h3,
+  .page-resource-detail .vp-doc h3 {
+    font-size: clamp(19px, 5vw, 21px) !important;
+    margin-top: 24px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* 文章/详情正文文本 */
+  .page-case-detail .vp-doc p,
+  .page-workflow-detail .vp-doc p,
+  .page-article-detail .vp-doc p,
+  .page-resource-detail .vp-doc p,
+  .page-case-detail .vp-doc li,
+  .page-workflow-detail .vp-doc li,
+  .page-article-detail .vp-doc li,
+  .page-resource-detail .vp-doc li {
+    font-size: 15px !important;
+    line-height: 1.8 !important;
   }
 }

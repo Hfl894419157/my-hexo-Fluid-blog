@@ -1,6 +1,7 @@
 ---
 title: 资源库
 layout: page
+pageClass: page-overview-list
 ---
 
 # 资源库

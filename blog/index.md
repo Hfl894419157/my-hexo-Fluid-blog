@@ -1,6 +1,7 @@
 ---
 title: 方法与洞察
 layout: page
+pageClass: page-overview-list
 ---
 
 # 方法与洞察

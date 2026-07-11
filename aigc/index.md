@@ -1,6 +1,7 @@
 ---
 title: AI 工作流
 layout: page
+pageClass: page-overview-list
 ---
 
 # AI 工作流实验室
