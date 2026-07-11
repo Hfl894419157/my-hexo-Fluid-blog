@@ -4,7 +4,7 @@ description: 从需求输入到资产沉淀的五阶段 AI 商业视觉工作流
 pageClass: page-workflow-detail
 status: published
 ---
-*==这是一份文章式流程手册。它像 Markdown 文档一样组织内容：有标题、段落、图解、案例和提示词；但最终是 HTML 文件，打开即可浏览，也适合后续作为飞书文章、团队规范或项目模板继续使用。==*
+这是一份文章式流程手册。它像 Markdown 文档一样组织内容：有标题、段落、图解、案例和提示词；但最终是 HTML 文件，打开即可浏览，也适合后续作为飞书文章、团队规范或项目模板继续使用。
 
 ```Plain
 一、完整项目逻辑
@@ -15,12 +15,11 @@ status: published
 六、反馈与验收
 ```
 
----
 ## 一、先让 AI 理解：这不是“出几张图”，而是完整项目
 
 做电商视觉时，最容易犯的错误是直接让 AI 生成图片。这样往往能得到几张好看的图，但很难形成完整的项目逻辑。真正可复用的流程应该是：先分析产品，再策划主图，再策划详情页，最后整理成作品集。
 
-***图解展示：主图、详情页、作品集不是三个孤立任务，而是一个完整电商视觉项目。***
+图解展示：主图、详情页、作品集不是三个孤立任务，而是一个完整电商视觉项目。
 
 > 核心原则：主图负责吸引点击，详情页负责解释和转化，作品集负责展示设计能力和项目完整度。
 
@@ -64,9 +63,11 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 注明：以上内容中，除过资料图片和输出要求之外，均可以提供文档，pdf等有产品信息的册子或者任意文案均可
 
-### **==给 AI 的开场指令==**
+```Plain
+给 AI 的开场指令
 
-**==你现在是一名电商视觉策划师和设计总监。请基于我提供的产品资料，先不要直接生成图片，先完成产品分析、卖点提炼、主图系统策划、详情页结构策划和作品集展示逻辑。要求所有输出都围绕平台转化，不要只做漂亮图。==**
+你现在是一名电商视觉策划师和设计总监。请基于我提供的产品资料，先不要直接生成图片，先完成产品分析、卖点提炼、主图系统策划、详情页结构策划和作品集展示逻辑。要求所有输出都围绕平台转化，不要只做漂亮图。
+```
 
 ## 三、主图怎么和 AI 沟通
 
@@ -102,11 +103,20 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 主图案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=OTQxNTBiZDk4YzgyYjBiY2E5ZTA0NjcyNGNlNGYzZjdfeDJpb2JXVXNEaURKa2dNNVZJcnhSUXgwN2M1Q0tIZ1VfVG9rZW46Smd5b2J6V0lQb0NvTTZ4U2NpUGNaMWRWblVmXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=YjU3N2U5Zjg0MDIxNTdjYTM3NTMxYjMzMTY0NDhlOWRfU0xZSXJ0Q2ZZVW9iTGVqMmhwb3ZYc3lKa3VmRmRxbTBfVG9rZW46QlBEa2JPSVZ5bzhzZnd4UklIQmNPWWRPbnNkXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=OGQ2NTg5MWU1NGZkZTExZmFkZjg1MGMzZjNmZTUzMWZfNGFsdHNpNkZBVHFEU21XYjhSYVRyNDNJY0hzVVpybmFfVG9rZW46QVFaYmJyTzVub0dFRnh4ZTVTVWNreEFqblhnXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NjAxNDY5NjlkM2Y1OTg4NDExNjBhOTBjZTQ5M2ViMmZfQXhCb2d6VHdpMVQ5c3FnV0ROdHp2dlFRN2pSNzh5QW5fVG9rZW46Smd5b2J6V0lQb0NvTTZ4U2NpUGNaMWRWblVmXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=N2IwODU0NjZiODY5ZmQ1YjU0ZTBlMmY0ODJlZWM0MWZfVU5aRWw2akx3T3ZGS1I4Njlmb3JHREZReU1CMGNkNm1fVG9rZW46QlBEa2JPSVZ5bzhzZnd4UklIQmNPWWRPbnNkXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=MmNmZjFjMDJiYzQ1ZDA0NDU2NzhhZmMyNTk2OGQxMWFfTVJwU0h3SkdHVnJLU2VSbGNYRldYc0J5eXhYTjBVckNfVG9rZW46QVFaYmJyTzVub0dFRnh4ZTVTVWNreEFqblhnXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)
 
-### ==主图提示词模板：==
+```Plain
+主图提示词模板：
 
-**==角色：你是一名电商视觉策划师 + AI 图像提示词顾问。 任务：基于我提供的产品资料，先策划一套完整主图系统，包括风格限定，字体大小以及文案排版，版面样式确定策划，整个主图的字体需要好看，有调性，每一张主图的字体大小均保持一致；不要直接出图。 输出要求： 输出 6–10 张主图清单； 每张图必须包含：图片目标、画面结构、文案方向、AI 生成提示词、注意事项； 主图必须覆盖：Hero 主图、产品本体、成分/技术、功能卖点、使用场景、多角度、细节、系列/型号、包装/配件、B2B 定制； 不要只展示包装，必须有产品本体、场景、细节和转化卖点； 产品外观、包装结构、比例不能变形。==**
+角色：你是一名电商视觉策划师 + AI 图像提示词顾问。
+任务：基于我提供的产品资料，先策划一套完整主图系统，包括风格限定，字体大小以及文案排版，版面样式确定策划，整个主图的字体需要好看，有调性，每一张主图的字体大小均保持一致；不要直接出图。
+输出要求：
+输出 6–10 张主图清单；
+每张图必须包含：图片目标、画面结构、文案方向、AI 生成提示词、注意事项；
+主图必须覆盖：Hero 主图、产品本体、成分/技术、功能卖点、使用场景、多角度、细节、系列/型号、包装/配件、B2B 定制；
+不要只展示包装，必须有产品本体、场景、细节和转化卖点；
+产品外观、包装结构、比例不能变形。
+```
 
 ## 四、详情页怎么和 AI 沟通
 
@@ -128,11 +138,20 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 详情页案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NzUzNzQ3MTcxNmU5NWJlZGNiMjU3OTA1MDNkMzExN2VfODBvOThlVTVBN1lOdEFTUG5rV0ZEMTZiNGVOY1VvY0xfVG9rZW46TWg3VWJWR1lab0M4QUN4aEVSZ2NlTkRrbmpjXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQ5OTkwMzFkYzM1ZGQ3ODY4YjlkOWZjZjY2Y2EyNTZfQmRMRzBDdkVWeWZZaGtsV05SRThSRWZ2NWpYQnUyZXNfVG9rZW46TWg3VWJWR1lab0M4QUN4aEVSZ2NlTkRrbmpjXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)
 
-##### ==详情页提示词模板 角色：==
+```Plain
+详情页提示词模板
 
-**==你是一名电商详情页策划师。 任务：基于产品资料，策划一套连续转化逻辑的详情页，不要做成海报合集。 输出要求： 详情页建议 10–15 屏； 每一屏都要说明：屏幕目标、画面结构、文案、图片元素、AI 提示词、注意事项； 必须包含：详情首屏、产品概述、核心卖点总览、成分/材质/技术、功能卖点、产品细节、多角度、使用场景、规格/包装/系列、OEM/询盘收尾； 每一屏只讲一个重点，文字不要太密； 详情页要从产品认知逐步过渡到信任和询盘。==**
+角色：你是一名电商详情页策划师。
+任务：基于产品资料，策划一套连续转化逻辑的详情页，不要做成海报合集。
+输出要求：
+详情页建议 10–15 屏；
+每一屏都要说明：屏幕目标、画面结构、文案、图片元素、AI 提示词、注意事项；
+必须包含：详情首屏、产品概述、核心卖点总览、成分/材质/技术、功能卖点、产品细节、多角度、使用场景、规格/包装/系列、OEM/询盘收尾；
+每一屏只讲一个重点，文字不要太密；
+详情页要从产品认知逐步过渡到信任和询盘。
+```
 
 ## 五、作品集怎么和 AI 沟通
 
@@ -142,17 +161,26 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 作品集案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNlNDk4MmQwOTZlOWEzYzk1MzY1ZTU5NTI2YjYzMWRfOExXVklXYk5mYnk0RkJLcjBQbVE3SjJ5aWpRZ080b2dfVG9rZW46U2NlbmJZRUtHb1pqcFp4UGlscWNEbERCbmpoXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=Njk0Njg0MTJiNWRlYjBiOTQ3M2I4YTY4NmFhNmQzNGZfWTRYMkF6MmlHVTNhRFJ5OFJma1p1VlE2TVlqdU15Z0hfVG9rZW46U2NlbmJZRUtHb1pqcFp4UGlscWNEbERCbmpoXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)
 
 案例：作品集封面 / 项目背景页。
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTQ0MjU1OWYyMzJkMTViM2ViYzA2NzlmZWI3OTgwOTlfU2pKQ3NnNjZBNnB3N244YlpCZm5ZMnk5QlJBTFZLVWRfVG9rZW46SldWdWJERWNmb255Rzd4YWdZbGMxSDE2bjBjXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JkZDJlYTE0Y2JjZjgyMjBjYjZlMTdjNzRhNjFkZDJfZWhHZmh1OFVVblRaUVhacm4wWW1YcWF0UkJtakszQm1fVG9rZW46SldWdWJERWNmb255Rzd4YWdZbGMxSDE2bjBjXzE3ODM3ODAwNTY6MTc4Mzc4MzY1Nl9WNA&add_watermark=true&scene_type=CCM)
 
 案例：主图系统展示页。
 
-### ==作品集提示词模板==
+```Plain
+作品集提示词模板
 
-##### ==角色：你是一名高端作品集设计总监。 任务：把这个电商视觉项目整理成一套完整作品集。 输出要求： 作品集简约大气、有设计感、留白充足； 图片必须完整显示，不裁切主图、详情页和包装； 作品集结构包含：封面、项目背景、产品分析、核心卖点、视觉策略、包装优化、主图系统、主图拆解、详情页结构、详情页预览、重点页面展示、设计价值、流程复盘、最终成果； 每一页说明：标题、内容、图片摆放、说明文案、排版建议； 作品集重点展示设计逻辑，而不是简单堆图。==
+角色：你是一名高端作品集设计总监。
+任务：把这个电商视觉项目整理成一套完整作品集。
+输出要求：
+作品集简约大气、有设计感、留白充足；
+图片必须完整显示，不裁切主图、详情页和包装；
+作品集结构包含：封面、项目背景、产品分析、核心卖点、视觉策略、包装优化、主图系统、主图拆解、详情页结构、详情页预览、重点页面展示、设计价值、流程复盘、最终成果；
+每一页说明：标题、内容、图片摆放、说明文案、排版建议；
+作品集重点展示设计逻辑，而不是简单堆图。
+```
 
 ## 六、如何反馈与验收
 
@@ -164,12 +192,21 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 **3、**明确方向：例如增加多场景、多角度、细节、产品本体、B2B 信息。
 
-### 反馈模板
+```Plain
+反馈模板:
 
-##### 这版需要优化： 当前问题：【具体说明问题，例如产品变形、文案太密、场景不足、图片裁切、详情像海报】 必须保留：【产品外观/包装结构/配色/英文文案/尺寸比例】 优化方向：【增加场景/增加细节/减少文字/改成详情逻辑/图片完整展示】 输出要求：【平台、尺寸、语言、风格、是否单独出图】 注意：不要改变产品外观，不要裁切产品和包装，文案保持清晰，画面要符合平台使用场景。
+这版需要优化：
+当前问题：【具体说明问题，例如产品变形、文案太密、场景不足、图片裁切、详情像海报】
+必须保留：【产品外观/包装结构/配色/英文文案/尺寸比例】
+优化方向：【增加场景/增加细节/减少文字/改成详情逻辑/图片完整展示】
+输出要求：【平台、尺寸、语言、风格、是否单独出图】
+注意：不要改变产品外观，不要裁切产品和包装，文案保持清晰，画面要符合平台使用场景。
+```
 
-### ==最终检查：==
+### 最终检查：
 
-==主图是否覆盖点击、产品本体、功能、场景、细节、系列和定制。==
-==详情页是否从认知到信任再到转化，而不是海报拼接。==
-==作品集是否展示了产品分析、视觉策略、设计系统和最终价值。==
+主图是否覆盖点击、产品本体、功能、场景、细节、系列和定制。
+
+详情页是否从认知到信任再到转化，而不是海报拼接。
+
+作品集是否展示了产品分析、视觉策略、设计系统和最终价值。
