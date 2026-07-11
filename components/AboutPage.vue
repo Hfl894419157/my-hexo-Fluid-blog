@@ -78,14 +78,14 @@ const directions = [
 .about-hero { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: center; }
 .about-hero__eyebrow, .about-section__eyebrow { margin: 0; color: var(--brand-cyan); font-size: var(--text-label); font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; }
 h1 { margin: 16px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
-.about-hero__lead { margin: 24px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.9; }
+.about-hero__lead { margin: 24px 0 0; color: var(--text-sub); font-size: 17px; font-weight: 400; line-height: 1.9; max-width: 720px; }
 .about-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .about-hero__portrait { aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .about-hero__portrait img { width: 100%; height: 100%; object-fit: cover; }
 .about-section { margin-top: 76px; }
 .about-section > h2, .about-contact h2 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-section-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
 .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-.about-grid h3 { margin: 0; color: var(--text-main); font-family: var(--font-sans); font-size: var(--text-card-title); font-weight: 700; line-height: 1.4; letter-spacing: 0; }
+.about-grid h3 { margin: 0; color: var(--text-main); font-family: var(--font-sans); font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: 0; }
 .about-grid p { margin: 12px 0 0; color: var(--text-sub); font-size: var(--text-small); line-height: 1.8; }
 .about-section--soft { padding: 36px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .about-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 28px; background: var(--border-soft); }

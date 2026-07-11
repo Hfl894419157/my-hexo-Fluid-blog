@@ -59,8 +59,9 @@ h2 {
   font-family: var(--font-display);
   font-size: var(--text-section-title);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .section-header__desc {

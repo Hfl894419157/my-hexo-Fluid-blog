@@ -94,8 +94,8 @@ h3 {
   margin: 0 !important;
   color: var(--text-main);
   font-size: var(--text-card-large);
-  font-weight: 580;
-  line-height: 1.3;
+  font-weight: 600;
+  line-height: 1.4;
   letter-spacing: 0;
 }
 

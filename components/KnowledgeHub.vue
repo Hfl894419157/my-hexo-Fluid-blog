@@ -51,8 +51,8 @@ const lanes = [
 <style scoped>
 .knowledge-hub { width: min(1080px, 100%); margin: 0 auto; padding: 44px 0 24px; }
 .knowledge-hub__eyebrow { margin: 0; color: var(--brand-cyan); font-size: var(--text-label); font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; }
-h1 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
-.knowledge-hub__lead { max-width: 760px; margin: 20px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.9; }
+h1 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; max-width: 800px; text-wrap: balance; }
+.knowledge-hub__lead { max-width: 720px; margin: 20px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.8; }
 .knowledge-hub__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 42px; }
 .knowledge-hub__grid span { color: var(--brand-cyan); font-size: var(--text-micro); font-weight: 400; letter-spacing: 0.08em; }
 .knowledge-hub__grid h2 { margin: 22px 0 0; color: var(--text-main); font-family: var(--font-sans); font-size: var(--text-lead); font-weight: 700; line-height: 1.4; letter-spacing: 0; }

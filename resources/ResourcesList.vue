@@ -40,7 +40,7 @@ import ReactIsland from '../components/ReactIsland.vue'
   border-radius: var(--radius-control);
   background: var(--bg-soft);
   color: var(--text-sub);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   font-weight: 400;
   letter-spacing: 0.08em;
 }
@@ -48,7 +48,7 @@ import ReactIsland from '../components/ReactIsland.vue'
 .category {
   margin: 22px 0 8px !important;
   color: var(--brand-cyan);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   font-weight: 400;
   letter-spacing: 0.08em;
 }
@@ -57,16 +57,16 @@ h3 {
   margin: 0 !important;
   color: var(--text-main);
   font-family: var(--font-sans);
-  font-size: var(--text-compact-title);
-  font-weight: 700;
-  line-height: 1.55;
+  font-size: var(--text-card-large);
+  font-weight: 600;
+  line-height: 1.4;
   letter-spacing: 0;
 }
 
 .desc {
   margin: 12px 0 22px !important;
   color: var(--text-sub);
-  font-size: var(--text-label);
+  font-size: var(--text-small);
   font-weight: 400;
   line-height: 1.75;
 }
@@ -74,7 +74,7 @@ h3 {
 .verified {
   margin: -10px 0 18px !important;
   color: var(--text-muted);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
 }
 
 @media (max-width: 960px) {

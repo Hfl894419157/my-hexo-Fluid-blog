@@ -79,7 +79,7 @@ import ReactIsland from '../components/ReactIsland.vue'
 
 span {
   color: var(--brand-cyan);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   font-weight: 400;
   letter-spacing: 0.14em;
 }
@@ -88,8 +88,8 @@ h3 {
   margin: 12px 0 0 !important;
   color: var(--text-main);
   font-size: var(--text-card-large);
-  font-weight: 580;
-  line-height: 1.3;
+  font-weight: 600;
+  line-height: 1.4;
   letter-spacing: 0;
 }
 
