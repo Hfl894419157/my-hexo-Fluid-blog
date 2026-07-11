@@ -4,8 +4,8 @@ import { navItems, socialLinks } from '../.shared/siteNavigation.js'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "韩福利 | AI 设计与数字内容工作流",
-  description: "聚焦 AI 时代的设计案例、AIGC 工作流、资源沉淀与个人方法论",
+  title: "韩福利 | AI 实践与知识系统",
+  description: "记录 AI 商业视觉案例、可复用工作流、方法洞察与经过验证的知识资产",
   vite: {
     plugins: [react()]
   },
@@ -66,15 +66,10 @@ export default defineConfig({
       ]
     },
 
-    // 社交链接与页脚
+    // 社交链接
     socialLinks: socialLinks.map(({ icon, link, svg }) => ({
       icon: icon === 'github' || icon === 'youtube' ? icon : { svg },
       link
-    })),
-
-    footer: {
-      message: 'AI 设计案例、工作流与资源沉淀',
-      copyright: 'Copyright © 2026 宇杰'
-    }
+    }))
   }
 })

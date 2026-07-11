@@ -17,7 +17,7 @@ const capabilities = [
   <SectionShell id="capabilities" tone="soft">
     <SectionHeader
       title="AI 设计系统"
-      desc="网站的重点不再是传统作品集陈列，而是让能力、流程、案例和资源彼此连接，形成清晰的 AI Creative Lab。"
+      desc="案例负责证明，工作流负责解释，知识库负责复用。三者共同构成一套持续迭代的 AI 实践系统。"
     />
 
     <div class="capability-grid">

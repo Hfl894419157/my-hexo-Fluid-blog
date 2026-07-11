@@ -1,89 +1,59 @@
 <script setup>
-import { toolsResources } from '../../.shared/resourcesData.js'
+import { publishedResources } from '../../.shared/resourcesData.js'
+import { publishedBlogPosts } from '../../.shared/blogData.js'
 import BaseButton from '../BaseButton.vue'
 import BaseCard from '../BaseCard.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 
-const resources = toolsResources.filter((item) => item.featured).slice(0, 4)
+const knowledgeItems = [
+  ...publishedBlogPosts.slice(0, 2).map((item) => ({
+    id: item.id,
+    label: item.type,
+    title: item.title,
+    desc: item.summary,
+    link: item.link
+  })),
+  ...publishedResources.slice(0, 2).map((item) => ({
+    id: item.id,
+    label: item.category,
+    title: item.name,
+    desc: item.desc,
+    link: item.link
+  }))
+]
 </script>
 
 <template>
-  <SectionShell id="resources">
-    <div class="resource-layout">
+  <SectionShell id="knowledge">
+    <div class="knowledge-layout">
       <SectionHeader
         align="center"
-        title="资源库是设计系统的燃料层"
-        desc="把模型、提示词、模板和组件放在同一个可迭代结构里，减少每次项目从零开始的成本。"
+        title="知识回到实践，才真正有价值"
+        desc="方法与洞察解释为什么这样做，资源帮助下一次项目更快开始。"
       />
 
-      <div class="resource-grid">
-        <BaseCard v-for="item in resources" :key="item.id" :href="item.link">
-          <div class="resource-card__icon">{{ item.icon }}</div>
-          <h3>{{ item.name }}</h3>
+      <div class="knowledge-grid">
+        <BaseCard v-for="item in knowledgeItems" :key="item.id" :href="item.link">
+          <span>{{ item.label }}</span>
+          <h3>{{ item.title }}</h3>
           <p>{{ item.desc }}</p>
-          <BaseButton as="span" variant="text">查看详情 →</BaseButton>
+          <BaseButton as="span" variant="text">查看内容 →</BaseButton>
         </BaseCard>
+      </div>
+      <div class="knowledge-action">
+        <BaseButton href="/knowledge/" variant="ghost">进入知识库</BaseButton>
       </div>
     </div>
   </SectionShell>
 </template>
 
 <style scoped>
-.resource-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-  align-items: start;
-}
-
-.resource-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-:deep(.base-card--padded) {
-  padding: 22px;
-}
-
-.resource-card__icon {
-  display: grid;
-  width: 54px;
-  height: 54px;
-  place-items: center;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-control);
-  background: var(--bg-soft);
-  font-size: 24px;
-}
-
-h3 {
-  margin: 18px 0 0;
-  color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 18px;
-  font-weight: 760;
-  line-height: 1.22;
-  letter-spacing: var(--title-letter-spacing);
-}
-
-p {
-  margin: 10px 0 18px;
-  color: var(--text-sub);
-  font-size: var(--font-small);
-  line-height: 1.7;
-}
-
-@media (max-width: 680px) {
-  .resource-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 460px) {
-  .resource-grid {
-    grid-template-columns: 1fr;
-  }
-}
+.knowledge-layout { display: grid; gap: 28px; }
+.knowledge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.knowledge-grid span { color: var(--brand-cyan); font-size: 13px; font-weight: 780; }
+.knowledge-grid h3 { margin: 18px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: 21px; line-height: 1.24; }
+.knowledge-grid p { margin: 12px 0 20px; color: var(--text-sub); font-size: var(--font-small); line-height: 1.72; }
+.knowledge-action { display: flex; justify-content: center; }
+@media (max-width: 680px) { .knowledge-grid { grid-template-columns: 1fr; } }
 </style>

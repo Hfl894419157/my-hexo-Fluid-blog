@@ -1,5 +1,5 @@
 <script setup>
-import { portfolioWorks } from '../.shared/portfolioData.js'
+import { publishedPortfolioWorks as portfolioWorks } from '../.shared/portfolioData.js'
 import BaseButton from '../components/BaseButton.vue'
 import BaseCard from '../components/BaseCard.vue'
 import ReactIsland from '../components/ReactIsland.vue'
@@ -12,8 +12,11 @@ import ReactIsland from '../components/ReactIsland.vue'
 
   <div class="portfolio-list">
     <BaseCard v-for="work in portfolioWorks" :key="work.id" :href="work.link" :padded="false">
-      <div class="card-image">
+      <div v-if="work.img" class="card-image">
         <img :src="work.img" :alt="work.title" loading="lazy" />
+      </div>
+      <div v-else class="card-cover" aria-hidden="true">
+        <span>{{ work.titleEn }}</span>
       </div>
       <div class="card-info">
         <span>{{ work.category }}</span>
@@ -37,6 +40,23 @@ import ReactIsland from '../components/ReactIsland.vue'
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-soft);
+}
+
+.card-cover {
+  display: grid;
+  aspect-ratio: 4 / 3;
+  place-items: end start;
+  padding: 24px;
+  color: var(--text-sub);
+  background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
+}
+
+.card-cover span {
+  max-width: 16ch;
+  color: var(--text-main);
+  font-family: var(--font-title);
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .card-image img {

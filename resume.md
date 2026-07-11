@@ -1,11 +1,12 @@
 ---
 layout: page
-title: 韩福利的简历
-sidebar: false  # 【关键】这就这行代码，能删掉左边的“快速开始”侧边栏
+title: 关于韩福利
+description: 从商业设计实践出发，探索 AI 如何真正进入工作。
+sidebar: false
 ---
 
 <script setup>
-import ResumePage from './components/ResumePage.vue'
+import AboutPage from './components/AboutPage.vue'
 </script>
 
-<ResumePage />
+<AboutPage />

@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import SiteFooter from './components/SiteFooter.vue'
 import HomeHero from './components/home/HomeHero.vue'
 import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
 import HomeFeaturedCases from './components/home/HomeFeaturedCases.vue'
@@ -27,7 +26,6 @@ onUnmounted(() => {
     <HomeResourceSection />
     <HomeAboutSection />
     <HomeCTA />
-    <SiteFooter />
   </main>
 </template>
 

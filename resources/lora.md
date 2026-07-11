@@ -1,5 +1,7 @@
 ---
 title: Stable Diffusion LoRA 模型包
+status: draft
+search: false
 layout: page
 ---
 
@@ -27,7 +29,7 @@ layout: page
 
 ## 下载说明
 
-**完整模型包**：[下载](https://example.com/download/lora-pack.zip) (约 2.5GB)
+**完整模型包：** 来源与授权仍在核实，暂不提供下载。
 
 **单个模型下载**：访问 [CivitAI](https://civitai.com/) 搜索对应模型名称
 

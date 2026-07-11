@@ -1,10 +1,17 @@
 export const navItems = [
   { text: '首页', link: '/' },
   { text: '案例', link: '/portfolio/' },
-  { text: 'AI工作流', link: '/aigc/' },
-  { text: '资源库', link: '/resources/' },
-  { text: '方法论', link: '/blog/' },
-  { text: '关于我', link: '/resume' }
+  { text: '工作流', link: '/aigc/' },
+  {
+    text: '知识库',
+    link: '/knowledge/',
+    children: [
+      { text: '知识库总览', link: '/knowledge/' },
+      { text: '方法与洞察', link: '/blog/' },
+      { text: '资源库', link: '/resources/' }
+    ]
+  },
+  { text: '关于', link: '/resume' }
 ]
 
 export const socialLinks = [
@@ -22,13 +29,11 @@ export const socialLinks = [
   },
   {
     name: '抖音',
-    icon: 'douyin',
     link: 'https://www.douyin.com/',
     svg: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.79 4.79 0 0 1-3.77-4.25V2h-3.45v13.67a2.9 2.9 0 1 1-2.02-2.77V9.4a6.33 6.33 0 1 0 5.47 6.27V8.69a8.18 8.18 0 0 0 4.77 1.52V6.79c-.34 0-.68-.03-1-.1Z"/></svg>'
   },
   {
     name: '小红书',
-    icon: 'xiaohongshu',
     link: 'https://www.xiaohongshu.com/',
     svg: '<svg viewBox="0 0 48 24" aria-hidden="true"><path fill="currentColor" d="M5.14 16.42c.9.76 1.95 1.14 3.17 1.14 1.01 0 1.79-.28 2.34-.84.55-.56.83-1.35.83-2.36V4.78h2.84v9.61c0 1.84-.53 3.27-1.6 4.29-1.07 1.02-2.55 1.53-4.43 1.53-1.92 0-3.53-.58-4.84-1.74l1.69-2.05Zm16.09-4.96h-4.52V8.91h11.9v2.55h-4.48v8.43h-2.9v-8.43Zm10.09-2.55h2.82v1.67c.78-1.29 1.93-1.94 3.45-1.94 1.33 0 2.37.42 3.12 1.27.75.84 1.13 2 1.13 3.47v6.51h-2.9v-6.17c0-.84-.18-1.47-.54-1.89-.36-.43-.9-.64-1.61-.64-.79 0-1.42.28-1.87.85-.46.57-.69 1.35-.69 2.36v5.49h-2.91V8.91Z"/></svg>'
   }
@@ -36,20 +41,25 @@ export const socialLinks = [
 
 export const siteFooterGroups = [
   {
-    title: '内容',
-    links: navItems.filter((item) => item.link !== '/' && item.link !== '/resume')
-  },
-  {
-    title: '合作',
+    title: '探索',
     links: [
-      { text: '关于我', link: '/resume' },
-      { text: '邮件联系', link: 'mailto:1442855983@qq.com' },
-      { text: '项目案例', link: '/portfolio/' },
-      { text: '资源沉淀', link: '/resources/' }
+      { text: '案例', link: '/portfolio/' },
+      { text: 'AI 工作流', link: '/aigc/' },
+      { text: '知识库', link: '/knowledge/' }
     ]
   },
   {
-    title: '社区',
-    links: socialLinks.map(({ name, link }) => ({ text: name, link }))
+    title: '知识',
+    links: [
+      { text: '方法与洞察', link: '/blog/' },
+      { text: '资源库', link: '/resources/' }
+    ]
+  },
+  {
+    title: '联系',
+    links: [
+      { text: '关于我', link: '/resume' },
+      { text: '邮件合作', link: 'mailto:1442855983@qq.com' }
+    ]
   }
 ]

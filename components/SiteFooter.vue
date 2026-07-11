@@ -1,38 +1,59 @@
 <script setup>
 import { withBase } from 'vitepress'
-import { siteFooterGroups as groups } from '../.shared/siteNavigation.js'
+import { siteFooterGroups as groups, socialLinks } from '../.shared/siteNavigation.js'
 
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
 </script>
 
 <template>
   <footer class="site-footer">
-    <div class="site-footer__brand">
-      <a :href="withBase('/')">Liuli Lab</a>
-      <p>AI 视觉设计、工作流方法与可复用数字资产。</p>
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <a :href="withBase('/')">Liuli AI Lab</a>
+        <p>记录 AI 商业视觉实践、可复用工作流与经过验证的知识资产。</p>
+        <div class="site-footer__socials" aria-label="社交平台">
+          <a
+            v-for="item in socialLinks"
+            :key="item.name"
+            :href="item.link"
+            :aria-label="item.name"
+            :title="item.name"
+            target="_blank"
+            rel="noreferrer"
+            v-html="item.svg"
+          />
+        </div>
+      </div>
+      <nav v-for="group in groups" :key="group.title" :aria-label="group.title">
+        <strong>{{ group.title }}</strong>
+        <a v-for="item in group.links" :key="item.text" :href="navLink(item.link)">{{ item.text }}</a>
+      </nav>
     </div>
-    <nav v-for="group in groups" :key="group.title">
-      <strong>{{ group.title }}</strong>
-      <a v-for="item in group.links" :key="item.text" :href="navLink(item.link)">{{ item.text }}</a>
-    </nav>
+    <div class="site-footer__meta">
+      <span>© 2026 韩福利</span>
+      <span>AI 实践与知识系统</span>
+    </div>
   </footer>
 </template>
 
 <style scoped>
 .site-footer {
-  display: grid;
-  grid-template-columns: 1.4fr repeat(3, 1fr);
-  gap: 34px;
   width: min(1180px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 72px 0 86px;
+  margin: 72px auto 0;
+  padding: 58px 0 28px;
   border-top: 1px solid var(--border-soft);
 }
 
-.site-footer__brand a {
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 34px;
+}
+
+.site-footer__brand > a {
   color: var(--text-main);
   font-family: var(--font-title);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 820;
   letter-spacing: var(--title-letter-spacing);
   text-decoration: none;
@@ -46,34 +67,65 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   line-height: 1.72;
 }
 
-nav {
+.site-footer nav {
   display: grid;
   gap: 10px;
   align-content: start;
 }
 
-strong {
+.site-footer strong {
   margin-bottom: 4px;
   color: var(--text-main);
   font-family: var(--font-title);
   font-size: var(--font-small);
-  letter-spacing: var(--title-letter-spacing);
 }
 
-nav a {
+.site-footer nav a {
   color: var(--text-sub);
   font-size: 13px;
   text-decoration: none;
 }
 
-nav a:hover {
-  color: var(--brand-main);
+.site-footer nav a:hover { color: var(--brand-main); }
+
+.site-footer__socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.site-footer__socials a {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  color: var(--text-sub);
+}
+
+.site-footer__socials :deep(svg) { width: 18px; height: 18px; }
+.site-footer__socials a[aria-label="小红书"] :deep(svg) { width: 27px; }
+
+.site-footer__meta {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 28px;
+  margin-top: 42px;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
 @media (max-width: 760px) {
-  .site-footer {
-    grid-template-columns: 1fr;
-    width: calc(100% - 32px);
-  }
+  .site-footer { width: calc(100% - 32px); margin-top: 48px; }
+  .site-footer__inner { grid-template-columns: repeat(2, 1fr); }
+  .site-footer__brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 480px) {
+  .site-footer__inner { grid-template-columns: 1fr; }
+  .site-footer__brand { grid-column: auto; }
+  .site-footer__meta { display: grid; gap: 8px; }
 }
 </style>

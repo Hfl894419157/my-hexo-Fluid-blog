@@ -1,5 +1,5 @@
 <script setup>
-import { aigcWorks } from '../.shared/aigcData.js'
+import { publishedAigcWorks as aigcWorks } from '../.shared/aigcData.js'
 import BaseButton from '../components/BaseButton.vue'
 import BaseCard from '../components/BaseCard.vue'
 import ReactIsland from '../components/ReactIsland.vue'
@@ -12,13 +12,17 @@ import ReactIsland from '../components/ReactIsland.vue'
 
   <div class="aigc-list">
     <BaseCard v-for="work in aigcWorks" :key="work.id" :href="work.link" :padded="false">
-      <div class="card-image">
+      <div v-if="work.img" class="card-image">
         <img :src="work.img" :alt="work.title" loading="lazy" />
         <span class="ai-badge">AI</span>
+      </div>
+      <div v-else class="card-cover">
+        <span>AI WORKFLOW</span>
       </div>
       <div class="card-info">
         <h3>{{ work.title }}</h3>
         <p>{{ work.category }}</p>
+        <p class="card-desc">{{ work.desc }}</p>
         <BaseButton as="span" variant="text">查看详情 →</BaseButton>
       </div>
     </BaseCard>
@@ -38,6 +42,19 @@ import ReactIsland from '../components/ReactIsland.vue'
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-soft);
+}
+
+.card-cover {
+  display: grid;
+  aspect-ratio: 4 / 3;
+  align-items: end;
+  padding: 24px;
+  color: var(--brand-cyan);
+  background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .card-image img {
@@ -87,6 +104,8 @@ p {
   font-size: var(--font-small);
   line-height: 1.7;
 }
+
+.card-desc { margin-top: -10px !important; }
 
 @media (max-width: 960px) {
   .aigc-list {

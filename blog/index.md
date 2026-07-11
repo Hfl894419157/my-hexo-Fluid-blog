@@ -1,11 +1,11 @@
 ---
-title: 方法论
+title: 方法与洞察
 layout: page
 ---
 
-# 方法论与观察
+# 方法与洞察
 
-记录 AI 时代的设计定位、个人品牌、内容资产、工作流建设和真实项目复盘。
+以低频、高质量的方式记录 AI 时代的设计判断、工作流建设、知识资产与项目复盘，不追求传统博客的更新频率。
 
 <script setup>
 import BlogList from './BlogList.vue'

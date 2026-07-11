@@ -1,5 +1,7 @@
 ---
 title: AIGC 设计白皮书 电子书
+status: draft
+search: false
 layout: page
 ---
 
@@ -87,14 +89,14 @@ layout: page
 
 ## 下载说明
 
-**完整电子书**：[下载 PDF](https://example.com/download/aigc-design-book.pdf) (约 85MB)
+**完整电子书：** 内容与文件仍在整理，暂不提供下载。
 
 **分章节下载**：
-- [第二章 - Midjourney](https://example.com/download/ch2-midjourney.pdf)
-- [第三章 - Stable Diffusion](https://example.com/download/ch3-sd.pdf)
-- [第五章 - 视频生成](https://example.com/download/ch5-video.pdf)
+- 第二章 - Midjourney（整理中）
+- 第三章 - Stable Diffusion（整理中）
+- 第五章 - 视频生成（整理中）
 
-**配套资源包**：[下载](https://example.com/download/aigc-resources.zip) (包含案例源文件)
+**配套资源包：** 文件与授权仍在核实，暂不提供下载。
 
 ## 适合人群
 
