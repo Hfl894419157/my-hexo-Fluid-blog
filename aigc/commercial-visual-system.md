@@ -1,5 +1,5 @@
 ---
-title: 电商详情主图从策划——落地
+title: 电商详情主图从策划——落地1.0
 description: 从需求输入到资产沉淀的五阶段 AI 商业视觉工作流。
 pageClass: page-workflow-detail
 status: published
