@@ -8,7 +8,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 <template>
   <footer class="site-footer">
     <div class="site-footer__brand">
-      <a :href="withBase('/')">AI Creative Lab</a>
+      <a :href="withBase('/')">Liuli Lab</a>
       <p>AI 视觉设计、工作流方法与可复用数字资产。</p>
     </div>
     <nav v-for="group in groups" :key="group.title">

@@ -37,7 +37,7 @@ export const socialLinks = [
 export const siteFooterGroups = [
   {
     title: '内容',
-    links: navItems.filter((item) => item.text !== '首页')
+    links: navItems.filter((item) => item.link !== '/' && item.link !== '/resume')
   },
   {
     title: '合作',
