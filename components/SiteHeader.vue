@@ -12,6 +12,7 @@ const searchOpen = ref(false)
 const navOpen = ref(false)
 const hoveredNavKey = ref('')
 const openDropdownKey = ref('')
+const hoveredSubmenuLink = ref(null)
 let lastScrollY = 0
 let dropdownCloseTimer = 0
 
@@ -65,6 +66,7 @@ const scheduleNavReset = () => {
   dropdownCloseTimer = window.setTimeout(() => {
     openDropdownKey.value = ''
     clearHoveredNav()
+    hoveredSubmenuLink.value = null
     dropdownCloseTimer = 0
   }, 240)
 }
@@ -87,6 +89,20 @@ const closeNav = () => {
   cancelDropdownClose()
   openDropdownKey.value = ''
   clearHoveredNav()
+  hoveredSubmenuLink.value = null
+}
+
+const isSubmenuActive = (child) => {
+  if (hoveredSubmenuLink.value) {
+    return hoveredSubmenuLink.value === child.link
+  }
+  return isActive(child)
+}
+
+const handleSubmenuFocusout = (event) => {
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    hoveredSubmenuLink.value = null
+  }
 }
 
 const onKeydown = (event) => {
@@ -153,12 +169,18 @@ onUnmounted(() => {
             @mouseenter="openDropdown(item)"
             @mouseleave="scheduleNavReset"
           >
-            <div class="site-header__submenu">
+            <div
+              class="site-header__submenu"
+              @mouseleave="hoveredSubmenuLink = null"
+              @focusout="handleSubmenuFocusout"
+            >
               <a
                 v-for="child in item.children"
                 :key="child.text"
                 :href="pageLink(child.link)"
-                :class="{ active: isActive(child) }"
+                :class="{ 'is-visual-active': isSubmenuActive(child) }"
+                @mouseenter="hoveredSubmenuLink = child.link"
+                @focus="hoveredSubmenuLink = child.link"
                 @click="closeNav"
               >
                 {{ child.text }}
@@ -347,10 +369,14 @@ onUnmounted(() => {
   font-size: var(--text-small);
   font-weight: 400;
   text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-.site-header__submenu a:hover,
-.site-header__submenu a.active {
+.site-header__submenu a:hover {
+  color: var(--text-main);
+}
+
+.site-header__submenu a.is-visual-active {
   color: var(--text-main);
   background: var(--bg-soft);
 }
