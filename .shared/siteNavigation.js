@@ -6,9 +6,9 @@ export const navItems = [
     text: '知识库',
     link: '/knowledge/',
     children: [
-      { text: '知识库总览', link: '/knowledge/' },
-      { text: '方法与洞察', link: '/blog/' },
-      { text: '资源库', link: '/resources/' }
+      { text: '行业观察', link: '/knowledge/' },
+      { text: '设计方法', link: '/blog/' },
+      { text: '工具资源', link: '/resources/' }
     ]
   },
   { text: '关于', link: '/resume' }
@@ -51,8 +51,8 @@ export const siteFooterGroups = [
   {
     title: '知识',
     links: [
-      { text: '方法与洞察', link: '/blog/' },
-      { text: '资源库', link: '/resources/' }
+      { text: '设计方法', link: '/blog/' },
+      { text: '工具资源', link: '/resources/' }
     ]
   },
   {

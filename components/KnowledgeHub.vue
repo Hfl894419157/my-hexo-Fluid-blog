@@ -2,8 +2,8 @@
 import MediaFrame from './MediaFrame.vue'
 
 const lanes = [
-  { label: '方法与洞察', title: '把经验整理成可复用的方法', desc: '记录 AI 时代的设计判断、工作流建设、个人知识系统与项目复盘。', href: '/blog/', image: '/aigc-3.jpg', alt: '蓝紫色数字粒子视觉，代表相互连接的方法与知识系统', action: '阅读方法与洞察' },
-  { label: '资源库', title: '只保留真正能进入项目的资源', desc: '按使用场景整理提示词结构、检查清单和工具资料，并明确来源与使用边界。', href: '/resources/', image: '/aigc-2.jpg', alt: 'AI 电路视觉，代表经过验证的数字资源', action: '进入资源库' }
+  { label: '设计方法', title: '把经验整理成可复用的方法', desc: '记录 AI 时代的设计判断、工作流建设、个人知识系统与项目复盘。', href: '/blog/', image: '/aigc-3.jpg', alt: '蓝紫色数字粒子视觉，代表相互连接的方法与知识系统', action: '阅读设计方法' },
+  { label: '工具资源', title: '只保留真正能进入项目的资源', desc: '按使用场景整理提示词结构、检查清单和工具资料，并明确来源与使用边界。', href: '/resources/', image: '/aigc-2.jpg', alt: 'AI 电路视觉，代表经过验证的数字资源', action: '进入工具资源' }
 ]
 </script>
 

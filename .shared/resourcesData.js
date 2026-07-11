@@ -39,10 +39,39 @@ export const toolsResources = [
     verifiedAt: '2026-07-11',
     relatedIds: ['commercial-visual-system', 'exhibition-visual']
   },
-  { id: 'lora', name: 'Stable Diffusion LoRA', desc: '资源来源与授权仍在核实。', link: '/resources/lora', category: 'AI 模型', status: 'draft' },
-  { id: 'icons', name: '3D Glass Icons', desc: '资源文件与授权仍在核实。', link: '/resources/icons', category: '设计资源', status: 'draft' },
-  { id: 'uikit', name: 'Figma AI UI Kit', desc: '资源文件与授权仍在核实。', link: '/resources/uikit', category: 'UI 组件', status: 'draft' },
-  { id: 'ebook', name: 'AIGC 设计白皮书', desc: '下载文件与内容仍在整理。', link: '/resources/ebook', category: '学习资源', status: 'draft' }
+  {
+    id: 'lora',
+    name: '更新中 3',
+    desc: '内容整理中，敬请期待。',
+    link: '/resources/lora',
+    category: 'AI 模型',
+    status: 'draft'
+  },
+  {
+    id: 'icons',
+    name: '更新中 4',
+    desc: '内容整理中，敬请期待。',
+    link: '/resources/icons',
+    category: '设计资源',
+    status: 'draft'
+  },
+  {
+    id: 'uikit',
+    name: '更新中 5',
+    desc: '内容整理中，敬请期待。',
+    link: '/resources/uikit',
+    category: 'UI 组件',
+    status: 'draft'
+  },
+  {
+    id: 'ebook',
+    name: '更新中 6',
+    desc: '内容整理中，敬请期待。',
+    link: '/resources/ebook',
+    category: '学习资源',
+    status: 'draft'
+  }
 ]
 
 export const publishedResources = toolsResources.filter((item) => item.status === 'published')
+export const allResources = toolsResources

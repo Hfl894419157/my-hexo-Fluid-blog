@@ -17,12 +17,55 @@ export const aigcWorks = [
     tags: ['商业视觉', '工作流', '资产管理'],
     relatedIds: ['ecommerce-visual', 'prompt-framework', 'project-review-checklist']
   },
-  { id: 'avatar-workflow', title: 'AI 人像一致性流程', category: 'Stable Diffusion · LoRA', link: '/aigc/avatar-workflow', status: 'draft' },
-  { id: 'space-concept', title: '空间概念快速提案', category: 'Midjourney · 参考图控制', link: '/aigc/space-concept', status: 'draft' },
-  { id: 'icon-asset', title: '3D 图标资产生成', category: '风格规范 · 批量生成', link: '/aigc/icon-asset', status: 'draft' },
-  { id: 'style-scene', title: '风格化场景视觉', category: '风格系统 · 场景控制', link: '/aigc/style-scene', status: 'draft' },
-  { id: 'product-render', title: 'AI 产品图精修', category: '局部重绘 · 商业交付', link: '/aigc/product-render', status: 'draft' },
-  { id: 'batch-assets', title: '内容素材批量生产', category: '批处理 · 命名管理', link: '/aigc/batch-assets', status: 'draft' }
+  {
+    id: 'avatar-workflow',
+    title: '更新中 2',
+    category: 'Stable Diffusion · LoRA',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/avatar-workflow',
+    status: 'draft'
+  },
+  {
+    id: 'space-concept',
+    title: '更新中 3',
+    category: 'Midjourney · 参考图控制',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/space-concept',
+    status: 'draft'
+  },
+  {
+    id: 'icon-asset',
+    title: '更新中 4',
+    category: '风格规范 · 批量生成',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/icon-asset',
+    status: 'draft'
+  },
+  {
+    id: 'style-scene',
+    title: '更新中 5',
+    category: '风格系统 · 场景控制',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/style-scene',
+    status: 'draft'
+  },
+  {
+    id: 'product-render',
+    title: '更新中 6',
+    category: '局部重绘 · 商业交付',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/product-render',
+    status: 'draft'
+  },
+  {
+    id: 'batch-assets',
+    title: '更新中 7',
+    category: '批处理 · 命名管理',
+    desc: '内容整理中，敬请期待。',
+    link: '/aigc/batch-assets',
+    status: 'draft'
+  }
 ]
 
 export const publishedAigcWorks = aigcWorks.filter((item) => item.status === 'published')
+export const allAigcWorks = aigcWorks

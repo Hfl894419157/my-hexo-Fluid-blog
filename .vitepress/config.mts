@@ -52,7 +52,7 @@ export default defineConfig({
       ],
       '/resources/': [
         {
-          text: '资源库',
+          text: '工具资源',
           items: [
             { text: '资源总览', link: '/resources/' },
             { text: 'Midjourney Prompt', link: '/resources/mj-prompt' },

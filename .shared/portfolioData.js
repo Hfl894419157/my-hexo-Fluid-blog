@@ -39,45 +39,45 @@ export const portfolioWorks = [
   },
   {
     id: 'brand-design',
-    title: 'AI 品牌视觉系统',
+    title: '更新中 3',
     category: '品牌视觉',
-    desc: '案例资料仍在核实与整理。',
+    desc: '内容整理中，敬请期待。',
     link: '/portfolio/brand-design',
     status: 'draft',
     featured: false
   },
   {
     id: '3d-viz',
-    title: '3D 产品视觉探索',
+    title: '更新中 4',
     category: '产品表达',
-    desc: '案例资料仍在整理。',
+    desc: '内容整理中，敬请期待。',
     link: '/portfolio/3d-viz',
     status: 'draft',
     featured: false
   },
   {
     id: 'smart-home',
-    title: '智能硬件交互概念',
+    title: '更新中 5',
     category: '交互设计',
-    desc: '案例资料仍在整理。',
+    desc: '内容整理中，敬请期待。',
     link: '/portfolio/smart-home',
     status: 'draft',
     featured: false
   },
   {
     id: 'mobile-app',
-    title: '移动端内容工具',
+    title: '更新中 6',
     category: '移动体验',
-    desc: '案例资料仍在整理。',
+    desc: '内容整理中，敬请期待。',
     link: '/portfolio/mobile-app',
     status: 'draft',
     featured: false
   },
   {
     id: 'ai-video',
-    title: 'AI 视频内容流程',
+    title: '更新中 7',
     category: '内容工作流',
-    desc: '案例资料仍在整理。',
+    desc: '内容整理中，敬请期待。',
     link: '/portfolio/ai-video',
     status: 'draft',
     featured: false
@@ -85,3 +85,4 @@ export const portfolioWorks = [
 ]
 
 export const publishedPortfolioWorks = portfolioWorks.filter((item) => item.status === 'published')
+export const allPortfolioWorks = portfolioWorks
