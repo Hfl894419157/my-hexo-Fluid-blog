@@ -15,6 +15,7 @@ status: published
 六、反馈与验收
 ```
 
+---
 ## 一、先让 AI 理解：这不是“出几张图”，而是完整项目
 
 做电商视觉时，最容易犯的错误是直接让 AI 生成图片。这样往往能得到几张好看的图，但很难形成完整的项目逻辑。真正可复用的流程应该是：先分析产品，再策划主图，再策划详情页，最后整理成作品集。
@@ -101,17 +102,7 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 主图案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGY1NjdhNDljMzQwZDMxMTA0ZDI0YWZhMDA1MTllNmRfbDAzWTJFVVl1cGlIdkd4UDRzVzlzUHBCZUM0YUlQRWRfVG9rZW46Smd5b2J6V0lQb0NvTTZ4U2NpUGNaMWRWblVmXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
-
-案例：包装 + 产品 + 卖点主图。
-
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NTFiNWVjNzU4YWVjYWIxODE2ZTczYWUzYzIzZDlkYTVfdTk5dmx0SzR5T0Z6UVpQOGEyM2I4eGNlZE1DU0FkTjdfVG9rZW46QlBEa2JPSVZ5bzhzZnd4UklIQmNPWWRPbnNkXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
-
-案例：无包装氛围图，突出产品本体。
-
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NzVhMDMzMzZjMTNiZTA2MjRhMjEyYzcxMzAxYTdhYzFfR1ByMmhIS2NrTXVmUmVnbHZuYmJhUFNMaXNKczNCWnZfVG9rZW46QVFaYmJyTzVub0dFRnh4ZTVTVWNreEFqblhnXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
-
-案例：功能 / 成分表达型主图。
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=OTQxNTBiZDk4YzgyYjBiY2E5ZTA0NjcyNGNlNGYzZjdfeDJpb2JXVXNEaURKa2dNNVZJcnhSUXgwN2M1Q0tIZ1VfVG9rZW46Smd5b2J6V0lQb0NvTTZ4U2NpUGNaMWRWblVmXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=YjU3N2U5Zjg0MDIxNTdjYTM3NTMxYjMzMTY0NDhlOWRfU0xZSXJ0Q2ZZVW9iTGVqMmhwb3ZYc3lKa3VmRmRxbTBfVG9rZW46QlBEa2JPSVZ5bzhzZnd4UklIQmNPWWRPbnNkXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=OGQ2NTg5MWU1NGZkZTExZmFkZjg1MGMzZjNmZTUzMWZfNGFsdHNpNkZBVHFEU21XYjhSYVRyNDNJY0hzVVpybmFfVG9rZW46QVFaYmJyTzVub0dFRnh4ZTVTVWNreEFqblhnXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
 
 ### 主图提示词模板：
 
@@ -137,9 +128,7 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 详情页案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NDg4YmMyODAzYjZlNmQ3NjBlYjM5YTg1NjMwMWRiOGFfWlI4TzRxcmxmRG1sV3pVeDJXUmZ2OVB3OHFlNkI3TXFfVG9rZW46TWg3VWJWR1lab0M4QUN4aEVSZ2NlTkRrbmpjXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
-
-案例：详情页系统展示。重点不是单屏海报，而是完整的转化链路。
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=NzUzNzQ3MTcxNmU5NWJlZGNiMjU3OTA1MDNkMzExN2VfODBvOThlVTVBN1lOdEFTUG5rV0ZEMTZiNGVOY1VvY0xfVG9rZW46TWg3VWJWR1lab0M4QUN4aEVSZ2NlTkRrbmpjXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
 
 ##### 详情页提示词模板 角色：你是一名电商详情页策划师。 任务：基于产品资料，策划一套连续转化逻辑的详情页，不要做成海报合集。 输出要求： 详情页建议 10–15 屏； 每一屏都要说明：屏幕目标、画面结构、文案、图片元素、AI 提示词、注意事项； 必须包含：详情首屏、产品概述、核心卖点总览、成分/材质/技术、功能卖点、产品细节、多角度、使用场景、规格/包装/系列、OEM/询盘收尾； 每一屏只讲一个重点，文字不要太密； 详情页要从产品认知逐步过渡到信任和询盘。
 
@@ -151,11 +140,11 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 ### 作品集案例展示
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=Mjk3MmIyMTE1ZTg4M2FhZjEwNzEwYTU0ZjAzYTdiYzdfdTAwTnlDamNtMWdZcjFlT3UwWXZqTHRZbVEwSFBaQXRfVG9rZW46U2NlbmJZRUtHb1pqcFp4UGlscWNEbERCbmpoXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNlNDk4MmQwOTZlOWEzYzk1MzY1ZTU5NTI2YjYzMWRfOExXVklXYk5mYnk0RkJLcjBQbVE3SjJ5aWpRZ080b2dfVG9rZW46U2NlbmJZRUtHb1pqcFp4UGlscWNEbERCbmpoXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
 
 案例：作品集封面 / 项目背景页。
 
-![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=YjdiNmQ5MWIwNTI4MGFmZDU1NTljMTBkZDA2YTM2MTZfeDJ3WDdtRGxOMG1GRFNrOWF5aDFZTzBkdFZnNVNmY2VfVG9rZW46SldWdWJERWNmb255Rzd4YWdZbGMxSDE2bjBjXzE3ODM3NzcyMTA6MTc4Mzc4MDgxMF9WNA&add_watermark=true&scene_type=CCM)
+![](https://my.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTQ0MjU1OWYyMzJkMTViM2ViYzA2NzlmZWI3OTgwOTlfU2pKQ3NnNjZBNnB3N244YlpCZm5ZMnk5QlJBTFZLVWRfVG9rZW46SldWdWJERWNmb255Rzd4YWdZbGMxSDE2bjBjXzE3ODM3Nzg1MDY6MTc4Mzc4MjEwNl9WNA&add_watermark=true&scene_type=CCM)
 
 案例：主图系统展示页。
 
@@ -167,17 +156,11 @@ AI 不怕信息多，怕信息模糊。你给 AI 的资料越完整，它越容�
 
 和 AI 反复优化时，不要只说“高级一点”“再优化一下”。要告诉 AI：哪里错了、什么不能改、要往哪个方向改。
 
-**1、**指出问题：
+**1、**指出问题：例如产品变形、包装错了、场景不足、文字太密、详情像海报。
 
-例如产品变形、包装错了、场景不足、文字太密、详情像海报。
+**2、**强调保留：例如包装结构不变、产品颜色不变、文案语言不变、比例不变。
 
-**2、**强调保留：
-
-例如包装结构不变、产品颜色不变、文案语言不变、比例不变。
-
-**3、**明确方向：
-
-例如增加多场景、多角度、细节、产品本体、B2B 信息。
+**3、**明确方向：例如增加多场景、多角度、细节、产品本体、B2B 信息。
 
 ### 反馈模板
 

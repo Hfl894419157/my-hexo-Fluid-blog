@@ -183,8 +183,12 @@
       "bases:新建数据库": false
     }
   },
-  "active": "b9dd323ce3cc8498",
+  "active": "f938f2d9eb9420cb",
   "lastOpenFiles": [
+    "public/images/uploads",
+    "public/images/新建文件夹",
+    "public/images",
+    "public/新建文件夹",
     "aigc/icon-asset.md",
     "aigc/commercial-visual-system.md",
     "Pasted image 20260711213517.png",
