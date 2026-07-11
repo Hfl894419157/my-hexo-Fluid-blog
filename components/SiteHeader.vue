@@ -10,9 +10,12 @@ const hasScrolled = ref(false)
 const scrollingUp = ref(false)
 const searchOpen = ref(false)
 const navOpen = ref(false)
+const hoveredNavKey = ref('')
+const openDropdownKey = ref('')
 let lastScrollY = 0
 
 const pageLink = (path) => withBase(path)
+const navKey = (item) => item.link || item.text
 const normalizePath = (path) => path.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/'
 const currentPath = computed(() => normalizePath(route.path))
 
@@ -25,6 +28,34 @@ const isActive = (item) => {
   })
 }
 
+const isHighlighted = (item) => {
+  if (hoveredNavKey.value) return hoveredNavKey.value === navKey(item)
+  return isActive(item)
+}
+
+const setHoveredNav = (item) => {
+  hoveredNavKey.value = navKey(item)
+}
+
+const clearHoveredNav = () => {
+  hoveredNavKey.value = ''
+}
+
+const openDropdown = (item) => {
+  setHoveredNav(item)
+  openDropdownKey.value = navKey(item)
+}
+
+const closeDropdown = (item) => {
+  if (openDropdownKey.value === navKey(item)) openDropdownKey.value = ''
+}
+
+const closeDropdownOnFocusOut = (item, event) => {
+  if (!event.currentTarget.contains(event.relatedTarget)) closeDropdown(item)
+}
+
+const isDropdownOpen = (item) => openDropdownKey.value === navKey(item)
+
 const updateScrollState = () => {
   const nextScrollY = window.scrollY || 0
   scrollingUp.value = nextScrollY < lastScrollY && nextScrollY > 24
@@ -34,6 +65,8 @@ const updateScrollState = () => {
 
 const closeNav = () => {
   navOpen.value = false
+  openDropdownKey.value = ''
+  clearHoveredNav()
 }
 
 const onKeydown = (event) => {
@@ -73,10 +106,27 @@ onUnmounted(() => {
   >
     <a class="site-header__brand" :href="pageLink('/')">Liuli AI Lab</a>
 
-    <nav id="site-navigation" class="site-header__nav" aria-label="全站导航">
+    <nav
+      id="site-navigation"
+      class="site-header__nav"
+      aria-label="全站导航"
+      @mouseleave="clearHoveredNav"
+    >
       <template v-for="item in navItems" :key="item.text">
-        <details v-if="item.children" class="site-header__dropdown" :class="{ active: isActive(item) }">
-          <summary>{{ item.text }}<span aria-hidden="true">⌄</span></summary>
+        <details
+          v-if="item.children"
+          class="site-header__dropdown"
+          :class="{ active: isHighlighted(item) }"
+          :open="isDropdownOpen(item)"
+          @mouseenter="openDropdown(item)"
+          @mouseleave="closeDropdown(item)"
+          @focusin="openDropdown(item)"
+          @focusout="closeDropdownOnFocusOut(item, $event)"
+        >
+          <summary>
+            <a class="site-header__summary-link" :href="pageLink(item.link)" @click.stop="closeNav">{{ item.text }}</a>
+            <span aria-hidden="true">⌄</span>
+          </summary>
           <div class="site-header__submenu">
             <a
               v-for="child in item.children"
@@ -91,8 +141,10 @@ onUnmounted(() => {
         </details>
         <a
           v-else
-          :class="{ active: isActive(item) }"
+          :class="{ active: isHighlighted(item) }"
           :href="pageLink(item.link)"
+          @mouseenter="setHoveredNav(item)"
+          @focus="setHoveredNav(item)"
           @click="closeNav"
         >
           {{ item.text }}
@@ -221,6 +273,11 @@ onUnmounted(() => {
 
 .site-header__dropdown summary {
   list-style: none;
+}
+
+.site-header__summary-link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .site-header__dropdown summary::-webkit-details-marker { display: none; }
