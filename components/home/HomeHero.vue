@@ -11,14 +11,9 @@ import BaseButton from '../BaseButton.vue'
     </div>
 
     <div class="home-hero__content">
-      <p class="home-hero__eyebrow">
-        <span class="home-hero__status" aria-hidden="true" />
-        LIULI LAB · AI COMMERCIAL DESIGN
-      </p>
-
       <h1 class="home-hero__title">
-        <span>让 AI 真正进入</span>
-        <span class="home-hero__title-highlight">商业设计流程</span>
+        <span>以 AI 重构</span>
+        <span class="home-hero__title-highlight">商业设计的生产方式</span>
       </h1>
 
       <p class="home-hero__lead">
@@ -164,34 +159,6 @@ import BaseButton from '../BaseButton.vue'
   text-align: center;
 }
 
-.home-hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0;
-  padding: 8px 12px;
-  border: 1px solid color-mix(in srgb, var(--hero-ornament) 55%, transparent);
-  border-radius: 999px;
-  color: color-mix(in srgb, var(--text-main) 68%, var(--site-background));
-  background: color-mix(in srgb, var(--text-main) 5%, transparent);
-  font-family: var(--font-sans, Inter, "PingFang SC", "Microsoft YaHei", sans-serif);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  backdrop-filter: blur(12px);
-}
-
-.home-hero__status {
-  width: 7px;
-  height: 7px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: var(--hero-english);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--hero-english) 68%, transparent);
-}
-
 .home-hero__title {
   width: min(840px, 100%);
   margin: 26px auto 0;
@@ -264,13 +231,6 @@ import BaseButton from '../BaseButton.vue'
 
   .home-hero__content {
     width: min(100%, 358px);
-  }
-
-  .home-hero__eyebrow {
-    max-width: 100%;
-    padding: 7px 10px;
-    font-size: 10px;
-    letter-spacing: 0.1em;
   }
 
   .home-hero__title {
