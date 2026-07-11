@@ -4,6 +4,10 @@ description: 从需求输入到资产沉淀的五阶段 AI 商业视觉工作流
 pageClass: page-workflow-detail
 status: published
 ---
+# 电商详情主图从策划到落地 1.0
+
+<MediaFrame src="/aigc-2.jpg" alt="发光电路组成的 AI 字样，代表电商视觉工作流中的数字生产环节" caption="工作流把输入、变量、生成、判断与资产沉淀连接成一条可复盘的交付路径。" aspect="16 / 9" eager />
+
 这是一份文章式流程手册。它像 Markdown 文档一样组织内容：有标题、段落、图解、案例和提示词；但最终是 HTML 文件，打开即可浏览，也适合后续作为飞书文章、团队规范或项目模板继续使用。
 
 ```Plain

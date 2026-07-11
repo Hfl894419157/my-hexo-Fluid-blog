@@ -1,115 +1,47 @@
 <script setup>
 import { publishedPortfolioWorks as portfolioWorks } from '../.shared/portfolioData.js'
-import BaseButton from '../components/BaseButton.vue'
-import BaseCard from '../components/BaseCard.vue'
-import ReactIsland from '../components/ReactIsland.vue'
+import MediaFrame from '../components/MediaFrame.vue'
 </script>
 
 <template>
-  <ClientOnly>
-    <ReactIsland variant="case-showcase" tone="case" density="medium" />
-  </ClientOnly>
-
-  <div class="portfolio-list">
-    <BaseCard v-for="work in portfolioWorks" :key="work.id" :href="work.link" :padded="false">
-      <div v-if="work.img" class="card-image">
-        <img :src="work.img" :alt="work.title" loading="lazy" />
-      </div>
-      <div v-else class="card-cover" aria-hidden="true">
-        <span>{{ work.titleEn }}</span>
-      </div>
-      <div class="card-info">
-        <span>{{ work.category }}</span>
-        <h3>{{ work.title }}</h3>
+  <div class="portfolio-wall">
+    <a
+      v-for="(work, index) in portfolioWorks"
+      :key="work.id"
+      class="portfolio-story"
+      :class="{ 'portfolio-story--lead': index === 0 }"
+      :href="work.link"
+    >
+      <MediaFrame :src="work.cover" :alt="work.alt" :aspect="index === 0 ? '16 / 10' : work.aspectRatio" :caption="work.caption" />
+      <div class="portfolio-story__copy">
+        <span>{{ String(index + 1).padStart(2, '0') }} · {{ work.category }}</span>
+        <h2>{{ work.title }}</h2>
         <p>{{ work.desc }}</p>
-        <BaseButton as="span" variant="text">查看详情 →</BaseButton>
+        <ul><li v-for="tag in work.tags" :key="tag">{{ tag }}</li></ul>
+        <strong>查看案例 →</strong>
       </div>
-    </BaseCard>
+    </a>
   </div>
 </template>
 
 <style scoped>
-.portfolio-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  margin-top: 42px;
-}
+.portfolio-wall { display: grid; gap: 34px; margin-top: 46px; }
+.portfolio-story { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr); overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); color: inherit; text-decoration: none; background: var(--bg-card); }
+.portfolio-story:nth-child(even) { grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr); }
+.portfolio-story:nth-child(even) :deep(.media-frame) { order: 2; }
+.portfolio-story :deep(.media-frame__viewport) { height: 100%; border: 0; border-radius: 0; box-shadow: none; }
+.portfolio-story :deep(figcaption) { display: none; }
+.portfolio-story__copy { display: grid; align-content: center; padding: clamp(30px, 5vw, 64px); }
+.portfolio-story__copy > span { color: var(--brand-cyan); font-size: var(--text-label); letter-spacing: 0.12em; }
+h2 { margin: 16px 0 0 !important; color: var(--text-main); font-family: var(--font-display); font-size: clamp(30px, 3.8vw, 52px); font-weight: 600; line-height: 1.2; }
+p { margin: 18px 0 0 !important; color: var(--text-sub); font-size: var(--text-small); line-height: 1.85; }
+ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 26px 0 0; list-style: none; }
+li { padding: 7px 10px; border: 1px solid var(--border-soft); border-radius: var(--radius-control); color: var(--text-muted); font-size: var(--text-label); }
+.portfolio-story__copy strong { margin-top: 28px; color: var(--brand-main); font-size: var(--text-small); }
 
-.card-image {
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--bg-soft);
-}
-
-.card-cover {
-  display: grid;
-  aspect-ratio: 4 / 3;
-  place-items: end start;
-  padding: 24px;
-  color: var(--text-sub);
-  background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
-}
-
-.card-cover span {
-  max-width: 16ch;
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-large);
-  font-weight: 580;
-  line-height: 1.3;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.94) contrast(1.04);
-  transition: transform 0.42s ease, filter 0.42s ease;
-}
-
-:deep(.base-card:hover) .card-image img {
-  transform: scale(1.04);
-  filter: saturate(1.06) contrast(1.06);
-}
-
-.card-info {
-  padding: 24px;
-}
-
-span {
-  color: var(--brand-cyan);
-  font-size: var(--text-label);
-  font-weight: 400;
-  letter-spacing: 0.14em;
-}
-
-h3 {
-  margin: 12px 0 0 !important;
-  color: var(--text-main);
-  font-size: var(--text-card-large);
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0;
-}
-
-p {
-  margin: 12px 0 22px !important;
-  color: var(--text-sub);
-  font-size: var(--text-caption);
-  font-weight: 400;
-  line-height: 1.72;
-}
-
-@media (max-width: 960px) {
-  .portfolio-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .portfolio-list {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 760px) {
+  .portfolio-story, .portfolio-story:nth-child(even) { grid-template-columns: 1fr; }
+  .portfolio-story:nth-child(even) :deep(.media-frame) { order: initial; }
+  .portfolio-story :deep(.media-frame__viewport) { aspect-ratio: 16 / 10; }
 }
 </style>

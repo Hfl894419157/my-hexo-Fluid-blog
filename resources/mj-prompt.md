@@ -14,6 +14,8 @@ status: published
 
 Prompt 的作用不是堆叠形容词，而是把项目目标转换为生成模型可以执行的视觉变量。
 
+<MediaFrame src="/aigc-3.jpg" alt="蓝紫色数字粒子视觉，代表相互关联的提示词变量" caption="资源预览：从任务目标、主体、场景到限制条件的 Prompt 结构。" aspect="16 / 9" />
+
 ## 基础结构
 
 ```text

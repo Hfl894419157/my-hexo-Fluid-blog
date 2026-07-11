@@ -48,6 +48,7 @@
   --radius-control: 8px;
   --shadow-card: 0 22px 70px rgba(23, 19, 15, 0.07);
   --shadow-glow: 0 18px 48px rgba(138, 79, 45, 0.1);
+  --image-treatment: saturate(0.9) contrast(1.03) brightness(0.98);
   --site-background: radial-gradient(circle at 50% 34%, rgba(138, 79, 45, 0.035), transparent 34%), linear-gradient(180deg, #FBFAF7 0%, #F7F6F1 72%, #F1EFE8 100%);
   --surface-glow: rgba(138, 79, 45, 0.055);
   --hero-english-color: #8A4F2D;
@@ -111,6 +112,7 @@ html.dark {
   --glow-purple: rgba(255, 255, 255, 0.035);
   --shadow-card: 0 24px 90px rgba(0, 0, 0, 0.32);
   --shadow-glow: 0 18px 54px rgba(184, 138, 74, 0.11);
+  --image-treatment: saturate(0.82) contrast(1.06) brightness(0.78);
   --site-background: radial-gradient(circle at 50% 34%, rgba(184, 138, 74, 0.11), transparent 34%), radial-gradient(circle at 50% 68%, rgba(255, 255, 255, 0.035), transparent 38%), linear-gradient(180deg, #17181B 0%, #111214 58%, #0E0F11 100%);
   --surface-glow: rgba(184, 138, 74, 0.12);
   --hero-english-color: #BFC3C8;
@@ -295,7 +297,26 @@ a {
 }
 
 /* ==================== 栏目总览页 ==================== */
-.page-overview-list .vp-doc h1 {
+.page-overview-list .VPSidebar {
+  display: none !important;
+}
+
+.page-overview-list .VPContent.has-sidebar {
+  padding-left: 0 !important;
+}
+
+.page-overview-list .VPPage > div {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.page-overview-list .VPDoc .content,
+.page-overview-list .VPDoc .content-container {
+  max-width: 1180px !important;
+}
+
+.page-overview-list .vp-doc h1,
+.page-overview-list .VPPage h1 {
   font-family: var(--font-serif) !important;
   font-size: clamp(38px, 4vw, 52px) !important;
   font-weight: 600 !important;
@@ -310,7 +331,8 @@ a {
 }
 
 .page-overview-list .vp-doc > p:first-of-type,
-.page-overview-list .vp-doc > p {
+.page-overview-list .vp-doc > p,
+.page-overview-list .VPPage h1 + p {
   font-family: var(--font-sans) !important;
   font-size: 17px !important;
   font-weight: 400 !important;
@@ -340,7 +362,20 @@ a {
 .page-case-detail .VPDoc .content-container,
 .page-workflow-detail .VPDoc .content,
 .page-workflow-detail .VPDoc .content-container {
-  max-width: 800px !important;
+  max-width: 1080px !important;
+}
+
+.page-case-detail .vp-doc > :not(.media-frame),
+.page-workflow-detail .vp-doc > :not(.media-frame) {
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-case-detail .vp-doc > .media-frame,
+.page-workflow-detail .vp-doc > .media-frame {
+  width: min(1080px, 100%);
+  margin: 34px auto 52px;
 }
 
 .page-case-detail .vp-doc h1,
@@ -419,7 +454,20 @@ a {
 .page-article-detail .VPDoc .content-container,
 .page-resource-detail .VPDoc .content,
 .page-resource-detail .VPDoc .content-container {
-  max-width: 760px !important;
+  max-width: 980px !important;
+}
+
+.page-article-detail .vp-doc > :not(.media-frame),
+.page-resource-detail .vp-doc > :not(.media-frame) {
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.page-article-detail .vp-doc > .media-frame,
+.page-resource-detail .vp-doc > .media-frame {
+  width: min(980px, 100%);
+  margin: 34px auto 48px;
 }
 
 .page-article-detail .vp-doc h1,

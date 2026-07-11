@@ -1,7 +1,6 @@
 <script setup>
 import BaseButton from './BaseButton.vue'
-import BaseCard from './BaseCard.vue'
-import ReactIsland from './ReactIsland.vue'
+import MediaFrame from './MediaFrame.vue'
 
 const outcomes = [
   { value: '8 年', label: '商业视觉与设计交付经验' },
@@ -35,18 +34,17 @@ const directions = [
       </div>
     </section>
 
-    <ClientOnly>
-      <ReactIsland variant="resume-profile" tone="profile" density="medium" />
-    </ClientOnly>
-
     <section class="about-section">
       <p class="about-section__eyebrow">Current Focus</p>
       <h2>当前关注的三个方向</h2>
-      <div class="about-grid">
-        <BaseCard v-for="item in directions" :key="item[0]">
-          <h3>{{ item[0] }}</h3>
-          <p>{{ item[1] }}</p>
-        </BaseCard>
+      <div class="about-focus">
+        <MediaFrame src="/aigc-3.jpg" alt="蓝紫色数字粒子视觉，代表 AI 商业视觉与知识系统" aspect="4 / 5" tone="quiet" />
+        <div class="about-focus__list">
+          <div v-for="(item, index) in directions" :key="item[0]">
+            <span>{{ String(index + 1).padStart(2, '0') }}</span>
+            <div><h3>{{ item[0] }}</h3><p>{{ item[1] }}</p></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -84,9 +82,12 @@ h1 { margin: 16px 0 0; color: var(--text-main); font-family: var(--font-display)
 .about-hero__portrait img { width: 100%; height: 100%; object-fit: cover; }
 .about-section { margin-top: 76px; }
 .about-section > h2, .about-contact h2 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-section-title); font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
-.about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-.about-grid h3 { margin: 0; color: var(--text-main); font-family: var(--font-sans); font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: 0; }
-.about-grid p { margin: 12px 0 0; color: var(--text-sub); font-size: var(--text-small); line-height: 1.8; }
+.about-focus { display: grid; grid-template-columns: minmax(240px, 0.68fr) minmax(0, 1.32fr); gap: 46px; align-items: center; margin-top: 30px; }
+.about-focus__list { display: grid; border-top: 1px solid var(--border-soft); }
+.about-focus__list > div { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--border-soft); }
+.about-focus__list span { color: var(--brand-cyan); font-size: var(--text-label); }
+.about-focus__list h3 { margin: 0; color: var(--text-main); font-family: var(--font-sans); font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: 0; }
+.about-focus__list p { margin: 10px 0 0; color: var(--text-sub); font-size: var(--text-small); line-height: 1.8; }
 .about-section--soft { padding: 36px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .about-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 28px; background: var(--border-soft); }
 .about-outcomes div { display: grid; gap: 8px; padding: 24px; background: var(--bg-card); }
@@ -98,7 +99,8 @@ h1 { margin: 16px 0 0; color: var(--text-main); font-family: var(--font-display)
 @media (max-width: 760px) {
   .about-hero { grid-template-columns: 1fr; }
   .about-hero__portrait { width: min(280px, 100%); grid-row: 1; }
-  .about-grid, .about-outcomes { grid-template-columns: 1fr; }
+  .about-focus, .about-outcomes { grid-template-columns: 1fr; }
+  .about-focus :deep(.media-frame) { width: min(340px, 100%); margin: 0 auto; }
   .about-contact { display: grid; align-items: start; }
 }
 </style>

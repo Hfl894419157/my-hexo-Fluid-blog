@@ -20,9 +20,9 @@ onUnmounted(() => {
 <template>
   <main class="home-design">
     <HomeHero />
-    <HomeCapabilityGrid />
     <HomeFeaturedCases />
     <HomeWorkflowSection />
+    <HomeCapabilityGrid />
     <HomeResourceSection />
     <HomeAboutSection />
     <HomeCTA />
