@@ -79,11 +79,13 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 
 .site-footer__brand > a {
   color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-large);
-  font-weight: 600;
-  letter-spacing: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .site-footer__brand p {
