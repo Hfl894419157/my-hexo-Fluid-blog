@@ -13,15 +13,21 @@
   --brand-cyan: #8A4F2D;
   --glow-blue: rgba(138, 79, 45, 0.035);
   --glow-purple: rgba(168, 108, 69, 0.045);
-  --font-site: "HarmonyOS Sans SC", Inter, "Source Han Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-title: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-  --title-letter-spacing: 0.04em;
-  --font-hero: clamp(54px, 7vw, 96px);
-  --font-h1: clamp(42px, 5vw, 72px);
-  --font-h2: clamp(32px, 4vw, 52px);
-  --font-h3: 28px;
-  --font-body: 17px;
-  --font-small: 14px;
+  --font-display: "Source Han Serif SC", "Noto Serif SC", "Songti SC", serif;
+  --font-sans: Inter, "Alibaba PuHuiTi 3.0", "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+  --text-hero: clamp(46px, 5.2vw, 80px);
+  --text-display: clamp(42px, 4.4vw, 64px);
+  --text-page-title: clamp(38px, 3.7vw, 56px);
+  --text-section-title: clamp(32px, 3vw, 44px);
+  --text-card-large: clamp(24px, 2vw, 30px);
+  --text-card-title: clamp(20px, 1.5vw, 24px);
+  --text-lead: clamp(18px, 1.3vw, 20px);
+  --text-body-large: 18px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-caption: 13px;
+  --text-label: 12px;
   --radius-card: 8px;
   --radius-control: 8px;
   --shadow-card: 0 22px 70px rgba(23, 19, 15, 0.07);
@@ -123,8 +129,10 @@ body {
   margin: 0;
   color: var(--text-main);
   background: var(--site-background);
-  font-family: var(--font-site);
-  font-size: var(--font-body);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.75;
   letter-spacing: 0;
 }
 
@@ -134,9 +142,65 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-title);
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
 }
+
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-sans);
+}
+
+button,
+[role="button"] {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
+}
+
+code,
+pre {
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.type-hero {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+
+.type-display,
+.type-page-title,
+.type-section-title,
+.type-card-large,
+.type-card-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.type-display { font-size: var(--text-display); line-height: 1.16; }
+.type-page-title { font-size: var(--text-page-title); line-height: 1.2; }
+.type-section-title { font-size: var(--text-section-title); line-height: 1.25; }
+.type-card-large { font-size: var(--text-card-large); line-height: 1.32; }
+.type-card-title { font-size: var(--text-card-title); line-height: 1.4; }
+.type-lead { font: 400 var(--text-lead) / 1.7 var(--font-sans); }
+.type-body { font: 400 var(--text-body) / 1.75 var(--font-sans); }
+.type-small { font: 400 var(--text-small) / 1.65 var(--font-sans); }
+.type-caption { font: 400 var(--text-caption) / 1.6 var(--font-sans); }
+.type-label { font: 600 var(--text-label) / 1.4 var(--font-sans); }
 
 .VPNav,
 body.ai-lab-home .VPDocFooter,
@@ -215,48 +279,90 @@ a {
 .vp-doc h1 {
   margin-bottom: 18px;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-h1);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-page-title);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .VPPage > div > div > p,
 .vp-doc > p {
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.78;
+  font-size: var(--text-body);
+  line-height: 1.75;
 }
 
 .vp-doc h2 {
   border-top: 1px solid var(--border-soft);
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-h2);
-  font-weight: 760;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .vp-doc h3 {
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-h3);
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-large);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: 0;
 }
 
 .vp-doc h4,
 .vp-doc h5,
 .vp-doc h6 {
   color: var(--text-main);
-  font-family: var(--font-title);
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 .vp-doc p,
 .vp-doc li {
   color: var(--text-sub);
-  line-height: 1.78;
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.page-case-detail .vp-doc p,
+.page-case-detail .vp-doc li,
+.page-workflow-detail .vp-doc p,
+.page-workflow-detail .vp-doc li {
+  font-size: var(--text-body-large);
+  line-height: 1.82;
+}
+
+.page-article-detail .VPDoc .content,
+.page-article-detail .VPDoc .content-container {
+  max-width: 720px !important;
+}
+
+.page-article-detail .vp-doc p,
+.page-article-detail .vp-doc li {
+  font-size: var(--text-body-large);
+  line-height: 1.9;
+}
+
+.VPNav,
+.VPSidebar,
+.VPDocAside,
+.VPDocFooter,
+.VPLocalNav,
+.VPBreadcrumb {
+  font-family: var(--font-sans);
+}
+
+.VPSidebarItem .text,
+.VPDocOutlineItem a,
+.VPLocalNavOutlineDropdown button {
+  font-size: var(--text-small);
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .vp-doc blockquote {
@@ -275,11 +381,21 @@ a {
 .vp-doc th,
 .vp-doc td {
   border-color: var(--border-soft);
+  font-family: var(--font-sans);
 }
 
 .vp-doc th {
   color: var(--text-main);
   background: var(--bg-soft);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.vp-doc td {
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.75;
 }
 
 .ds-grid {
@@ -307,10 +423,6 @@ a {
 }
 
 @media (max-width: 640px) {
-  body {
-    font-size: 16px;
-  }
-
   .VPPage > div {
     padding-right: 16px;
     padding-left: 16px;

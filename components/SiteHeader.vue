@@ -13,6 +13,7 @@ const navOpen = ref(false)
 const hoveredNavKey = ref('')
 const openDropdownKey = ref('')
 let lastScrollY = 0
+let dropdownCloseTimer = 0
 
 const pageLink = (path) => withBase(path)
 const navKey = (item) => item.link || item.text
@@ -42,6 +43,7 @@ const clearHoveredNav = () => {
 }
 
 const openDropdown = (item) => {
+  cancelDropdownClose()
   setHoveredNav(item)
   openDropdownKey.value = navKey(item)
 }
@@ -50,8 +52,24 @@ const closeDropdown = (item) => {
   if (openDropdownKey.value === navKey(item)) openDropdownKey.value = ''
 }
 
+const cancelDropdownClose = () => {
+  if (!dropdownCloseTimer) return
+  window.clearTimeout(dropdownCloseTimer)
+  dropdownCloseTimer = 0
+}
+
+const scheduleCloseDropdown = (item) => {
+  cancelDropdownClose()
+  const key = navKey(item)
+  dropdownCloseTimer = window.setTimeout(() => {
+    if (openDropdownKey.value === key) openDropdownKey.value = ''
+    if (hoveredNavKey.value === key) clearHoveredNav()
+    dropdownCloseTimer = 0
+  }, 160)
+}
+
 const closeDropdownOnFocusOut = (item, event) => {
-  if (!event.currentTarget.contains(event.relatedTarget)) closeDropdown(item)
+  if (!event.currentTarget.contains(event.relatedTarget)) scheduleCloseDropdown(item)
 }
 
 const isDropdownOpen = (item) => openDropdownKey.value === navKey(item)
@@ -65,6 +83,7 @@ const updateScrollState = () => {
 
 const closeNav = () => {
   navOpen.value = false
+  cancelDropdownClose()
   openDropdownKey.value = ''
   clearHoveredNav()
 }
@@ -83,6 +102,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', updateScrollState)
   window.removeEventListener('keydown', onKeydown)
+  cancelDropdownClose()
 })
 </script>
 
@@ -109,7 +129,7 @@ onUnmounted(() => {
     <nav
       id="site-navigation"
       class="site-header__nav"
-      aria-label="全站导航"
+      aria-label="Site navigation"
       @mouseleave="clearHoveredNav"
     >
       <template v-for="item in navItems" :key="item.text">
@@ -119,7 +139,7 @@ onUnmounted(() => {
           :class="{ active: isHighlighted(item) }"
           :open="isDropdownOpen(item)"
           @mouseenter="openDropdown(item)"
-          @mouseleave="closeDropdown(item)"
+          @mouseleave="scheduleCloseDropdown(item)"
           @focusin="openDropdown(item)"
           @focusout="closeDropdownOnFocusOut(item, $event)"
         >
@@ -226,10 +246,10 @@ onUnmounted(() => {
 
 .site-header__brand {
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 14px;
-  font-weight: 820;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  letter-spacing: 0;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -251,8 +271,8 @@ onUnmounted(() => {
   padding: 0 12px;
   border-radius: var(--radius-control);
   color: var(--text-sub);
-  font-size: 13px;
-  font-weight: 680;
+  font-size: 15px;
+  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -271,6 +291,17 @@ onUnmounted(() => {
   position: relative;
 }
 
+.site-header__dropdown::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 0;
+  width: 176px;
+  height: 12px;
+  content: '';
+  transform: translateX(-50%);
+}
+
 .site-header__dropdown summary {
   list-style: none;
 }
@@ -286,6 +317,7 @@ onUnmounted(() => {
   position: absolute;
   top: calc(100% + 10px);
   left: 50%;
+  z-index: 1;
   display: grid;
   width: 176px;
   padding: 8px;
@@ -300,7 +332,8 @@ onUnmounted(() => {
   padding: 10px 12px;
   border-radius: var(--radius-control);
   color: var(--text-sub);
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 500;
   text-decoration: none;
 }
 
@@ -325,8 +358,8 @@ onUnmounted(() => {
   border-radius: var(--radius-control);
   color: var(--button-primary-text);
   background: var(--brand-main);
-  font-size: 12px;
-  font-weight: 760;
+  font-size: var(--text-label);
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -392,12 +425,17 @@ onUnmounted(() => {
 
   .site-header__submenu {
     position: static;
+    z-index: auto;
     width: auto;
     padding: 4px 0 4px 14px;
     border: 0;
     background: transparent;
     box-shadow: none;
     transform: none;
+  }
+
+  .site-header__dropdown::after {
+    display: none;
   }
 
   .site-header__nav > .site-header__mobile-contact { display: inline-flex; justify-content: center; margin-top: 4px; }
@@ -416,7 +454,7 @@ onUnmounted(() => {
     padding: 8px 10px 8px 14px;
   }
 
-  .site-header__brand { font-size: 13px; }
+  .site-header__brand { font-size: var(--text-card-title); }
 }
 
 @media (prefers-reduced-motion: reduce) {

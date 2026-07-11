@@ -53,25 +53,26 @@ const steps = [
 
 span {
   color: var(--brand-cyan);
-  font-size: 13px;
-  font-weight: 820;
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 h3 {
   margin: 34px 0 0;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 22px;
-  font-weight: 760;
-  line-height: 1.2;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 p {
   margin: 14px 0 0;
   color: var(--text-sub);
-  font-size: var(--font-small);
-  line-height: 1.72;
+  font-size: var(--text-small);
+  font-weight: 400;
+  line-height: 1.65;
 }
 
 .workflow-action { display: flex; justify-content: center; margin-top: 24px; }

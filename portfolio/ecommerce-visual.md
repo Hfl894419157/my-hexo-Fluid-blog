@@ -1,6 +1,7 @@
 ---
 title: 专业医疗产品电商视觉系统
 description: 从竞品调研、3D 产品表达，到详情页信息层级与上线复盘的商业视觉案例。
+pageClass: page-case-detail
 status: published
 ---
 

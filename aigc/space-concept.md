@@ -1,5 +1,6 @@
 ---
 title: 空间概念快速提案
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

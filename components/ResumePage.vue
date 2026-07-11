@@ -281,18 +281,18 @@ const awards = [
 .name {
   margin: 0 0 14px;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 40px;
-  font-weight: 840;
-  line-height: 1.06;
+  font-family: var(--font-display);
+  font-size: var(--text-page-title);
+  font-weight: 500;
+  line-height: 1.2;
   text-align: center;
-  letter-spacing: var(--title-letter-spacing);
+  letter-spacing: 0;
 }
 
 .role {
   margin: 0;
   color: var(--text-sub);
-  font-size: var(--font-small);
+  font-size: var(--text-small);
   line-height: 1.72;
   text-align: center;
 }
@@ -317,10 +317,10 @@ const awards = [
   align-items: center;
   margin: 0 0 18px;
   color: var(--brand-main);
-  font-family: var(--font-title);
-  font-size: var(--font-small);
-  font-weight: 780;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .contact-list {
@@ -335,7 +335,7 @@ const awards = [
   align-items: center;
   margin-bottom: 14px;
   color: var(--text-sub);
-  font-size: var(--font-small);
+  font-size: var(--text-small);
 }
 
 .contact-link {
@@ -350,28 +350,30 @@ const awards = [
 .edu-item h4 {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 18px;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .edu-date {
   display: block;
   margin: 6px 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: var(--text-caption);
 }
 
 .edu-item .major {
   margin-bottom: 8px;
   color: var(--brand-main);
-  font-weight: 740;
+  font-weight: 600;
 }
 
 .edu-item .desc {
   color: var(--text-sub);
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: var(--text-caption);
+  line-height: 1.6;
 }
 
 .skill-item {
@@ -383,7 +385,7 @@ const awards = [
   justify-content: space-between;
   margin-bottom: 8px;
   color: var(--text-sub);
-  font-size: 13px;
+  font-size: var(--text-caption);
 }
 
 .progress-bg {
@@ -412,7 +414,7 @@ const awards = [
   border-radius: var(--radius-control);
   color: var(--text-sub);
   background: var(--bg-card);
-  font-size: 13px;
+  font-size: var(--text-caption);
 }
 
 .resume-main {
@@ -431,10 +433,11 @@ const awards = [
   border-radius: var(--radius-card);
   color: var(--text-main);
   background: var(--bg-soft);
-  font-family: var(--font-title);
-  font-size: 24px;
-  font-weight: 820;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-large);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: 0;
 }
 
 .title-icon {
@@ -449,8 +452,8 @@ const awards = [
 .summary-box p {
   margin: 0;
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.82;
+  font-size: var(--text-body);
+  line-height: 1.75;
 }
 
 .divider {
@@ -489,23 +492,24 @@ const awards = [
   display: block;
   margin-bottom: 6px;
   color: var(--brand-main);
-  font-size: 13px;
-  font-weight: 760;
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 .company {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 18px;
-  line-height: 1.32;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .job-title {
   margin-top: 6px;
   color: var(--text-sub);
-  font-size: var(--font-small);
+  font-size: var(--text-small);
 }
 
 .timeline-right {
@@ -523,7 +527,8 @@ const awards = [
   margin-bottom: 10px;
   padding-left: 16px;
   color: var(--text-sub);
-  line-height: 1.76;
+  font-size: var(--text-body);
+  line-height: 1.75;
 }
 
 .job-details li::before {
@@ -571,10 +576,11 @@ const awards = [
 .project-head h4 {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 20px;
-  line-height: 1.32;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
 }
 
 .project-tag {
@@ -585,15 +591,15 @@ const awards = [
   border-radius: var(--radius-control);
   color: var(--button-primary-text);
   background: var(--brand-main);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 .project-text {
   margin: 0 0 10px;
   color: var(--text-sub);
-  font-size: var(--font-small);
-  line-height: 1.72;
+  font-size: var(--text-small);
+  line-height: 1.65;
 }
 
 .award-list {
@@ -606,7 +612,7 @@ const awards = [
   padding: 16px 18px;
   margin-bottom: 12px;
   color: var(--text-sub);
-  font-weight: 560;
+  font-weight: 500;
 }
 
 @media (max-width: 880px) {

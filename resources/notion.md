@@ -1,6 +1,7 @@
 ---
 title: AI 项目复盘清单
 description: 从目标、变量、筛选、交付和沉淀五个维度复盘 AI 视觉项目。
+pageClass: page-resource-detail
 status: published
 ---
 

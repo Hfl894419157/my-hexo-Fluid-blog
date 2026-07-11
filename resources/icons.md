@@ -1,5 +1,6 @@
 ---
 title: 3D Glass Icons 玻璃图标
+pageClass: page-resource-detail
 status: draft
 search: false
 layout: page

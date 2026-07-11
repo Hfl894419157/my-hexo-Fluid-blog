@@ -1,6 +1,7 @@
 ---
 title: 德国水处理展会视觉体系
 description: 从主视觉、展位到宣传资料的跨媒介统一与远程落地协作案例。
+pageClass: page-case-detail
 status: published
 ---
 

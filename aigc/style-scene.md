@@ -1,5 +1,6 @@
 ---
 title: 风格化场景视觉
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

@@ -1,5 +1,6 @@
 ---
 title: 3D 图标资产生成
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

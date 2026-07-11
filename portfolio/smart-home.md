@@ -1,5 +1,6 @@
 ---
 title: 智能硬件交互概念
+pageClass: page-case-detail
 status: draft
 search: false
 ---

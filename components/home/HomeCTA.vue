@@ -36,19 +36,20 @@ h2 {
   padding-top: 0 !important;
   border-top: 0 !important;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-h2);
-  font-weight: 760;
-  line-height: 1.08;
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 p {
   width: min(680px, 100%);
   margin: 20px 0 0;
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.76;
+  font-size: var(--text-lead);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 .home-cta__actions {

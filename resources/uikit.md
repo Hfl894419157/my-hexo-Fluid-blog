@@ -1,5 +1,6 @@
 ---
 title: Figma AI UI Kit 组件库
+pageClass: page-resource-detail
 status: draft
 search: false
 layout: page

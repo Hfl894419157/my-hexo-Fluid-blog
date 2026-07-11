@@ -281,8 +281,8 @@ onUnmounted(() => {
   background: transparent;
   color: var(--text-main);
   font: inherit;
-  font-size: 13px;
-  font-weight: 640;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .site-search__input::placeholder {
@@ -296,8 +296,8 @@ onUnmounted(() => {
   border-radius: var(--radius-control);
   background: var(--brand-main);
   color: var(--button-primary-text);
-  font-size: 12px;
-  font-weight: 760;
+  font-size: 15px;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -343,8 +343,8 @@ onUnmounted(() => {
 .site-search__empty {
   padding: 16px 14px;
   color: var(--text-muted);
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--text-caption);
+  font-weight: 400;
 }
 
 .site-search__result {
@@ -375,16 +375,16 @@ onUnmounted(() => {
 
 .site-search__result-kicker {
   color: var(--brand-main);
-  font-size: 11px;
-  font-weight: 780;
+  font-size: var(--text-label);
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .site-search__result-match {
   min-width: 0;
   color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--text-caption);
+  font-weight: 400;
   overflow: hidden;
   text-align: right;
   text-overflow: ellipsis;
@@ -393,11 +393,11 @@ onUnmounted(() => {
 
 .site-search__result-title {
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 14px;
-  font-weight: 780;
-  letter-spacing: var(--title-letter-spacing);
-  line-height: 1.35;
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -52,10 +52,10 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 
 .site-footer__brand > a {
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 17px;
-  font-weight: 820;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  letter-spacing: 0;
   text-decoration: none;
 }
 
@@ -63,7 +63,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   max-width: 360px;
   margin: 16px 0 0;
   color: var(--text-muted);
-  font-size: var(--font-small);
+  font-size: var(--text-small);
   line-height: 1.72;
 }
 
@@ -76,13 +76,14 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 .site-footer strong {
   margin-bottom: 4px;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-small);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 .site-footer nav a {
   color: var(--text-sub);
-  font-size: 13px;
+  font-size: var(--text-caption);
   text-decoration: none;
 }
 
@@ -114,7 +115,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   margin-top: 42px;
   border-top: 1px solid var(--border-soft);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: var(--text-label);
 }
 
 @media (max-width: 760px) {

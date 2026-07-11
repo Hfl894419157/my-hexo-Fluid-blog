@@ -1,6 +1,7 @@
 ---
 title: 从提示词到交付：AIGC 工作流如何沉淀
 description: 把需求、变量、生成、人工判断和复盘连成可复用的生产系统。
+pageClass: page-article-detail
 status: published
 ---
 

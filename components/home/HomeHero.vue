@@ -140,30 +140,31 @@ import BaseButton from '../BaseButton.vue'
 .home-hero__eyebrow {
   margin: 0;
   color: var(--hero-english);
-  font-family: var(--font-title);
-  font-size: clamp(32px, 4.8vw, 62px);
-  font-weight: 760;
-  line-height: 0.96;
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
 }
 
 h1 {
   width: min(900px, 100%);
   margin: 24px auto 0;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: clamp(36px, 4.5vw, 58px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
 }
 
 .home-hero__lead {
   width: min(760px, 100%);
   margin: 26px auto 0;
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.82;
+  font-size: var(--text-lead);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 .home-hero__actions {
@@ -186,19 +187,7 @@ h1 {
     width: min(100%, 358px);
   }
 
-  .home-hero__eyebrow {
-    font-size: 36px;
-    line-height: 1;
-  }
-
-  h1 {
-    font-size: 34px;
-    line-height: 1.16;
-  }
-
-  .home-hero__lead {
-    font-size: 15px;
-  }
+  .home-hero__lead { max-width: 38rem; }
 
   .home-hero__actions {
     display: grid;

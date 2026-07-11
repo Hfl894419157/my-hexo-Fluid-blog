@@ -50,15 +50,15 @@ const lanes = [
 
 <style scoped>
 .knowledge-hub { width: min(1080px, 100%); margin: 0 auto; padding: 44px 0 24px; }
-.knowledge-hub__eyebrow { margin: 0; color: var(--brand-cyan); font-size: 13px; font-weight: 800; text-transform: uppercase; }
-h1 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: var(--font-h1); letter-spacing: var(--title-letter-spacing); }
-.knowledge-hub__lead { max-width: 760px; margin: 20px 0 0; color: var(--text-sub); font-size: var(--font-body); line-height: 1.8; }
+.knowledge-hub__eyebrow { margin: 0; color: var(--brand-cyan); font-size: var(--text-label); font-weight: 600; text-transform: uppercase; }
+h1 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 500; line-height: 1.2; letter-spacing: 0; }
+.knowledge-hub__lead { max-width: 760px; margin: 20px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.7; }
 .knowledge-hub__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 42px; }
-.knowledge-hub__grid span { color: var(--brand-cyan); font-size: 13px; font-weight: 780; }
-.knowledge-hub__grid h2 { margin: 22px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: var(--font-h3); line-height: 1.2; }
-.knowledge-hub__grid p { margin: 14px 0 22px; color: var(--text-sub); line-height: 1.72; }
+.knowledge-hub__grid span { color: var(--brand-cyan); font-size: var(--text-label); font-weight: 600; }
+.knowledge-hub__grid h2 { margin: 22px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-card-large); font-weight: 500; line-height: 1.32; }
+.knowledge-hub__grid p { margin: 14px 0 22px; color: var(--text-sub); font-size: var(--text-body); line-height: 1.75; }
 .knowledge-hub__principles { margin-top: 54px; padding: 30px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
-.knowledge-hub__principles h2 { margin: 0; color: var(--text-main); font-family: var(--font-title); }
-.knowledge-hub__principles ul { display: grid; gap: 10px; padding-left: 20px; margin: 18px 0 0; color: var(--text-sub); line-height: 1.72; }
+.knowledge-hub__principles h2 { margin: 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-section-title); font-weight: 500; line-height: 1.25; }
+.knowledge-hub__principles ul { display: grid; gap: 10px; padding-left: 20px; margin: 18px 0 0; color: var(--text-sub); font-size: var(--text-body); line-height: 1.75; }
 @media (max-width: 700px) { .knowledge-hub__grid { grid-template-columns: 1fr; } }
 </style>

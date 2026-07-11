@@ -1,5 +1,6 @@
 ---
 title: AI 视频内容流程
+pageClass: page-case-detail
 status: draft
 search: false
 ---

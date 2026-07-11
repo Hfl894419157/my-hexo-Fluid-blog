@@ -1,6 +1,7 @@
 ---
 layout: doc
 title: AI 品牌视觉系统
+pageClass: page-case-detail
 status: draft
 search: false
 head:

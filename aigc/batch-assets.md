@@ -1,5 +1,6 @@
 ---
 title: 内容素材批量生产
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

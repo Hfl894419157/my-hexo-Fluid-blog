@@ -76,23 +76,23 @@ const directions = [
 <style scoped>
 .about-page { width: min(1080px, 100%); margin: 0 auto; padding: 42px 0 24px; }
 .about-hero { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: center; }
-.about-hero__eyebrow, .about-section__eyebrow { margin: 0; color: var(--brand-cyan); font-size: 13px; font-weight: 800; text-transform: uppercase; }
-h1 { margin: 16px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: var(--font-h1); line-height: 1.08; letter-spacing: var(--title-letter-spacing); }
-.about-hero__lead { margin: 24px 0 0; color: var(--text-sub); font-size: var(--font-body); line-height: 1.82; }
+.about-hero__eyebrow, .about-section__eyebrow { margin: 0; color: var(--brand-cyan); font-size: var(--text-label); font-weight: 600; text-transform: uppercase; }
+h1 { margin: 16px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-page-title); font-weight: 500; line-height: 1.2; letter-spacing: 0; }
+.about-hero__lead { margin: 24px 0 0; color: var(--text-sub); font-size: var(--text-lead); font-weight: 400; line-height: 1.7; }
 .about-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .about-hero__portrait { aspect-ratio: 4 / 5; overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .about-hero__portrait img { width: 100%; height: 100%; object-fit: cover; }
 .about-section { margin-top: 76px; }
-.about-section > h2, .about-contact h2 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: var(--font-h2); line-height: 1.12; }
+.about-section > h2, .about-contact h2 { margin: 12px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-section-title); font-weight: 500; line-height: 1.25; }
 .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-.about-grid h3 { margin: 0; color: var(--text-main); font-family: var(--font-title); font-size: 20px; }
-.about-grid p { margin: 12px 0 0; color: var(--text-sub); line-height: 1.72; }
+.about-grid h3 { margin: 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-card-title); font-weight: 500; line-height: 1.4; }
+.about-grid p { margin: 12px 0 0; color: var(--text-sub); font-size: var(--text-body); line-height: 1.75; }
 .about-section--soft { padding: 36px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .about-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 28px; background: var(--border-soft); }
 .about-outcomes div { display: grid; gap: 8px; padding: 24px; background: var(--bg-card); }
-.about-outcomes strong { color: var(--text-main); font-family: var(--font-title); font-size: 30px; }
-.about-outcomes span, .about-note, .about-contact p { color: var(--text-sub); line-height: 1.72; }
-.about-note { margin: 24px 0 0; font-size: var(--font-small); }
+.about-outcomes strong { color: var(--text-main); font-family: var(--font-display); font-size: var(--text-card-large); font-weight: 500; line-height: 1.32; }
+.about-outcomes span, .about-note, .about-contact p { color: var(--text-sub); line-height: 1.75; }
+.about-note { margin: 24px 0 0; font-size: var(--text-small); }
 .about-contact { display: flex; gap: 30px; align-items: end; justify-content: space-between; margin-top: 76px; padding: 36px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); }
 .about-contact p { max-width: 680px; margin: 16px 0 0; }
 @media (max-width: 760px) {

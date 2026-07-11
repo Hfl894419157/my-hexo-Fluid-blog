@@ -54,9 +54,10 @@ import ReactIsland from '../components/ReactIsland.vue'
 .card-cover span {
   max-width: 16ch;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: 18px;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .card-image img {
@@ -78,23 +79,25 @@ import ReactIsland from '../components/ReactIsland.vue'
 
 span {
   color: var(--brand-cyan);
-  font-size: 13px;
-  font-weight: 740;
+  font-size: var(--text-label);
+  font-weight: 600;
 }
 
 h3 {
   margin: 12px 0 0 !important;
   color: var(--text-main);
-  font-size: 24px;
-  line-height: 1.22;
+  font-size: var(--text-card-large);
+  font-weight: 500;
+  line-height: 1.32;
   letter-spacing: 0;
 }
 
 p {
   margin: 12px 0 22px !important;
   color: var(--text-sub);
-  font-size: var(--font-small);
-  line-height: 1.7;
+  font-size: var(--text-small);
+  font-weight: 400;
+  line-height: 1.65;
 }
 
 @media (max-width: 960px) {

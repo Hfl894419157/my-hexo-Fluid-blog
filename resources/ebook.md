@@ -1,5 +1,6 @@
 ---
 title: AIGC 设计白皮书 电子书
+pageClass: page-resource-detail
 status: draft
 search: false
 layout: page

@@ -51,9 +51,9 @@ const knowledgeItems = [
 <style scoped>
 .knowledge-layout { display: grid; gap: 28px; }
 .knowledge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.knowledge-grid span { color: var(--brand-cyan); font-size: 13px; font-weight: 780; }
-.knowledge-grid h3 { margin: 18px 0 0; color: var(--text-main); font-family: var(--font-title); font-size: 21px; line-height: 1.24; }
-.knowledge-grid p { margin: 12px 0 20px; color: var(--text-sub); font-size: var(--font-small); line-height: 1.72; }
+.knowledge-grid span { color: var(--brand-cyan); font-size: var(--text-label); font-weight: 600; }
+.knowledge-grid h3 { margin: 18px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: var(--text-card-title); font-weight: 500; line-height: 1.4; }
+.knowledge-grid p { margin: 12px 0 20px; color: var(--text-sub); font-size: var(--text-small); font-weight: 400; line-height: 1.65; }
 .knowledge-action { display: flex; justify-content: center; }
 @media (max-width: 680px) { .knowledge-grid { grid-template-columns: 1fr; } }
 </style>

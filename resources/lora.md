@@ -1,5 +1,6 @@
 ---
 title: Stable Diffusion LoRA 模型包
+pageClass: page-resource-detail
 status: draft
 search: false
 layout: page

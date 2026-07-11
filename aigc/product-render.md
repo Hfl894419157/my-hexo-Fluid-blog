@@ -1,5 +1,6 @@
 ---
 title: AI 产品图精修
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

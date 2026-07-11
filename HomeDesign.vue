@@ -35,7 +35,7 @@ onUnmounted(() => {
   min-height: 100vh;
   color: var(--text-main);
   background: var(--site-background);
-  font-family: var(--font-site);
+  font-family: var(--font-sans);
   letter-spacing: 0;
 }
 </style>

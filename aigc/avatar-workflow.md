@@ -1,5 +1,6 @@
 ---
 title: AI 人像一致性流程
+pageClass: page-workflow-detail
 status: draft
 search: false
 ---

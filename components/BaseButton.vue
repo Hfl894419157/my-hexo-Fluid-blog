@@ -54,9 +54,9 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
   gap: 8px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
-  font-family: var(--font-site);
-  font-size: var(--font-small);
-  font-weight: 760;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
   text-decoration: none !important;
@@ -76,7 +76,7 @@ const tagName = computed(() => props.as || (props.href ? 'a' : 'button'))
 .base-button--sm {
   min-height: 36px;
   padding: 0 16px;
-  font-size: 13px;
+  font-size: var(--text-small);
 }
 
 .base-button--primary {

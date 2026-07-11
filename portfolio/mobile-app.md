@@ -1,5 +1,6 @@
 ---
 title: 移动端内容工具
+pageClass: page-case-detail
 status: draft
 search: false
 ---

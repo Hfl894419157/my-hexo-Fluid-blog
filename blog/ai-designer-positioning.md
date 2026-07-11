@@ -1,6 +1,7 @@
 ---
 title: AI 冲击下，设计师网站应该展示什么
 description: 从作品陈列转向案例证据、工作流与可复用知识。
+pageClass: page-article-detail
 status: published
 ---
 

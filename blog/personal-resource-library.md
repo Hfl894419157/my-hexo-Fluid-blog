@@ -1,6 +1,7 @@
 ---
 title: 个人资源库比普通博客更重要
 description: 资源的价值来自验证、分类和再次进入项目，而不是收藏数量。
+pageClass: page-article-detail
 status: published
 ---
 

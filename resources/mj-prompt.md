@@ -1,6 +1,7 @@
 ---
 title: 商业视觉 Prompt 结构
 description: 面向商业视觉项目的可复用提示词结构与检查方法。
+pageClass: page-resource-detail
 status: published
 ---
 

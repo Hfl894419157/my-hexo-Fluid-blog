@@ -1,5 +1,6 @@
 ---
 title: 3D 产品视觉探索
+pageClass: page-case-detail
 status: draft
 search: false
 ---

@@ -45,8 +45,8 @@ defineProps({
 .section-header__eyebrow {
   margin: 0 0 14px;
   color: var(--brand-main);
-  font-size: var(--font-small);
-  font-weight: 780;
+  font-size: var(--text-label);
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -55,19 +55,20 @@ h2 {
   padding-top: 0 !important;
   border-top: 0 !important;
   color: var(--text-main);
-  font-family: var(--font-title);
-  font-size: var(--font-h2);
-  font-weight: 760;
-  line-height: 1.08;
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .section-header__desc {
   width: min(680px, 100%);
   margin: 18px auto 0;
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.78;
+  font-size: var(--text-lead);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 .section-header--left .section-header__desc {

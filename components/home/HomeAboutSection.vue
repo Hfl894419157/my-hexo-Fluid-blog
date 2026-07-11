@@ -43,7 +43,7 @@ const notes = [
   margin: 0 auto;
 }
 
-.about-link { width: fit-content; margin: 0 auto; color: var(--brand-main); font-size: 14px; font-weight: 720; text-decoration: none; }
+.about-link { width: fit-content; margin: 0 auto; color: var(--brand-main); font-size: 15px; font-weight: 500; text-decoration: none; }
 
 :deep(.base-card--padded) {
   padding: 22px 28px;
@@ -52,17 +52,18 @@ const notes = [
 h3 {
   margin: 0;
   color: var(--brand-cyan);
-  font-family: var(--font-title);
-  font-size: 18px;
-  font-weight: 760;
-  letter-spacing: var(--title-letter-spacing);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 p {
   margin: 10px 0 0;
   color: var(--text-sub);
-  font-size: var(--font-body);
-  line-height: 1.72;
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.75;
 }
 
 @media (max-width: 860px) {
