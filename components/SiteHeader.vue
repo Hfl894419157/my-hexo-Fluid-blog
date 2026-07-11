@@ -48,8 +48,10 @@ const openDropdown = (item) => {
   openDropdownKey.value = navKey(item)
 }
 
-const closeDropdown = (item) => {
-  if (openDropdownKey.value === navKey(item)) openDropdownKey.value = ''
+const activateNavItem = (item) => {
+  cancelDropdownClose()
+  openDropdownKey.value = ''
+  setHoveredNav(item)
 }
 
 const cancelDropdownClose = () => {
@@ -58,18 +60,17 @@ const cancelDropdownClose = () => {
   dropdownCloseTimer = 0
 }
 
-const scheduleCloseDropdown = (item) => {
+const scheduleNavReset = () => {
   cancelDropdownClose()
-  const key = navKey(item)
   dropdownCloseTimer = window.setTimeout(() => {
-    if (openDropdownKey.value === key) openDropdownKey.value = ''
-    if (hoveredNavKey.value === key) clearHoveredNav()
+    openDropdownKey.value = ''
+    clearHoveredNav()
     dropdownCloseTimer = 0
-  }, 160)
+  }, 240)
 }
 
-const closeDropdownOnFocusOut = (item, event) => {
-  if (!event.currentTarget.contains(event.relatedTarget)) scheduleCloseDropdown(item)
+const closeDropdownOnFocusOut = (event) => {
+  if (!event.currentTarget.contains(event.relatedTarget)) scheduleNavReset()
 }
 
 const isDropdownOpen = (item) => openDropdownKey.value === navKey(item)
@@ -130,7 +131,7 @@ onUnmounted(() => {
       id="site-navigation"
       class="site-header__nav"
       aria-label="Site navigation"
-      @mouseleave="clearHoveredNav"
+      @mouseleave="scheduleNavReset"
     >
       <template v-for="item in navItems" :key="item.text">
         <details
@@ -139,32 +140,38 @@ onUnmounted(() => {
           :class="{ active: isHighlighted(item) }"
           :open="isDropdownOpen(item)"
           @mouseenter="openDropdown(item)"
-          @mouseleave="scheduleCloseDropdown(item)"
+          @mouseleave="scheduleNavReset"
           @focusin="openDropdown(item)"
-          @focusout="closeDropdownOnFocusOut(item, $event)"
+          @focusout="closeDropdownOnFocusOut($event)"
         >
           <summary>
             <a class="site-header__summary-link" :href="pageLink(item.link)" @click.stop="closeNav">{{ item.text }}</a>
             <span aria-hidden="true">⌄</span>
           </summary>
-          <div class="site-header__submenu">
-            <a
-              v-for="child in item.children"
-              :key="child.text"
-              :href="pageLink(child.link)"
-              :class="{ active: isActive(child) }"
-              @click="closeNav"
-            >
-              {{ child.text }}
-            </a>
+          <div
+            class="site-header__submenu-shell"
+            @mouseenter="openDropdown(item)"
+            @mouseleave="scheduleNavReset"
+          >
+            <div class="site-header__submenu">
+              <a
+                v-for="child in item.children"
+                :key="child.text"
+                :href="pageLink(child.link)"
+                :class="{ active: isActive(child) }"
+                @click="closeNav"
+              >
+                {{ child.text }}
+              </a>
+            </div>
           </div>
         </details>
         <a
           v-else
           :class="{ active: isHighlighted(item) }"
           :href="pageLink(item.link)"
-          @mouseenter="setHoveredNav(item)"
-          @focus="setHoveredNav(item)"
+          @mouseenter="activateNavItem(item)"
+          @focus="activateNavItem(item)"
           @click="closeNav"
         >
           {{ item.text }}
@@ -294,12 +301,11 @@ onUnmounted(() => {
 .site-header__dropdown::after {
   position: absolute;
   top: 100%;
-  left: 50%;
+  left: 0;
   z-index: 0;
-  width: 176px;
-  height: 12px;
+  width: 100%;
+  height: 10px;
   content: '';
-  transform: translateX(-50%);
 }
 
 .site-header__dropdown summary {
@@ -313,19 +319,25 @@ onUnmounted(() => {
 
 .site-header__dropdown summary::-webkit-details-marker { display: none; }
 
-.site-header__submenu {
+.site-header__submenu-shell {
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   left: 50%;
   z-index: 1;
-  display: grid;
   width: 176px;
+  padding-top: 10px;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.site-header__submenu {
+  display: grid;
   padding: 8px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
   background: var(--nav-bg-strong);
   box-shadow: var(--shadow-card);
-  transform: translateX(-50%);
+  pointer-events: auto;
 }
 
 .site-header__submenu a {
@@ -423,15 +435,20 @@ onUnmounted(() => {
     min-height: 44px;
   }
 
-  .site-header__submenu {
+  .site-header__submenu-shell {
     position: static;
     z-index: auto;
     width: auto;
+    padding: 0;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .site-header__submenu {
     padding: 4px 0 4px 14px;
     border: 0;
     background: transparent;
     box-shadow: none;
-    transform: none;
   }
 
   .site-header__dropdown::after {
