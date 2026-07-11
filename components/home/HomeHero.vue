@@ -142,8 +142,8 @@ import BaseButton from '../BaseButton.vue'
   color: var(--hero-english);
   font-family: var(--font-display);
   font-size: var(--text-hero);
-  font-weight: 500;
-  line-height: 1.12;
+  font-weight: 620;
+  line-height: 1.06;
   letter-spacing: -0.045em;
 }
 
@@ -153,8 +153,8 @@ h1 {
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: var(--text-hero);
-  font-weight: 500;
-  line-height: 1.12;
+  font-weight: 620;
+  line-height: 1.06;
   letter-spacing: -0.045em;
 }
 
@@ -164,7 +164,7 @@ h1 {
   color: var(--text-sub);
   font-size: var(--text-lead);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.9;
 }
 
 .home-hero__actions {

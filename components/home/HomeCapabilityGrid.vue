@@ -40,10 +40,10 @@ const capabilities = [
 h3 {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-large);
-  font-weight: 500;
-  line-height: 1.32;
+  font-family: var(--font-sans);
+  font-size: var(--text-card-title);
+  font-weight: 700;
+  line-height: 1.4;
   letter-spacing: 0;
 }
 
@@ -52,7 +52,7 @@ p {
   color: var(--text-sub);
   font-size: var(--text-small);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.8;
 }
 
 @media (max-width: 960px) {

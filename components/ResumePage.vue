@@ -283,10 +283,10 @@ const awards = [
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: var(--text-page-title);
-  font-weight: 500;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: 1.15;
   text-align: center;
-  letter-spacing: 0;
+  letter-spacing: -0.03em;
 }
 
 .role {
@@ -319,8 +319,8 @@ const awards = [
   color: var(--brand-main);
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: 0.18em;
 }
 
 .contact-list {
@@ -350,10 +350,10 @@ const awards = [
 .edu-item h4 {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-title);
-  font-weight: 500;
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  font-size: var(--text-compact-title);
+  font-weight: 700;
+  line-height: 1.55;
   letter-spacing: 0;
 }
 
@@ -435,9 +435,9 @@ const awards = [
   background: var(--bg-soft);
   font-family: var(--font-display);
   font-size: var(--text-card-large);
-  font-weight: 500;
-  line-height: 1.32;
-  letter-spacing: 0;
+  font-weight: 580;
+  line-height: 1.3;
+  letter-spacing: -0.03em;
 }
 
 .title-icon {
@@ -453,7 +453,7 @@ const awards = [
   margin: 0;
   color: var(--text-sub);
   font-size: var(--text-body);
-  line-height: 1.75;
+  line-height: 1.9;
 }
 
 .divider {
@@ -499,9 +499,9 @@ const awards = [
 .company {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-title);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0;
 }
@@ -528,7 +528,7 @@ const awards = [
   padding-left: 16px;
   color: var(--text-sub);
   font-size: var(--text-body);
-  line-height: 1.75;
+  line-height: 1.9;
 }
 
 .job-details li::before {
@@ -576,9 +576,9 @@ const awards = [
 .project-head h4 {
   margin: 0;
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: var(--text-card-title);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0;
 }
@@ -599,7 +599,7 @@ const awards = [
   margin: 0 0 10px;
   color: var(--text-sub);
   font-size: var(--text-small);
-  line-height: 1.65;
+  line-height: 1.8;
 }
 
 .award-list {

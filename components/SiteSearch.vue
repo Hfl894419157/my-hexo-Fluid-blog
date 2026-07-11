@@ -281,8 +281,8 @@ onUnmounted(() => {
   background: transparent;
   color: var(--text-main);
   font: inherit;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .site-search__input::placeholder {
@@ -296,8 +296,8 @@ onUnmounted(() => {
   border-radius: var(--radius-control);
   background: var(--brand-main);
   color: var(--button-primary-text);
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -375,15 +375,16 @@ onUnmounted(() => {
 
 .site-search__result-kicker {
   color: var(--brand-main);
-  font-size: var(--text-label);
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
 .site-search__result-match {
   min-width: 0;
   color: var(--text-muted);
-  font-size: var(--text-caption);
+  font-size: 11px;
   font-weight: 400;
   overflow: hidden;
   text-align: right;
@@ -393,11 +394,11 @@ onUnmounted(() => {
 
 .site-search__result-title {
   color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: var(--text-card-title);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: var(--text-compact-title);
+  font-weight: 700;
   letter-spacing: 0;
-  line-height: 1.4;
+  line-height: 1.55;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

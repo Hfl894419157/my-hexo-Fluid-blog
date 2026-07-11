@@ -46,8 +46,9 @@ defineProps({
   margin: 0 0 14px;
   color: var(--brand-main);
   font-size: var(--text-label);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.2;
+  letter-spacing: 0.18em;
 }
 
 h2 {
@@ -57,9 +58,9 @@ h2 {
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: var(--text-section-title);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: 0;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .section-header__desc {
@@ -68,7 +69,7 @@ h2 {
   color: var(--text-sub);
   font-size: var(--text-lead);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.9;
 }
 
 .section-header--left .section-header__desc {

@@ -37,10 +37,10 @@ h2 {
   border-top: 0 !important;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: var(--text-section-title);
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: 0;
+  font-size: var(--text-cta);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
 p {
@@ -49,7 +49,7 @@ p {
   color: var(--text-sub);
   font-size: var(--text-lead);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.85;
 }
 
 .home-cta__actions {

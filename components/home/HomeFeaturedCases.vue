@@ -64,9 +64,9 @@ const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 3
   color: var(--text-main);
   background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
   font-family: var(--font-display);
-  font-size: var(--text-card-title);
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: var(--text-card-large);
+  font-weight: 580;
+  line-height: 1.3;
 }
 
 .case-card__image img {
@@ -88,8 +88,9 @@ const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 3
 
 span {
   color: var(--brand-cyan);
-  font-size: var(--text-label);
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
 }
 
 h3 {
@@ -97,17 +98,17 @@ h3 {
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: var(--text-card-large);
-  font-weight: 500;
-  line-height: 1.32;
+  font-weight: 580;
+  line-height: 1.3;
   letter-spacing: 0;
 }
 
 p {
   margin: 12px 0 22px;
   color: var(--text-sub);
-  font-size: var(--text-small);
+  font-size: var(--text-caption);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.72;
 }
 
 @media (max-width: 900px) {

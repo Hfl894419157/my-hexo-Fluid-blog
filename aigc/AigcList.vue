@@ -53,8 +53,8 @@ import ReactIsland from '../components/ReactIsland.vue'
   background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0;
+  font-weight: 400;
+  letter-spacing: 0.12em;
 }
 
 .card-image img {
@@ -82,7 +82,7 @@ import ReactIsland from '../components/ReactIsland.vue'
   border-radius: var(--radius-control);
   color: var(--button-primary-text);
   font-size: var(--text-label);
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--brand-main), var(--brand-second));
 }
 
@@ -94,8 +94,8 @@ h3 {
   margin: 0 !important;
   color: var(--text-main);
   font-size: var(--text-card-large);
-  font-weight: 500;
-  line-height: 1.32;
+  font-weight: 580;
+  line-height: 1.3;
   letter-spacing: 0;
 }
 
@@ -104,7 +104,7 @@ p {
   color: var(--text-sub);
   font-size: var(--text-small);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.8;
 }
 
 .card-desc { margin-top: -10px !important; }

@@ -9,6 +9,8 @@
     "build": "vitepress build"
   },
   "devDependencies": {
+    "@fontsource-variable/noto-sans-sc": "5.2.10",
+    "@fontsource-variable/noto-serif-sc": "5.2.10",
     "@vitejs/plugin-react": "^6.0.2",
     "ogl": "^1.0.11",
     "react": "^18.3.1",
