@@ -9,8 +9,8 @@ import SectionShell from '../SectionShell.vue'
       <h2>从一个高频视觉任务开始，把经验沉淀成系统</h2>
       <p>适合从产品图、详情页、品牌内容、短视频脚本或资源库整理开始，先建立流程，再持续迭代资产。</p>
       <div class="home-cta__actions">
-        <BaseButton href="/resume">讨论合作方向</BaseButton>
-        <BaseButton href="/blog/" variant="secondary">阅读方法论</BaseButton>
+        <BaseButton href="mailto:1442855983@qq.com">讨论合作方向</BaseButton>
+        <BaseButton href="/knowledge/" variant="secondary">继续探索知识库</BaseButton>
       </div>
     </section>
   </SectionShell>

@@ -5,7 +5,7 @@ layout: page
 
 # 资源库
 
-这里沉淀提示词、模型、组件、模板和学习资料。目标不是堆链接，而是把真正能提高交付效率的资源分类保存。
+这里只收录来源明确、访问有效并能够进入真实项目的资源。每项内容都会说明适用场景、授权边界和最后验证时间。
 
 <script setup>
 import ResourcesList from './ResourcesList.vue'

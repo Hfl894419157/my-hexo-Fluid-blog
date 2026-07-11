@@ -1,5 +1,7 @@
 ---
 title: 3D Glass Icons 玻璃图标
+status: draft
+search: false
 layout: page
 ---
 
@@ -34,9 +36,9 @@ C4D 玻璃图标源文件，包含 50+ 精美的 3D 玻璃质感图标，可自�
 
 ## 下载说明
 
-**完整资源包**：[下载](https://example.com/download/glass-icons.zip) (约 1.2GB)
+**完整资源包：** 文件与授权仍在核实，暂不提供下载。
 
-**仅 PNG 图标**：[下载](https://example.com/download/glass-icons-png.zip) (约 180MB)
+**PNG 图标：** 文件与授权仍在核实，暂不提供下载。
 
 ## 使用教程
 

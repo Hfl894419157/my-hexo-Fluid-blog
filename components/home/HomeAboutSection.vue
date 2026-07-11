@@ -4,9 +4,9 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 
 const notes = [
-  ['定位', 'AI 设计师个人站，聚焦商业视觉生产效率和方法沉淀。'],
-  ['内容', 'AI 知识、工作流、案例、方法论、资源库、关于我和作品展示。'],
-  ['气质', '高级、克制、清晰、大气、年轻、有未来感。']
+  ['实践背景', '8 年商业视觉、电商设计与跨媒介交付经验。'],
+  ['当前方向', '研究 AI 如何进入真实项目，并提升生产、判断与资产复用效率。'],
+  ['合作方式', '适合从产品图、详情页、品牌内容或视觉工作流梳理开始。']
 ]
 </script>
 
@@ -14,8 +14,8 @@ const notes = [
   <SectionShell id="about" tone="soft">
     <div class="about-layout">
       <SectionHeader
-        title="AI 视觉实验室"
-        desc="网站的表达重点从“我做过什么”升级为“我如何把设计经验变成可复用系统”。"
+        title="由实践驱动的 AI 视觉实验室"
+        desc="我关注的不是单次生成效果，而是如何把设计经验、商业目标与 AI 能力组织成稳定流程。"
       />
       <div class="about-list">
         <BaseCard v-for="item in notes" :key="item[0]">
@@ -23,6 +23,7 @@ const notes = [
           <p>{{ item[1] }}</p>
         </BaseCard>
       </div>
+      <a class="about-link" href="/resume">了解我的实践背景 →</a>
     </div>
   </SectionShell>
 </template>
@@ -41,6 +42,8 @@ const notes = [
   width: min(580px, 100%);
   margin: 0 auto;
 }
+
+.about-link { width: fit-content; margin: 0 auto; color: var(--brand-main); font-size: 14px; font-weight: 720; text-decoration: none; }
 
 :deep(.base-card--padded) {
   padding: 22px 28px;

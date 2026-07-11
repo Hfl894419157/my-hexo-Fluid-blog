@@ -1,5 +1,5 @@
 <script setup>
-import { toolsResources } from '../.shared/resourcesData.js'
+import { publishedResources as toolsResources } from '../.shared/resourcesData.js'
 import BaseButton from '../components/BaseButton.vue'
 import BaseCard from '../components/BaseCard.vue'
 import ReactIsland from '../components/ReactIsland.vue'
@@ -12,10 +12,11 @@ import ReactIsland from '../components/ReactIsland.vue'
 
   <div class="resources-list">
     <BaseCard v-for="tool in toolsResources" :key="tool.id" :href="tool.link">
-      <div class="tool-icon">{{ tool.icon }}</div>
+      <div class="tool-type">{{ tool.accessType }}</div>
       <p class="category">{{ tool.category }}</p>
       <h3>{{ tool.name }}</h3>
       <p class="desc">{{ tool.desc }}</p>
+      <p class="verified">验证于 {{ tool.verifiedAt }}</p>
       <BaseButton as="span" variant="text">查看详情 →</BaseButton>
     </BaseCard>
   </div>
@@ -29,15 +30,18 @@ import ReactIsland from '../components/ReactIsland.vue'
   margin-top: 42px;
 }
 
-.tool-icon {
-  display: grid;
-  width: 58px;
-  height: 58px;
-  place-items: center;
+.tool-type {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  width: fit-content;
+  padding: 0 10px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
   background: var(--bg-soft);
-  font-size: 26px;
+  color: var(--text-sub);
+  font-size: 12px;
+  font-weight: 720;
 }
 
 .category {
@@ -60,6 +64,12 @@ h3 {
   color: var(--text-sub);
   font-size: var(--font-small);
   line-height: 1.7;
+}
+
+.verified {
+  margin: -10px 0 18px !important;
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
 @media (max-width: 960px) {

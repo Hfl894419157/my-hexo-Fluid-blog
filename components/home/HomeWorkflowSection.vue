@@ -1,5 +1,6 @@
 <script setup>
 import BaseCard from '../BaseCard.vue'
+import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 
@@ -25,6 +26,9 @@ const steps = [
         <h3>{{ step[1] }}</h3>
         <p>{{ step[2] }}</p>
       </BaseCard>
+    </div>
+    <div class="workflow-action">
+      <BaseButton href="/aigc/commercial-visual-system" variant="ghost">查看完整工作流</BaseButton>
     </div>
   </SectionShell>
 </template>
@@ -69,6 +73,8 @@ p {
   font-size: var(--font-small);
   line-height: 1.72;
 }
+
+.workflow-action { display: flex; justify-content: center; margin-top: 24px; }
 
 @media (max-width: 1040px) {
   .workflow-line {

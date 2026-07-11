@@ -11,14 +11,14 @@ import BaseButton from '../BaseButton.vue'
     </div>
 
     <div class="home-hero__content">
-      <p class="home-hero__eyebrow">AI Design System</p>
-      <h1>用 AI 重构商业视觉生产流程</h1>
+      <p class="home-hero__eyebrow">AI Practice & Knowledge</p>
+      <h1>把 AI 实践沉淀成可复用的设计系统</h1>
       <p class="home-hero__lead">
-        聚焦 AI 视觉设计、产品图生成、工作流方法与案例沉淀，把设计经验转化为可复用、可交付、可持续迭代的数字资产。
+        从真实案例出发，记录商业视觉生产中的工作流、判断方法和知识资产，让每次项目不再从零开始。
       </p>
       <div class="home-hero__actions">
-        <BaseButton href="/portfolio/">查看作品案例</BaseButton>
-        <BaseButton href="/aigc/" variant="secondary">探索 AI 工作流</BaseButton>
+        <BaseButton href="/portfolio/">查看 AI 实践案例</BaseButton>
+        <BaseButton href="/aigc/" variant="secondary">探索工作流</BaseButton>
       </div>
     </div>
   </section>
@@ -141,7 +141,7 @@ import BaseButton from '../BaseButton.vue'
   margin: 0;
   color: var(--hero-english);
   font-family: var(--font-title);
-  font-size: var(--font-hero);
+  font-size: clamp(32px, 4.8vw, 62px);
   font-weight: 760;
   line-height: 0.96;
   letter-spacing: 0;
@@ -152,7 +152,7 @@ h1 {
   margin: 24px auto 0;
   color: var(--text-main);
   font-family: var(--font-title);
-  font-size: var(--font-h1);
+  font-size: clamp(36px, 4.5vw, 58px);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: 0.04em;

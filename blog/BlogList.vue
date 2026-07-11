@@ -1,5 +1,5 @@
 <script setup>
-import { blogPosts } from '../.shared/blogData.js'
+import { publishedBlogPosts as blogPosts } from '../.shared/blogData.js'
 import BaseButton from '../components/BaseButton.vue'
 import BaseCard from '../components/BaseCard.vue'
 import ReactIsland from '../components/ReactIsland.vue'
@@ -12,18 +12,17 @@ import ReactIsland from '../components/ReactIsland.vue'
 
   <div class="blog-list">
     <BaseCard v-for="post in blogPosts" :key="post.id" :href="post.link" :padded="false">
-      <div class="blog-image">
+      <div v-if="post.img" class="blog-image">
         <img :src="post.img" :alt="post.title" loading="lazy" />
       </div>
       <div class="blog-content">
         <div>
-          <p class="blog-date">{{ post.date }}</p>
+          <p class="blog-date">{{ post.type }} · {{ post.publishedAt }}</p>
           <h3>{{ post.title }}</h3>
-          <p class="desc">{{ post.desc }}</p>
+          <p class="desc">{{ post.summary }}</p>
         </div>
         <div class="blog-meta">
-          <span>{{ post.likes }} 喜欢</span>
-          <span>{{ post.comments }} 评论</span>
+          <span v-for="tag in post.tags" :key="tag"># {{ tag }}</span>
           <BaseButton as="span" variant="text">阅读全文 →</BaseButton>
         </div>
       </div>
@@ -40,7 +39,7 @@ import ReactIsland from '../components/ReactIsland.vue'
 
 :deep(.base-card) {
   display: grid;
-  grid-template-columns: minmax(260px, 0.42fr) 1fr;
+  grid-template-columns: 1fr;
   min-height: 250px;
 }
 

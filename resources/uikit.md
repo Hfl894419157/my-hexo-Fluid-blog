@@ -1,5 +1,7 @@
 ---
 title: Figma AI UI Kit 组件库
+status: draft
+search: false
 layout: page
 ---
 
@@ -53,7 +55,7 @@ layout: page
 
 **Figma 社区文件**：[在线使用](https://figma.com/@liuli-design)
 
-**本地副本**：[下载 .fig](https://example.com/download/ai-uikit.fig)
+**本地副本：** 文件与授权仍在核实，暂不提供下载。
 
 ## 使用教程
 
@@ -125,9 +127,9 @@ layout: page
 
 遇到问题？
 
-- 📖 查看 [使用文档](https://example.com/docs)
+- 使用文档将在文件与授权核实后补充。
 - 💬 加入 Discord 社区
-- 📧 邮件联系：support@example.com
+- 邮件联系：1442855983@qq.com
 
 ---
 

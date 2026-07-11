@@ -12,9 +12,7 @@ const profile = {
 
 // === 2. 联系方式 ===
 const contacts = [
-  { icon: '📞', text: '15686252702', link: 'tel:15686252702' },
-  { icon: '📧', text: '1442855983@qq.com', link: 'mailto:1442855983@qq.com' },
-  { icon: '📍', text: '甘肃省平凉市', link: '' }
+  { icon: '📧', text: '1442855983@qq.com', link: 'mailto:1442855983@qq.com' }
 ]
 
 // === 3. 教育背景 ===

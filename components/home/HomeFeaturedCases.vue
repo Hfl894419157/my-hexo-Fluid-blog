@@ -1,28 +1,29 @@
 <script setup>
-import { portfolioWorks } from '../../.shared/portfolioData.js'
+import { publishedPortfolioWorks } from '../../.shared/portfolioData.js'
 import BaseButton from '../BaseButton.vue'
 import BaseCard from '../BaseCard.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 
-const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
+const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 3)
 </script>
 
 <template>
   <SectionShell id="featured-cases" compact>
     <div class="section-row">
       <SectionHeader
-        title="案例验证方法"
-        desc="用案例呈现 AI 视觉从目标到交付的完整方法。"
+        title="用真实案例验证方法"
+        desc="不只展示最终画面，也说明目标、判断、过程与结果证据。"
       />
       <BaseButton href="/portfolio/" variant="ghost">全部案例</BaseButton>
     </div>
 
     <div class="case-grid">
       <BaseCard v-for="work in cases" :key="work.id" :href="work.link" :padded="false">
-        <div class="case-card__image">
+        <div v-if="work.img" class="case-card__image">
           <img :src="work.img" :alt="work.title" loading="lazy" />
         </div>
+        <div v-else class="case-card__cover" aria-hidden="true">{{ work.titleEn }}</div>
         <div class="case-card__body">
           <span>{{ work.category }}</span>
           <h3>{{ work.title }}</h3>
@@ -53,6 +54,18 @@ const cases = portfolioWorks.filter((item) => item.featured).slice(0, 3)
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-soft);
+}
+
+.case-card__cover {
+  display: grid;
+  aspect-ratio: 4 / 3;
+  align-items: end;
+  padding: 24px;
+  color: var(--text-main);
+  background: linear-gradient(135deg, var(--bg-soft), var(--bg-card));
+  font-family: var(--font-title);
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .case-card__image img {
