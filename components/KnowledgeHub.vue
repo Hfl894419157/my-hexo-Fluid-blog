@@ -121,6 +121,7 @@ const toggleTag = (tag) => {
           :key="item.id" 
           :href="item.link" 
           class="result-item"
+          v-reveal="{ delay: 0, y: 16 }"
         >
           <div class="result-item__meta">
             <span class="result-type">{{ item.type }}</span>

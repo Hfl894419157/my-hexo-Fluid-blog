@@ -4,7 +4,7 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgWorkflowStep from './svg/SvgWorkflowStep.vue'
 
-// 重构为统一的五阶段 AI 视觉工作流底座
+// 统一的五阶段 AI 视觉工作流底座
 const paradigms = [
   {
     id: 'input',
@@ -51,104 +51,160 @@ const paradigms = [
 
 <template>
   <SectionShell id="workflow" tone="soft">
-    <!-- ① 标题区：发散文案，重构对 AI 工作流程的深度认知 -->
-    <div class="wf-head">
-      <SectionHeader
-        :title-lines="['由实践驱动的五阶段工作流', '让 AI 生产进入确定性轨道']"
-        desc="从需求输入、变量拆解、方向生成，到人工介入判断与最终的资产化沉淀。我不相信单次随机生成的“奇迹”，而是将每次任务整理为可重复的交付流程。"
-      />
-      <BaseButton href="/aigc/" variant="ghost">探索协同工作流</BaseButton>
-    </div>
-
-    <!-- ② 统一的 5 列卡片网格 -->
-    <div class="wf-grid">
-      <article v-for="item in paradigms" :key="item.id" class="wf-card">
-        <!-- SVG 图标概念性图示 -->
-        <div class="wf-card__icon">
-          <SvgWorkflowStep :step="item.iconNum" />
-        </div>
-
-        <!-- 文本内容 -->
-        <div class="wf-card__copy">
-          <span class="wf-card__tag">{{ item.tag }}</span>
-          <h3>{{ item.title }}</h3>
-          <p class="wf-card__desc">{{ item.desc }}</p>
-          <div class="wf-card__proof">
-            <span class="wf-dot"></span>
-            <strong>核心：{{ item.proof }}</strong>
+    <div class="wf-container">
+      <!-- 左侧：Sticky 粘性标题与导言区 -->
+      <div class="wf-sticky-sidebar">
+        <div class="wf-sticky-inner" v-reveal="{ delay: 0, y: 16 }">
+          <SectionHeader
+            :title-lines="['由实践驱动的五阶段工作流', '让 AI 生产进入确定性轨道']"
+            desc="从需求输入、变量拆解、方向生成，到人工介入判断与最终的资产化沉淀。我不相信单次随机生成的“奇迹”，而是将每次任务整理为可重复的交付流程。"
+          />
+          <div class="wf-sticky-action">
+            <BaseButton href="/aigc/" variant="ghost">探索协同工作流</BaseButton>
           </div>
         </div>
-      </article>
+      </div>
+
+      <!-- 右侧：垂直推进的步骤卡片列表与 SVG/虚线点亮轨道 -->
+      <div class="wf-scroll-list">
+        <!-- 垂直轨道连接线 (仅大屏显示) -->
+        <div class="wf-track-line" aria-hidden="true"></div>
+
+        <article
+          v-for="(item, idx) in paradigms"
+          :key="item.id"
+          class="wf-card-row"
+          v-reveal="{ delay: idx * 80, y: 24 }"
+        >
+          <!-- 轨道指示灯节点 -->
+          <div class="wf-track-node" aria-hidden="true">
+            <span class="wf-track-node__inner"></span>
+          </div>
+
+          <!-- 卡片内容体 -->
+          <div class="wf-card-inner">
+            <!-- 图标概念图示 -->
+            <div class="wf-card-row__icon">
+              <SvgWorkflowStep :step="item.iconNum" />
+            </div>
+
+            <!-- 文本内容 -->
+            <div class="wf-card-row__copy">
+              <span class="wf-card-row__tag">{{ item.tag }}</span>
+              <h3>{{ item.title }}</h3>
+              <p class="wf-card-row__desc">{{ item.desc }}</p>
+              <div class="wf-card-row__proof">
+                <span class="wf-dot"></span>
+                <strong>核心：{{ item.proof }}</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </SectionShell>
 </template>
 
 <style scoped>
-.wf-head {
+/* ─── 布局容器 ───────────────────────────────────────── */
+.wf-container {
   display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+/* ─── 左侧 Sticky 容器 (仅大屏激活) ────────────────────────── */
+.wf-sticky-sidebar {
+  position: relative;
   width: 100%;
-  justify-items: center;
-  gap: 24px;
-  text-align: center;
 }
 
-/* ─── 5列网格 ───────────────────────────────────────── */
-.wf-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 48px;
-}
-
-/* ─── 卡片设计 ───────────────────────────────────────── */
-.wf-card {
+.wf-sticky-inner {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.wf-sticky-action {
+  margin-top: 8px;
+}
+
+/* ─── 右侧垂直卡片列表 ───────────────────────────────────── */
+.wf-scroll-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 轨道背景线 (默认隐藏，大屏开启) */
+.wf-track-line {
+  display: none;
+}
+
+/* ─── 垂直横版卡片设计 ───────────────────────────────────── */
+.wf-card-row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.wf-track-node {
+  display: none;
+}
+
+.wf-card-inner {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
   background: var(--bg-card);
-  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
+  transition: 
+    border-color var(--transition-smooth), 
+    box-shadow var(--transition-smooth), 
+    transform var(--transition-smooth);
 }
 
-.wf-card:hover {
+.wf-card-row:hover .wf-card-inner {
   border-color: color-mix(in srgb, var(--brand-main) 35%, transparent);
-  box-shadow: 0 12px 36px color-mix(in srgb, var(--brand-main) 8%, transparent);
-  transform: translateY(-4px);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--brand-main) 6%, transparent);
+  transform: translateY(-2px);
 }
 
 /* 图标区域 */
-.wf-card__icon {
+.wf-card-row__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 20px 20px;
-  min-height: 120px;
+  width: 120px;
   background: linear-gradient(160deg,
     color-mix(in srgb, var(--brand-main) 4%, var(--bg-soft)),
     var(--bg-card));
-  border-bottom: 1px solid var(--border-soft);
+  border-right: 1px solid var(--border-soft);
+  flex-shrink: 0;
 }
 
-.wf-card__icon :deep(svg) {
-  width: 68px;
-  height: 68px;
+.wf-card-row__icon :deep(svg) {
+  width: 52px;
+  height: 52px;
 }
 
 /* 内容区域 */
-.wf-card__copy {
+.wf-card-row__copy {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 24px;
 }
 
-.wf-card__tag {
+.wf-card-row__tag {
   color: var(--brand-main);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.08em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-transform: uppercase;
 }
 
@@ -156,25 +212,25 @@ h3 {
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(20px, 1.8vw, 26px);
+  font-size: clamp(18px, 1.5vw, 22px);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
-.wf-card__desc {
-  margin: 14px 0 0;
+.wf-card-row__desc {
+  margin: 10px 0 0;
   color: var(--text-sub);
   font-size: var(--text-small);
-  line-height: 1.85;
+  line-height: 1.8;
   flex-grow: 1;
 }
 
-.wf-card__proof {
+.wf-card-row__proof {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 12px;
   border-top: 1px dashed var(--border-soft);
 }
 
@@ -187,32 +243,102 @@ h3 {
   opacity: 0.8;
 }
 
-.wf-card__proof strong {
+.wf-card-row__proof strong {
   color: var(--text-main);
   font-size: var(--text-label);
   font-weight: 500;
 }
 
-/* ─── 响应式 ─────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .wf-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+/* ─── 媒体查询响应式 ─────────────────────────────────────── */
+
+/* 大屏端 (>= 1024px) 激活 Sticky Scroll 布局与指示轨点亮 */
+@media (min-width: 1024px) {
+  .wf-container {
+    grid-template-columns: 380px 1fr;
+    gap: 64px;
+  }
+
+  .wf-sticky-sidebar {
+    position: sticky;
+    top: 130px; /* 完美固定高度，给 Header 留出空间 */
+  }
+
+  .wf-scroll-list {
+    padding-left: 48px;
+  }
+
+  /* 直立的轨道虚线 */
+  .wf-track-line {
+    display: block;
+    position: absolute;
+    left: 17px;
+    top: 48px;
+    bottom: 48px;
+    width: 1px;
+    border-left: 1px dashed var(--border-soft);
+    z-index: 0;
+  }
+
+  .wf-track-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--bg-page);
+    border: 1.5px solid var(--border-strong);
+    z-index: 1;
+    transition: 
+      background-color var(--transition-smooth),
+      border-color var(--transition-smooth),
+      box-shadow var(--transition-smooth);
+  }
+
+  /* 指示圆点心部 */
+  .wf-track-node__inner {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background-color var(--transition-smooth);
+  }
+
+  /* 当卡片在滚动中被 reveal 激活时，小圆点高亮 */
+  .wf-card-row.is-revealed .wf-track-node {
+    border-color: var(--brand-main);
+    background: var(--bg-page);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--brand-main) 60%, transparent);
+  }
+
+  .wf-card-row.is-revealed .wf-track-node__inner {
+    background-color: var(--brand-main);
   }
 }
 
+/* 窄屏端 (< 560px) 卡片降级为自适应上下堆叠结构 */
 @media (max-width: 560px) {
-  .wf-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .wf-card-inner {
+    flex-direction: column;
+  }
+  
+  .wf-card-row__icon {
+    width: 100%;
+    padding: 24px 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border-soft);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wf-card {
+  .wf-card-inner {
     transition: none;
   }
-  .wf-card:hover {
+  .wf-card-row:hover .wf-card-inner {
     transform: none;
   }
 }

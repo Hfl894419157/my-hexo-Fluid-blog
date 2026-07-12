@@ -40,7 +40,7 @@ const updates = [
 
 <template>
   <SectionShell id="home-recent-updates" tone="soft" compact>
-    <div class="updates-inner">
+    <div class="updates-inner" v-reveal="{ delay: 0, y: 16 }">
       <SectionHeader
         title="网站最近维护更新"
         desc="这里记录我近期对个人能力系统、工作流和资源库的维护动态。所有内容均会标注验证状态。"
@@ -51,6 +51,7 @@ const updates = [
           v-for="(update, idx) in updates"
           :key="idx"
           class="update-row"
+          v-reveal="{ delay: idx * 80, y: 20 }"
         >
           <div class="update-row__date">{{ update.date }}</div>
           <div class="update-row__type">

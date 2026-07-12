@@ -10,7 +10,7 @@ const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 2
 
 <template>
   <SectionShell id="featured-cases" compact>
-    <div class="section-row">
+    <div class="section-row" v-reveal="{ delay: 0, y: 16 }">
       <SectionHeader
         title="先看结果，再理解它为什么成立"
         desc="每个案例都把目标、角色、关键判断与最终结果放在同一条证据链上。"
@@ -19,7 +19,13 @@ const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 2
     </div>
 
     <div class="case-list">
-      <article v-for="(item, index) in cases" :key="item.id" class="case-row" :class="{ 'case-row--reverse': index % 2 }">
+      <article 
+        v-for="(item, index) in cases" 
+        :key="item.id" 
+        class="case-row" 
+        :class="{ 'case-row--reverse': index % 2 }"
+        v-reveal="{ delay: index * 100, y: 32 }"
+      >
         <a class="case-row__media" :href="item.link" :aria-label="`查看案例：${item.title}`">
           <MediaFrame :src="item.cover" :alt="item.alt || item.title" aspect="1.6 / 1" />
         </a>

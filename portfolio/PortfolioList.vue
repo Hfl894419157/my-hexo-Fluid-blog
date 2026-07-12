@@ -6,10 +6,11 @@ import MediaFrame from '../components/MediaFrame.vue'
 <template>
   <div class="portfolio-grid">
     <a
-      v-for="work in portfolioWorks"
+      v-for="(work, idx) in portfolioWorks"
       :key="work.id"
       class="portfolio-card"
       :href="work.link"
+      v-reveal="{ delay: (idx % 3) * 80, y: 32 }"
     >
       <div class="portfolio-card__media">
         <MediaFrame

@@ -845,3 +845,44 @@ a {
     line-height: 1.8 !important;
   }
 }
+
+/* ==================== 全局滚动触发动画系统 (克制、平滑) ==================== */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 28px)) translateZ(0);
+  filter: blur(var(--reveal-blur, 6px));
+  will-change: opacity, transform, filter;
+  
+  /* 现代平滑减速贝塞尔，零弹跳 */
+  transition: 
+    opacity var(--reveal-duration, 800ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 800ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 800ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* 激活状态 */
+.reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+  filter: blur(0);
+}
+
+/* 移动端降级：减小运动幅度与模糊，防止卡顿 */
+@media (max-width: 768px) {
+  .reveal-item {
+    --reveal-y: 12px !important;
+    --reveal-blur: 3px !important;
+  }
+}
+
+/* 尊重用户系统减弱动画设置：直接显示，关闭一切过渡 */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+

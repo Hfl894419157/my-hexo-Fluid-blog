@@ -11,16 +11,16 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
     <div class="home-hero__inner">
       <!-- Left: Copy -->
       <div class="home-hero__content">
-        <h1>
+        <h1 v-reveal="{ delay: 0, y: 32 }">
           <span class="h1-line">把 AI 学习与设计实践，</span>
           <span class="h1-line h1-accent">沉淀为可复用的个人能力系统</span>
         </h1>
 
-        <p class="home-hero__lead">
+        <p class="home-hero__lead" v-reveal="{ delay: 100, y: 24 }">
           这里记录我真实案例、方法判断、生产流程及经验证的资源。
         </p>
 
-        <div class="home-hero__actions">
+        <div class="home-hero__actions" v-reveal="{ delay: 200, y: 16 }">
           <BaseButton href="/portfolio/">查看实践案例</BaseButton>
           <BaseButton href="/knowledge/" variant="secondary">进入知识系统</BaseButton>
         </div>
@@ -28,7 +28,7 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
       </div>
 
       <!-- Right: SVG Visual -->
-      <div class="home-hero__visual" aria-hidden="true">
+      <div class="home-hero__visual" aria-hidden="true" v-reveal="{ delay: 280, y: 0, blur: 8 }">
         <SvgHeroVisual />
       </div>
     </div>

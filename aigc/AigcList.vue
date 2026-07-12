@@ -127,6 +127,7 @@ const phases = [
           class="aigc-card"
           :class="{ 'aigc-card--lead': index === 0 }"
           :href="work.link"
+          v-reveal="{ delay: (index % 3) * 80, y: 32 }"
         >
           <!-- Media / placeholder -->
           <div class="aigc-card__media">
