@@ -1,12 +1,9 @@
 ---
-title: AI 工作流
+title: AI 视觉实验室 · 由实践驱动的工作流记录
+description: 从真实商业项目出发，把 AI 生成的变量控制、结果筛选与判断标准整理成五阶段工作流，让每次执行都为下一次积累。
 layout: page
-pageClass: page-overview-list
+pageClass: page-overview-list page-aigc
 ---
-
-# AI 工作流实验室
-
-这里记录从需求输入到交付复盘的完整流程。重点不是工具清单，而是变量如何控制、结果如何筛选，以及哪些经验可以进入下一次项目。
 
 <script setup>
 import AigcList from './AigcList.vue'

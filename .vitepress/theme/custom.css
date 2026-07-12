@@ -313,6 +313,25 @@ a {
   padding-top: 156px;
 }
 
+/* ==================== AI 视觉实验室页（aigc）==================== */
+/* Hero + 列表由 AigcList.vue 全权渲染，禁用 VitePress 内容容器限制 */
+.page-aigc .VPPage > div {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.page-aigc .VPDoc .content,
+.page-aigc .VPDoc .content-container {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.page-aigc .vp-doc h1,
+.page-aigc .vp-doc > p {
+  display: none !important;
+}
+
 /* ==================== 栏目总览页 ==================== */
 .page-overview-list .VPSidebar {
   display: none !important;
