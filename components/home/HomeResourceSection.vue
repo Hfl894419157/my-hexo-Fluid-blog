@@ -2,6 +2,8 @@
 import { publishedResources } from '../../.shared/resourcesData.js'
 import { publishedBlogPosts } from '../../.shared/blogData.js'
 import SectionShell from '../SectionShell.vue'
+import SectionHeader from '../SectionHeader.vue'
+import BaseButton from '../BaseButton.vue'
 
 const leadArticle = publishedBlogPosts[0]
 const resources = publishedResources.slice(0, 2)
@@ -10,22 +12,13 @@ const resources = publishedResources.slice(0, 2)
 <template>
   <SectionShell id="knowledge">
 
-    <!-- ① 标题区：左对齐 + 右侧直达按钮 -->
+    <!-- ① 标题区：居中对齐，与其他板块保持一致 -->
     <div class="kr-head">
-      <div class="kr-head__copy">
-        <p class="kr-eyebrow">Knowledge System</p>
-        <h2 class="kr-title">
-          <span>知识不是链接仓库</span>
-          <span>而是下一次项目的起点</span>
-        </h2>
-        <p class="kr-desc">方法解释为什么这样做；资源标注来源与验证时间，让你先判断是否值得使用。</p>
-      </div>
-      <a href="/knowledge/" class="kr-cta-link">
-        进入知识库
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
+      <SectionHeader
+        :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"
+        desc="方法解释为什么这样做，资源预览让你先判断它是否值得使用。"
+      />
+      <BaseButton href="/knowledge/" variant="ghost">进入知识库</BaseButton>
     </div>
 
     <!-- ② 内容网格：主文章（横跨左侧） + 右侧两个资源卡 -->
@@ -88,24 +81,6 @@ const resources = publishedResources.slice(0, 2)
 
     </div>
 
-    <!-- ③ 底部原则条 -->
-    <div class="kr-rules">
-      <p class="kr-rules__label">收录标准</p>
-      <ul class="kr-rules__list">
-        <li>
-          <span class="kr-rules__num">01</span>
-          <span>方法说明适用场景与限制，不把工具参数包装成普遍结论。</span>
-        </li>
-        <li>
-          <span class="kr-rules__num">02</span>
-          <span>资源标明来源、访问方式和验证时间，不提供失效或虚构下载。</span>
-        </li>
-        <li>
-          <span class="kr-rules__num">03</span>
-          <span>每篇内容连接到案例或工作流，让知识最终回到实践。</span>
-        </li>
-      </ul>
-    </div>
 
   </SectionShell>
 </template>
@@ -113,69 +88,12 @@ const resources = publishedResources.slice(0, 2)
 <style scoped>
 /* ─── 标题区 ─────────────────────────────── */
 .kr-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid var(--border-soft);
+  display: grid;
+  width: 100%;
+  justify-items: center;
+  gap: 24px;
+  text-align: center;
 }
-
-.kr-head__copy { flex: 1; }
-
-.kr-eyebrow {
-  margin: 0 0 16px;
-  color: var(--brand-main);
-  font-size: var(--text-label);
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.kr-title {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  border: none;
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 54px);
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-}
-
-.kr-desc {
-  margin: 16px 0 0;
-  max-width: 520px;
-  color: var(--text-sub);
-  font-size: var(--text-small);
-  line-height: 1.85;
-}
-
-/* CTA 按钮 */
-.kr-cta-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  padding: 12px 24px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-control);
-  color: var(--brand-main);
-  font-size: var(--text-small);
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background var(--transition-smooth), border-color var(--transition-smooth), color var(--transition-smooth);
-}
-.kr-cta-link:hover {
-  background: var(--brand-main);
-  border-color: var(--brand-main);
-  color: #fff;
-}
-.kr-cta-link svg { flex-shrink: 0; }
 
 /* ─── 内容网格 ────────────────────────────── */
 .kr-grid {
@@ -386,63 +304,11 @@ const resources = publishedResources.slice(0, 2)
   font-weight: 500;
 }
 
-/* ─── 底部原则 ────────────────────────────── */
-.kr-rules {
-  display: grid;
-  grid-template-columns: 160px minmax(0, 1fr);
-  gap: 48px;
-  margin-top: 56px;
-  padding-top: 40px;
-  border-top: 1px solid var(--border-soft);
-  align-items: start;
-}
-
-.kr-rules__label {
-  margin: 0;
-  padding-top: 4px;
-  color: var(--text-muted);
-  font-size: var(--text-label);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.kr-rules__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0;
-}
-
-.kr-rules__list li {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  gap: 16px;
-  align-items: baseline;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--border-soft);
-  color: var(--text-sub);
-  font-size: var(--text-small);
-  line-height: 1.8;
-}
-.kr-rules__list li:first-child {
-  border-top: 1px solid var(--border-soft);
-}
-
-.kr-rules__num {
-  color: var(--brand-main);
-  font-size: var(--text-label);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  padding-top: 2px;
-}
 
 /* ─── 响应式 ──────────────────────────────── */
 @media (max-width: 900px) {
   .kr-head { flex-direction: column; align-items: flex-start; }
   .kr-grid { grid-template-columns: 1fr; }
-  .kr-rules { grid-template-columns: 1fr; gap: 24px; }
-  .kr-rules__label { padding-bottom: 0; }
 }
 
 @media (max-width: 600px) {
