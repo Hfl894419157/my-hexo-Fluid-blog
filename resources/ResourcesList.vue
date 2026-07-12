@@ -1,65 +1,80 @@
 <script setup>
 import { allResources as toolsResources } from '../.shared/resourcesData.js'
+import KnowledgePageHero from '../components/KnowledgePageHero.vue'
 </script>
 
 <template>
-  <div class="resource-grid">
-    <a
-      v-for="(tool, index) in toolsResources"
-      :key="tool.id"
-      class="resource-card"
-      :class="{ 'resource-card--draft': tool.status === 'draft' }"
-      :href="tool.status === 'published' ? tool.link : undefined"
-      :aria-disabled="tool.status === 'draft'"
-    >
-      <!-- Preview panel (top) -->
-      <div class="resource-card__preview">
-        <div class="resource-card__toprow">
-          <span class="resource-card__cat">{{ tool.category }}</span>
-          <strong class="resource-card__num">{{ String(index + 1).padStart(2, '0') }}</strong>
+  <div class="resources-section">
+    <KnowledgePageHero
+      title="工具资源"
+      description="这里只收录来源明确、访问有效并能够进入真实项目的资源。每项内容都会说明适用场景、授权边界和最后验证时间。"
+      variant="tools"
+    />
+
+    <div class="resource-grid">
+      <a
+        v-for="(tool, index) in toolsResources"
+        :key="tool.id"
+        class="resource-card"
+        :class="{ 'resource-card--draft': tool.status === 'draft' }"
+        :href="tool.status === 'published' ? tool.link : undefined"
+        :aria-disabled="tool.status === 'draft'"
+      >
+        <!-- Preview panel (top) -->
+        <div class="resource-card__preview">
+          <div class="resource-card__toprow">
+            <span class="resource-card__cat">{{ tool.category }}</span>
+            <strong class="resource-card__num">{{ String(index + 1).padStart(2, '0') }}</strong>
+          </div>
+
+          <h2>{{ tool.name }}</h2>
+
+          <!-- Mock content lines -->
+          <div class="resource-card__lines" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+
+          <div class="resource-card__preview-footer">
+            <span v-if="tool.accessType">{{ tool.accessType }}</span>
+            <span v-else>整理中</span>
+            <span v-if="tool.verifiedAt">{{ tool.verifiedAt }}</span>
+          </div>
+
+          <!-- Draft overlay badge -->
+          <span v-if="tool.status === 'draft'" class="resource-card__badge">更新中</span>
         </div>
 
-        <h2>{{ tool.name }}</h2>
-
-        <!-- Mock content lines -->
-        <div class="resource-card__lines" aria-hidden="true">
-          <i></i><i></i><i></i><i></i>
+        <!-- Info panel (bottom) -->
+        <div class="resource-card__info">
+          <span class="resource-card__label">
+            {{ tool.status === 'published' ? 'VERIFIED RESOURCE' : 'COMING SOON' }}
+          </span>
+          <h3>{{ tool.name }}</h3>
+          <p>{{ tool.desc }}</p>
+          <dl v-if="tool.status === 'published'">
+            <div><dt>访问</dt><dd>{{ tool.accessType }}</dd></div>
+            <div><dt>授权</dt><dd>{{ tool.license }}</dd></div>
+          </dl>
+          <strong v-if="tool.status === 'published'" class="resource-card__cta">查看内容预览 →</strong>
+          <strong v-else class="resource-card__cta resource-card__cta--pending">敬请期待</strong>
         </div>
-
-        <div class="resource-card__preview-footer">
-          <span v-if="tool.accessType">{{ tool.accessType }}</span>
-          <span v-else>整理中</span>
-          <span v-if="tool.verifiedAt">{{ tool.verifiedAt }}</span>
-        </div>
-
-        <!-- Draft overlay badge -->
-        <span v-if="tool.status === 'draft'" class="resource-card__badge">更新中</span>
-      </div>
-
-      <!-- Info panel (bottom) -->
-      <div class="resource-card__info">
-        <span class="resource-card__label">
-          {{ tool.status === 'published' ? 'VERIFIED RESOURCE' : 'COMING SOON' }}
-        </span>
-        <h3>{{ tool.name }}</h3>
-        <p>{{ tool.desc }}</p>
-        <dl v-if="tool.status === 'published'">
-          <div><dt>访问</dt><dd>{{ tool.accessType }}</dd></div>
-          <div><dt>授权</dt><dd>{{ tool.license }}</dd></div>
-        </dl>
-        <strong v-if="tool.status === 'published'" class="resource-card__cta">查看内容预览 →</strong>
-        <strong v-else class="resource-card__cta resource-card__cta--pending">敬请期待</strong>
-      </div>
-    </a>
+      </a>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.resources-section {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 44px 0 24px;
+}
+
 .resource-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  margin-top: 46px;
+  margin-top: 42px;
 }
 
 .resource-card {

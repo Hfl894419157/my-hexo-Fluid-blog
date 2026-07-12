@@ -1,62 +1,77 @@
 <script setup>
 import { allBlogPosts as blogPosts } from '../.shared/blogData.js'
 import MediaFrame from '../components/MediaFrame.vue'
+import KnowledgePageHero from '../components/KnowledgePageHero.vue'
 </script>
 
 <template>
-  <div class="blog-grid">
-    <a
-      v-for="(post, index) in blogPosts"
-      :key="post.id"
-      class="blog-card"
-      :class="{ 'blog-card--draft': post.status === 'draft', 'blog-card--lead': index === 0 }"
-      :href="post.status === 'published' ? post.link : undefined"
-      :aria-disabled="post.status === 'draft'"
-    >
-      <!-- Cover -->
-      <div class="blog-card__cover">
-        <MediaFrame
-          v-if="post.cover && post.status === 'published'"
-          :src="post.cover"
-          :alt="post.alt"
-          aspect="16 / 9"
-        />
-        <div v-else class="blog-card__placeholder" aria-hidden="true">
-          <svg viewBox="0 0 160 90" fill="none">
-            <rect x="24" y="18" width="112" height="54" rx="4"
-              stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.28" stroke-dasharray="5 4" fill="none"/>
-            <rect x="38" y="30" width="50" height="5" rx="2" fill="var(--brand-main)" fill-opacity="0.25"/>
-            <rect x="38" y="42" width="38" height="4" rx="2" fill="var(--brand-main)" fill-opacity="0.18"/>
-            <rect x="38" y="53" width="44" height="4" rx="2" fill="var(--brand-main)" fill-opacity="0.14"/>
-          </svg>
-        </div>
-        <span v-if="post.status === 'draft'" class="blog-card__badge">更新中</span>
-        <span v-else-if="index === 0" class="blog-card__badge blog-card__badge--featured">最新</span>
-      </div>
+  <div class="blog-section">
+    <KnowledgePageHero
+      title="设计方法"
+      description="以低频、高质量的方式记录 AI 时代的设计判断、工作流建设、知识资产与项目复盘，不追求传统博客的更新频率。"
+      variant="method"
+    />
 
-      <!-- Copy -->
-      <div class="blog-card__body">
-        <span class="blog-card__meta">
-          {{ post.type }}<template v-if="post.publishedAt"> · {{ post.publishedAt }}</template>
-        </span>
-        <h2>{{ post.title }}</h2>
-        <p v-if="post.summary">{{ post.summary }}</p>
-        <ul v-if="post.tags && post.tags.length">
-          <li v-for="tag in post.tags" :key="tag"># {{ tag }}</li>
-        </ul>
-        <strong v-if="post.status === 'published'" class="blog-card__cta">阅读全文 →</strong>
-        <strong v-else class="blog-card__cta blog-card__cta--pending">敬请期待</strong>
-      </div>
-    </a>
+    <div class="blog-grid">
+      <a
+        v-for="(post, index) in blogPosts"
+        :key="post.id"
+        class="blog-card"
+        :class="{ 'blog-card--draft': post.status === 'draft', 'blog-card--lead': index === 0 }"
+        :href="post.status === 'published' ? post.link : undefined"
+        :aria-disabled="post.status === 'draft'"
+      >
+        <!-- Cover -->
+        <div class="blog-card__cover">
+          <MediaFrame
+            v-if="post.cover && post.status === 'published'"
+            :src="post.cover"
+            :alt="post.alt"
+            aspect="16 / 9"
+          />
+          <div v-else class="blog-card__placeholder" aria-hidden="true">
+            <svg viewBox="0 0 160 90" fill="none">
+              <rect x="24" y="18" width="112" height="54" rx="4"
+                stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.28" stroke-dasharray="5 4" fill="none"/>
+              <rect x="38" y="30" width="50" height="5" rx="2" fill="var(--brand-main)" fill-opacity="0.25"/>
+              <rect x="38" y="42" width="38" height="4" rx="2" fill="var(--brand-main)" fill-opacity="0.18"/>
+              <rect x="38" y="53" width="44" height="4" rx="2" fill="var(--brand-main)" fill-opacity="0.14"/>
+            </svg>
+          </div>
+          <span v-if="post.status === 'draft'" class="blog-card__badge">更新中</span>
+          <span v-else-if="index === 0" class="blog-card__badge blog-card__badge--featured">最新</span>
+        </div>
+
+        <!-- Copy -->
+        <div class="blog-card__body">
+          <span class="blog-card__meta">
+            {{ post.type }}<template v-if="post.publishedAt"> · {{ post.publishedAt }}</template>
+          </span>
+          <h2>{{ post.title }}</h2>
+          <p v-if="post.summary">{{ post.summary }}</p>
+          <ul v-if="post.tags && post.tags.length">
+            <li v-for="tag in post.tags" :key="tag"># {{ tag }}</li>
+          </ul>
+          <strong v-if="post.status === 'published'" class="blog-card__cta">阅读全文 →</strong>
+          <strong v-else class="blog-card__cta blog-card__cta--pending">敬请期待</strong>
+        </div>
+      </a>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.blog-section {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 44px 0 24px;
+}
+
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  margin-top: 46px;
+  margin-top: 42px;
 }
 
 .blog-card {
