@@ -36,7 +36,7 @@ import SectionShell from '../SectionShell.vue'
 
       <!-- Content -->
       <div class="cta-content">
-        <h2>从一个高频视觉任务开始，<br>把经验沉淀成系统</h2>
+        <h2>从一个高频视觉任务开始<br>把经验沉淀成系统</h2>
         <p class="cta-desc">适合从产品图、详情页、品牌内容、短视频脚本或资源库整理开始，先建立流程，再持续迭代资产。</p>
         <div class="cta-actions">
           <BaseButton href="mailto:1442855983@qq.com">讨论合作方向</BaseButton>

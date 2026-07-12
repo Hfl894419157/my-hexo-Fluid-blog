@@ -11,7 +11,6 @@ const capabilities = [
     title: '商业视觉生成',
     desc: '从产品事实和商业目标出发，定义可控的视觉变量，让生成结果从一开始就服务于转化。',
     evidence: '产品图、详情页与品牌内容',
-    outcome: '可筛选的方向池',
     href: '/portfolio/'
   },
   {
@@ -20,7 +19,6 @@ const capabilities = [
     title: '流程系统化',
     desc: '把需求、生成、精修和交付连接成可以复盘的路径，每次执行都为下一次积累判断依据。',
     evidence: '五阶段 AI 工作流',
-    outcome: '可重复的生产方法',
     href: '/aigc/'
   },
   {
@@ -29,7 +27,6 @@ const capabilities = [
     title: '知识资产化',
     desc: '把有效模板、判断标准与复盘结论送回下一次项目，让经验形成真正可复用的知识资产。',
     evidence: 'Prompt、清单与文章',
-    outcome: '持续增长的知识库',
     href: '/knowledge/'
   }
 ]
@@ -39,7 +36,7 @@ const capabilities = [
   <SectionShell id="capabilities">
     <div class="cap-head">
       <SectionHeader
-        :title-lines="['能力必须对应证据，', '也必须产生结果']"
+        :title-lines="['能力必须对应证据', '也必须产生结果']"
         desc="不再用文字卡罗列技能，而是让每个方向连接真实内容与可复用产出。"
       />
       <BaseButton href="/knowledge/" variant="ghost">查看知识系统</BaseButton>
@@ -69,10 +66,6 @@ const capabilities = [
             <dt>证据</dt>
             <dd>{{ item.evidence }}</dd>
           </div>
-          <div>
-            <dt>产出</dt>
-            <dd>{{ item.outcome }}</dd>
-          </div>
         </dl>
 
         <span class="cap-card__cta">深入了解 →</span>
@@ -84,6 +77,7 @@ const capabilities = [
 <style scoped>
 .cap-head {
   display: grid;
+  width: 100%;
   justify-items: center;
   gap: 24px;
   text-align: center;
@@ -170,8 +164,6 @@ p {
 /* Metrics */
 .cap-card__metrics {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
   margin: 28px 0 0;
   border-top: 1px solid var(--border-soft);
   border-bottom: 1px solid var(--border-soft);
@@ -179,16 +171,17 @@ p {
 }
 
 .cap-card__metrics > div {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 14px 14px 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
   background: var(--bg-card);
 }
 
 .cap-card__metrics dt {
   color: var(--text-muted);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

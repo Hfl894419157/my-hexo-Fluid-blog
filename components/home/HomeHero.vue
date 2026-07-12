@@ -26,22 +26,6 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
           <BaseButton href="/aigc/" variant="secondary">探索 AI 工作流</BaseButton>
         </div>
 
-        <div class="home-hero__proof" aria-label="实践摘要">
-          <div>
-            <strong>8 年</strong>
-            <span>商业视觉实践</span>
-          </div>
-          <div class="proof-divider"></div>
-          <div>
-            <strong>案例 + 流程</strong>
-            <span>完整证据链</span>
-          </div>
-          <div class="proof-divider"></div>
-          <div>
-            <strong>持续更新</strong>
-            <span>知识资产沉淀</span>
-          </div>
-        </div>
       </div>
 
       <!-- Right: SVG Visual -->
@@ -61,9 +45,9 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 /* ─── Container ──────────────────────────────────────── */
 .home-hero {
   position: relative;
-  min-height: 96vh;
+  min-height: 82vh;
   overflow: hidden;
-  padding: 132px 24px 80px;
+  padding: 104px 24px 56px;
   background:
     radial-gradient(ellipse 60% 50% at 72% 22%, color-mix(in srgb, var(--brand-main) 9%, transparent), transparent),
     radial-gradient(ellipse 40% 40% at 18% 80%, color-mix(in srgb, var(--brand-main) 5%, transparent), transparent),
@@ -93,8 +77,8 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
   grid-template-columns: minmax(0, 1fr) minmax(380px, 0.85fr);
   gap: clamp(48px, 7vw, 100px);
   align-items: center;
-  width: min(1280px, 100%);
-  min-height: calc(96vh - 212px);
+  width: min(1180px, 100%);
+  min-height: calc(82vh - 160px);
   margin: 0 auto;
 }
 
@@ -143,46 +127,6 @@ h1 {
   margin-top: 36px;
 }
 
-/* ─── Proof strip ────────────────────────────────────── */
-.home-hero__proof {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-top: 52px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border-soft);
-}
-
-.home-hero__proof > div:not(.proof-divider) {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 0 28px 0 0;
-}
-
-.home-hero__proof > div:first-child { padding-left: 0; }
-
-.home-hero__proof strong {
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 600;
-  line-height: 1;
-}
-
-.home-hero__proof span {
-  color: var(--text-muted);
-  font-size: var(--text-label);
-}
-
-.proof-divider {
-  width: 1px;
-  height: 40px;
-  margin: 0 28px 0 0;
-  background: var(--border-soft);
-  flex-shrink: 0;
-}
-
 /* ─── Visual (right) ─────────────────────────────────── */
 .home-hero__visual {
   position: relative;
@@ -190,7 +134,11 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: scale(1.06);
+}
+
+.home-hero__visual :deep(svg) {
+  width: min(100%, 420px);
+  height: auto;
 }
 
 /* ─── Scroll indicator ───────────────────────────────── */
@@ -225,25 +173,25 @@ h1 {
 }
 
 @media (max-width: 800px) {
-  .home-hero { padding: 112px 20px 64px; min-height: auto; }
+  .home-hero { padding: 96px 24px 48px; min-height: auto; }
   .home-hero__inner {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 36px;
     min-height: auto;
   }
   .home-hero__content { text-align: center; }
   .home-hero__lead { margin-left: auto; margin-right: auto; }
   .home-hero__actions { justify-content: center; }
-  .home-hero__proof { justify-content: center; }
-  .home-hero__visual { max-width: 480px; margin: 0 auto; transform: none; }
+  .home-hero__visual { max-width: 420px; margin: 0 auto; }
   .home-hero__scroll { display: none; }
+}
+
+@media (max-width: 640px) {
+  .home-hero { padding-right: 16px; padding-left: 16px; }
 }
 
 @media (max-width: 480px) {
   h1 { font-size: clamp(30px, 8.4vw, 38px); }
-  .home-hero__proof { flex-wrap: wrap; gap: 16px; }
-  .proof-divider { display: none; }
-  .home-hero__proof > div:not(.proof-divider) { padding: 0; text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {

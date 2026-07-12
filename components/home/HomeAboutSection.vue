@@ -19,7 +19,6 @@ const notes = [
         <div class="about-portrait__frame">
           <SvgAboutIdent />
         </div>
-        <p class="about-portrait__note">数字身份图形由几何构成；项目经历来自已脱敏的个人实践记录。</p>
       </div>
 
       <!-- Right: Copy -->
@@ -51,20 +50,13 @@ const notes = [
 }
 
 /* ─── Portrait ───────────────────────────────────────── */
-.about-portrait { display: flex; flex-direction: column; gap: 16px; }
+.about-portrait { display: flex; flex-direction: column; }
 
 .about-portrait__frame {
   width: min(340px, 100%);
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-}
-
-.about-portrait__note {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--text-label);
-  line-height: 1.7;
 }
 
 /* ─── Copy ───────────────────────────────────────────── */

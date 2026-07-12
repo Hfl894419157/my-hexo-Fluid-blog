@@ -6,7 +6,7 @@ import MediaFrame from '../components/MediaFrame.vue'
 <template>
   <div class="portfolio-grid">
     <a
-      v-for="(work, index) in portfolioWorks"
+      v-for="work in portfolioWorks"
       :key="work.id"
       class="portfolio-card"
       :class="{ 'portfolio-card--draft': work.status === 'draft' }"
@@ -24,7 +24,6 @@ import MediaFrame from '../components/MediaFrame.vue'
         <span v-if="work.status === 'draft'" class="portfolio-card__badge">更新中</span>
       </div>
       <div class="portfolio-card__body">
-        <span class="portfolio-card__label">{{ String(index + 1).padStart(2, '0') }} · {{ work.category }}</span>
         <h2>{{ work.title }}</h2>
         <p>{{ work.desc }}</p>
         <ul v-if="work.tags && work.tags.length">
@@ -106,14 +105,8 @@ import MediaFrame from '../components/MediaFrame.vue'
   flex: 1;
 }
 
-.portfolio-card__label {
-  color: var(--brand-cyan);
-  font-size: var(--text-label);
-  letter-spacing: 0.12em;
-}
-
 h2 {
-  margin: 12px 0 0 !important;
+  margin: 0 !important;
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: clamp(18px, 2vw, 24px);

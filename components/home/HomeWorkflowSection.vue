@@ -17,7 +17,7 @@ const steps = [
   <SectionShell id="workflow" tone="soft">
     <div class="workflow-head">
       <SectionHeader
-        :title-lines="['五个阶段，', '把生成结果变成可交付系统']"
+        :title-lines="['五个阶段', '把生成结果变成可交付系统']"
         desc="每个阶段有明确的输入、过程与输出——让 AI 生成从试错变成生产。"
       />
       <BaseButton href="/aigc/commercial-visual-system" variant="ghost">查看完整工作流</BaseButton>
@@ -33,7 +33,6 @@ const steps = [
 
         <!-- Copy -->
         <div class="workflow-card__copy">
-          <p class="workflow-card__stage">阶段 {{ step.label }}</p>
           <h3>{{ step.title }}</h3>
           <p class="workflow-card__desc">{{ step.desc }}</p>
           <div class="workflow-card__output">
@@ -54,6 +53,7 @@ const steps = [
 <style scoped>
 .workflow-head {
   display: grid;
+  width: 100%;
   justify-items: center;
   gap: 24px;
   text-align: center;
@@ -119,15 +119,8 @@ const steps = [
   padding: 20px 20px 22px;
 }
 
-.workflow-card__stage {
-  margin: 0;
-  color: var(--brand-cyan);
-  font-size: var(--text-micro);
-  letter-spacing: 0.14em;
-}
-
 h3 {
-  margin: 10px 0 0;
+  margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: var(--text-card-title);

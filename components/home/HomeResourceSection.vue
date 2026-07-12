@@ -13,7 +13,7 @@ const resources = publishedResources.slice(0, 2)
   <SectionShell id="knowledge">
     <div class="knowledge-head">
       <SectionHeader
-        :title-lines="['知识不是链接仓库，', '而是下一次项目的起点']"
+        :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"
         desc="方法解释为什么这样做，资源预览让你先判断它是否值得使用。"
       />
       <BaseButton href="/knowledge/" variant="ghost">进入知识库</BaseButton>
@@ -50,7 +50,7 @@ const resources = publishedResources.slice(0, 2)
 </template>
 
 <style scoped>
-.knowledge-head { display: grid; justify-items: center; gap: 24px; text-align: center; }
+.knowledge-head { display: grid; width: 100%; justify-items: center; gap: 24px; text-align: center; }
 .knowledge-editorial { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr); gap: 22px; margin-top: 40px; }
 .knowledge-article { display: grid; overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); color: inherit; text-decoration: none; background: var(--bg-card); }
 .knowledge-article img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: var(--image-treatment); }
