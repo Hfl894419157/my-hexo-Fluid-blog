@@ -3,11 +3,9 @@ import { publishedPortfolioWorks } from '../../.shared/portfolioData.js'
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
-import SvgCaseCommerce from './svg/SvgCaseCommerce.vue'
-import SvgCaseExhibition from './svg/SvgCaseExhibition.vue'
+import MediaFrame from '../MediaFrame.vue'
 
 const cases = publishedPortfolioWorks.filter((item) => item.featured).slice(0, 2)
-const visuals = [SvgCaseCommerce, SvgCaseExhibition]
 </script>
 
 <template>
@@ -23,12 +21,18 @@ const visuals = [SvgCaseCommerce, SvgCaseExhibition]
     <div class="case-list">
       <article v-for="(item, index) in cases" :key="item.id" class="case-row" :class="{ 'case-row--reverse': index % 2 }">
         <a class="case-row__media" :href="item.link" :aria-label="`查看案例：${item.title}`">
-          <component :is="visuals[index]" />
+          <MediaFrame :src="item.cover" :alt="item.alt || item.title" aspect="1.6 / 1" />
         </a>
         <div class="case-row__copy">
-          <span>{{ item.category }}</span>
+          <span class="case-row__category">{{ item.category }}</span>
           <h3>{{ item.title }}</h3>
-          <p>{{ item.desc }}</p>
+          
+          <div class="case-row__details">
+            <p><strong>挑战：</strong>{{ item.challenge }}</p>
+            <p><strong>角色：</strong>{{ item.role }}</p>
+            <p><strong>核心交付：</strong>{{ item.deliverables }}</p>
+          </div>
+          
           <a class="case-row__link" :href="item.link">查看完整案例 <span aria-hidden="true">→</span></a>
         </div>
       </article>
@@ -91,7 +95,7 @@ const visuals = [SvgCaseCommerce, SvgCaseExhibition]
   padding: clamp(34px, 5vw, 66px);
 }
 
-.case-row__copy > span {
+.case-row__category {
   color: var(--brand-main);
   font-size: var(--text-label);
   letter-spacing: 0.12em;
@@ -106,11 +110,23 @@ h3 {
   line-height: 1.3;
 }
 
-p {
-  margin: 16px 0 0;
+.case-row__details {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-row__details p {
+  margin: 0 !important;
   color: var(--text-sub);
   font-size: var(--text-small);
-  line-height: 1.9;
+  line-height: 1.6;
+}
+
+.case-row__details strong {
+  color: var(--text-main);
+  font-weight: 600;
 }
 
 .case-row__link {

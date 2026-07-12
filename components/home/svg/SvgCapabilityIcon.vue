@@ -49,7 +49,7 @@ const props = defineProps({
   </svg>
 
   <!-- Variant 3: Knowledge / Stacked Library -->
-  <svg v-else class="cap-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <svg v-else-if="variant === 3" class="cap-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
     <!-- Base layers -->
     <rect x="8"  y="46" width="48" height="10" rx="3"
       fill="var(--brand-main)" fill-opacity="0.12"
@@ -68,6 +68,21 @@ const props = defineProps({
     <!-- Small accent lines on each layer -->
     <line x1="22" y1="25" x2="42" y2="25" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4"/>
     <line x1="18" y1="38" x2="46" y2="38" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4"/>
+  </svg>
+
+  <!-- Variant 4: Code & Window / Web & Tool Building -->
+  <svg v-else class="cap-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+    <!-- Window frame -->
+    <rect x="8" y="12" width="48" height="40" rx="4" stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.5"/>
+    <line x1="8" y1="22" x2="56" y2="22" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.35"/>
+    <!-- Window dots -->
+    <circle cx="14" cy="17" r="1.5" fill="var(--brand-main)" fill-opacity="0.6"/>
+    <circle cx="20" cy="17" r="1.5" fill="var(--brand-main)" fill-opacity="0.6"/>
+    <circle cx="26" cy="17" r="1.5" fill="var(--brand-main)" fill-opacity="0.6"/>
+    <!-- Code tags < > -->
+    <path d="M22 32 L16 37 L22 42" stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
+    <path d="M42 32 L48 37 L42 42" stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
+    <line x1="35" y1="28" x2="29" y2="46" stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.5"/>
   </svg>
 </template>
 

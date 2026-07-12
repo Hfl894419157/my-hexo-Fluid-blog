@@ -1,101 +1,86 @@
 <script setup>
-import { publishedResources } from '../../.shared/resourcesData.js'
-import { publishedBlogPosts } from '../../.shared/blogData.js'
 import SectionShell from '../SectionShell.vue'
 import SectionHeader from '../SectionHeader.vue'
 import BaseButton from '../BaseButton.vue'
 
-const leadArticle = publishedBlogPosts[0]
-const resources = publishedResources.slice(0, 2)
-
-// 融合成高度统一的卡片数据，确保排版一致性
 const items = [
   {
-    type: 'article',
-    category: leadArticle.type || '定位观察',
-    meta: leadArticle.publishedAt,
-    title: leadArticle.title,
-    desc: leadArticle.summary,
-    cover: leadArticle.cover,
-    alt: leadArticle.alt,
-    link: leadArticle.link,
-    action: '阅读文章 →'
+    title: '学习与观察',
+    subtitle: 'LEARNING & OBSERVATION',
+    desc: '记录我学习 AI 的过程笔记、行业趋势观察与具体的工具实验测试结论。',
+    latest: 'AI 冲击下，设计师网站应该展示什么',
+    latestLink: '/knowledge/learning-observation/ai-designer-positioning',
+    date: '2026-07-11',
+    status: '已整理',
+    href: '/knowledge/learning-observation'
   },
   {
-    type: 'resource',
-    category: resources[0]?.category || '方法模板',
-    meta: '已验证',
-    title: resources[0]?.name,
-    desc: resources[0]?.desc,
-    cover: resources[0]?.cover,
-    alt: resources[0]?.alt,
-    link: resources[0]?.link,
-    action: '获取资源 →'
+    title: '方法体系',
+    subtitle: 'METHODS SYSTEM',
+    desc: '把成熟的商业设计经验和决策规则沉淀为结构化方法，让判断有据可依。',
+    latest: '从提示词到交付：AIGC 工作流如何沉淀',
+    latestLink: '/knowledge/learning-observation/aigc-workflow-system',
+    date: '2026-07-08',
+    status: '已验证',
+    href: '/knowledge/methods'
   },
   {
-    type: 'resource',
-    category: resources[1]?.category || '检查清单',
-    meta: '已验证',
-    title: resources[1]?.name,
-    desc: resources[1]?.desc,
-    cover: resources[1]?.cover,
-    alt: resources[1]?.alt,
-    link: resources[1]?.link,
-    action: '获取资源 →'
+    title: '资源库',
+    subtitle: 'RESOURCES LIBRARY',
+    desc: '统一管理我实战验证过的 Prompt 结构、项目检查清单、快捷工具和参考资源。',
+    latest: '商业视觉 Prompt 结构',
+    latestLink: '/knowledge/resources/mj-prompt',
+    date: '2026-07-12',
+    status: '长期维护',
+    href: '/knowledge/resources'
   }
 ]
 </script>
 
 <template>
-  <SectionShell id="knowledge">
-    <!-- ① 标题区：居中对齐，与其他板块保持一致 -->
+  <SectionShell id="home-knowledge">
     <div class="kr-head">
       <SectionHeader
         :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"
-        desc="方法解释为什么这样做，资源预览让你先判断它是否值得使用。"
+        desc="方法解释为什么这样做，资源预览让你先判断它是否值得进入真实项目。"
       />
     </div>
 
-    <!-- ② 统一的 3 列极简网格 -->
     <div class="kr-grid">
-      <a
+      <div
         v-for="(item, idx) in items"
         :key="idx"
-        :href="item.link"
         class="kr-card"
       >
-        <!-- 统一比例封面 -->
-        <div class="kr-card__media">
-          <img :src="item.cover" :alt="item.alt" loading="lazy" />
-        </div>
-
-        <!-- 统一内容排版 -->
         <div class="kr-card__body">
-          <div class="kr-card__meta">
-            <span class="kr-card__category">{{ item.category }}</span>
-            <span class="kr-card__info">
-              <span v-if="item.type === 'resource'" class="kr-card__dot"></span>
-              {{ item.meta }}
-            </span>
-          </div>
+          <span class="kr-card__subtitle">{{ item.subtitle }}</span>
           <h3 class="kr-card__title">{{ item.title }}</h3>
           <p class="kr-card__desc">{{ item.desc }}</p>
+          
+          <!-- 最近内容小纸条 -->
+          <div class="kr-card__latest">
+            <span class="kr-card__latest-label">最新内容：</span>
+            <a :href="item.latestLink" class="kr-card__latest-link">{{ item.latest }}</a>
+          </div>
+
+          <div class="kr-card__meta">
+            <span class="kr-card__status">
+              <span class="kr-card__dot"></span>
+              {{ item.status }}
+            </span>
+            <span class="kr-card__date">更新：{{ item.date }}</span>
+          </div>
+
           <div class="kr-card__footer">
-            <span>{{ item.action }}</span>
+            <BaseButton :href="item.href" variant="text">查看全部 →</BaseButton>
           </div>
         </div>
-      </a>
-    </div>
-
-    <!-- ③ 底部行动点 -->
-    <div class="kr-action">
-      <BaseButton href="/knowledge/" variant="ghost">进入知识库</BaseButton>
+      </div>
     </div>
   </SectionShell>
 </template>
 
 <style scoped>
-/* ─── 标题区 ─────────────────────────────── */
 .kr-head {
   display: grid;
   width: 100%;
@@ -104,23 +89,18 @@ const items = [
   text-align: center;
 }
 
-/* ─── 统一的网格 ─────────────────────────── */
 .kr-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 48px;
 }
 
-/* ─── 统一的卡片组件 ─────────────────────── */
 .kr-card {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
-  color: inherit;
-  text-decoration: none;
   background: var(--bg-card);
   transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
 }
@@ -131,123 +111,108 @@ const items = [
   transform: translateY(-4px);
 }
 
-.kr-card__media {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 16 / 10;
-  background: var(--bg-soft);
-  border-bottom: 1px solid var(--border-soft);
-}
-
-.kr-card__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: var(--image-treatment);
-  transition: transform 0.6s ease;
-}
-
-.kr-card:hover .kr-card__media img {
-  transform: scale(1.03);
-}
-
 .kr-card__body {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  padding: 24px;
+  padding: 32px;
+  flex: 1;
+}
+
+.kr-card__subtitle {
+  display: block;
+  color: var(--brand-main);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.kr-card__title {
+  margin: 0 0 16px;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.kr-card__desc {
+  margin: 0 0 24px;
+  color: var(--text-sub);
+  font-size: var(--text-small);
+  line-height: 1.7;
+  flex: 1;
+}
+
+.kr-card__latest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: baseline;
+  padding: 14px 16px;
+  border-radius: var(--radius-control);
+  background: var(--bg-soft);
+  margin-bottom: 20px;
+}
+
+.kr-card__latest-label {
+  color: var(--text-muted);
+  font-size: var(--text-label);
+  white-space: nowrap;
+}
+
+.kr-card__latest-link {
+  color: var(--text-main);
+  font-size: var(--text-label);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.kr-card__latest-link:hover {
+  color: var(--brand-main);
 }
 
 .kr-card__meta {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
+  border-top: 1px dashed var(--border-soft);
+  padding-top: 16px;
+  margin-bottom: 20px;
   font-size: var(--text-label);
 }
 
-.kr-card__category {
-  color: var(--brand-main);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-
-.kr-card__info {
+.kr-card__status {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-muted);
+  color: var(--text-sub);
 }
 
 .kr-card__dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10b981; /* 绿色代表已验证 */
-  display: inline-block;
+  background: var(--status-verified);
 }
 
-.kr-card__title {
-  margin: 0 0 10px;
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-size: var(--text-card-title);
-  font-weight: 600;
-  line-height: 1.45;
-}
-
-.kr-card__desc {
-  margin: 0 0 20px;
-  color: var(--text-sub);
-  font-size: var(--text-caption);
-  line-height: 1.65;
-  flex-grow: 1;
+.kr-card__date {
+  color: var(--text-muted);
 }
 
 .kr-card__footer {
   margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-soft);
-  color: var(--brand-main);
-  font-size: var(--text-small);
-  font-weight: 500;
 }
 
-/* ─── 底部操作 ───────────────────────────── */
-.kr-action {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
+.kr-card__footer :deep(.base-button) {
+  padding: 0;
+  font-weight: 600;
 }
 
-/* ─── 响应式 ──────────────────────────────── */
-@media (max-width: 960px) {
-  .kr-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .kr-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kr-card {
-    transition: none;
-  }
-  .kr-card:hover {
-    transform: none;
-  }
-  .kr-card__media img {
-    transition: none;
-  }
-  .kr-card:hover .kr-card__media img {
-    transform: none;
   }
 }
 </style>

@@ -2,14 +2,29 @@
 import { allBlogPosts as blogPosts } from '../.shared/blogData.js'
 import MediaFrame from '../components/MediaFrame.vue'
 import KnowledgePageHero from '../components/KnowledgePageHero.vue'
+
+defineProps({
+  title: {
+    type: String,
+    default: '方法体系'
+  },
+  description: {
+    type: String,
+    default: '以低频、高质量的方式记录 AI 时代的设计判断、工作流建设、知识资产与项目复盘，不追求传统博客的更新频率。'
+  },
+  variant: {
+    type: String,
+    default: 'method'
+  }
+})
 </script>
 
 <template>
   <div class="blog-section">
     <KnowledgePageHero
-      title="设计方法"
-      description="以低频、高质量的方式记录 AI 时代的设计判断、工作流建设、知识资产与项目复盘，不追求传统博客的更新频率。"
-      variant="method"
+      :title="title"
+      :description="description"
+      :variant="variant"
     />
 
     <div class="blog-grid">

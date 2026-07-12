@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import HomeHero from './components/home/HomeHero.vue'
-import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
+import HomePaths from './components/home/HomePaths.vue'
 import HomeFeaturedCases from './components/home/HomeFeaturedCases.vue'
 import HomeWorkflowSection from './components/home/HomeWorkflowSection.vue'
 import HomeResourceSection from './components/home/HomeResourceSection.vue'
+import HomeRecentUpdates from './components/home/HomeRecentUpdates.vue'
+import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
 import HomeAboutSection from './components/home/HomeAboutSection.vue'
 import HomeCTA from './components/home/HomeCTA.vue'
 
@@ -20,10 +22,12 @@ onUnmounted(() => {
 <template>
   <main class="home-design">
     <HomeHero />
+    <HomePaths />
     <HomeFeaturedCases />
     <HomeWorkflowSection />
-    <HomeCapabilityGrid />
     <HomeResourceSection />
+    <HomeRecentUpdates />
+    <HomeCapabilityGrid />
     <HomeAboutSection />
     <HomeCTA />
   </main>

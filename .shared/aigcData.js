@@ -2,8 +2,11 @@ export const aigcWorks = [
   {
     id: 'commercial-visual-system',
     title: 'AI 商业视觉生产系统',
-    category: '需求拆解 · 生成控制 · 人工判断 · 资产沉淀',
-    desc: '把 AI 生成从零散试错整理为可复用、可复盘的五阶段流程。',
+    category: '生产系统',
+    desc: '从需求、变量到人工判断的全链路工作流搭建。',
+    challenge: '将 AI 的概率性生成规范化，转化为商业级可控、高复用的交付流程。',
+    role: '工作流架构搭建、核心变量判定规则设计及可视化开发',
+    deliverables: '五阶段协同指南、12项人机纠偏清单及结构化 Prompt 变量地图',
     cover: '/aigc-2.jpg',
     heroMedia: '/aigc-2.jpg',
     alt: '发光的 AI 电路字样，代表商业视觉工作流中的数字生产环节',

@@ -1,11 +1,13 @@
 ---
-title: 设计方法
+title: 方法体系 (已迁移)
 layout: page
-pageClass: page-overview-list
 ---
 
 <script setup>
-import BlogList from './BlogList.vue'
+import { onMounted } from 'vue'
+onMounted(() => {
+  window.location.replace('/knowledge/methods')
+})
 </script>
 
-<BlogList />
+页面已迁移，正在为您跳转到新地址：[方法体系](/knowledge/methods)...

@@ -1,36 +1,13 @@
 ---
-title: 从提示词到交付：AIGC 工作流如何沉淀
-description: 把需求、变量、生成、人工判断和复盘连成可复用的生产系统。
-pageClass: page-article-detail
-status: published
+title: 从提示词到交付：AIGC 工作流如何沉淀 (已迁移)
+layout: page
 ---
 
-# 从提示词到交付：AIGC 工作流如何沉淀
+<script setup>
+import { onMounted } from 'vue'
+onMounted(() => {
+  window.location.replace('/knowledge/learning-observation/aigc-workflow-system')
+})
+</script>
 
-很多 AI 项目停留在“找到一个有效 Prompt”。但 Prompt 只能描述一次生成条件，真正可复用的工作流还要包含需求、参考、变量、筛选、精修、交付和复盘。
-
-<MediaFrame src="/aigc-2.jpg" alt="发光电路组成的 AI 字样，代表从提示词到交付的数字流程" caption="工作流的价值不是生成更多，而是让过程可控、结果可筛选、经验可复用。" aspect="16 / 9" eager />
-
-## 从目标而不是工具开始
-
-同一个模型可以生成大量风格，但商业项目关心的是目标受众、使用场景和交付限制。先明确验收标准，才能知道哪些方向值得探索。
-
-## 保存变量关系
-
-只保存最终 Prompt，很难解释结果为什么有效。更有价值的记录包括参考图、模型版本、构图变化、失败方向和筛选理由。这样才能区分偶然结果与可重复方法。
-
-## 把人工判断写出来
-
-AI 可以扩展方向，但不能代替设计师确认产品事实、品牌一致性和商业风险。将这些判断整理为检查项，团队协作时才不会只依赖个人感觉。
-
-## 交付之后才开始沉淀
-
-项目结束后，把有效结构、模板、命名规则和复盘结论放回资源库。下一次同类任务直接从已有资产开始，工作流才真正产生复利。
-
-## 关联内容
-
-- [AI 商业视觉生产系统](/aigc/commercial-visual-system)
-- [商业视觉 Prompt 结构](/resources/mj-prompt)
-- [AI 项目复盘清单](/resources/notion)
-
-[← 返回设计方法](/blog/)
+页面已迁移，正在为您跳转到新地址：[从提示词到交付：AIGC 工作流如何沉淀](/knowledge/learning-observation/aigc-workflow-system)...

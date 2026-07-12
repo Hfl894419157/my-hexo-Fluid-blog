@@ -6,9 +6,9 @@ export const navItems = [
     text: '知识库',
     link: '/knowledge/',
     children: [
-      { text: '行业观察', link: '/knowledge/' },
-      { text: '设计方法', link: '/blog/' },
-      { text: '工具资源', link: '/resources/' }
+      { text: '学习与观察', link: '/knowledge/learning-observation' },
+      { text: '方法体系', link: '/knowledge/methods' },
+      { text: '资源库', link: '/knowledge/resources' }
     ]
   },
   { text: '关于', link: '/resume' }
@@ -44,15 +44,16 @@ export const siteFooterGroups = [
     title: '探索',
     links: [
       { text: '案例', link: '/portfolio/' },
-      { text: 'AI 工作流', link: '/aigc/' },
+      { text: '工作流', link: '/aigc/' },
       { text: '知识库', link: '/knowledge/' }
     ]
   },
   {
     title: '知识',
     links: [
-      { text: '设计方法', link: '/blog/' },
-      { text: '工具资源', link: '/resources/' }
+      { text: '学习与观察', link: '/knowledge/learning-observation' },
+      { text: '方法体系', link: '/knowledge/methods' },
+      { text: '资源库', link: '/knowledge/resources' }
     ]
   },
   {

@@ -1,55 +1,13 @@
 ---
-title: AI 项目复盘清单
-description: 从目标、变量、筛选、交付和沉淀五个维度复盘 AI 视觉项目。
-pageClass: page-resource-detail
-status: published
+title: AI 项目复盘清单 (已迁移)
+layout: page
 ---
 
-# AI 项目复盘清单
+<script setup>
+import { onMounted } from 'vue'
+onMounted(() => {
+  window.location.replace('/knowledge/resources/notion')
+})
+</script>
 
-- **类型：** 在线检查清单
-- **来源：** Liuli AI Lab 自有整理
-- **授权：** 可复制并按项目调整
-- **最后验证：** 2026-07-11
-
-复盘不是记录“用了什么工具”，而是找出哪些判断可以被下一次项目复用。
-
-<MediaFrame src="/aigc-2.jpg" alt="AI 电路视觉，代表项目复盘与数字资产整理" caption="资源预览：目标、变量、筛选、交付与沉淀五个复盘维度。" aspect="16 / 9" />
-
-## 1. 目标
-
-- 最初要解决的业务问题是什么？
-- 最终交付是否满足使用场景与尺寸要求？
-- 哪些验收标准在项目中途发生了变化？
-
-## 2. 变量
-
-- 哪些产品事实和品牌规则被固定？
-- 哪些构图、风格、光线或材质变量被开放探索？
-- 是否出现了无法复现的结果？原因是什么？
-
-## 3. 筛选
-
-- 入选方向满足了哪些标准？
-- 被淘汰的方向失败在真实性、信息、审美还是成本？
-- 哪些判断必须由设计师完成，不能交给生成模型？
-
-## 4. 交付
-
-- 文件命名、尺寸、格式和版本是否统一？
-- 接收方是否知道哪些文件可直接使用、哪些仍需确认？
-- 是否记录了版权、授权或事实核验边界？
-
-## 5. 沉淀
-
-- 哪些 Prompt 结构、参考图和参数值得保留？
-- 哪些精修动作可以做成模板或检查项？
-- 下一次相似项目可以直接从哪一步开始？
-
-## 关联内容
-
-- [AI 商业视觉生产系统](/aigc/commercial-visual-system)
-- [德国水处理展会视觉体系](/portfolio/exhibition-visual)
-- [个人资源库比普通博客更重要](/blog/personal-resource-library)
-
-[← 返回工具资源](/resources/)
+页面已迁移，正在为您跳转到新地址：[AI 项目复盘清单](/knowledge/resources/notion)...

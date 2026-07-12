@@ -6,7 +6,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
 <template>
   <div class="resources-section">
     <KnowledgePageHero
-      title="工具资源"
+      title="资源库"
       description="这里只收录来源明确、访问有效并能够进入真实项目的资源。每项内容都会说明适用场景、授权边界和最后验证时间。"
       variant="tools"
     />

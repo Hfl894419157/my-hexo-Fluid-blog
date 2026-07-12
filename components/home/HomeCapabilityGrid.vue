@@ -10,7 +10,7 @@ const capabilities = [
     index: '01',
     title: '商业视觉生成',
     desc: '从产品事实和商业目标出发，定义可控的视觉变量，让生成结果从一开始就服务于转化。',
-    evidence: '产品图、详情页与品牌内容',
+    evidence: '案例、主图、详情页、视频和设计结果',
     href: '/portfolio/'
   },
   {
@@ -18,7 +18,7 @@ const capabilities = [
     index: '02',
     title: '流程系统化',
     desc: '把需求、生成、精修和交付连接成可以复盘的路径，每次执行都为下一次积累判断依据。',
-    evidence: '五阶段 AI 工作流',
+    evidence: '工作流、步骤、判断点和执行模板',
     href: '/aigc/'
   },
   {
@@ -26,8 +26,16 @@ const capabilities = [
     index: '03',
     title: '知识资产化',
     desc: '把有效模板、判断标准与复盘结论送回下一次项目，让经验形成真正可复用的知识资产。',
-    evidence: 'Prompt、清单与文章',
+    evidence: '文章、方法卡、Prompt、清单和资源',
     href: '/knowledge/'
+  },
+  {
+    variant: 4,
+    index: '04',
+    title: '网站与工具搭建',
+    desc: '以实践驱动为原则，完成个人实验室网站的完全自主前端开发，并探索流程自动化效率。',
+    evidence: '网站页面、前端项目和自动化实践',
+    href: '/portfolio/'
   }
 ]
 </script>
@@ -37,7 +45,7 @@ const capabilities = [
     <div class="cap-head">
       <SectionHeader
         :title-lines="['能力必须对应证据', '也必须产生结果']"
-        desc="不再用文字卡罗列技能，而是让每个方向连接真实内容与可复用产出。"
+        desc="不使用毫无意义的软件熟练度进度条，而是让每个专业方向连接真实内容与可复用产出。"
       />
       <BaseButton href="/knowledge/" variant="ghost">查看知识系统</BaseButton>
     </div>
@@ -70,6 +78,7 @@ const capabilities = [
 
         <span class="cap-card__cta">深入了解 →</span>
       </a>
+
     </div>
   </SectionShell>
 </template>
@@ -83,11 +92,11 @@ const capabilities = [
   text-align: center;
 }
 
-/* ─── Grid ───────────────────────────────────────────── */
+/* ─── 4列网格 ───────────────────────────────────────── */
 .cap-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
   margin-top: 44px;
 }
 

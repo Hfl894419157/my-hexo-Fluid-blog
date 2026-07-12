@@ -12,7 +12,7 @@ export const blogPosts = [
     type: '定位观察',
     publishedAt: '2026-07-11',
     tags: ['个人品牌', '内容架构', 'AI 设计'],
-    link: '/blog/ai-designer-positioning',
+    link: '/knowledge/learning-observation/ai-designer-positioning',
     status: 'published',
     featured: true,
     relatedIds: ['commercial-visual-system', 'ecommerce-visual']
@@ -30,7 +30,7 @@ export const blogPosts = [
     type: '方法论',
     publishedAt: '2026-07-08',
     tags: ['AIGC', '工作流', '资产沉淀'],
-    link: '/blog/aigc-workflow-system',
+    link: '/knowledge/learning-observation/aigc-workflow-system',
     status: 'published',
     featured: true,
     relatedIds: ['commercial-visual-system', 'prompt-framework']
@@ -48,7 +48,7 @@ export const blogPosts = [
     type: '知识系统',
     publishedAt: '2026-07-05',
     tags: ['知识管理', '资源库', '复用'],
-    link: '/blog/personal-resource-library',
+    link: '/knowledge/learning-observation/personal-resource-library',
     status: 'published',
     featured: true,
     relatedIds: ['project-review-checklist', 'prompt-framework']

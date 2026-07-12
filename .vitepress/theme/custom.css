@@ -4,8 +4,8 @@
   --bg-card: rgba(255, 255, 255, 0.78);
   --bg-soft: #F1EFE8;
   --text-main: #17130F;
-  --text-sub: #7B7F84;
-  --text-muted: #A1A4A8;
+  --text-sub: #5F5B56; /* 提升了对比度以满足无障碍规范 */
+  --text-muted: #84807A; /* 提升了对比度以满足无障碍规范 */
   --border-soft: rgba(23, 19, 15, 0.09);
   --border-strong: rgba(138, 79, 45, 0.28);
   --brand-main: #8A4F2D;
@@ -13,6 +13,12 @@
   --brand-cyan: #8A4F2D;
   --glow-blue: rgba(138, 79, 45, 0.035);
   --glow-purple: rgba(168, 108, 69, 0.045);
+  
+  /* 统一的资源验证状态色值 */
+  --status-verified: #10b981;
+  --status-checking: #d97706;
+  --status-expired: #dc2626;
+  --status-archived: #71717a;
   --font-display: "Noto Serif SC Variable", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
   --font-sans: Inter, "Noto Sans SC Variable", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
   --font-mono: "JetBrains Mono", Consolas, monospace;
@@ -146,6 +152,13 @@ html.dark {
   --nav-shadow: 0 14px 42px rgba(0, 0, 0, 0.24);
   --card-overlay: rgba(23, 24, 27, 0.7);
   --grid-line: rgba(244, 241, 234, 0.055);
+  
+  /* 统一的资源验证状态色值 (深色模式提亮) */
+  --status-verified: #34d399;
+  --status-checking: #fbbf24;
+  --status-expired: #f87171;
+  --status-archived: #a1a1aa;
+  
   color-scheme: dark;
 }
 

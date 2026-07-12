@@ -16,13 +16,20 @@ import MediaFrame from '../components/MediaFrame.vue'
           v-if="work.cover"
           :src="work.cover"
           :alt="work.alt || work.title"
-          aspect="4 / 3"
+          aspect="1.6 / 1"
         />
         <div v-else class="portfolio-card__placeholder-img" aria-hidden="true"></div>
       </div>
       <div class="portfolio-card__body">
+        <span class="portfolio-card__category">{{ work.category }}</span>
         <h2>{{ work.title }}</h2>
-        <p>{{ work.desc }}</p>
+        
+        <div class="portfolio-card__details">
+          <p><strong>挑战：</strong>{{ work.challenge }}</p>
+          <p><strong>角色：</strong>{{ work.role }}</p>
+          <p><strong>交付：</strong>{{ work.deliverables }}</p>
+        </div>
+
         <ul v-if="work.tags && work.tags.length">
           <li v-for="tag in work.tags" :key="tag">{{ tag }}</li>
         </ul>
@@ -35,7 +42,7 @@ import MediaFrame from '../components/MediaFrame.vue'
 <style scoped>
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 24px;
   margin-top: 46px;
 }
@@ -49,12 +56,13 @@ import MediaFrame from '../components/MediaFrame.vue'
   color: inherit;
   text-decoration: none;
   background: var(--bg-card);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
 }
 
 .portfolio-card:hover {
-  border-color: var(--brand-main);
-  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.12);
+  border-color: color-mix(in srgb, var(--brand-main) 35%, transparent);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-4px);
 }
 
 .portfolio-card__media {
@@ -72,7 +80,7 @@ import MediaFrame from '../components/MediaFrame.vue'
 .portfolio-card__media :deep(figcaption) { display: none; }
 
 .portfolio-card__placeholder-img {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1.6 / 1;
   background: linear-gradient(135deg, var(--bg-soft) 0%, var(--bg-page) 100%);
 }
 
@@ -83,21 +91,41 @@ import MediaFrame from '../components/MediaFrame.vue'
   flex: 1;
 }
 
+.portfolio-card__category {
+  display: block;
+  color: var(--brand-main);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
 h2 {
   margin: 0 !important;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(18px, 2vw, 24px);
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 600;
   line-height: 1.3;
 }
 
-p {
-  margin: 10px 0 0 !important;
+.portfolio-card__details {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.portfolio-card__details p {
+  margin: 0 !important;
   color: var(--text-sub);
   font-size: var(--text-label);
-  line-height: 1.8;
-  flex: 1;
+  line-height: 1.6;
+}
+
+.portfolio-card__details strong {
+  color: var(--text-main);
+  font-weight: 600;
 }
 
 ul {
@@ -121,10 +149,11 @@ li {
   margin-top: 20px;
   color: var(--brand-main);
   font-size: var(--text-small);
+  font-weight: 600;
 }
 
 @media (max-width: 900px) {
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+  .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 }
 
 @media (max-width: 560px) {

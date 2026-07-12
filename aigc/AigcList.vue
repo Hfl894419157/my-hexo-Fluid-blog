@@ -154,7 +154,13 @@ const phases = [
           <div class="aigc-card__body">
             <span class="aigc-card__category">{{ work.category || '内容工作流' }}</span>
             <h3>{{ work.title }}</h3>
-            <p v-if="work.desc">{{ work.desc }}</p>
+            
+            <div class="aigc-card__details">
+              <p><strong>挑战：</strong>{{ work.challenge }}</p>
+              <p><strong>角色：</strong>{{ work.role }}</p>
+              <p><strong>核心交付：</strong>{{ work.deliverables }}</p>
+            </div>
+
             <strong class="aigc-card__cta">查看完整工作流 →</strong>
           </div>
         </a>
@@ -164,6 +170,25 @@ const phases = [
 </template>
 
 <style scoped>
+.aigc-card__details {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.aigc-card__details p {
+  margin: 0 !important;
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.aigc-card__details strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
 /* ═══════════════════════════════════════════════
    HERO 区域
    ═══════════════════════════════════════════════ */

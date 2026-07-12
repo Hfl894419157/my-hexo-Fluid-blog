@@ -12,18 +12,17 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
       <!-- Left: Copy -->
       <div class="home-hero__content">
         <h1>
-          <span class="h1-line">把 AI 设计能力，</span>
-          <span class="h1-line h1-accent">变成可验证的项目资产</span>
+          <span class="h1-line">把 AI 学习、设计实践与工作流，</span>
+          <span class="h1-line h1-accent">沉淀成可复用的个人能力系统</span>
         </h1>
 
         <p class="home-hero__lead">
-          从真实商业项目出发，展示结果、判断与生产过程；<br>
-          把案例、工作流和知识沉淀组织成可持续复用的设计系统。
+          这里记录我真实案例、方法判断、生产流程，以及经过整理和验证的知识资源。
         </p>
 
         <div class="home-hero__actions">
-          <BaseButton href="/portfolio/">查看精选案例</BaseButton>
-          <BaseButton href="/aigc/" variant="secondary">探索 AI 工作流</BaseButton>
+          <BaseButton href="/portfolio/">查看实践案例</BaseButton>
+          <BaseButton href="/knowledge/" variant="secondary">进入知识系统</BaseButton>
         </div>
 
       </div>

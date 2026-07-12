@@ -4,38 +4,46 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgWorkflowStep from './svg/SvgWorkflowStep.vue'
 
-// 重新发散定义 AI 协作的核心底座（4大协同契约），取代原本死板的线性流
+// 重构为统一的五阶段 AI 视觉工作流底座
 const paradigms = [
   {
-    id: 'alignment',
+    id: 'input',
     iconNum: 1,
-    tag: '意图共鸣 / Intent Alignment',
-    title: '精准意图共鸣与翻译',
-    desc: '抛弃粗糙的关键词堆砌。解构商业目的与产品核心事实，将模糊的感性诉求无损转译为 AI 能够理解的高精细度指令语义。',
-    proof: '生成确定性的视觉 Brief'
+    tag: '阶段 01 / INPUT',
+    title: '需求输入与解构',
+    desc: '解构商业目标、产品事实与核心卖点，将模糊诉求转译为高确定性的视觉 Brief。',
+    proof: '输出确定性视觉 Brief'
   },
   {
-    id: 'control',
+    id: 'deconstruction',
     iconNum: 2,
-    tag: '可控纠偏 / Parameter Control',
-    title: '视觉变量锁定与解构',
-    desc: '深度拆解构图、物理光影与材质约束。建立变量锁定模型，将 AI 生成的“随机性概率”约束在可控的品牌调性区间。',
-    proof: '消灭不可控的“盲盒生成”'
+    tag: '阶段 02 / DECONSTRUCT',
+    title: '变量拆解与锁定',
+    desc: '拆解构图、光影、物理材质与配色限制，锁定核心变量，消灭不可控的“盲盒生成”。',
+    proof: '建立视觉变量控制地图'
   },
   {
-    id: 'synergy',
+    id: 'generation',
+    iconNum: 3,
+    tag: '阶段 03 / GENERATION',
+    title: '方向生成与迭代',
+    desc: '多模型协同组合，围绕已锁定的核心变量展开大量高品质创意探索，拓宽方案空间。',
+    proof: '高效率扩充方案方案池'
+  },
+  {
+    id: 'judgment',
     iconNum: 4,
-    tag: '人机重塑 / Hybrid Synthesis',
-    title: '混合层级修补与重塑',
-    desc: '不依赖单纯的直出。通过局部图层重绘、多轨拼接和人工精细后期的复合链路，突破生成极限，确保像素级细节完美交付。',
-    proof: '人脑审美与 AI 算力高精度咬合'
+    tag: '阶段 04 / JUDGMENT',
+    title: '人工判断与精修',
+    desc: '人脑审美与逻辑把关。进行局部图层重绘、多轨拼接与后期像素级精细打磨，保障高质量交付。',
+    proof: '人机审美与算力的高精咬合'
   },
   {
     id: 'compounding',
     iconNum: 5,
-    tag: '资产回流 / Knowledge Loop',
-    title: '知识固化与资产复利',
-    desc: '将交付案例中被验证的 Prompt、私有参数和清单规整，重新注回个人与品牌知识库，让每一次项目交付都叠加为资产复利。',
+    tag: '阶段 05 / ACCUMULATE',
+    title: '资产沉淀与复利',
+    desc: '将交付项目中被验证的 Prompt、参数模板和检查清单送回资源库，让每次交付产生资产复利。',
     proof: '构建越用越聪明的专有生产库'
   }
 ]
@@ -46,13 +54,13 @@ const paradigms = [
     <!-- ① 标题区：发散文案，重构对 AI 工作流程的深度认知 -->
     <div class="wf-head">
       <SectionHeader
-        :title-lines="['人机协同的四大黄金法则', '让 AI 创意转化为确定性资产']"
-        desc="我们不相信凭运气直出的偶然生成，而是通过意图翻译、参数锁定、层级修补与资产回流的协同方法，确保商业交付的稳定落地。"
+        :title-lines="['由实践驱动的五阶段工作流', '让 AI 生产进入确定性轨道']"
+        desc="从需求输入、变量拆解、方向生成，到人工介入判断与最终的资产化沉淀。我不相信单次随机生成的“奇迹”，而是将每次任务整理为可重复的交付流程。"
       />
-      <BaseButton href="/aigc/commercial-visual-system" variant="ghost">探索协同工作流</BaseButton>
+      <BaseButton href="/aigc/" variant="ghost">探索协同工作流</BaseButton>
     </div>
 
-    <!-- ② 统一的 4 列卡片网格 -->
+    <!-- ② 统一的 5 列卡片网格 -->
     <div class="wf-grid">
       <article v-for="item in paradigms" :key="item.id" class="wf-card">
         <!-- SVG 图标概念性图示 -->
@@ -84,11 +92,11 @@ const paradigms = [
   text-align: center;
 }
 
-/* ─── 4列网格 ───────────────────────────────────────── */
+/* ─── 5列网格 ───────────────────────────────────────── */
 .wf-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
   margin-top: 48px;
 }
 

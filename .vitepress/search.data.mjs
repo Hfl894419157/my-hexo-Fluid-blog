@@ -3,9 +3,10 @@ import { createContentLoader } from 'vitepress'
 const sectionLabels = [
   { prefix: '/portfolio/', label: '案例' },
   { prefix: '/aigc/', label: '工作流' },
-  { prefix: '/knowledge/', label: '行业观察' },
-  { prefix: '/resources/', label: '工具资源' },
-  { prefix: '/blog/', label: '设计方法' },
+  { prefix: '/knowledge/learning-observation', label: '学习与观察' },
+  { prefix: '/knowledge/methods', label: '方法体系' },
+  { prefix: '/knowledge/resources', label: '资源库' },
+  { prefix: '/knowledge/', label: '知识库' },
   { prefix: '/resume', label: '关于' },
   { prefix: '/', label: '首页' }
 ]

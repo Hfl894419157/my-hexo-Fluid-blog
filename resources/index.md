@@ -1,11 +1,13 @@
 ---
-title: 工具资源
+title: 资源库 (已迁移)
 layout: page
-pageClass: page-overview-list
 ---
 
 <script setup>
-import ResourcesList from './ResourcesList.vue'
+import { onMounted } from 'vue'
+onMounted(() => {
+  window.location.replace('/knowledge/resources')
+})
 </script>
 
-<ResourcesList />
+页面已迁移，正在为您跳转到新地址：[资源库](/knowledge/resources)...

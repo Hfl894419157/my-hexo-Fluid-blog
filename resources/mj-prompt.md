@@ -1,52 +1,13 @@
 ---
-title: 商业视觉 Prompt 结构
-description: 面向商业视觉项目的可复用提示词结构与检查方法。
-pageClass: page-resource-detail
-status: published
+title: 商业视觉 Prompt 结构 (已迁移)
+layout: page
 ---
 
-# 商业视觉 Prompt 结构
+<script setup>
+import { onMounted } from 'vue'
+onMounted(() => {
+  window.location.replace('/knowledge/resources/mj-prompt')
+})
+</script>
 
-- **类型：** 在线方法模板
-- **来源：** Liuli AI Lab 自有整理
-- **授权：** 署名后可用于个人与商业项目
-- **最后验证：** 2026-07-11
-
-Prompt 的作用不是堆叠形容词，而是把项目目标转换为生成模型可以执行的视觉变量。
-
-<MediaFrame src="/aigc-3.jpg" alt="蓝紫色数字粒子视觉，代表相互关联的提示词变量" caption="资源预览：从任务目标、主体、场景到限制条件的 Prompt 结构。" aspect="16 / 9" />
-
-## 基础结构
-
-```text
-[任务目标] + [核心主体] + [使用场景] + [构图与镜头]
-+ [光线与材质] + [色彩与品牌气质] + [必须保留的信息]
-+ [需要避免的结果] + [输出规格]
-```
-
-## 每一部分解决什么
-
-| 模块 | 需要回答的问题 |
-| --- | --- |
-| 任务目标 | 这张图最终服务于展示、解释、转化还是提案？ |
-| 核心主体 | 产品或人物有哪些不能被改变的事实？ |
-| 使用场景 | 画面会出现在哪里，由谁观看？ |
-| 构图与镜头 | 信息应该先被看到什么，阅读顺序是什么？ |
-| 光线与材质 | 怎样支持产品质感，而不是遮盖结构？ |
-| 品牌气质 | 哪些色彩、节奏与风格必须保持一致？ |
-| 限制条件 | 哪些内容不能生成、不能误导或不能出现？ |
-
-## 使用建议
-
-1. 一轮只改变一到两个关键变量。
-2. 产品真实性要求高时，使用参考图并单独检查结构与标识。
-3. 保存有效条件和失败原因，不只保存最终图片。
-4. 把筛选标准写在生成之前，避免结果出来后临时改变目标。
-
-## 关联内容
-
-- [AI 商业视觉生产系统](/aigc/commercial-visual-system)
-- [专业医疗产品电商视觉系统](/portfolio/ecommerce-visual)
-- [从提示词到交付：AIGC 工作流如何沉淀](/blog/aigc-workflow-system)
-
-[← 返回工具资源](/resources/)
+页面已迁移，正在为您跳转到新地址：[商业视觉 Prompt 结构](/knowledge/resources/mj-prompt)...

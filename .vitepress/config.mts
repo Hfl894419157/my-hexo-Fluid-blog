@@ -38,7 +38,7 @@ export default defineConfig({
     sidebar: {
       '/portfolio/': [
         {
-          text: '案例库',
+          text: '案例',
           items: [
             { text: '案例总览', link: '/portfolio/' },
             { text: '专业医疗产品电商视觉系统', link: '/portfolio/ecommerce-visual' },
@@ -48,7 +48,7 @@ export default defineConfig({
       ],
       '/resources/': [
         {
-          text: '工具资源',
+          text: '资源库',
           items: [
             { text: '资源总览', link: '/resources/' },
             { text: '商业视觉 Prompt 结构', link: '/resources/mj-prompt' },
