@@ -1,8 +1,6 @@
 <script setup>
 import { publishedResources } from '../../.shared/resourcesData.js'
 import { publishedBlogPosts } from '../../.shared/blogData.js'
-import BaseButton from '../BaseButton.vue'
-import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 
 const leadArticle = publishedBlogPosts[0]
@@ -11,71 +9,445 @@ const resources = publishedResources.slice(0, 2)
 
 <template>
   <SectionShell id="knowledge">
-    <div class="knowledge-head">
-      <SectionHeader
-        :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"
-        desc="方法解释为什么这样做，资源预览让你先判断它是否值得使用。"
-      />
-      <BaseButton href="/knowledge/" variant="ghost">进入知识库</BaseButton>
+
+    <!-- ① 标题区：左对齐 + 右侧直达按钮 -->
+    <div class="kr-head">
+      <div class="kr-head__copy">
+        <p class="kr-eyebrow">Knowledge System</p>
+        <h2 class="kr-title">
+          <span>知识不是链接仓库</span>
+          <span>而是下一次项目的起点</span>
+        </h2>
+        <p class="kr-desc">方法解释为什么这样做；资源标注来源与验证时间，让你先判断是否值得使用。</p>
+      </div>
+      <a href="/knowledge/" class="kr-cta-link">
+        进入知识库
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </div>
 
-    <div class="knowledge-editorial">
-      <a v-if="leadArticle" class="knowledge-article" :href="leadArticle.link">
-        <img :src="leadArticle.cover" :alt="leadArticle.alt" loading="lazy" />
-        <div>
-          <span>{{ leadArticle.type }} · {{ leadArticle.publishedAt }}</span>
-          <h3>{{ leadArticle.title }}</h3>
-          <p>{{ leadArticle.summary }}</p>
-          <strong>阅读全文 →</strong>
+    <!-- ② 内容网格：主文章（横跨左侧） + 右侧两个资源卡 -->
+    <div class="kr-grid">
+
+      <!-- 主文章卡 -->
+      <a v-if="leadArticle" class="kr-article" :href="leadArticle.link">
+        <div class="kr-article__media">
+          <img :src="leadArticle.cover" :alt="leadArticle.alt" loading="lazy" />
+          <span class="kr-article__badge">{{ leadArticle.type }}</span>
+        </div>
+        <div class="kr-article__body">
+          <p class="kr-meta">{{ leadArticle.type }} · {{ leadArticle.publishedAt }}</p>
+          <h3 class="kr-article__title">{{ leadArticle.title }}</h3>
+          <p class="kr-article__summary">{{ leadArticle.summary }}</p>
+          <span class="kr-read-more">
+            阅读全文
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
         </div>
       </a>
 
-      <div class="knowledge-resource-list">
-        <a v-for="resource in resources" :key="resource.id" :href="resource.link" class="resource-preview">
-          <div class="resource-preview__sheet" aria-hidden="true">
-            <span>{{ resource.category }}</span>
-            <i></i><i></i><i></i>
-            <strong>{{ resource.accessType }}</strong>
+      <!-- 资源卡列表 -->
+      <div class="kr-resources">
+        <a
+          v-for="resource in resources"
+          :key="resource.id"
+          class="kr-resource"
+          :href="resource.link"
+        >
+          <!-- 真实图片封面 -->
+          <div class="kr-resource__cover">
+            <img :src="resource.cover" :alt="resource.alt" loading="lazy" />
+            <span class="kr-resource__type-badge">{{ resource.category }}</span>
           </div>
-          <div>
-            <span>RESOURCE · {{ resource.verifiedAt }}</span>
-            <h3>{{ resource.name }}</h3>
-            <p>{{ resource.desc }}</p>
+
+          <!-- 文字信息 -->
+          <div class="kr-resource__body">
+            <div class="kr-resource__meta-row">
+              <span class="kr-meta">RESOURCE</span>
+              <span class="kr-verified">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <circle cx="5" cy="5" r="4.5" stroke="currentColor" opacity="0.5"/>
+                  <path d="M3 5l1.4 1.4L7 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                已验证 {{ resource.verifiedAt }}
+              </span>
+            </div>
+            <h3 class="kr-resource__title">{{ resource.name }}</h3>
+            <p class="kr-resource__desc">{{ resource.desc }}</p>
+            <div class="kr-resource__footer">
+              <span class="kr-access-badge">{{ resource.accessType }}</span>
+              <span class="kr-arrow">查看资源 →</span>
+            </div>
           </div>
         </a>
       </div>
+
+    </div>
+
+    <!-- ③ 底部原则条 -->
+    <div class="kr-rules">
+      <p class="kr-rules__label">收录标准</p>
+      <ul class="kr-rules__list">
+        <li>
+          <span class="kr-rules__num">01</span>
+          <span>方法说明适用场景与限制，不把工具参数包装成普遍结论。</span>
+        </li>
+        <li>
+          <span class="kr-rules__num">02</span>
+          <span>资源标明来源、访问方式和验证时间，不提供失效或虚构下载。</span>
+        </li>
+        <li>
+          <span class="kr-rules__num">03</span>
+          <span>每篇内容连接到案例或工作流，让知识最终回到实践。</span>
+        </li>
+      </ul>
     </div>
 
   </SectionShell>
 </template>
 
 <style scoped>
-.knowledge-head { display: grid; width: 100%; justify-items: center; gap: 24px; text-align: center; }
-.knowledge-editorial { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr); gap: 22px; margin-top: 40px; }
-.knowledge-article { display: grid; overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); color: inherit; text-decoration: none; background: var(--bg-card); }
-.knowledge-article img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: var(--image-treatment); }
-.knowledge-article > div { padding: clamp(28px, 4vw, 46px); }
-.knowledge-article span, .resource-preview > div:last-child > span { color: var(--brand-cyan); font-size: var(--text-label); letter-spacing: 0.1em; }
-h3 { margin: 14px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: clamp(24px, 2.4vw, 36px); font-weight: 600; line-height: 1.35; }
-p { margin: 14px 0 0; color: var(--text-sub); font-size: var(--text-small); line-height: 1.8; }
-.knowledge-article strong { display: inline-block; margin-top: 24px; color: var(--brand-main); font-size: var(--text-small); }
-.knowledge-resource-list { display: grid; gap: 18px; }
-.resource-preview { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; align-items: center; padding: 22px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); color: inherit; text-decoration: none; background: var(--bg-card); }
-.resource-preview__sheet { display: grid; min-height: 174px; align-content: start; gap: 10px; padding: 18px; border: 1px solid var(--border-soft); border-radius: calc(var(--radius-card) - 4px); background: linear-gradient(155deg, var(--bg-page), var(--bg-soft)); box-shadow: 8px 9px 0 color-mix(in srgb, var(--border-soft) 50%, transparent); }
-.resource-preview__sheet span { color: var(--brand-cyan); font-size: var(--text-micro); letter-spacing: 0.08em; }
-.resource-preview__sheet i { display: block; height: 5px; border-radius: 999px; background: var(--border-soft); }
-.resource-preview__sheet i:nth-of-type(2) { width: 72%; }
-.resource-preview__sheet i:nth-of-type(3) { width: 48%; }
-.resource-preview__sheet strong { margin-top: auto; color: var(--text-main); font-size: var(--text-label); }
-.resource-preview h3 { font-size: var(--text-card-title); }
-.resource-preview p { font-size: var(--text-caption); }
-
-@media (max-width: 900px) {
-  .knowledge-editorial { grid-template-columns: 1fr; }
+/* ─── 标题区 ─────────────────────────────── */
+.kr-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-@media (max-width: 660px) {
-  .resource-preview { grid-template-columns: 110px minmax(0, 1fr); gap: 18px; padding: 16px; }
-  .resource-preview__sheet { min-height: 150px; padding: 14px; }
+.kr-head__copy { flex: 1; }
+
+.kr-eyebrow {
+  margin: 0 0 16px;
+  color: var(--brand-main);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.kr-title {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.kr-desc {
+  margin: 16px 0 0;
+  max-width: 520px;
+  color: var(--text-sub);
+  font-size: var(--text-small);
+  line-height: 1.85;
+}
+
+/* CTA 按钮 */
+.kr-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px 24px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-control);
+  color: var(--brand-main);
+  font-size: var(--text-small);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition-smooth), border-color var(--transition-smooth), color var(--transition-smooth);
+}
+.kr-cta-link:hover {
+  background: var(--brand-main);
+  border-color: var(--brand-main);
+  color: #fff;
+}
+.kr-cta-link svg { flex-shrink: 0; }
+
+/* ─── 内容网格 ────────────────────────────── */
+.kr-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  gap: 20px;
+  margin-top: 32px;
+  align-items: start;
+}
+
+/* ─── 主文章卡 ────────────────────────────── */
+.kr-article {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  color: inherit;
+  text-decoration: none;
+  background: var(--bg-card);
+  transition: box-shadow var(--transition-smooth), transform var(--transition-smooth);
+}
+.kr-article:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.kr-article__media {
+  position: relative;
+  overflow: hidden;
+}
+.kr-article__media img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  filter: var(--image-treatment);
+  transition: transform 0.55s ease;
+}
+.kr-article:hover .kr-article__media img {
+  transform: scale(1.035);
+}
+.kr-article__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: rgba(23, 19, 15, 0.55);
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(8px);
+}
+
+.kr-article__body {
+  padding: clamp(24px, 4vw, 38px);
+  display: grid;
+  align-content: start;
+}
+
+.kr-article__title {
+  margin: 10px 0 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.kr-article__summary {
+  margin: 12px 0 0;
+  color: var(--text-sub);
+  font-size: var(--text-small);
+  line-height: 1.85;
+}
+
+.kr-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  color: var(--brand-main);
+  font-size: var(--text-small);
+  font-weight: 500;
+}
+
+/* ─── 资源卡列表 ──────────────────────────── */
+.kr-resources {
+  display: grid;
+  gap: 16px;
+}
+
+.kr-resource {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  color: inherit;
+  text-decoration: none;
+  background: var(--bg-card);
+  transition: box-shadow var(--transition-smooth), transform var(--transition-smooth);
+}
+.kr-resource:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.kr-resource__cover {
+  position: relative;
+  overflow: hidden;
+}
+.kr-resource__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  object-fit: cover;
+  filter: var(--image-treatment);
+  transition: transform 0.55s ease;
+}
+.kr-resource:hover .kr-resource__cover img {
+  transform: scale(1.05);
+}
+.kr-resource__type-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(23, 19, 15, 0.6);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(6px);
+}
+
+.kr-resource__body {
+  display: grid;
+  align-content: start;
+  gap: 0;
+  padding: 18px 20px;
+}
+
+.kr-resource__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kr-meta {
+  margin: 0;
+  color: var(--brand-main);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kr-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.kr-resource__title {
+  margin: 10px 0 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.kr-resource__desc {
+  margin: 8px 0 0;
+  color: var(--text-sub);
+  font-size: var(--text-caption);
+  line-height: 1.7;
+}
+
+.kr-resource__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.kr-access-badge {
+  padding: 3px 8px;
+  border: 1px solid var(--border-soft);
+  border-radius: 5px;
+  color: var(--text-sub);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  background: var(--bg-soft);
+}
+
+.kr-arrow {
+  color: var(--brand-main);
+  font-size: var(--text-caption);
+  font-weight: 500;
+}
+
+/* ─── 底部原则 ────────────────────────────── */
+.kr-rules {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 48px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-soft);
+  align-items: start;
+}
+
+.kr-rules__label {
+  margin: 0;
+  padding-top: 4px;
+  color: var(--text-muted);
+  font-size: var(--text-label);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.kr-rules__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.kr-rules__list li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-sub);
+  font-size: var(--text-small);
+  line-height: 1.8;
+}
+.kr-rules__list li:first-child {
+  border-top: 1px solid var(--border-soft);
+}
+
+.kr-rules__num {
+  color: var(--brand-main);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding-top: 2px;
+}
+
+/* ─── 响应式 ──────────────────────────────── */
+@media (max-width: 900px) {
+  .kr-head { flex-direction: column; align-items: flex-start; }
+  .kr-grid { grid-template-columns: 1fr; }
+  .kr-rules { grid-template-columns: 1fr; gap: 24px; }
+  .kr-rules__label { padding-bottom: 0; }
+}
+
+@media (max-width: 600px) {
+  .kr-resource { grid-template-columns: 110px minmax(0, 1fr); }
+  .kr-resource__cover img { min-height: 130px; }
+  .kr-resource__body { padding: 14px 16px; }
 }
 </style>
