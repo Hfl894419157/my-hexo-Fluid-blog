@@ -12,12 +12,12 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
       <!-- Left: Copy -->
       <div class="home-hero__content">
         <h1>
-          <span class="h1-line">把 AI 学习、设计实践与工作流，</span>
-          <span class="h1-line h1-accent">沉淀成可复用的个人能力系统</span>
+          <span class="h1-line">把 AI 学习与设计实践，</span>
+          <span class="h1-line h1-accent">沉淀为可复用的个人能力系统</span>
         </h1>
 
         <p class="home-hero__lead">
-          这里记录我真实案例、方法判断、生产流程，以及经过整理和验证的知识资源。
+          这里记录我真实案例、方法判断、生产流程及经验证的资源。
         </p>
 
         <div class="home-hero__actions">
@@ -83,22 +83,21 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 
 /* ─── Content (left) ─────────────────────────────────── */
 .home-hero__content { min-width: 0; }
-
+    
 h1 {
   max-width: 700px;
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(40px, 4.2vw, 60px);
+  font-size: clamp(36px, 4vw, 56px); /* 微调字号以支持大段自适应自如 */
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: -0.04em;
   text-wrap: balance;
 }
 
 .h1-line {
   display: block;
-  white-space: nowrap;
 }
 
 .h1-accent {

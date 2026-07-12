@@ -1,120 +1,113 @@
 <template>
-  <svg class="svg-hero" viewBox="0 0 520 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <svg class="svg-hero" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
-      <pattern id="hv-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-        <circle cx="1.5" cy="1.5" r="1.5" fill="var(--brand-main)" opacity="0.18"/>
+      <!-- 背景散点图样 -->
+      <pattern id="hero-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1.2" fill="var(--brand-main)" opacity="0.16"/>
       </pattern>
-      <radialGradient id="hv-glow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="var(--brand-main)" stop-opacity="0.13"/>
+      
+      <!-- 柔和发光滤镜 -->
+      <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="14" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+
+      <!-- 核心发光渐变 -->
+      <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--brand-main)" stop-opacity="0.32"/>
+        <stop offset="60%" stop-color="var(--brand-second)" stop-opacity="0.08"/>
         <stop offset="100%" stop-color="var(--brand-main)" stop-opacity="0"/>
       </radialGradient>
-      <radialGradient id="hv-fade" cx="50%" cy="50%" r="50%">
-        <stop offset="50%" stop-color="white" stop-opacity="1"/>
-        <stop offset="100%" stop-color="white" stop-opacity="0"/>
-      </radialGradient>
-      <mask id="hv-dot-mask">
-        <rect width="520" height="560" fill="url(#hv-fade)"/>
-      </mask>
+
+      <!-- 流光线条渐变 -->
+      <linearGradient id="stream-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="var(--brand-main)" stop-opacity="0.8"/>
+        <stop offset="50%" stop-color="var(--brand-second)" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="var(--brand-main)" stop-opacity="0.05"/>
+      </linearGradient>
     </defs>
 
-    <!-- Dot grid (faded at edges) -->
-    <rect width="520" height="560" fill="url(#hv-dots)" mask="url(#hv-dot-mask)"/>
+    <!-- 散点网格背景层 -->
+    <circle cx="260" cy="260" r="230" fill="url(#hero-dots)" />
 
-    <!-- Ambient center glow -->
-    <ellipse cx="260" cy="280" rx="230" ry="230" fill="url(#hv-glow)"/>
+    <!-- 环境氛围发光底色 -->
+    <circle cx="260" cy="260" r="170" fill="url(#center-glow)" />
 
-    <!-- Outer dashed orbital ring (rotates) -->
-    <circle class="ring-outer" cx="260" cy="280" r="205"
-      stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.22"
-      stroke-dasharray="10 7" fill="none"/>
+    <!-- 1. 外部装饰虚线环 (慢速顺时针旋转) -->
+    <circle class="ring-exterior" cx="260" cy="260" r="210" 
+      stroke="var(--brand-main)" stroke-width="0.8" stroke-opacity="0.22" 
+      stroke-dasharray="12 10" />
 
-    <!-- Middle circle -->
-    <circle cx="260" cy="280" r="145"
-      stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.16" fill="none"/>
+    <!-- 2. 中层流动轨迹环 (慢速逆时针旋转) -->
+    <circle class="ring-interior" cx="260" cy="260" r="150" 
+      stroke="var(--brand-second)" stroke-width="1.2" stroke-opacity="0.18" 
+      stroke-dasharray="160 80" />
 
-    <!-- Inner circle -->
-    <circle cx="260" cy="280" r="88"
-      stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.24" fill="none"/>
+    <!-- 3. 五阶段数据轨道与流动微粒 -->
+    <!-- 需求输入轨道 -->
+    <path d="M 260 260 L 260 80" stroke="url(#stream-gradient)" stroke-width="1.5" />
+    <circle class="flow-particle p-1" cx="260" cy="80" r="3" fill="var(--brand-main)" filter="url(#glow-filter)" />
 
-    <!-- Hexagonal connection frame (6 nodes on r=200 hex) -->
-    <!-- Positions: top(260,80), rt(433,180), rb(433,380), bot(260,480), lb(87,380), lt(87,180) -->
-    <polygon class="hex-frame"
-      points="260,80 433,180 433,380 260,480 87,380 87,180"
-      stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.18" fill="none"/>
+    <!-- 变量拆解轨道 -->
+    <path d="M 260 260 L 410 170" stroke="url(#stream-gradient)" stroke-width="1.5" />
+    <circle class="flow-particle p-2" cx="410" cy="170" r="3" fill="var(--brand-main)" filter="url(#glow-filter)" />
 
-    <!-- Inner hexagon (counter-rotates) -->
-    <polygon class="hex-inner"
-      points="260,232 303,256 303,304 260,328 217,304 217,256"
-      stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.32" fill="none"/>
+    <!-- 方向生成轨道 -->
+    <path d="M 260 260 L 350 380" stroke="url(#stream-gradient)" stroke-width="1.5" />
+    <circle class="flow-particle p-3" cx="350" cy="380" r="3" fill="var(--brand-second)" filter="url(#glow-filter)" />
 
-    <!-- Spokes center → nodes -->
-    <line x1="260" y1="280" x2="260" y2="80" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
-    <line x1="260" y1="280" x2="433" y2="180" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
-    <line x1="260" y1="280" x2="433" y2="380" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
-    <line x1="260" y1="280" x2="260" y2="480" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
-    <line x1="260" y1="280" x2="87" y2="380" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
-    <line x1="260" y1="280" x2="87" y2="180" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.18"/>
+    <!-- 人工判断轨道 -->
+    <path d="M 260 260 L 170 380" stroke="url(#stream-gradient)" stroke-width="1.5" />
+    <circle class="flow-particle p-4" cx="170" cy="380" r="3" fill="var(--brand-main)" filter="url(#glow-filter)" />
 
-    <!-- Node dots -->
-    <circle cx="260" cy="80"  r="5.5" fill="var(--brand-main)" opacity="0.8"/>
-    <circle cx="433" cy="180" r="5.5" fill="var(--brand-main)" opacity="0.8"/>
-    <circle cx="433" cy="380" r="5.5" fill="var(--brand-main)" opacity="0.8"/>
-    <circle cx="260" cy="480" r="5.5" fill="var(--brand-main)" opacity="0.8"/>
-    <circle cx="87"  cy="380" r="5.5" fill="var(--brand-main)" opacity="0.8"/>
-    <circle cx="87"  cy="180" r="5.5" fill="var(--brand-main)" opacity="0.8"/>
+    <!-- 资产沉淀轨道 -->
+    <path d="M 260 260 L 110 170" stroke="url(#stream-gradient)" stroke-width="1.5" />
+    <circle class="flow-particle p-5" cx="110" cy="170" r="3" fill="var(--brand-second)" filter="url(#glow-filter)" />
 
-    <!-- Node pulse halos (staggered animation) -->
-    <circle class="halo h1" cx="260" cy="80"  r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-    <circle class="halo h2" cx="433" cy="180" r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-    <circle class="halo h3" cx="433" cy="380" r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-    <circle class="halo h4" cx="260" cy="480" r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-    <circle class="halo h5" cx="87"  cy="380" r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-    <circle class="halo h6" cx="87"  cy="180" r="14" stroke="var(--brand-main)" stroke-width="1" fill="none"/>
-
-    <!-- Label tags -->
-    <g transform="translate(222,50)">
-      <rect width="76" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="38" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">BRIEF</text>
-    </g>
-    <g transform="translate(442,162)">
-      <rect width="72" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="36" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">VARS</text>
-    </g>
-    <g transform="translate(442,362)">
-      <rect width="72" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="36" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">GEN</text>
-    </g>
-    <g transform="translate(218,488)">
-      <rect width="84" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="42" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">JUDGE</text>
-    </g>
-    <g transform="translate(4,362)">
-      <rect width="76" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="38" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">ASSETS</text>
-    </g>
-    <g transform="translate(4,162)">
-      <rect width="76" height="22" rx="4" stroke="var(--brand-main)" stroke-width="0.75" stroke-opacity="0.5"
-        fill="var(--brand-main)" fill-opacity="0.07"/>
-      <text x="38" y="15" text-anchor="middle" fill="var(--brand-main)" font-size="9"
-        opacity="0.75" font-family="ui-monospace,monospace" letter-spacing="1.5">POLISH</text>
+    <!-- 4. 节点环与外边框 (带有毛玻璃卡片发光感) -->
+    <!-- Node 1: 输入 -->
+    <g class="pulse-node n1" transform="translate(260, 80)">
+      <circle r="12" fill="var(--bg-card)" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4" />
+      <circle r="4" fill="var(--brand-main)" />
+      <text y="-20" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="600" letter-spacing="1">输入</text>
     </g>
 
-    <!-- Center hub -->
-    <circle cx="260" cy="280" r="20" stroke="var(--brand-main)" stroke-width="1.5"
-      stroke-opacity="0.38" fill="var(--brand-main)" fill-opacity="0.09"/>
-    <circle cx="260" cy="280" r="7"  fill="var(--brand-main)" opacity="0.9"/>
-    <circle class="hub-pulse" cx="260" cy="280" r="20"
-      stroke="var(--brand-main)" stroke-width="1.5" fill="none"/>
+    <!-- Node 2: 拆解 -->
+    <g class="pulse-node n2" transform="translate(410, 170)">
+      <circle r="12" fill="var(--bg-card)" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4" />
+      <circle r="4" fill="var(--brand-second)" />
+      <text x="24" y="4" fill="var(--text-main)" font-size="9" font-weight="600" letter-spacing="1">拆解</text>
+    </g>
+
+    <!-- Node 3: 生成 -->
+    <g class="pulse-node n3" transform="translate(350, 380)">
+      <circle r="12" fill="var(--bg-card)" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4" />
+      <circle r="4" fill="var(--brand-main)" />
+      <text y="24" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="600" letter-spacing="1">生成</text>
+    </g>
+
+    <!-- Node 4: 判断 -->
+    <g class="pulse-node n4" transform="translate(170, 380)">
+      <circle r="12" fill="var(--bg-card)" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4" />
+      <circle r="4" fill="var(--brand-main)" />
+      <text y="24" text-anchor="middle" fill="var(--text-main)" font-size="9" font-weight="600" letter-spacing="1">判断</text>
+    </g>
+
+    <!-- Node 5: 沉淀 -->
+    <g class="pulse-node n5" transform="translate(110, 170)">
+      <circle r="12" fill="var(--bg-card)" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.4" />
+      <circle r="4" fill="var(--brand-second)" />
+      <text x="-48" y="4" fill="var(--text-main)" font-size="9" font-weight="600" letter-spacing="1">沉淀</text>
+    </g>
+
+    <!-- 5. 核心能量决策中枢 (Core Engine) -->
+    <g class="center-hub">
+      <!-- 多层同心发光圆环 -->
+      <circle cx="260" cy="260" r="32" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.24" fill="var(--bg-card)" />
+      <circle class="core-pulse" cx="260" cy="260" r="22" stroke="var(--brand-second)" stroke-width="1.5" stroke-opacity="0.4" fill="none" filter="url(#glow-filter)" />
+      <circle cx="260" cy="260" r="14" fill="var(--brand-main)" />
+      <circle cx="260" cy="260" r="5" fill="var(--button-primary-text)" />
+    </g>
   </svg>
 </template>
 
@@ -126,61 +119,72 @@
   overflow: visible;
 }
 
-/* Outer ring slow rotation */
-.ring-outer {
-  transform-origin: 260px 280px;
-  animation: spin-cw 32s linear infinite;
+/* 外环顺时针旋转 */
+.ring-exterior {
+  transform-origin: 260px 260px;
+  animation: rotate-cw 40s linear infinite;
 }
 
-/* Inner hex counter-rotation */
-.hex-inner {
-  transform-origin: 260px 280px;
-  animation: spin-ccw 22s linear infinite;
+/* 内轨逆时针旋转 */
+.ring-interior {
+  transform-origin: 260px 260px;
+  animation: rotate-ccw 30s linear infinite;
 }
 
-/* Hex frame subtle pulse */
-.hex-frame {
-  animation: fade-pulse 5s ease-in-out infinite;
+/* 五轨道脉冲粒子沿着线路滑动的微光动效 */
+.flow-particle {
+  animation: particle-pulse 3s ease-in-out infinite alternate;
+}
+.p-1 { animation-delay: 0s; }
+.p-2 { animation-delay: 0.6s; }
+.p-3 { animation-delay: 1.2s; }
+.p-4 { animation-delay: 1.8s; }
+.p-5 { animation-delay: 2.4s; }
+
+/* 核心中枢外发光波动 */
+.core-pulse {
+  transform-origin: 260px 260px;
+  animation: hub-pulse 3.5s ease-out infinite;
 }
 
-/* Node halos — staggered pulse */
-.halo {
-  animation: halo-out 3.6s ease-out infinite;
-  opacity: 0;
+/* 节点气泡微幅漂浮感 */
+.pulse-node {
+  animation: float-node 6s ease-in-out infinite alternate;
 }
-.h1 { animation-delay: 0s;    transform-origin: 260px 80px;  }
-.h2 { animation-delay: 0.6s;  transform-origin: 433px 180px; }
-.h3 { animation-delay: 1.2s;  transform-origin: 433px 380px; }
-.h4 { animation-delay: 1.8s;  transform-origin: 260px 480px; }
-.h5 { animation-delay: 2.4s;  transform-origin: 87px 380px;  }
-.h6 { animation-delay: 3.0s;  transform-origin: 87px 180px;  }
+.n1 { animation-delay: 0s; }
+.n2 { animation-delay: 1.2s; }
+.n3 { animation-delay: 2.4s; }
+.n4 { animation-delay: 3.6s; }
+.n5 { animation-delay: 4.8s; }
 
-/* Hub center pulse */
-.hub-pulse {
-  transform-origin: 260px 280px;
-  animation: hub-ring 2.8s ease-out infinite;
+@keyframes rotate-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-@keyframes spin-cw  { to { transform: rotate(360deg);  } }
-@keyframes spin-ccw { to { transform: rotate(-360deg); } }
-
-@keyframes fade-pulse {
-  0%, 100% { stroke-opacity: 0.18; }
-  50%       { stroke-opacity: 0.38; }
+@keyframes rotate-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
 }
 
-@keyframes halo-out {
-  0%   { transform: scale(1);   opacity: 0.55; }
-  100% { transform: scale(2.6); opacity: 0;    }
+@keyframes particle-pulse {
+  0% { opacity: 0.3; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.2); }
 }
 
-@keyframes hub-ring {
-  0%   { transform: scale(1);   opacity: 0.5; }
-  100% { transform: scale(2.2); opacity: 0;   }
+@keyframes hub-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes float-node {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-4px) scale(1.02); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ring-outer, .hex-inner, .hex-frame,
-  .halo, .hub-pulse { animation: none; }
+  .ring-exterior, .ring-interior, .flow-particle, .core-pulse, .pulse-node {
+    animation: none;
+  }
 }
 </style>
