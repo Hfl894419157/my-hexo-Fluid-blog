@@ -38,38 +38,6 @@ export const toolsResources = [
     license: '可复制并按项目调整',
     verifiedAt: '2026-07-11',
     relatedIds: ['commercial-visual-system', 'exhibition-visual']
-  },
-  {
-    id: 'lora',
-    name: '更新中 3',
-    desc: '内容整理中，敬请期待。',
-    link: '/resources/lora',
-    category: 'AI 模型',
-    status: 'draft'
-  },
-  {
-    id: 'icons',
-    name: '更新中 4',
-    desc: '内容整理中，敬请期待。',
-    link: '/resources/icons',
-    category: '设计资源',
-    status: 'draft'
-  },
-  {
-    id: 'uikit',
-    name: '更新中 5',
-    desc: '内容整理中，敬请期待。',
-    link: '/resources/uikit',
-    category: 'UI 组件',
-    status: 'draft'
-  },
-  {
-    id: 'ebook',
-    name: '更新中 6',
-    desc: '内容整理中，敬请期待。',
-    link: '/resources/ebook',
-    category: '学习资源',
-    status: 'draft'
   }
 ]
 

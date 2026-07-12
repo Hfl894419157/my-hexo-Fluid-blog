@@ -33,4 +33,4 @@ Prompt 模板应该链接使用它的工作流，检查清单应该链接实际�
 - [AI 项目复盘清单](/resources/notion)
 - [德国水处理展会视觉体系](/portfolio/exhibition-visual)
 
-[← 返回方法与洞察](/blog/)
+[← 返回设计方法](/blog/)

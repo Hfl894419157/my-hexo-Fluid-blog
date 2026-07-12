@@ -125,9 +125,8 @@ const phases = [
           v-for="(work, index) in aigcWorks"
           :key="work.id"
           class="aigc-card"
-          :class="{ 'aigc-card--draft': work.status === 'draft', 'aigc-card--lead': index === 0 }"
-          :href="work.status === 'published' ? work.link : undefined"
-          :aria-disabled="work.status === 'draft'"
+          :class="{ 'aigc-card--lead': index === 0 }"
+          :href="work.link"
         >
           <!-- Media / placeholder -->
           <div class="aigc-card__media">
@@ -148,8 +147,7 @@ const phases = [
                 <line x1="68" y1="45" x2="92" y2="45" stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.25"/>
               </svg>
             </div>
-            <span v-if="work.status === 'draft'" class="aigc-card__badge">更新中</span>
-            <span v-else class="aigc-card__badge aigc-card__badge--live">AI WORKFLOW</span>
+            <span class="aigc-card__badge aigc-card__badge--live">AI WORKFLOW</span>
           </div>
 
           <!-- Copy -->
@@ -157,8 +155,7 @@ const phases = [
             <span class="aigc-card__category">{{ work.category || '内容工作流' }}</span>
             <h3>{{ work.title }}</h3>
             <p v-if="work.desc">{{ work.desc }}</p>
-            <strong v-if="work.status === 'published'" class="aigc-card__cta">查看完整工作流 →</strong>
-            <strong v-else class="aigc-card__cta aigc-card__cta--pending">敬请期待</strong>
+            <strong class="aigc-card__cta">查看完整工作流 →</strong>
           </div>
         </a>
       </div>
@@ -514,15 +511,10 @@ h1 {
   transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
 }
 
-.aigc-card:not(.aigc-card--draft):hover {
+.aigc-card:hover {
   border-color: color-mix(in srgb, var(--brand-main) 40%, transparent);
   box-shadow: 0 8px 36px color-mix(in srgb, var(--brand-main) 10%, transparent);
   transform: translateY(-3px);
-}
-
-.aigc-card--draft {
-  cursor: default;
-  opacity: 0.55;
 }
 
 /* Lead 卡片（首位）占满 2 列 */
@@ -560,7 +552,7 @@ h1 {
   transition: transform 0.4s ease;
 }
 
-.aigc-card:not(.aigc-card--draft):hover :deep(.media-frame__viewport img) {
+.aigc-card:hover :deep(.media-frame__viewport img) {
   transform: scale(1.04);
 }
 
@@ -637,10 +629,6 @@ p {
   font-size: 13px;
 }
 
-.aigc-card__cta--pending {
-  color: var(--text-muted) !important;
-}
-
 /* ═══════════════════════════════════════════════
    响应式
    ═══════════════════════════════════════════════ */
@@ -676,7 +664,7 @@ p {
 
 @media (prefers-reduced-motion: reduce) {
   .aigc-card { transition: none; }
-  .aigc-card:not(.aigc-card--draft):hover { transform: none; }
+  .aigc-card:hover { transform: none; }
   .aigc-hero__scroll { display: none; }
 }
 </style>

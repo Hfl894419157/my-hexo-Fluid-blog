@@ -16,9 +16,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
         v-for="(tool, index) in toolsResources"
         :key="tool.id"
         class="resource-card"
-        :class="{ 'resource-card--draft': tool.status === 'draft' }"
-        :href="tool.status === 'published' ? tool.link : undefined"
-        :aria-disabled="tool.status === 'draft'"
+        :href="tool.link"
       >
         <!-- Preview panel (top) -->
         <div class="resource-card__preview">
@@ -40,23 +38,20 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
             <span v-if="tool.verifiedAt">{{ tool.verifiedAt }}</span>
           </div>
 
-          <!-- Draft overlay badge -->
-          <span v-if="tool.status === 'draft'" class="resource-card__badge">更新中</span>
         </div>
 
         <!-- Info panel (bottom) -->
         <div class="resource-card__info">
           <span class="resource-card__label">
-            {{ tool.status === 'published' ? 'VERIFIED RESOURCE' : 'COMING SOON' }}
+            VERIFIED RESOURCE
           </span>
           <h3>{{ tool.name }}</h3>
           <p>{{ tool.desc }}</p>
-          <dl v-if="tool.status === 'published'">
+          <dl>
             <div><dt>访问</dt><dd>{{ tool.accessType }}</dd></div>
             <div><dt>授权</dt><dd>{{ tool.license }}</dd></div>
           </dl>
-          <strong v-if="tool.status === 'published'" class="resource-card__cta">查看内容预览 →</strong>
-          <strong v-else class="resource-card__cta resource-card__cta--pending">敬请期待</strong>
+          <strong class="resource-card__cta">查看内容预览 →</strong>
         </div>
       </a>
     </div>
@@ -89,15 +84,10 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
   transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
 }
 
-.resource-card:not(.resource-card--draft):hover {
+.resource-card:hover {
   border-color: color-mix(in srgb, var(--brand-main) 40%, transparent);
   box-shadow: 0 8px 36px color-mix(in srgb, var(--brand-main) 10%, transparent);
   transform: translateY(-3px);
-}
-
-.resource-card--draft {
-  cursor: default;
-  opacity: 0.58;
 }
 
 /* Preview panel */
@@ -172,20 +162,6 @@ h2 {
   letter-spacing: 0.06em;
 }
 
-/* Draft badge */
-.resource-card__badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: var(--text-micro);
-  letter-spacing: 0.08em;
-  border: 1px solid var(--border-soft);
-  background: color-mix(in srgb, var(--bg-card) 80%, transparent);
-  color: var(--text-muted);
-}
-
 /* Info panel */
 .resource-card__info {
   display: flex;
@@ -248,13 +224,11 @@ dd {
   font-size: var(--text-small);
 }
 
-.resource-card__cta--pending { color: var(--text-muted) !important; }
-
 @media (max-width: 960px) { .resource-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .resource-grid { grid-template-columns: 1fr; } }
 
 @media (prefers-reduced-motion: reduce) {
   .resource-card { transition: none; }
-  .resource-card:not(.resource-card--draft):hover { transform: none; }
+  .resource-card:hover { transform: none; }
 }
 </style>

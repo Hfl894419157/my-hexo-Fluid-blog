@@ -36,51 +36,6 @@ export const portfolioWorks = [
     featured: true,
     tags: ['展会视觉', '品牌系统', '跨团队交付'],
     relatedIds: ['commercial-visual-system', 'project-review-checklist']
-  },
-  {
-    id: 'brand-design',
-    title: '更新中 3',
-    category: '品牌视觉',
-    desc: '内容整理中，敬请期待。',
-    link: '/portfolio/brand-design',
-    status: 'draft',
-    featured: false
-  },
-  {
-    id: '3d-viz',
-    title: '更新中 4',
-    category: '产品表达',
-    desc: '内容整理中，敬请期待。',
-    link: '/portfolio/3d-viz',
-    status: 'draft',
-    featured: false
-  },
-  {
-    id: 'smart-home',
-    title: '更新中 5',
-    category: '交互设计',
-    desc: '内容整理中，敬请期待。',
-    link: '/portfolio/smart-home',
-    status: 'draft',
-    featured: false
-  },
-  {
-    id: 'mobile-app',
-    title: '更新中 6',
-    category: '移动体验',
-    desc: '内容整理中，敬请期待。',
-    link: '/portfolio/mobile-app',
-    status: 'draft',
-    featured: false
-  },
-  {
-    id: 'ai-video',
-    title: '更新中 7',
-    category: '内容工作流',
-    desc: '内容整理中，敬请期待。',
-    link: '/portfolio/ai-video',
-    status: 'draft',
-    featured: false
   }
 ]
 
