@@ -49,4 +49,4 @@ Prompt 的作用不是堆叠形容词，而是把项目目标转换为生成模�
 - [专业医疗产品电商视觉系统](/portfolio/ecommerce-visual)
 - [从提示词到交付：AIGC 工作流如何沉淀](/blog/aigc-workflow-system)
 
-[← 返回资源库](/resources/)
+[← 返回工具资源](/resources/)

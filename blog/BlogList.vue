@@ -17,14 +17,13 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
         v-for="(post, index) in blogPosts"
         :key="post.id"
         class="blog-card"
-        :class="{ 'blog-card--draft': post.status === 'draft', 'blog-card--lead': index === 0 }"
-        :href="post.status === 'published' ? post.link : undefined"
-        :aria-disabled="post.status === 'draft'"
+        :class="{ 'blog-card--lead': index === 0 }"
+        :href="post.link"
       >
         <!-- Cover -->
         <div class="blog-card__cover">
           <MediaFrame
-            v-if="post.cover && post.status === 'published'"
+            v-if="post.cover"
             :src="post.cover"
             :alt="post.alt"
             aspect="16 / 9"
@@ -38,8 +37,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
               <rect x="38" y="53" width="44" height="4" rx="2" fill="var(--brand-main)" fill-opacity="0.14"/>
             </svg>
           </div>
-          <span v-if="post.status === 'draft'" class="blog-card__badge">更新中</span>
-          <span v-else-if="index === 0" class="blog-card__badge blog-card__badge--featured">最新</span>
+          <span v-if="index === 0" class="blog-card__badge blog-card__badge--featured">最新</span>
         </div>
 
         <!-- Copy -->
@@ -52,8 +50,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
           <ul v-if="post.tags && post.tags.length">
             <li v-for="tag in post.tags" :key="tag"># {{ tag }}</li>
           </ul>
-          <strong v-if="post.status === 'published'" class="blog-card__cta">阅读全文 →</strong>
-          <strong v-else class="blog-card__cta blog-card__cta--pending">敬请期待</strong>
+          <strong class="blog-card__cta">阅读全文 →</strong>
         </div>
       </a>
     </div>
@@ -86,15 +83,10 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
   transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
 }
 
-.blog-card:not(.blog-card--draft):hover {
+.blog-card:hover {
   border-color: color-mix(in srgb, var(--brand-main) 40%, transparent);
   box-shadow: 0 8px 36px color-mix(in srgb, var(--brand-main) 10%, transparent);
   transform: translateY(-3px);
-}
-
-.blog-card--draft {
-  cursor: default;
-  opacity: 0.58;
 }
 
 /* Cover */
@@ -111,7 +103,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
   transition: transform 0.4s ease;
 }
 
-.blog-card:not(.blog-card--draft):hover :deep(.media-frame__viewport img) {
+.blog-card:hover :deep(.media-frame__viewport img) {
   transform: scale(1.04);
 }
 
@@ -200,13 +192,11 @@ li {
   font-size: var(--text-small);
 }
 
-.blog-card__cta--pending { color: var(--text-muted) !important; }
-
 @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .blog-grid { grid-template-columns: 1fr; } }
 
 @media (prefers-reduced-motion: reduce) {
   .blog-card { transition: none; }
-  .blog-card:not(.blog-card--draft):hover { transform: none; }
+  .blog-card:hover { transform: none; }
 }
 </style>

@@ -1,12 +1,13 @@
 import { createContentLoader } from 'vitepress'
 
 const sectionLabels = [
-  { prefix: '/portfolio/', label: 'Cases' },
-  { prefix: '/aigc/', label: 'AI Workflow' },
-  { prefix: '/resources/', label: 'Resources' },
-  { prefix: '/blog/', label: 'Methodology' },
-  { prefix: '/resume', label: 'About' },
-  { prefix: '/', label: 'Home' }
+  { prefix: '/portfolio/', label: '案例' },
+  { prefix: '/aigc/', label: '工作流' },
+  { prefix: '/knowledge/', label: '行业观察' },
+  { prefix: '/resources/', label: '工具资源' },
+  { prefix: '/blog/', label: '设计方法' },
+  { prefix: '/resume', label: '关于' },
+  { prefix: '/', label: '首页' }
 ]
 
 const stripFrontmatter = (src) => src.replace(/^---[\s\S]*?---\s*/, '')

@@ -52,4 +52,4 @@ status: published
 - [德国水处理展会视觉体系](/portfolio/exhibition-visual)
 - [个人资源库比普通博客更重要](/blog/personal-resource-library)
 
-[← 返回资源库](/resources/)
+[← 返回工具资源](/resources/)

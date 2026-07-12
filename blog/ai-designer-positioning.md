@@ -35,4 +35,4 @@ status: published
 - [专业医疗产品电商视觉系统](/portfolio/ecommerce-visual)
 - [知识库](/knowledge/)
 
-[← 返回方法与洞察](/blog/)
+[← 返回设计方法](/blog/)

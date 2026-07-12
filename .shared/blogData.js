@@ -52,54 +52,6 @@ export const blogPosts = [
     status: 'published',
     featured: true,
     relatedIds: ['project-review-checklist', 'prompt-framework']
-  },
-  {
-    id: 'placeholder-4',
-    title: '更新中 4',
-    summary: '内容整理中，敬请期待。',
-    cover: '/aigc-3.jpg',
-    alt: '占位图',
-    aspectRatio: '16 / 9',
-    mediaType: 'image',
-    type: '方法论',
-    publishedAt: '',
-    tags: [],
-    link: '#',
-    status: 'draft',
-    featured: false,
-    relatedIds: []
-  },
-  {
-    id: 'placeholder-5',
-    title: '更新中 5',
-    summary: '内容整理中，敬请期待。',
-    cover: '/aigc-2.jpg',
-    alt: '占位图',
-    aspectRatio: '16 / 9',
-    mediaType: 'image',
-    type: '定位观察',
-    publishedAt: '',
-    tags: [],
-    link: '#',
-    status: 'draft',
-    featured: false,
-    relatedIds: []
-  },
-  {
-    id: 'placeholder-6',
-    title: '更新中 6',
-    summary: '内容整理中，敬请期待。',
-    cover: '/aigc-3.jpg',
-    alt: '占位图',
-    aspectRatio: '16 / 9',
-    mediaType: 'image',
-    type: '知识系统',
-    publishedAt: '',
-    tags: [],
-    link: '#',
-    status: 'draft',
-    featured: false,
-    relatedIds: []
   }
 ]
 

@@ -33,4 +33,4 @@ AI 可以扩展方向，但不能代替设计师确认产品事实、品牌一�
 - [商业视觉 Prompt 结构](/resources/mj-prompt)
 - [AI 项目复盘清单](/resources/notion)
 
-[← 返回方法与洞察](/blog/)
+[← 返回设计方法](/blog/)

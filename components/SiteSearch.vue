@@ -256,10 +256,6 @@ onUnmounted(() => {
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--nav-bg-strong), transparent 38%);
   box-shadow: 0 16px 42px rgba(23, 19, 15, 0.10);
-  /*
-  backdrop-filter: blur(28px) saturate(1.2);
-  -webkit-backdrop-filter: blur(28px) saturate(1.2);
-  */
 }
 
 :global(html.dark) .site-search__form {
@@ -329,10 +325,6 @@ onUnmounted(() => {
   border-radius: var(--radius-card);
   background: color-mix(in srgb, var(--nav-bg-strong), transparent 36%);
   box-shadow: 0 26px 72px rgba(23, 19, 15, 0.13);
-  /*
-  backdrop-filter: blur(34px) saturate(1.22);
-  -webkit-backdrop-filter: blur(34px) saturate(1.22);
-  */
 }
 
 :global(html.dark) .site-search__panel {
