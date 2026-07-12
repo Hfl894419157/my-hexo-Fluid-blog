@@ -17,6 +17,7 @@ import KnowledgePageHero from '../components/KnowledgePageHero.vue'
         :key="tool.id"
         class="resource-card"
         :href="tool.link"
+        v-reveal="{ delay: (index % 3) * 80, y: 32 }"
       >
         <!-- Preview panel (top) -->
         <div class="resource-card__preview">

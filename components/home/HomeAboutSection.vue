@@ -25,7 +25,7 @@ const manifestos = [
   <SectionShell id="about" tone="soft">
     <div class="ab-layout">
       <!-- 左侧：升级为充满呼吸感与科技背书的“实验室电子铭牌” -->
-      <div class="ab-badge-area">
+      <div class="ab-badge-area" v-reveal="{ delay: 0, y: 32 }">
         <div class="ab-badge">
           <div class="ab-badge__glow" aria-hidden="true"></div>
           <div class="ab-badge__inner">
@@ -46,7 +46,7 @@ const manifestos = [
       </div>
 
       <!-- 右侧：大字号的画册风宣言排版 -->
-      <div class="ab-copy">
+      <div class="ab-copy" v-reveal="{ delay: 100, y: 24 }">
         <SectionHeader
           align="left"
           title="由实践驱动的 AI 视觉实验室"

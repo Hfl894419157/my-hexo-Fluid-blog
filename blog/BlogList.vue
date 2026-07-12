@@ -34,6 +34,7 @@ defineProps({
         class="blog-card"
         :class="{ 'blog-card--lead': index === 0 }"
         :href="post.link"
+        v-reveal="{ delay: (index % 3) * 80, y: 32 }"
       >
         <!-- Cover -->
         <div class="blog-card__cover">
