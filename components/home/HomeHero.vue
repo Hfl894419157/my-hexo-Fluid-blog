@@ -73,8 +73,8 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(380px, 0.85fr);
-  gap: clamp(48px, 7vw, 100px);
+  grid-template-columns: 1.05fr 0.95fr; /* 优化左右两栏比例，给线图更舒展的空间 */
+  gap: clamp(40px, 6vw, 80px);
   align-items: center;
   width: min(1180px, 100%);
   min-height: calc(82vh - 160px);
@@ -135,7 +135,7 @@ h1 {
 }
 
 .home-hero__visual :deep(svg) {
-  width: min(100%, 420px);
+  width: min(100%, 500px); /* 提升至 500px 展现极简线稿细节 */
   height: auto;
 }
 
