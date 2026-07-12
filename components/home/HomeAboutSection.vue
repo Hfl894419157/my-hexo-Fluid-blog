@@ -4,19 +4,19 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgAboutIdent from './svg/SvgAboutIdent.vue'
 
-// 升级实验室的理念宣誓，抛弃原本行政化、表格化的简历感，改用极具专业力量的“宣言式”陈列
+// 极致精简并对齐每个宣言的描述字数，确保排版长度舒适一致
 const manifestos = [
   {
-    title: '8 年商业实战底蕴',
-    desc: '深耕商业视觉、电商设计与跨媒介交付。这让我们理解 AI 只是工具，而真实的商业转化、审美沉淀与交付标准才是底线。'
+    title: '8 年商业设计实战底蕴',
+    desc: '深知真实的商业转化、审美沉淀与高交付标准才是底线，拒绝盲目生成，用成熟经验驾驭 AI 创意。'
   },
   {
-    title: '全链路 AI 协同开发',
-    desc: '不相信单次随机生成的“奇迹”，我们专注于将意图转译、变量控制、局部精修到最终交付，沉淀为高复用性的系统资产。'
+    title: '可控的 AI 协同生产路径',
+    desc: '从意图精确翻译、关键变量锁定到像素级局部精修，将偶然的生成奇迹转化为高度可控的稳定交付。'
   },
   {
-    title: '可持续的资产沉淀',
-    desc: '为品牌量身定制专有的 Prompt 架构、LoRA 模型与项目 Checklist，让设计经验不再流失，随项目推进产生指数级资产复利。'
+    title: '可持续的品牌资产复利',
+    desc: '为品牌定制专有的指令架构、工作流模板与参数清单，让项目经验沉淀为长期增长的私有设计资产。'
   }
 ]
 </script>
@@ -24,7 +24,7 @@ const manifestos = [
 <template>
   <SectionShell id="about" tone="soft">
     <div class="ab-layout">
-      <!-- 左侧：升级为充满呼吸感与科技背书的“实验室电子铭牌” -->
+      <!-- 左侧：电子铭牌卡片 -->
       <div class="ab-badge-area">
         <div class="ab-badge">
           <div class="ab-badge__glow" aria-hidden="true"></div>
@@ -45,7 +45,7 @@ const manifestos = [
         </div>
       </div>
 
-      <!-- 右侧：大字号的画册风宣言排版 -->
+      <!-- 右侧：宣言陈列 -->
       <div class="ab-copy">
         <SectionHeader
           align="left"
@@ -176,7 +176,7 @@ const manifestos = [
   letter-spacing: 0.1em;
 }
 
-/* ─── 右侧：高端画册风宣言列表 ────────────────────────── */
+/* ─── 右侧：关于我宣言列表 ────────────────────────── */
 .ab-copy {
   display: flex;
   flex-direction: column;
@@ -213,7 +213,8 @@ const manifestos = [
 .ab-manifestos__text h4 {
   margin: 0 0 8px;
   color: var(--text-main);
-  font-size: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--text-card-title); /* 统一卡片级标题字号为 19px */
   font-weight: 600;
   line-height: 1.4;
 }
@@ -221,8 +222,8 @@ const manifestos = [
 .ab-manifestos__text p {
   margin: 0;
   color: var(--text-sub);
-  font-size: var(--text-small);
-  line-height: 1.75;
+  font-size: var(--text-caption); /* 统一卡片级正文/简介字号为 13px */
+  line-height: 1.65;
 }
 
 .ab-actions {

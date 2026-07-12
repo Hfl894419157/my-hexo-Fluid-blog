@@ -4,73 +4,78 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgWorkflowStep from './svg/SvgWorkflowStep.vue'
 
-// 重新发散定义 AI 协作的核心底座（4大协同契约），取代原本死板的线性流
+// 协同四大黄金法则数据，精简文案字数，确保排版长度绝对整齐一致
 const paradigms = [
   {
     id: 'alignment',
     iconNum: 1,
-    tag: '意图共鸣 / Intent Alignment',
-    title: '精准意图共鸣与翻译',
-    desc: '抛弃粗糙的关键词堆砌。解构商业目的与产品核心事实，将模糊的感性诉求无损转译为 AI 能够理解的高精细度指令语义。',
-    proof: '生成确定性的视觉 Brief'
+    tag: '意图转译 / Intent',
+    title: '商业意图精准转译',
+    desc: '解构商业目标与场景约束，将人类意图精准转译为 AI 可读取的技术架构与高精细度指令语义。',
+    action: '意图转译标准 →'
   },
   {
     id: 'control',
     iconNum: 2,
-    tag: '可控纠偏 / Parameter Control',
-    title: '视觉变量锁定与解构',
-    desc: '深度拆解构图、物理光影与材质约束。建立变量锁定模型，将 AI 生成的“随机性概率”约束在可控的品牌调性区间。',
-    proof: '消灭不可控的“盲盒生成”'
+    tag: '变量控制 / Control',
+    title: '视觉变量参数锁定',
+    desc: '深度拆解画面构图与物理材质约束，将 AI 随机生成控制在品牌的确定性规范内。',
+    action: '锁定参数矩阵 →'
   },
   {
     id: 'synergy',
     iconNum: 4,
-    tag: '人机重塑 / Hybrid Synthesis',
-    title: '混合层级修补与重塑',
-    desc: '不依赖单纯的直出。通过局部图层重绘、多轨拼接和人工精细后期的复合链路，突破生成极限，确保像素级细节完美交付。',
-    proof: '人脑审美与 AI 算力高精度咬合'
+    tag: '人机重塑 / Synthesis',
+    title: '混合层级深度重塑',
+    desc: '通过局部图层重绘、多轨拼接与人工精细后期，攻克生成盲区，确保像素级细节交付。',
+    action: '查看重塑方案 →'
   },
   {
     id: 'compounding',
     iconNum: 5,
-    tag: '资产回流 / Knowledge Loop',
-    title: '知识固化与资产复利',
-    desc: '将交付案例中被验证的 Prompt、私有参数和清单规整，重新注回个人与品牌知识库，让每一次项目交付都叠加为资产复利。',
-    proof: '构建越用越聪明的专有生产库'
+    tag: '资产回流 / Loop',
+    title: '知识固化资产复利',
+    desc: '将交付项目验证的 Prompt 与 Checklist 固化回知识库，让每一次项目交付叠加为资产复利。',
+    action: '进入资产回流 →'
   }
 ]
 </script>
 
 <template>
   <SectionShell id="workflow" tone="soft">
-    <!-- ① 标题区：发散文案，重构对 AI 工作流程的深度认知 -->
+    <!-- ① 标题区 -->
     <div class="wf-head">
       <SectionHeader
         :title-lines="['人机协同的四大黄金法则', '让 AI 创意转化为确定性资产']"
-        desc="我们不相信凭运气直出的偶然生成，而是通过意图翻译、参数锁定、层级修补与资产回流的协同方法，确保商业交付的稳定落地。"
+        desc="不依赖随机运气，而是通过可控变量解构、并行探索与人机协作，建立系统化的 AI 视觉交付路径。"
       />
-      <BaseButton href="/aigc/commercial-visual-system" variant="ghost">探索协同工作流</BaseButton>
     </div>
 
-    <!-- ② 统一的 4 列卡片网格 -->
+    <!-- ② 统一的 4 列卡片网格，结构 100% 对齐知识库 -->
     <div class="wf-grid">
       <article v-for="item in paradigms" :key="item.id" class="wf-card">
-        <!-- SVG 图标概念性图示 -->
-        <div class="wf-card__icon">
+        <!-- SVG 图标 -->
+        <div class="wf-card__media">
           <SvgWorkflowStep :step="item.iconNum" />
         </div>
 
-        <!-- 文本内容 -->
-        <div class="wf-card__copy">
-          <span class="wf-card__tag">{{ item.tag }}</span>
-          <h3>{{ item.title }}</h3>
+        <!-- 卡片内容：字号、字体与间距 100% 对齐知识库 -->
+        <div class="wf-card__body">
+          <div class="wf-card__meta">
+            <span class="wf-card__category">{{ item.tag }}</span>
+          </div>
+          <h3 class="wf-card__title">{{ item.title }}</h3>
           <p class="wf-card__desc">{{ item.desc }}</p>
-          <div class="wf-card__proof">
-            <span class="wf-dot"></span>
-            <strong>核心：{{ item.proof }}</strong>
+          <div class="wf-card__footer">
+            <span>{{ item.action }}</span>
           </div>
         </div>
       </article>
+    </div>
+
+    <!-- ③ 底部行动点 -->
+    <div class="wf-action">
+      <BaseButton href="/aigc/commercial-visual-system" variant="ghost">探索协同工作流</BaseButton>
     </div>
   </SectionShell>
 </template>
@@ -88,11 +93,11 @@ const paradigms = [
 .wf-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
+  gap: 24px;
   margin-top: 48px;
 }
 
-/* ─── 卡片设计 ───────────────────────────────────────── */
+/* ─── 卡片设计：100% 镜像知识库 kr-card 风格 ─────────── */
 .wf-card {
   display: flex;
   flex-direction: column;
@@ -104,85 +109,81 @@ const paradigms = [
 }
 
 .wf-card:hover {
-  border-color: color-mix(in srgb, var(--brand-main) 35%, transparent);
-  box-shadow: 0 12px 36px color-mix(in srgb, var(--brand-main) 8%, transparent);
+  border-color: color-mix(in srgb, var(--brand-main) 30%, transparent);
+  box-shadow: var(--shadow-card);
   transform: translateY(-4px);
 }
 
-/* 图标区域 */
-.wf-card__icon {
+/* 图标区域对齐 kr-card__media 尺寸和结构 */
+.wf-card__media {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px 20px 20px;
-  min-height: 120px;
+  aspect-ratio: 16 / 10;
   background: linear-gradient(160deg,
     color-mix(in srgb, var(--brand-main) 4%, var(--bg-soft)),
     var(--bg-card));
   border-bottom: 1px solid var(--border-soft);
 }
 
-.wf-card__icon :deep(svg) {
+.wf-card__media :deep(svg) {
   width: 68px;
   height: 68px;
 }
 
-/* 内容区域 */
-.wf-card__copy {
+/* 内容区域对齐 kr-card__body */
+.wf-card__body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 24px;
 }
 
-.wf-card__tag {
-  color: var(--brand-main);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-  text-transform: uppercase;
+.wf-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: var(--text-label);
 }
 
-h3 {
-  margin: 0;
+.wf-card__category {
+  color: var(--brand-main);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.wf-card__title {
+  margin: 0 0 10px;
   color: var(--text-main);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: var(--text-card-title);
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .wf-card__desc {
-  margin: 10px 0 0;
+  margin: 0 0 20px;
   color: var(--text-sub);
   font-size: var(--text-caption);
-  line-height: 1.7;
+  line-height: 1.65;
   flex-grow: 1;
 }
 
-.wf-card__proof {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 20px;
+.wf-card__footer {
+  margin-top: auto;
   padding-top: 16px;
-  border-top: 1px dashed var(--border-soft);
-}
-
-.wf-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--brand-main);
-  flex-shrink: 0;
-  opacity: 0.8;
-}
-
-.wf-card__proof strong {
-  color: var(--text-main);
-  font-size: var(--text-label);
+  border-top: 1px solid var(--border-soft);
+  color: var(--brand-main);
+  font-size: var(--text-small);
   font-weight: 500;
+}
+
+/* ─── 底部操作 ───────────────────────────── */
+.wf-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
 }
 
 /* ─── 响应式 ─────────────────────────────────────── */
