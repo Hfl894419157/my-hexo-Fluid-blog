@@ -17,8 +17,7 @@ const steps = [
   <SectionShell id="workflow" tone="soft">
     <div class="workflow-head">
       <SectionHeader
-        eyebrow="Workflow"
-        title="五个阶段，把生成结果变成可交付系统"
+        :title-lines="['五个阶段，', '把生成结果变成可交付系统']"
         desc="每个阶段有明确的输入、过程与输出——让 AI 生成从试错变成生产。"
       />
       <BaseButton href="/aigc/commercial-visual-system" variant="ghost">查看完整工作流</BaseButton>
@@ -54,10 +53,10 @@ const steps = [
 
 <style scoped>
 .workflow-head {
-  display: flex;
-  gap: 32px;
-  align-items: flex-end;
-  justify-content: space-between;
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  text-align: center;
 }
 
 /* ─── Grid ───────────────────────────────────────────── */
@@ -192,7 +191,6 @@ h3 {
 }
 
 @media (max-width: 720px) {
-  .workflow-head { display: grid; align-items: flex-start; }
   .workflow-grid { grid-template-columns: repeat(2, 1fr); }
 }
 

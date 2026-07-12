@@ -11,14 +11,9 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
     <div class="home-hero__inner">
       <!-- Left: Copy -->
       <div class="home-hero__content">
-        <p class="home-hero__eyebrow">
-          <span class="eyebrow-dot"></span>
-          AI DESIGN PRACTICE · LIULI AI LAB
-        </p>
-
         <h1>
-          把 AI 设计能力，
-          <span class="h1-accent">变成可验证的<br>项目资产</span>
+          <span class="h1-line">把 AI 设计能力，</span>
+          <span class="h1-line h1-accent">变成可验证的项目资产</span>
         </h1>
 
         <p class="home-hero__lead">
@@ -52,10 +47,6 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
       <!-- Right: SVG Visual -->
       <div class="home-hero__visual" aria-hidden="true">
         <SvgHeroVisual />
-        <div class="home-hero__visual-label">
-          <span>SYSTEM OVERVIEW</span>
-          <strong>5 阶段可复用工作流</strong>
-        </div>
       </div>
     </div>
 
@@ -110,35 +101,21 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 /* ─── Content (left) ─────────────────────────────────── */
 .home-hero__content { min-width: 0; }
 
-.home-hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  color: var(--brand-cyan);
-  font-size: var(--text-label);
-  letter-spacing: 0.2em;
-}
-
-.eyebrow-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--brand-main);
-  animation: blink 2s ease-in-out infinite;
-}
-
 h1 {
   max-width: 700px;
-  margin: 24px 0 0;
+  margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(40px, 4.6vw, 66px);
+  font-size: clamp(40px, 4.2vw, 60px);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.04em;
   text-wrap: balance;
+}
+
+.h1-line {
+  display: block;
+  white-space: nowrap;
 }
 
 .h1-accent {
@@ -212,31 +189,8 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.home-hero__visual-label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 20px;
-  padding: 14px 20px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--bg-card) 80%, transparent);
-  backdrop-filter: blur(8px);
-  text-align: center;
-}
-
-.home-hero__visual-label span {
-  color: var(--brand-cyan);
-  font-size: var(--text-micro);
-  letter-spacing: 0.16em;
-}
-
-.home-hero__visual-label strong {
-  color: var(--text-main);
-  font-size: var(--text-small);
-  font-weight: 500;
+  justify-content: center;
+  transform: scale(1.06);
 }
 
 /* ─── Scroll indicator ───────────────────────────────── */
@@ -259,11 +213,6 @@ h1 {
 }
 
 /* ─── Animations ─────────────────────────────────────── */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
-
 @keyframes scroll-line {
   0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
   50%  { opacity: 1; transform: scaleY(1); }
@@ -286,19 +235,18 @@ h1 {
   .home-hero__lead { margin-left: auto; margin-right: auto; }
   .home-hero__actions { justify-content: center; }
   .home-hero__proof { justify-content: center; }
-  .home-hero__visual { max-width: 480px; margin: 0 auto; }
+  .home-hero__visual { max-width: 480px; margin: 0 auto; transform: none; }
   .home-hero__scroll { display: none; }
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: clamp(36px, 10vw, 48px); }
+  h1 { font-size: clamp(30px, 8.4vw, 38px); }
   .home-hero__proof { flex-wrap: wrap; gap: 16px; }
   .proof-divider { display: none; }
   .home-hero__proof > div:not(.proof-divider) { padding: 0; text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eyebrow-dot { animation: none; }
   .home-hero__scroll { display: none; }
 }
 </style>

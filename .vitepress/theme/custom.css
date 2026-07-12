@@ -97,6 +97,21 @@
   color-scheme: light;
 }
 
+/* 首页收尾保持紧凑，其它页面沿用页脚默认间距。 */
+body.ai-lab-home .site-footer {
+  margin-top: 24px !important;
+}
+
+body.ai-lab-home .VPHome {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+  body.ai-lab-home .site-footer {
+    margin-top: 20px !important;
+  }
+}
+
 html.dark {
   --bg-page: #111214;
   --bg-section: #17181B;
@@ -728,12 +743,15 @@ a {
 @media (max-width: 480px) {
   /* 首页 H1 标题 */
   .ai-lab-home .home-hero h1 {
-    font-size: clamp(38px, 10vw, 44px) !important;
+    font-size: clamp(30px, 8.4vw, 38px) !important;
     line-height: 1.12 !important;
   }
   
   /* 首页板块标题 */
-  .ai-lab-home .section-header h2,
+  .ai-lab-home .section-header h2 {
+    font-size: clamp(25px, 6.8vw, 31px) !important;
+  }
+
   .ai-lab-home .home-cta h2,
   .ai-lab-home .home-about h2 {
     font-size: clamp(30px, 8vw, 36px) !important;

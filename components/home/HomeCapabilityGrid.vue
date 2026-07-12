@@ -39,8 +39,7 @@ const capabilities = [
   <SectionShell id="capabilities">
     <div class="cap-head">
       <SectionHeader
-        eyebrow="System"
-        title="能力必须对应证据，也必须产生结果"
+        :title-lines="['能力必须对应证据，', '也必须产生结果']"
         desc="不再用文字卡罗列技能，而是让每个方向连接真实内容与可复用产出。"
       />
       <BaseButton href="/knowledge/" variant="ghost">查看知识系统</BaseButton>
@@ -84,10 +83,10 @@ const capabilities = [
 
 <style scoped>
 .cap-head {
-  display: flex;
-  gap: 32px;
-  align-items: flex-end;
-  justify-content: space-between;
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  text-align: center;
 }
 
 /* ─── Grid ───────────────────────────────────────────── */
@@ -218,7 +217,6 @@ p {
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .cap-grid { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
-  .cap-head  { display: grid; align-items: flex-start; }
 }
 
 @media (min-width: 601px) and (max-width: 900px) {

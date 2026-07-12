@@ -25,7 +25,6 @@ const notes = [
       <!-- Right: Copy -->
       <div class="about-copy">
         <SectionHeader
-          eyebrow="About"
           title="由实践驱动的 AI 视觉实验室"
           desc="我关注的不是单次生成效果，而是如何把设计经验、商业目标与 AI 能力组织成稳定流程。"
         />
@@ -73,6 +72,19 @@ const notes = [
   display: flex;
   flex-direction: column;
   gap: 28px;
+}
+
+.about-copy :deep(.section-header) {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .about-copy :deep(.section-header__desc) {
+    width: 100%;
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(14px, 1.15vw, 16px);
+  }
 }
 
 /* ─── List ───────────────────────────────────────────── */

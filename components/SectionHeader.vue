@@ -6,7 +6,11 @@ defineProps({
   },
   title: {
     type: String,
-    required: true
+    default: ''
+  },
+  titleLines: {
+    type: Array,
+    default: () => []
   },
   desc: {
     type: String,
@@ -22,7 +26,12 @@ defineProps({
 <template>
   <header class="section-header" :class="`section-header--${align}`">
     <p v-if="eyebrow" class="section-header__eyebrow">{{ eyebrow }}</p>
-    <h2>{{ title }}</h2>
+    <h2>
+      <template v-if="titleLines.length">
+        <span v-for="line in titleLines" :key="line" class="section-header__line">{{ line }}</span>
+      </template>
+      <template v-else>{{ title }}</template>
+    </h2>
     <p v-if="desc" class="section-header__desc">{{ desc }}</p>
   </header>
 </template>
@@ -62,6 +71,11 @@ h2 {
   line-height: 1.2;
   letter-spacing: -0.02em;
   text-wrap: balance;
+}
+
+.section-header__line {
+  display: block;
+  white-space: nowrap;
 }
 
 .section-header__desc {

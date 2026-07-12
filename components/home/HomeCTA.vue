@@ -4,7 +4,7 @@ import SectionShell from '../SectionShell.vue'
 </script>
 
 <template>
-  <SectionShell compact>
+  <SectionShell compact class="home-cta-shell">
     <section class="home-cta">
       <!-- Decorative background mesh -->
       <div class="cta-mesh" aria-hidden="true">
@@ -36,7 +36,6 @@ import SectionShell from '../SectionShell.vue'
 
       <!-- Content -->
       <div class="cta-content">
-        <p class="cta-eyebrow">START HERE</p>
         <h2>从一个高频视觉任务开始，<br>把经验沉淀成系统</h2>
         <p class="cta-desc">适合从产品图、详情页、品牌内容、短视频脚本或资源库整理开始，先建立流程，再持续迭代资产。</p>
         <div class="cta-actions">
@@ -80,22 +79,19 @@ import SectionShell from '../SectionShell.vue'
   text-align: center;
 }
 
-.cta-eyebrow {
-  margin: 0;
-  color: var(--brand-cyan);
-  font-size: var(--text-label);
-  letter-spacing: 0.22em;
-}
-
 h2 {
   width: min(860px, 100%);
-  margin: 22px 0 0;
+  margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
   font-size: clamp(30px, 3.6vw, 52px);
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.03em;
+}
+
+.home-cta-shell {
+  padding-bottom: 24px;
 }
 
 .cta-desc {
@@ -115,6 +111,7 @@ h2 {
 }
 
 @media (max-width: 560px) {
+  .home-cta-shell { padding-bottom: 20px; }
   .cta-actions { display: grid; width: 100%; max-width: 320px; }
 }
 </style>
