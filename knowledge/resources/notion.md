@@ -1,6 +1,20 @@
 ---
 title: AI 项目复盘清单
 description: 从目标、变量、筛选、交付和沉淀五个维度复盘 AI 视觉项目。
+slug: notion
+createdAt: 2026-07-02
+verificationStatus: 已验证
+showInRecentUpdates: true
+type: 检查清单
+accessType: 在线阅读
+sections:
+  - resources
+tags:
+  - 项目复盘
+  - 检查清单
+  - 知识管理
+cover: ''
+coverAlt: AI 项目复盘清单预览
 pageClass: page-resource-detail
 status: published
 ---
@@ -14,7 +28,7 @@ status: published
 
 复盘不是记录“用了什么工具”，而是找出哪些判断可以被下一次项目复用。
 
-<MediaFrame src="/aigc-2.jpg" alt="AI 电路视觉，代表项目复盘与数字资产整理" caption="资源预览：目标、变量、筛选、交付与沉淀五个复盘维度。" aspect="16 / 9" />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="AI 项目复盘清单的五个维度与填写示例" filename="resource-project-review-checklist-hero.jpg" aspect="16 / 9" />
 
 ## 1. 目标
 

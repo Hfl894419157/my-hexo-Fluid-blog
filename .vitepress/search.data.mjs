@@ -61,11 +61,15 @@ export default createContentLoader('**/*.md', {
   transform(data) {
     return data
       .filter((page) => page.url && page.src)
+      .filter((page) => page.url !== '/design-qa')
+      .filter((page) => !page.url.startsWith('/blog/') && !page.url.startsWith('/resources/'))
+      .filter((page) => !['draft', 'planned', 'archived'].includes(page.frontmatter?.status))
+      .filter((page) => page.frontmatter?.search !== false)
       .map((page) => {
         const src = stripFrontmatter(page.src || '')
         const title = getTitle(src, page.frontmatter)
         const headings = getHeadings(src)
-        const text = stripMarkdown(src)
+        const text = [page.frontmatter?.description, stripMarkdown(src)].filter(Boolean).join(' ')
 
         return {
           title,

@@ -1,6 +1,20 @@
 ---
 title: 商业视觉 Prompt 结构
 description: 面向商业视觉项目的可复用提示词结构与检查方法。
+slug: mj-prompt
+createdAt: 2026-07-01
+verificationStatus: 已验证
+showInRecentUpdates: true
+type: 方法模板
+accessType: 在线阅读
+sections:
+  - resources
+tags:
+  - Prompt
+  - 商业视觉
+  - 方法模板
+cover: ''
+coverAlt: 商业视觉 Prompt 结构预览
 pageClass: page-resource-detail
 status: published
 ---
@@ -14,7 +28,7 @@ status: published
 
 Prompt 的作用不是堆叠形容词，而是把项目目标转换为生成模型可以执行的视觉变量。
 
-<MediaFrame src="/aigc-3.jpg" alt="蓝紫色数字粒子视觉，代表相互关联的提示词变量" caption="资源预览：从任务目标、主体、场景到限制条件的 Prompt 结构。" aspect="16 / 9" />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="商业视觉 Prompt 变量结构与填写示例预览" filename="resource-prompt-framework-hero.jpg" aspect="16 / 9" />
 
 ## 基础结构
 
@@ -47,6 +61,6 @@ Prompt 的作用不是堆叠形容词，而是把项目目标转换为生成模�
 
 - [AI 商业视觉生产系统](/aigc/commercial-visual-system)
 - [专业医疗产品电商视觉系统](/portfolio/ecommerce-visual)
-- [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/learning-observation/aigc-workflow-system)
+- [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/methods/aigc-workflow-system)
 
 [← 返回资源库](/knowledge/resources)

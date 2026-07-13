@@ -2,48 +2,58 @@ export const portfolioWorks = [
   {
     id: 'ecommerce-visual',
     title: '专业医疗产品电商视觉系统',
-    titleEn: 'ECOMMERCE VISUAL SYSTEM',
-    category: '商业视觉',
     desc: '从竞品调研、3D 产品表达，到详情页信息层级与上线复盘。',
-    challenge: '在医疗硬科技领域建立高度信任感并优化长页面转化效率。',
-    role: '三维建模渲染、信息层级策划、页面开发与视觉设计',
-    deliverables: '三维结构表达模型、12屏核心详情页及全套响应式前端资产',
-    cover: '/aigc-2.jpg',
-    heroMedia: '/aigc-2.jpg',
-    alt: '深色背景中的 AI 电路视觉，用于展示数字化商业视觉方向',
-    caption: '项目公开内容已脱敏；画面作为数字化产品表达方向示意。',
-    aspectRatio: '4 / 3',
-    mediaType: 'image',
-    gallery: ['/aigc-2.jpg', '/aigc-3.jpg'],
     link: '/portfolio/ecommerce-visual',
     status: 'published',
     featured: true,
-    tags: ['电商视觉', '3D 渲染', '转化设计'],
-    relatedIds: ['commercial-visual-system', 'prompt-framework']
+    tags: ['电商视觉', '3D 渲染', '转化设计']
   },
   {
     id: 'exhibition-visual',
     title: '德国水处理展会视觉体系',
-    titleEn: 'EXHIBITION VISUAL SYSTEM',
-    category: '品牌与展会',
     desc: '从主视觉、展位到宣传资料的跨媒介统一与远程落地协作。',
-    challenge: '在异地远程协作及跨媒介载体限制下，确保品牌视觉高保真落地。',
-    role: '主视觉创意、展位空间规划、多媒介宣传资料设计与落地把控',
-    deliverables: '品牌主视觉系统、线下多型展位及画册海报等全套跨媒介规范',
-    cover: '/aigc-3.jpg',
-    heroMedia: '/aigc-3.jpg',
-    alt: '蓝紫色粒子球体视觉，用于表现跨媒介品牌系统与空间延展',
-    caption: '展会项目中的公开画面采用方向示意，实际业务资料已脱敏。',
-    aspectRatio: '3 / 4',
-    mediaType: 'image',
-    gallery: ['/aigc-3.jpg', '/aigc-2.jpg'],
     link: '/portfolio/exhibition-visual',
     status: 'published',
     featured: true,
-    tags: ['展会视觉', '品牌系统', '跨团队交付'],
-    relatedIds: ['commercial-visual-system', 'project-review-checklist']
+    tags: ['展会视觉', '品牌系统', '跨团队交付']
+  },
+  {
+    id: 'ai-product-launch-visual',
+    title: 'AI 产品发布主视觉',
+    desc: '围绕新品核心卖点规划发布主画面、渠道延展与阶段传播素材。',
+    link: null,
+    status: 'planned',
+    featured: false,
+    tags: ['产品发布', '主视觉', '整合传播']
+  },
+  {
+    id: 'industrial-product-3d-detail',
+    title: '工业产品 3D 详情页',
+    desc: '用结构拆解、材质渲染与场景演示建立工业产品的可信表达。',
+    link: null,
+    status: 'planned',
+    featured: false,
+    tags: ['工业产品', '3D 渲染', '详情页']
+  },
+  {
+    id: 'brand-social-visual-system',
+    title: '品牌社交媒体视觉系统',
+    desc: '建立适配多平台内容节奏的封面、栏目与活动视觉模板。',
+    link: null,
+    status: 'planned',
+    featured: false,
+    tags: ['社交媒体', '品牌系统', '模板化']
+  },
+  {
+    id: 'cross-border-ecommerce-localization',
+    title: '跨境电商素材本地化',
+    desc: '针对不同市场调整信息层级、使用场景与转化表达。',
+    link: null,
+    status: 'planned',
+    featured: false,
+    tags: ['跨境电商', '本地化', '转化设计']
   }
 ]
 
 export const publishedPortfolioWorks = portfolioWorks.filter((item) => item.status === 'published')
-export const allPortfolioWorks = portfolioWorks
+export const portfolioCardItems = portfolioWorks.filter((item) => ['published', 'planned'].includes(item.status))

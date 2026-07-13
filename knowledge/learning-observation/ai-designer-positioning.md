@@ -1,15 +1,28 @@
 ---
-title: AI 冲击下，设计师网站应该展示什么
+title: AI 冲击下 设计师网站应该展示什么
 description: 从作品陈列转向案例证据、工作流与可复用知识。
+slug: ai-designer-positioning
+createdAt: 2026-07-01
+verificationStatus: 已整理
+showInRecentUpdates: true
+type: 定位观察
+sections:
+  - learning-observation
+tags:
+  - 个人品牌
+  - 内容架构
+  - AI 设计
+cover: ''
+coverAlt: AI 冲击下设计师网站内容结构概念图
 pageClass: page-article-detail
 status: published
 ---
 
-# AI 冲击下，设计师网站应该展示什么
+# AI 冲击下<br>设计师网站应该展示什么
 
 生成工具让“做出一张看起来不错的图”越来越容易。设计师网站如果仍然只堆最终画面，访客很难判断：你解决了什么问题、做出了哪些判断，以及这些能力能否在下一个项目中重复出现。
 
-<MediaFrame src="/aigc-3.jpg" alt="蓝紫色数字粒子视觉，代表 AI 时代不断变化的设计专业身份" caption="作品只是入口，真正建立信任的是案例证据、工作流和可复用知识。" aspect="16 / 9" eager />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="AI 冲击下设计师网站内容结构的概念头图" filename="article-ai-designer-positioning-hero.jpg" aspect="16 / 9" eager />
 
 ## 作品图不等于案例证据
 
@@ -23,7 +36,7 @@ status: published
 
 ## 知识库让专业影响力持续积累
 
-不是所有经验都需要写成长文章。一个经过验证的 Prompt 结构、一份检查清单或一次项目复盘，都可以成为有价值 of 知识资产。关键在于它们必须回到真实实践，而不是为了更新频率存在。
+不是所有经验都需要写成长文章。一个经过验证的 Prompt 结构、一份检查清单或一次项目复盘，都可以成为有价值的知识资产。关键在于它们必须回到真实实践，而不是为了更新频率存在。
 
 ## 个人介绍应该放在哪里
 

@@ -1,6 +1,16 @@
 ---
 title: AI 商业视觉生产系统
 description: 从需求输入到资产沉淀的五阶段 AI 商业视觉工作流。
+slug: commercial-visual-system
+createdAt: 2026-07-01
+verificationStatus: 已验证
+showInRecentUpdates: true
+tags:
+  - 商业视觉
+  - 工作流
+  - 资产管理
+cover: ''
+coverAlt: AI 商业视觉生产系统流程总览
 pageClass: page-workflow-detail
 status: published
 ---
@@ -16,7 +26,7 @@ status: published
 | **协同核心** | 变量锁定 + 人工防错过滤 + 知识复用闭环 |
 | **最后更新** | 2026-07-12 |
 
-<MediaFrame src="/aigc-2.jpg" alt="发光电路组成的 AI 字样，代表电商视觉工作流中的数字生产环节" caption="系统架构：将模糊诉求转化为高确定性的视觉 Brief 并沉淀资产的闭环工作流。" aspect="16 / 9" eager />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="AI 商业视觉生产系统的五阶段闭环流程总览图" filename="workflow-commercial-visual-system-hero.jpg" aspect="16 / 9" eager />
 
 ---
 
@@ -126,8 +136,8 @@ AI 能够生成创意氛围，但无法自动把关商业安全。设计师必�
 ## 三、 实战案例证据
 
 该工作流系统已经在多个商业项目中得到应用和验证：
-*   **专业医疗产品电商视觉系统：** 应用该系统，将产品 3D 表达与场景氛围快速融合，详情页停留时长显著上升，详情页上线半月内促成约 300 万元订单。 -> [查看案例](file:///f:/My%20Blog/portfolio/ecommerce-visual)
-*   **德国水处理展会视觉体系：** 应用远中近三级视距 Brief 与远程防错校对规范，跨国多媒介交付差错率降为 0%。 -> [查看案例](file:///f:/My%20Blog/portfolio/exhibition-visual)
+*   **专业医疗产品电商视觉系统：** 应用该系统，将产品 3D 表达与场景氛围快速融合，详情页停留时长显著上升，详情页上线半月内促成约 300 万元订单。 → [查看案例](/portfolio/ecommerce-visual)
+*   **德国水处理展会视觉体系：** 应用远中近三级视距 Brief 与远程防错校对规范，跨国多媒介交付差错率降为 0%。 → [查看案例](/portfolio/exhibition-visual)
 
 ---
 

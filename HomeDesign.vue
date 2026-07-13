@@ -35,7 +35,8 @@ onUnmounted(() => {
 
 <style scoped>
 .home-design {
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   min-height: 100vh;
   color: var(--text-main);
   background: var(--site-background);

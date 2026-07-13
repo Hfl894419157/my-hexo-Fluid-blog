@@ -1,41 +1,17 @@
 <script setup>
 import SectionShell from '../SectionShell.vue'
 import SectionHeader from '../SectionHeader.vue'
+import { data as contentCatalog } from '../../.shared/content.data.mjs'
 
-const updates = [
-  {
-    date: '2026-07-12',
-    type: '资源库',
-    title: '商业视觉 Prompt 结构框架',
-    status: '已验证',
-    statusClass: 'verified',
-    topic: '大语言模型 / 图像生成'
-  },
-  {
-    date: '2026-07-11',
-    type: '学习与观察',
-    title: 'AI 冲击下，设计师网站应该展示什么',
-    status: '已整理',
-    statusClass: 'checking',
-    topic: '个人品牌 / AI 设计'
-  },
-  {
-    date: '2026-07-08',
-    type: '学习与观察',
-    title: '从提示词到交付：AIGC 工作流如何沉淀',
-    status: '已验证',
-    statusClass: 'verified',
-    topic: 'AIGC / 生产流程'
-  },
-  {
-    date: '2026-07-05',
-    type: '方法体系',
-    title: '项目复盘核心方法卡',
-    status: '探索中',
-    statusClass: 'checking',
-    topic: '知识管理 / 项目复盘'
-  }
-]
+const updates = contentCatalog.recent.map((item) => ({
+  date: item.updatedAtLabel,
+  type: item.type,
+  title: item.title,
+  link: item.url,
+  status: item.verificationStatus,
+  statusClass: ['已验证', '长期维护'].includes(item.verificationStatus) ? 'verified' : 'checking',
+  topic: item.tags.slice(0, 2).join(' / ')
+}))
 </script>
 
 <template>
@@ -58,7 +34,7 @@ const updates = [
             <span class="update-type-tag">{{ update.type }}</span>
           </div>
           <div class="update-row__title">
-            <strong>{{ update.title }}</strong>
+            <a :href="update.link"><strong>{{ update.title }}</strong></a>
             <span class="update-topic">{{ update.topic }}</span>
           </div>
           <div class="update-row__status">
@@ -91,7 +67,7 @@ const updates = [
 
 .update-row {
   display: grid;
-  grid-template-columns: 120px 120px 1fr 100px;
+  grid-template-columns: 154px 110px 1fr 100px;
   align-items: center;
   padding: 20px 28px;
   border-bottom: 1px solid var(--border-soft);
@@ -128,6 +104,9 @@ const updates = [
   font-size: var(--text-small);
   font-weight: 600;
 }
+
+.update-row__title a { width: fit-content; color: inherit; text-decoration: none; }
+.update-row__title a:hover strong { color: var(--brand-main); }
 
 .update-topic {
   color: var(--text-muted);

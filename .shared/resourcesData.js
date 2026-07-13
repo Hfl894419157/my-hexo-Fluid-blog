@@ -3,43 +3,57 @@ export const toolsResources = [
     id: 'prompt-framework',
     name: '商业视觉 Prompt 结构',
     desc: '把目标、主体、场景、视觉变量与限制条件整理成可复用的提示词框架。',
-    cover: '/aigc-3.jpg',
-    heroMedia: '/aigc-3.jpg',
-    alt: '蓝紫色数字粒子视觉，代表可复用的提示词结构与变量系统',
-    caption: '资源预览：商业视觉 Prompt 的目标、变量与限制结构。',
-    aspectRatio: '4 / 3',
-    mediaType: 'image',
     link: '/knowledge/resources/mj-prompt',
     category: '方法模板',
     status: 'published',
-    featured: true,
-    accessType: '在线阅读',
-    sourceUrl: '/resources/mj-prompt',
-    license: '署名后可用于个人与商业项目',
-    verifiedAt: '2026-07-11',
-    relatedIds: ['commercial-visual-system', 'aigc-workflow-system']
+    accessType: '在线阅读'
   },
   {
     id: 'project-review-checklist',
     name: 'AI 项目复盘清单',
     desc: '用目标、变量、筛选、交付和沉淀五个维度检查一次 AI 视觉项目。',
-    cover: '/aigc-2.jpg',
-    heroMedia: '/aigc-2.jpg',
-    alt: '电路结构的 AI 视觉，代表项目复盘与数字资产整理',
-    caption: '资源预览：从目标到资产沉淀的项目检查路径。',
-    aspectRatio: '4 / 3',
-    mediaType: 'image',
     link: '/knowledge/resources/notion',
     category: '检查清单',
     status: 'published',
-    featured: true,
-    accessType: '在线阅读',
-    sourceUrl: '/resources/notion',
-    license: '可复制并按项目调整',
-    verifiedAt: '2026-07-11',
-    relatedIds: ['commercial-visual-system', 'exhibition-visual']
+    accessType: '在线阅读'
+  },
+  {
+    id: 'brand-visual-brief-template',
+    name: '品牌视觉 Brief 模板',
+    desc: '用目标、受众、场景、品牌限制与交付规格建立统一项目输入。',
+    link: null,
+    category: '项目模板',
+    status: 'planned',
+    accessType: '即将开放'
+  },
+  {
+    id: 'generation-result-selection-sheet',
+    name: '生成结果筛选表',
+    desc: '从事实准确、品牌一致、信息清晰和制作成本四个维度记录筛选结果。',
+    link: null,
+    category: '评估表格',
+    status: 'planned',
+    accessType: '即将开放'
+  },
+  {
+    id: 'commercial-image-acceptance-checklist',
+    name: '商业图片验收清单',
+    desc: '在交付前检查产品细节、构图安全区、渠道尺寸与版权风险。',
+    link: null,
+    category: '检查清单',
+    status: 'planned',
+    accessType: '即将开放'
+  },
+  {
+    id: 'project-asset-naming-guide',
+    name: '项目资产命名规范',
+    desc: '统一项目、版本、渠道和状态字段，让团队能够快速定位最终资产。',
+    link: null,
+    category: '管理规范',
+    status: 'planned',
+    accessType: '即将开放'
   }
 ]
 
 export const publishedResources = toolsResources.filter((item) => item.status === 'published')
-export const allResources = toolsResources
+export const resourceCardItems = toolsResources.filter((item) => ['published', 'planned'].includes(item.status))
