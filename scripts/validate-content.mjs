@@ -26,7 +26,14 @@ for (const item of duplicateUrls) errors.push(`${item.sourcePath}: 地址 ${item
 const byPath = new Map(catalog.all.map((item) => [item.sourcePath, item]))
 const checkSelected = (label, paths, max = Infinity, accepts = () => true) => {
   if (paths.length > max) errors.push(`${label}: 最多选择 ${max} 条，当前 ${paths.length} 条`)
+  const seenPaths = new Set()
   for (const selectedPath of paths) {
+    if (seenPaths.has(selectedPath)) {
+      errors.push(`${label}: ${selectedPath} 被重复选择`)
+      continue
+    }
+    seenPaths.add(selectedPath)
+
     const item = byPath.get(selectedPath)
     if (!item) errors.push(`${label}: 找不到 ${selectedPath}`)
     else if (item.status !== 'published') errors.push(`${label}: ${selectedPath} 尚未发布`)

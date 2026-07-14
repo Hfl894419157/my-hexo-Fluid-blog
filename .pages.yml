@@ -480,7 +480,7 @@ content:
           value: "{path}"
           label: "{fields.title} · {fields.status}"
       - name: featuredWorkflows
-        label: 精选工作流（最多 3 条）
+        label: 精选工作流（最多 3 条，列表顺序即首页叠加顺序）
         type: reference
         options:
           collection: workflows
