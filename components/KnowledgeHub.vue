@@ -22,7 +22,7 @@ const items = knowledgeHubCards.items.map((item, index) => ({
     visual="knowledge"
     :topics="['个人品牌', '内容架构', 'AI 设计', 'AIGC', '工作流', '资产沉淀']"
     :items="items"
-    section-title="六类知识入口"
+    section-title="三类知识入口"
     section-description="从观察形成判断，从方法稳定过程，再让资源重新进入实践与项目。"
   />
 </template>

@@ -54,6 +54,7 @@ const caseWall = useStackWall('.case-wall__card')
           aria-hidden="true"
         />
       </template>
+      <div v-if="!cases.length" class="case-wall__empty" role="status">内容整理中</div>
     </div>
   </SectionShell>
 </template>
@@ -91,6 +92,7 @@ const caseWall = useStackWall('.case-wall__card')
 .case-wall__spacer { height: clamp(300px, 52vh, 480px); }
 .case-wall__spacer--last { height: clamp(240px, 34vh, 340px); }
 .case-wall--static { display: grid; gap: 20px; }
+.case-wall__empty { display: grid; min-height: 220px; place-content: center; border: 1px dashed var(--border-soft); border-radius: 18px; background: var(--bg-soft); color: var(--text-muted); font-size: 15px; letter-spacing: .08em; }
 .case-wall--static .case-wall__card {
   position: static;
   filter: none;

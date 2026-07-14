@@ -55,7 +55,7 @@ const items = [
                 <em aria-hidden="true">→</em>
               </a>
             </div>
-            <p v-else class="kr-card__empty">暂未选择首页精选内容</p>
+            <p v-else class="kr-card__empty">内容整理中</p>
           </div>
 
           <div class="kr-card__meta">
