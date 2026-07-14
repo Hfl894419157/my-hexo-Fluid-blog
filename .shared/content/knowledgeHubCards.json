@@ -29,36 +29,6 @@
       "imageSubject": "Prompt、模板和清单的资源索引图",
       "imageFilename": "knowledge-resources-cover.jpg",
       "linkLabel": "进入栏目"
-    },
-    {
-      "id": "ai-design-trends",
-      "title": "AI 设计趋势观察",
-      "description": "聚焦工具变化、行业应用与设计师角色变化，形成持续更新的观察线索。",
-      "link": "/knowledge/learning-observation",
-      "tags": ["AI 设计", "行业趋势", "观察记录"],
-      "imageSubject": "AI 设计趋势、工具变化与行业线索的观察看板",
-      "imageFilename": "knowledge-ai-design-trends-cover.jpg",
-      "linkLabel": "查看精选内容"
-    },
-    {
-      "id": "aigc-workflow-methods",
-      "title": "AIGC 工作流方法",
-      "description": "从需求拆解到人工判断，把生成过程整理成可执行、可复盘的方法。",
-      "link": "/knowledge/methods",
-      "tags": ["AIGC", "工作流", "方法论"],
-      "imageSubject": "AIGC 工作流的方法节点与复用关系图",
-      "imageFilename": "knowledge-aigc-workflow-methods-cover.jpg",
-      "linkLabel": "查看精选内容"
-    },
-    {
-      "id": "commercial-visual-resources",
-      "title": "商业视觉资源工具",
-      "description": "汇总经过实践筛选的 Prompt、模板、检查表与资产管理规范。",
-      "link": "/knowledge/resources",
-      "tags": ["商业视觉", "模板", "资源工具"],
-      "imageSubject": "商业视觉 Prompt、模板与检查表的资源工具箱",
-      "imageFilename": "knowledge-commercial-visual-resources-cover.jpg",
-      "linkLabel": "查看精选内容"
     }
   ]
 }
