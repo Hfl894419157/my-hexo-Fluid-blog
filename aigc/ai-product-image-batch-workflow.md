@@ -2,7 +2,7 @@
 title: AI 产品图批量生成流程
 description: 统一产品事实、镜头变量和筛选标准，提升批量出图稳定性。
 slug: ai-product-image-batch-workflow
-createdAt: 2026-07-04
+createdAt: 2026-07-14
 verificationStatus: 探索中
 showInRecentUpdates: true
 tags:
