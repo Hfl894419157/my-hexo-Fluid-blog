@@ -280,11 +280,11 @@ status: published
 
 比如像夏至，这个生成效果，真的太棒了：
 
-![image.png](/images/uploads/image-8.png)
+![image-8.jpg](/images/uploads/image-8.jpg)
 
 还有这张：
 
-![image.png](/images/uploads/image-9.png)
+![image-9.jpg](/images/uploads/image-9.jpg)
 
 感兴趣的话，可以按这个思路自己跑一遍试试。
 
