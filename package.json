@@ -10,7 +10,8 @@
     "docs:build": "npm run images:prepare && vitepress build && npm run images:check",
     "docs:preview": "vitepress preview",
     "build": "npm run images:prepare && vitepress build && npm run images:check",
-    "content:check": "node scripts/validate-content.mjs"
+    "content:check": "node scripts/validate-content.mjs",
+    "enrichment:test": "node --test scripts/enrichment.test.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/noto-sans-sc": "5.2.10",

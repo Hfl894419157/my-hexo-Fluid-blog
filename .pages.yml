@@ -97,6 +97,31 @@ components:
         label: SEO 描述（可选）
         type: text
 
+  enrichment_state:
+    label: 识别记录
+    type: object
+    hidden: true
+    fields:
+      - { name: sourceHash, label: 来源指纹, type: string }
+      - { name: status, label: 识别状态, type: string }
+      - { name: message, label: 识别说明, type: text }
+      - name: autoValues
+        label: 上次自动字段
+        type: object
+        fields:
+          - { name: url, type: string }
+          - { name: platform, type: string }
+          - { name: title, type: string }
+          - { name: summary, type: text }
+          - { name: tags, type: string, list: true }
+          - { name: platformCover, type: string }
+          - { name: duration, type: string }
+          - { name: aspect, type: string }
+          - { name: code, type: string }
+          - { name: name, type: string }
+          - { name: format, type: string }
+          - { name: size, type: string }
+
   content_blocks:
     label: 内容模块
     description: 可新增、复制、排序、折叠或删除模块；模块标识由系统自动生成。
@@ -213,6 +238,7 @@ components:
             default: "16:9"
             options:
               values: ["16:9", "4:3", "1:1", "9:16"]
+          - { name: _enrichment, component: enrichment_state }
       - name: download
         label: 网盘资源
         fields:
@@ -260,6 +286,7 @@ components:
             label: 按钮文字
             type: string
             default: 打开资源
+          - { name: _enrichment, component: enrichment_state }
       - name: externalLink
         label: 外部链接卡片
         fields:
@@ -297,6 +324,28 @@ content:
       template: "{primary}.md"
       field: create
     operations: { create: true, rename: false, delete: false }
+    actions:
+      - name: enrich-content
+        label: 识别内容模块
+        scope: entry
+        workflow: enrich-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 识别当前内容模块？
+          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+          button: 开始识别
+        fields:
+          - name: mode
+            label: 识别方式
+            type: select
+            required: true
+            default: fill_empty
+            options:
+              - { label: 仅补充空白（推荐）, value: fill_empty }
+              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+              - { label: 全部重新识别, value: overwrite_all }
+
     view:
       primary: meta.title
       fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -320,6 +369,28 @@ content:
       template: "{primary}.md"
       field: create
     operations: { create: true, rename: false, delete: false }
+    actions:
+      - name: enrich-content
+        label: 识别内容模块
+        scope: entry
+        workflow: enrich-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 识别当前内容模块？
+          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+          button: 开始识别
+        fields:
+          - name: mode
+            label: 识别方式
+            type: select
+            required: true
+            default: fill_empty
+            options:
+              - { label: 仅补充空白（推荐）, value: fill_empty }
+              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+              - { label: 全部重新识别, value: overwrite_all }
+
     view:
       primary: meta.title
       fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -342,6 +413,28 @@ content:
       template: "{primary}.md"
       field: create
     operations: { create: true, rename: false, delete: false }
+    actions:
+      - name: enrich-content
+        label: 识别内容模块
+        scope: entry
+        workflow: enrich-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 识别当前内容模块？
+          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+          button: 开始识别
+        fields:
+          - name: mode
+            label: 识别方式
+            type: select
+            required: true
+            default: fill_empty
+            options:
+              - { label: 仅补充空白（推荐）, value: fill_empty }
+              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+              - { label: 全部重新识别, value: overwrite_all }
+
     view:
       primary: meta.title
       fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -364,6 +457,28 @@ content:
       template: "{primary}.md"
       field: create
     operations: { create: true, rename: false, delete: false }
+    actions:
+      - name: enrich-content
+        label: 识别内容模块
+        scope: entry
+        workflow: enrich-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 识别当前内容模块？
+          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+          button: 开始识别
+        fields:
+          - name: mode
+            label: 识别方式
+            type: select
+            required: true
+            default: fill_empty
+            options:
+              - { label: 仅补充空白（推荐）, value: fill_empty }
+              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+              - { label: 全部重新识别, value: overwrite_all }
+
     view:
       primary: meta.title
       fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -386,6 +501,28 @@ content:
       template: "{primary}.md"
       field: create
     operations: { create: true, rename: false, delete: false }
+    actions:
+      - name: enrich-content
+        label: 识别内容模块
+        scope: entry
+        workflow: enrich-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 识别当前内容模块？
+          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+          button: 开始识别
+        fields:
+          - name: mode
+            label: 识别方式
+            type: select
+            required: true
+            default: fill_empty
+            options:
+              - { label: 仅补充空白（推荐）, value: fill_empty }
+              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+              - { label: 全部重新识别, value: overwrite_all }
+
     view:
       primary: meta.title
       fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]

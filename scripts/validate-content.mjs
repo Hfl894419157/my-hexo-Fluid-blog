@@ -127,10 +127,16 @@ try {
   requireValue(config?.settings?.content?.merge === true, '.pages.yml: 必须保留 settings.content.merge')
   requireValue(config?.components?.content_blocks?.type === 'block', '.pages.yml: content_blocks 必须使用 block 字段')
   requireValue(config?.components?.content_blocks?.blockKey === 'type', '.pages.yml: content_blocks.blockKey 必须为 type')
-  const collectionNames = new Set((config?.content || []).filter((entry) => entry.type === 'collection').map((entry) => entry.name))
+  requireValue(config?.components?.enrichment_state?.hidden === true, '.pages.yml: 识别记录必须在后台隐藏')
+  const collections = (config?.content || []).filter((entry) => entry.type === 'collection')
+  const collectionNames = new Set(collections.map((entry) => entry.name))
   for (const name of ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']) {
     requireValue(collectionNames.has(name), `.pages.yml: 缺少集合 ${name}`)
+    const collection = collections.find((entry) => entry.name === name)
+    const action = collection?.actions?.find((entry) => entry.name === 'enrich-content')
+    requireValue(action?.scope === 'entry' && action?.workflow === 'enrich-content.yml' && action?.ref === 'current', `.pages.yml: ${name} 缺少条目级识别 Action`)
   }
+  requireValue(existsSync(path.join(repoRoot, '.github', 'workflows', 'enrich-content.yml')), '缺少识别工作流 enrich-content.yml')
 } catch (error) {
   errors.push(`.pages.yml 无法解析：${error.message}`)
 }
