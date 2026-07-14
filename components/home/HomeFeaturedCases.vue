@@ -35,6 +35,7 @@ const caseWall = useStackWall('.case-wall__card')
               :subject="`${item.title}的项目主视觉或最终成果`"
               :filename="item.imageFilename"
               aspect="16 / 10"
+              sizes="(max-width: 899px) calc(100vw - 48px), 648px"
             />
           </a>
           <div class="case-wall__copy">

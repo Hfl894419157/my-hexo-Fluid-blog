@@ -2,6 +2,8 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -32,10 +34,12 @@ jobs:
         env:
           SITE_VERSION: ${{ github.sha }}
       - name: 上传产物
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: .vitepress/dist
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
