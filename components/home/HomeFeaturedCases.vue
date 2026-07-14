@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
 import { formatCardNumber, resolveSelections } from '../../.shared/contentClient.js'
 import homeSelections from '../../.shared/content/home.json'
@@ -7,75 +6,10 @@ import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import ImagePlaceholder from '../ImagePlaceholder.vue'
+import { getStackCardStyle, useStackWall } from './useStackWall.js'
 
 const cases = resolveSelections(contentCatalog.cases, homeSelections.featuredCases)
-const caseWall = ref(null)
-
-let animationFrame = 0
-let reducedMotionQuery
-
-const resetCardEffects = () => {
-  if (!caseWall.value) return
-
-  caseWall.value.querySelectorAll('.case-wall__card').forEach((card) => {
-    card.style.setProperty('--stack-scale', '1')
-    card.style.setProperty('--stack-lift', '0px')
-    card.style.setProperty('--stack-brightness', '1')
-  })
-}
-
-const updateCardEffects = () => {
-  animationFrame = 0
-
-  if (!caseWall.value || window.innerWidth < 900 || reducedMotionQuery?.matches) {
-    resetCardEffects()
-    return
-  }
-
-  const cards = [...caseWall.value.querySelectorAll('.case-wall__card')]
-  const approachStart = window.innerHeight * 0.92
-
-  cards.forEach((card, index) => {
-    const nextCard = cards[index + 1]
-
-    if (!nextCard) {
-      card.style.setProperty('--stack-scale', '1')
-      card.style.setProperty('--stack-lift', '0px')
-      card.style.setProperty('--stack-brightness', '1')
-      return
-    }
-
-    const nextTop = nextCard.getBoundingClientRect().top
-    const nextStickyTop = 96 + (index + 1) * 20
-    const distance = Math.max(approachStart - nextStickyTop, 1)
-    const progress = Math.min(Math.max((approachStart - nextTop) / distance, 0), 1)
-
-    card.style.setProperty('--stack-scale', String(1 - progress * 0.025))
-    card.style.setProperty('--stack-lift', `${progress * -8}px`)
-    card.style.setProperty('--stack-brightness', String(1 - progress * 0.08))
-  })
-}
-
-const requestCardUpdate = () => {
-  if (animationFrame) return
-  animationFrame = window.requestAnimationFrame(updateCardEffects)
-}
-
-onMounted(() => {
-  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-  window.addEventListener('scroll', requestCardUpdate, { passive: true })
-  window.addEventListener('resize', requestCardUpdate)
-  reducedMotionQuery.addEventListener?.('change', requestCardUpdate)
-  requestCardUpdate()
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', requestCardUpdate)
-  window.removeEventListener('resize', requestCardUpdate)
-  reducedMotionQuery?.removeEventListener?.('change', requestCardUpdate)
-
-  if (animationFrame) window.cancelAnimationFrame(animationFrame)
-})
+const caseWall = useStackWall('.case-wall__card')
 </script>
 
 <template>
@@ -88,14 +22,11 @@ onUnmounted(() => {
       <BaseButton href="/portfolio/" variant="ghost">全部案例</BaseButton>
     </div>
 
-    <div ref="caseWall" class="case-wall">
+    <div ref="caseWall" class="case-wall" :class="{ 'case-wall--static': cases.length < 2 }">
       <template v-for="(item, index) in cases" :key="item.id">
         <article
           class="case-wall__card"
-          :style="{
-            '--stack-index': index,
-            '--sticky-offset': `${96 + index * 20}px`
-          }"
+          :style="getStackCardStyle(index)"
         >
           <a class="case-wall__media" :href="item.link" :aria-label="`查看案例：${item.title}`">
             <ImagePlaceholder
@@ -158,6 +89,14 @@ onUnmounted(() => {
 }
 .case-wall__spacer { height: clamp(300px, 52vh, 480px); }
 .case-wall__spacer--last { height: clamp(240px, 34vh, 340px); }
+.case-wall--static { display: grid; gap: 20px; }
+.case-wall--static .case-wall__card {
+  position: static;
+  filter: none;
+  transform: none;
+  will-change: auto;
+}
+.case-wall--static .case-wall__spacer { display: none; }
 .case-wall__media { display: block; min-width: 0; overflow: hidden; background: var(--bg-soft); }
 .case-wall__media :deep(.image-slot) { height: 100%; border: 0; border-right: 1px solid var(--border-soft); }
 .case-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
