@@ -9,7 +9,7 @@ tags:
   - 产品图
   - 批量生成
   - 变量控制
-cover: /images/uploads/2.png
+cover: /images/uploads/工作流板块图片/guf120a-w.jpg
 coverAlt: AI 产品图批量生成流程
 pageClass: page-workflow-detail
 status: published
