@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs'
+import MarkdownIt from 'markdown-it'
 import { defineConfig } from 'vitepress'
 import { loadContentCatalog } from '../.shared/contentCatalog.mjs'
+import { contentBlocksMarkdown, isManagedContentPath, normalizeContentData } from '../.shared/contentSchema.mjs'
+import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
 const imageManifest = JSON.parse(readFileSync(new URL('./cache/image-manifest.json', import.meta.url), 'utf8'))
-const articleImageSizes = '(max-width: 640px) calc(100vw - 32px), 760px'
 const contentCatalog = loadContentCatalog()
 const unpublishedContentPaths = contentCatalog.all
   .filter((item) => item.status !== 'published')
@@ -13,19 +15,35 @@ const unpublishedContentPaths = contentCatalog.all
 const sidebarEntries = (items) => items
   .filter((item) => item.status === 'published')
   .map((item) => ({ text: item.title, link: item.url }))
-const escapeAttribute = (value) => String(value)
-  .replace(/&/g, '&amp;')
-  .replace(/"/g, '&quot;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-const normalizeImageKey = (src) => {
-  const pathOnly = String(src || '').split(/[?#]/, 1)[0]
-  if (!pathOnly.startsWith('/')) return null
-  try {
-    return decodeURI(pathOnly).normalize('NFC')
-  } catch {
-    return pathOnly.normalize('NFC')
-  }
+const contentMarkdown = new MarkdownIt({ html: false, linkify: true })
+configureResponsiveMarkdownImages(contentMarkdown, imageManifest)
+
+const slugifyHeading = (value) => String(value || '')
+  .trim()
+  .toLowerCase()
+  .replace(/<[^>]+>/g, '')
+  .replace(/[^\p{L}\p{N}\s-]/gu, '')
+  .replace(/\s+/g, '-')
+
+const defaultHeadingOpen = contentMarkdown.renderer.rules.heading_open
+  || ((tokens, index, options, env, renderer) => renderer.renderToken(tokens, index, options))
+
+contentMarkdown.renderer.rules.heading_open = (tokens, index, options, env, renderer) => {
+  const token = tokens[index]
+  const title = tokens[index + 1]?.content || ''
+  const base = slugifyHeading(title) || 'section'
+  env.headingCounts ||= new Map()
+  const count = env.headingCounts.get(base) || 0
+  env.headingCounts.set(base, count + 1)
+  token.attrSet('id', count ? `${base}-${count + 1}` : base)
+  return defaultHeadingOpen(tokens, index, options, env, renderer)
+}
+
+const renderContentBlocks = (blocks) => {
+  const env = { headingCounts: new Map() }
+  return blocks.map((block) => block.type === 'richText'
+    ? { ...block, html: contentMarkdown.render(String(block.markdown || ''), env) }
+    : block)
 }
 
 // https://vitepress.dev/reference/site-config
@@ -42,32 +60,7 @@ export default defineConfig({
   ],
   markdown: {
     config(md) {
-      const defaultImageRenderer = md.renderer.rules.image
-        || ((tokens, index, options, env, renderer) => renderer.renderToken(tokens, index, options))
-
-      md.renderer.rules.image = (tokens, index, options, env, renderer) => {
-        const token = tokens[index]
-        const source = token.attrGet('src') || ''
-        const key = normalizeImageKey(source)
-        const entry = key ? imageManifest.images?.[key] : null
-
-        token.attrSet('loading', 'lazy')
-        token.attrSet('decoding', 'async')
-        token.attrSet('fetchpriority', 'auto')
-        if (entry?.width && entry?.height) {
-          token.attrSet('width', String(entry.width))
-          token.attrSet('height', String(entry.height))
-        }
-
-        const imageHtml = defaultImageRenderer(tokens, index, options, env, renderer)
-        if (!entry?.variants?.length) return imageHtml
-
-        const srcset = entry.variants
-          .map((variant) => `${variant.src} ${variant.width}w`)
-          .join(', ')
-
-        return `<picture class="responsive-image responsive-image--content"><source type="image/webp" srcset="${escapeAttribute(srcset)}" sizes="${escapeAttribute(articleImageSizes)}">${imageHtml}</picture>`
-      }
+      configureResponsiveMarkdownImages(md, imageManifest)
     }
   },
   lastUpdated: true,
@@ -83,10 +76,16 @@ export default defineConfig({
   ],
   transformPageData(pageData) {
     const normalizedPath = pageData.relativePath.replace(/\\/g, '/')
-    if (/^portfolio\/[^/]+\.md$/.test(normalizedPath)) pageData.frontmatter.pageClass = 'page-case-detail'
-    if (/^aigc\/[^/]+\.md$/.test(normalizedPath)) pageData.frontmatter.pageClass = 'page-workflow-detail'
-    if (/^knowledge\/(learning-observation|methods)\/[^/]+\.md$/.test(normalizedPath)) pageData.frontmatter.pageClass = 'page-article-detail'
-    if (/^knowledge\/resources\/[^/]+\.md$/.test(normalizedPath)) pageData.frontmatter.pageClass = 'page-resource-detail'
+    if (isManagedContentPath(normalizedPath)) {
+      const normalized = normalizeContentData(pageData.frontmatter, normalizedPath)
+      Object.assign(pageData.frontmatter, normalized)
+      pageData.frontmatter.contentBlocksRendered = renderContentBlocks(normalized.contentBlocks)
+      pageData.frontmatter.modularContent = true
+      pageData.title = normalized.title
+      pageData.description = normalized.seoDescription || normalized.description
+      const searchableMarkdown = contentBlocksMarkdown(normalized.contentBlocks)
+      pageData.frontmatter.contentSearchText = searchableMarkdown
+    }
 
     const canonicalPath = pageData.relativePath
       .replace(/\\/g, '/')

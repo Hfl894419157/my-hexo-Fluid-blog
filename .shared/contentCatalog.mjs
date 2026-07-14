@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
+import { normalizeContentData } from './contentSchema.mjs'
 
 const sharedDir = path.dirname(fileURLToPath(import.meta.url))
 export const repoRoot = path.resolve(sharedDir, '..')
@@ -112,20 +113,21 @@ const normalizeEntry = (absolutePath) => {
   const raw = readFileSync(absolutePath, 'utf8')
   const parsed = matter(raw)
   const frontmatter = parsed.data || {}
+  const normalized = normalizeContentData(frontmatter, sourcePath)
   const kind = kindFromPath(sourcePath)
-  const id = String(frontmatter.slug || path.basename(sourcePath, '.md'))
+  const id = path.basename(sourcePath, '.md')
   const url = urlFromPath(sourcePath)
-  const status = String(frontmatter.status || 'draft')
+  const status = normalized.status
   const defaultSections = sectionDefaults(sourcePath, kind)
   const sections = Array.isArray(frontmatter.sections)
     ? frontmatter.sections.map(String)
     : defaultSections
-  const createdAt = toDateText(frontmatter.createdAt, '2099-12-31')
+  const createdAt = toDateText(normalized.createdAt, '2099-12-31')
   const fileFallback = toDateTimeText(frontmatter.updatedAt, statSync(absolutePath).mtime.toISOString())
   const updatedAt = getGitUpdatedAt(sourcePath, fileFallback)
-  const title = String(frontmatter.title || id)
-  const description = String(frontmatter.cardDescription || frontmatter.description || '')
-  const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags.map(String) : []
+  const title = normalized.title || id
+  const description = normalized.description
+  const tags = normalized.tags
   const isPublished = status === publishedStatus
 
   return {
@@ -144,12 +146,12 @@ const normalizeEntry = (absolutePath) => {
     createdAt,
     updatedAt,
     updatedAtLabel: toDateTimeLabel(updatedAt),
-    verificationStatus: String(frontmatter.verificationStatus || (isPublished ? '已整理' : '筹备中')),
-    showInRecentUpdates: frontmatter.showInRecentUpdates !== false,
+    verificationStatus: normalized.verificationStatus || (isPublished ? '已整理' : '筹备中'),
+    showInRecentUpdates: normalized.showInRecentUpdates !== false,
     tags,
-    cover: String(frontmatter.cover || ''),
-    coverAlt: String(frontmatter.coverAlt || title),
-    image: String(frontmatter.cover || ''),
+    cover: normalized.cover,
+    coverAlt: normalized.coverAlt || title,
+    image: normalized.cover,
     imageSubject: getImageSubject(kind, title),
     imageFilename: getImageFilename(kind, id),
     cta: kind === 'case' ? '查看案例' : kind === 'workflow' ? '进入工作流' : kind === 'resource' ? '查看资源' : '阅读全文'

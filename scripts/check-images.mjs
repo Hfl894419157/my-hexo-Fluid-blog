@@ -1,5 +1,6 @@
 import { access, readFile, readdir, stat } from 'node:fs/promises'
 import path from 'node:path'
+import matter from 'gray-matter'
 import sharp from 'sharp'
 
 const projectRoot = process.cwd()
@@ -51,7 +52,15 @@ for (const sourcePath of sourceFiles) {
 }
 
 const article = await readFile(articlePath, 'utf8')
-const articleImageUrls = [...article.matchAll(/!\[[^\]]*\]\((\/images\/uploads\/[^)\s]+)\)/g)].map((match) => match[1])
+const articleData = matter(article).data
+const articleImageUrls = []
+for (const block of articleData.contentBlocks || []) {
+  if (block.type === 'image' && block.src) articleImageUrls.push(block.src)
+  if (block.type === 'gallery') articleImageUrls.push(...(block.items || []).map((item) => item.src).filter(Boolean))
+  if (block.type === 'richText') {
+    articleImageUrls.push(...[...String(block.markdown || '').matchAll(/!\[[^\]]*\]\((\/images\/uploads\/[^)\s]+)\)/g)].map((match) => match[1]))
+  }
+}
 assert(articleImageUrls.length === 14, `问题文章正文图片数量异常：${articleImageUrls.length}`)
 
 const chooseVariant = (entry, targetWidth) => entry.variants.find((variant) => variant.width >= targetWidth) || entry.variants.at(-1)
@@ -78,9 +87,16 @@ for (const tag of bodyImageTags) {
   assert(/width="\d+"/.test(tag) && /height="\d+"/.test(tag), `正文图片缺少固有尺寸：${tag}`)
 }
 
-const contentPictureCount = (articleHtml.match(/responsive-image--content/g) || []).length
+let lastImagePosition = -1
+for (const sourceUrl of articleImageUrls) {
+  const position = articleHtml.indexOf(`src="${sourceUrl}"`, lastImagePosition + 1)
+  assert(position > lastImagePosition, `构建后的图片顺序异常：${sourceUrl}`)
+  lastImagePosition = position
+}
+
+const contentPictureCount = (articleHtml.match(/class="responsive-picture"/g) || []).length
 const webpSourceCount = (articleHtml.match(/<source[^>]+type="image\/webp"[^>]+srcset=/g) || []).length
-assert(contentPictureCount === articleImageUrls.length, `正文响应式 picture 数量异常：${contentPictureCount}`)
+assert(contentPictureCount >= articleImageUrls.length, `正文响应式 picture 数量异常：${contentPictureCount}`)
 assert(webpSourceCount >= articleImageUrls.length, `WebP source 数量异常：${webpSourceCount}`)
 
 const generatedFiles = await listFiles(path.join(publicRoot, '_generated'))

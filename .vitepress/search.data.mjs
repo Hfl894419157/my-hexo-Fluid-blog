@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { contentBlocksMarkdown, normalizeContentData } from '../.shared/contentSchema.mjs'
 
 const sectionLabels = [
   { prefix: '/portfolio/', label: '案例' },
@@ -63,13 +64,16 @@ export default createContentLoader('**/*.md', {
       .filter((page) => page.url && page.src)
       .filter((page) => page.url !== '/design-qa')
       .filter((page) => !page.url.startsWith('/blog/') && !page.url.startsWith('/resources/'))
-      .filter((page) => !['draft', 'planned', 'archived'].includes(page.frontmatter?.status))
+      .filter((page) => !['draft', 'planned', 'archived'].includes(normalizeContentData(page.frontmatter, page.url).status))
       .filter((page) => page.frontmatter?.search !== false)
       .map((page) => {
         const src = stripFrontmatter(page.src || '')
-        const title = getTitle(src, page.frontmatter)
-        const headings = getHeadings(src)
-        const text = [page.frontmatter?.description, stripMarkdown(src)].filter(Boolean).join(' ')
+        const normalized = normalizeContentData(page.frontmatter, page.url)
+        const blockMarkdown = contentBlocksMarkdown(normalized.contentBlocks)
+        const searchableSource = [src, blockMarkdown].filter(Boolean).join('\n\n')
+        const title = normalized.title || getTitle(src, page.frontmatter)
+        const headings = getHeadings(searchableSource)
+        const text = [normalized.description, stripMarkdown(searchableSource)].filter(Boolean).join(' ')
 
         return {
           title,
