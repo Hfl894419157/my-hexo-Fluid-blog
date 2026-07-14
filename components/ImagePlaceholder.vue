@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import ResponsiveImage from './ResponsiveImage.vue'
 
 const props = defineProps({
   src: {
@@ -29,6 +30,10 @@ const props = defineProps({
   eager: {
     type: Boolean,
     default: false
+  },
+  sizes: {
+    type: String,
+    default: '(max-width: 640px) calc(100vw - 32px), 760px'
   }
 })
 
@@ -37,14 +42,15 @@ const uploadPath = computed(() => `/images/uploads/${props.filename}`)
 
 <template>
   <figure class="image-slot" :style="{ '--slot-aspect': aspect }">
-    <img
+    <ResponsiveImage
       v-if="src"
       class="image-slot__image"
       :src="src"
       :alt="alt || subject"
-      :loading="eager ? 'eager' : 'lazy'"
+      :sizes="sizes"
+      :eager="eager"
       :style="{ objectPosition: position }"
-    >
+    />
     <div v-else class="image-slot__placeholder" role="img" :aria-label="`图片占位：${subject}`">
       <span class="image-slot__index" aria-hidden="true">IMAGE SLOT</span>
       <span class="image-slot__frame" aria-hidden="true">
@@ -72,7 +78,7 @@ const uploadPath = computed(() => `/images/uploads/${props.filename}`)
   background: var(--bg-soft);
 }
 
-.image-slot__image {
+.image-slot :deep(.image-slot__image) {
   width: 100%;
   height: 100%;
   object-fit: cover;

@@ -1,8 +1,11 @@
+import { readFileSync } from 'node:fs'
 import { defineConfig } from 'vitepress'
 import { loadContentCatalog } from '../.shared/contentCatalog.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
+const imageManifest = JSON.parse(readFileSync(new URL('./cache/image-manifest.json', import.meta.url), 'utf8'))
+const articleImageSizes = '(max-width: 640px) calc(100vw - 32px), 760px'
 const contentCatalog = loadContentCatalog()
 const unpublishedContentPaths = contentCatalog.all
   .filter((item) => item.status !== 'published')
@@ -10,6 +13,20 @@ const unpublishedContentPaths = contentCatalog.all
 const sidebarEntries = (items) => items
   .filter((item) => item.status === 'published')
   .map((item) => ({ text: item.title, link: item.url }))
+const escapeAttribute = (value) => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/"/g, '&quot;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+const normalizeImageKey = (src) => {
+  const pathOnly = String(src || '').split(/[?#]/, 1)[0]
+  if (!pathOnly.startsWith('/')) return null
+  try {
+    return decodeURI(pathOnly).normalize('NFC')
+  } catch {
+    return pathOnly.normalize('NFC')
+  }
+}
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -23,6 +40,36 @@ export default defineConfig({
     'public/images/uploads/README.md',
     ...unpublishedContentPaths
   ],
+  markdown: {
+    config(md) {
+      const defaultImageRenderer = md.renderer.rules.image
+        || ((tokens, index, options, env, renderer) => renderer.renderToken(tokens, index, options))
+
+      md.renderer.rules.image = (tokens, index, options, env, renderer) => {
+        const token = tokens[index]
+        const source = token.attrGet('src') || ''
+        const key = normalizeImageKey(source)
+        const entry = key ? imageManifest.images?.[key] : null
+
+        token.attrSet('loading', 'lazy')
+        token.attrSet('decoding', 'async')
+        token.attrSet('fetchpriority', 'auto')
+        if (entry?.width && entry?.height) {
+          token.attrSet('width', String(entry.width))
+          token.attrSet('height', String(entry.height))
+        }
+
+        const imageHtml = defaultImageRenderer(tokens, index, options, env, renderer)
+        if (!entry?.variants?.length) return imageHtml
+
+        const srcset = entry.variants
+          .map((variant) => `${variant.src} ${variant.width}w`)
+          .join(', ')
+
+        return `<picture class="responsive-image responsive-image--content"><source type="image/webp" srcset="${escapeAttribute(srcset)}" sizes="${escapeAttribute(articleImageSizes)}">${imageHtml}</picture>`
+      }
+    }
+  },
   lastUpdated: true,
   sitemap: {
     hostname: siteOrigin

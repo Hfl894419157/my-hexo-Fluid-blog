@@ -21,6 +21,7 @@ const isPublished = computed(() => props.item.status !== 'planned' && Boolean(pr
         :subject="item.imageSubject || item.title"
         :filename="item.imageFilename || `${item.id || 'content'}-cover.jpg`"
         :aspect="item.aspect || '16 / 9'"
+        sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1100px) 50vw, 360px"
       />
     </a>
     <div v-else class="content-card__media">
@@ -30,6 +31,7 @@ const isPublished = computed(() => props.item.status !== 'planned' && Boolean(pr
         :subject="item.imageSubject || item.title"
         :filename="item.imageFilename || `${item.id || 'content'}-cover.jpg`"
         :aspect="item.aspect || '16 / 9'"
+        sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1100px) 50vw, 360px"
       />
     </div>
     <div class="content-card__body">

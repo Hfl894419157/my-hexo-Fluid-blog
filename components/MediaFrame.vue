@@ -1,6 +1,5 @@
 <script setup>
-import { computed } from 'vue'
-import { withBase } from 'vitepress'
+import ResponsiveImage from './ResponsiveImage.vue'
 
 const props = defineProps({
   src: { type: String, required: true },
@@ -10,23 +9,19 @@ const props = defineProps({
   aspect: { type: String, default: '16 / 10' },
   position: { type: String, default: 'center' },
   eager: { type: Boolean, default: false },
+  sizes: { type: String, default: '(max-width: 640px) calc(100vw - 32px), 760px' },
   tone: { type: String, default: 'default' }
-})
-
-const resolvedSrc = computed(() => {
-  if (/^(https?:)?\/\//.test(props.src) || props.src.startsWith('data:')) return props.src
-  return withBase(props.src)
 })
 </script>
 
 <template>
   <figure class="media-frame" :class="`media-frame--${tone}`" :style="{ '--media-aspect': aspect }">
     <div class="media-frame__viewport">
-      <img
-        :src="resolvedSrc"
+      <ResponsiveImage
+        :src="src"
         :alt="alt"
-        :loading="eager ? 'eager' : 'lazy'"
-        :fetchpriority="eager ? 'high' : 'auto'"
+        :sizes="sizes"
+        :eager="eager"
         :style="{ objectPosition: position }"
       />
       <span v-if="eyebrow" class="media-frame__eyebrow">{{ eyebrow }}</span>

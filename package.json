@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vitepress dev",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "images:prepare": "node scripts/prepare-images.mjs",
+    "images:check": "node scripts/check-images.mjs",
+    "dev": "npm run images:prepare && vitepress dev",
+    "docs:dev": "npm run images:prepare && vitepress dev",
+    "docs:build": "npm run images:prepare && vitepress build && npm run images:check",
     "docs:preview": "vitepress preview",
-    "build": "vitepress build",
+    "build": "npm run images:prepare && vitepress build && npm run images:check",
     "content:check": "node scripts/validate-content.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/noto-sans-sc": "5.2.10",
     "@fontsource-variable/noto-serif-sc": "5.2.10",
     "gray-matter": "^4.0.3",
+    "sharp": "^0.35.3",
     "vitepress": "^1.0.0-rc.40"
   }
 }

@@ -114,6 +114,7 @@ const paradigms = [
                 :subject="item.imageSubject"
                 :filename="item.imageFilename"
                 aspect="16 / 10"
+                sizes="(max-width: 899px) calc(100vw - 48px), 648px"
               />
             </a>
             <div class="wf-wall__copy">

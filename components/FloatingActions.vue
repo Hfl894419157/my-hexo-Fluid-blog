@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute, withBase } from 'vitepress'
+import { useRoute } from 'vitepress'
+import ResponsiveImage from './ResponsiveImage.vue'
 
 const route = useRoute()
 const showBackToTop = ref(false)
@@ -8,8 +9,8 @@ const contactOpen = ref(false)
 const contactPinned = ref(false)
 const contactGroupRef = ref(null)
 
-const wechatQr = withBase('/wechat.png')
-const qqQr = withBase('/qq.png')
+const wechatQr = '/wechat.png'
+const qqQr = '/qq.png'
 
 let scrollFrame = 0
 
@@ -120,22 +121,18 @@ onUnmounted(() => {
         aria-label="客服二维码"
       >
         <figure class="floating-service__qr-item">
-          <img
+          <ResponsiveImage
             :src="wechatQr"
-            width="1008"
-            height="975"
             alt="微信客服二维码"
-            decoding="async"
+            sizes="164px"
           />
           <figcaption>微信</figcaption>
         </figure>
         <figure class="floating-service__qr-item">
-          <img
+          <ResponsiveImage
             :src="qqQr"
-            width="721"
-            height="694"
             alt="QQ 客服二维码"
-            decoding="async"
+            sizes="164px"
           />
           <figcaption>QQ</figcaption>
         </figure>
