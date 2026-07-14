@@ -3,6 +3,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, withBase } from 'vitepress'
 import ThemeToggle from './ThemeToggle.vue'
 import SiteSearch from './SiteSearch.vue'
+import BrandMark from './BrandMark.vue'
 import { navItems } from '../.shared/siteNavigation.js'
 
 const route = useRoute()
@@ -141,7 +142,10 @@ onUnmounted(() => {
       'site-header--nav-open': navOpen
     }"
   >
-    <a class="site-header__brand" :href="pageLink('/')">Liuli AI Lab</a>
+    <a class="site-header__brand" :href="pageLink('/')">
+      <BrandMark :size="18" />
+      <span>Liuli AI Lab</span>
+    </a>
 
     <nav
       id="site-navigation"
@@ -231,7 +235,7 @@ onUnmounted(() => {
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
-  width: min(1180px, calc(100% - 32px));
+  width: min(var(--page-width), calc(100% - 32px));
   min-height: 58px;
   padding: 0 12px 0 18px;
   border: 1px solid var(--border-soft);
@@ -274,6 +278,9 @@ onUnmounted(() => {
 .site-header__glass--up { backdrop-filter: blur(30px) saturate(1.28); }
 
 .site-header__brand {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: var(--text-small);
@@ -282,6 +289,8 @@ onUnmounted(() => {
   text-decoration: none;
   white-space: nowrap;
 }
+
+.site-header__brand :deep(.brand-mark) { color: var(--brand-main); }
 
 .site-header__nav {
   display: flex;

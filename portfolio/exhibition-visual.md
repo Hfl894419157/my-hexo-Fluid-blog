@@ -1,6 +1,16 @@
 ---
 title: 德国水处理展会视觉体系
 description: 从主视觉、展位到宣传资料的跨媒介统一与远程落地协作案例。
+slug: exhibition-visual
+createdAt: 2026-07-02
+verificationStatus: 已验证
+showInRecentUpdates: true
+tags:
+  - 展会视觉
+  - 品牌系统
+  - 跨团队交付
+cover: ''
+coverAlt: 德国水处理展会视觉体系项目主视觉
 pageClass: page-case-detail
 status: published
 ---
@@ -16,7 +26,7 @@ status: published
 | **核心交付** | 品牌主视觉系统、线下多型展位及画册海报等全套跨媒介规范 |
 | **验证状态** | 已通过海外大型展会现场落地验证 |
 
-<MediaFrame src="/aigc-3.jpg" alt="蓝紫色粒子球体视觉，用于表现跨媒介品牌系统与空间延展" caption="案例预览：跨媒介品牌展位与物料的视觉一致性系统。" aspect="16 / 9" eager />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="德国水处理展会现场主视觉、展位与跨媒介物料的组合成果" filename="case-exhibition-visual-hero.jpg" aspect="16 / 9" eager />
 
 ## 1. 项目挑战与背景
 
@@ -68,7 +78,7 @@ status: published
 
 ## 5. 关联的内容
 
-- **方法体系：** [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/learning-observation/aigc-workflow-system)
+- **方法体系：** [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/methods/aigc-workflow-system)
 - **资源库：** [AI 项目复盘清单](/knowledge/resources/notion)
 - **学习与观察：** [个人资源库比普通博客更重要](/knowledge/learning-observation/personal-resource-library)
 

@@ -1,6 +1,19 @@
 ---
 title: 个人资源库比普通博客更重要
 description: 资源的价值来自验证、分类和再次进入项目，而不是收藏数量。
+slug: personal-resource-library
+createdAt: 2026-07-03
+verificationStatus: 已整理
+showInRecentUpdates: true
+type: 知识系统
+sections:
+  - learning-observation
+tags:
+  - 知识管理
+  - 资源库
+  - 复用
+cover: ''
+coverAlt: 个人资源库分类与复用关系图
 pageClass: page-article-detail
 status: published
 ---
@@ -9,7 +22,7 @@ status: published
 
 在信息可以被快速生成的环境里，收藏更多链接并不会自动形成优势。真正有价值的是你如何筛选、验证和重新使用这些信息。
 
-<MediaFrame src="/avatar.jpg" alt="Liuli AI Lab 主理人的数字头像" caption="个人资源库服务于长期实践：经过判断，并且能再次进入项目。" aspect="16 / 9" position="center 28%" eager />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="个人资源库的分类、验证与复用关系图" filename="article-personal-resource-library-hero.jpg" aspect="16 / 9" eager />
 
 ## 按使用场景而不是平台分类
 

@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "dev": "vitepress dev",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "build": "vitepress build"
+    "build": "vitepress build",
+    "content:check": "node scripts/validate-content.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/noto-sans-sc": "5.2.10",
     "@fontsource-variable/noto-serif-sc": "5.2.10",
+    "gray-matter": "^4.0.3",
     "vitepress": "^1.0.0-rc.40"
   }
 }

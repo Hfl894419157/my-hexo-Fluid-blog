@@ -25,6 +25,8 @@ jobs:
           cache: 'npm'
       - name: 安装依赖
         run: npm ci
+      - name: 检查内容结构与首页选择
+        run: npm run content:check
       - name: 构建静态文件
         run: npm run build
         env:

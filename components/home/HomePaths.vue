@@ -1,12 +1,10 @@
 <script setup>
 import SectionShell from '../SectionShell.vue'
-import SectionHeader from '../SectionHeader.vue'
 
 const paths = [
   {
     key: 'outcomes',
     title: '看成果',
-    subtitle: 'VIEW OUTCOMES',
     desc: '查看真实项目、个人角色、关键判断和最终交付。',
     href: '/portfolio/',
     label: '查看实践案例 →',
@@ -15,7 +13,6 @@ const paths = [
   {
     key: 'process',
     title: '看过程',
-    subtitle: 'UNDERSTAND PROCESS',
     desc: '查看需求如何拆解、变量如何控制、结果如何筛选。',
     href: '/aigc/',
     label: '探索生产流程 →',
@@ -24,7 +21,6 @@ const paths = [
   {
     key: 'accumulation',
     title: '看积累',
-    subtitle: 'EXPLORE ACCUMULATION',
     desc: '查看学习笔记、方法体系、模板、清单和验证资源。',
     href: '/knowledge/',
     label: '进入知识系统 →',
@@ -44,7 +40,6 @@ const paths = [
       >
         <div class="path-card__icon" v-html="path.icon" />
         <div class="path-card__content">
-          <span class="path-card__kicker">{{ path.subtitle }}</span>
           <h3>{{ path.title }}</h3>
           <p>{{ path.desc }}</p>
           <strong class="path-card__cta">{{ path.label }}</strong>
@@ -102,15 +97,6 @@ const paths = [
 .path-card__icon :deep(svg) {
   width: 24px;
   height: 24px;
-}
-
-.path-card__kicker {
-  display: block;
-  color: var(--brand-main);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  margin-bottom: 8px;
 }
 
 h3 {

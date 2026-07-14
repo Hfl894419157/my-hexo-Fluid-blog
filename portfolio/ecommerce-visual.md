@@ -1,6 +1,16 @@
 ---
 title: 专业医疗产品电商视觉系统
 description: 从竞品调研、3D 产品表达，到详情页信息层级与上线复盘的商业视觉案例。
+slug: ecommerce-visual
+createdAt: 2026-07-01
+verificationStatus: 已验证
+showInRecentUpdates: true
+tags:
+  - 电商视觉
+  - 3D 渲染
+  - 转化设计
+cover: ''
+coverAlt: 专业医疗产品电商视觉系统项目主视觉
 pageClass: page-case-detail
 status: published
 ---
@@ -16,7 +26,7 @@ status: published
 | **核心交付** | 三维结构表达模型、12屏核心详情页及全套响应式前端资产 |
 | **验证状态** | 已通过商业上线验证 |
 
-<MediaFrame src="/aigc-2.jpg" alt="深色背景中的 AI 电路视觉，用于说明数字化商业视觉方向" caption="案例预览：商业视觉的主体表达与信息设计框架。" aspect="16 / 9" eager />
+<ImagePlaceholder :src="$frontmatter.cover || ''" :alt="$frontmatter.coverAlt || $frontmatter.title" subject="专业医疗产品电商视觉系统的完整项目主视觉或首屏交付成果" filename="case-ecommerce-visual-hero.jpg" aspect="16 / 9" eager />
 
 ## 1. 项目挑战与背景
 
@@ -68,7 +78,7 @@ status: published
 
 ## 5. 关联的内容
 
-- **方法体系：** [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/learning-observation/aigc-workflow-system)
+- **方法体系：** [从提示词到交付：AIGC 工作流如何沉淀](/knowledge/methods/aigc-workflow-system)
 - **资源库：** [商业视觉 Prompt 结构框架](/knowledge/resources/mj-prompt)
 - **资源库：** [AI 项目复盘清单](/knowledge/resources/notion)
 

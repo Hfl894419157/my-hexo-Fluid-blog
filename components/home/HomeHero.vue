@@ -12,7 +12,7 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
       <!-- Left: Copy -->
       <div class="home-hero__content">
         <h1 class="hero-fade-in-item" style="--hero-delay: 0ms">
-          <span class="h1-line">把 AI 学习与设计实践，</span>
+          <span class="h1-line">把 AI 学习与设计实践</span>
           <span class="h1-line h1-accent">沉淀为可复用的个人能力系统</span>
         </h1>
 
@@ -44,7 +44,7 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 /* ─── Container ──────────────────────────────────────── */
 .home-hero {
   position: relative;
-  min-height: 82vh;
+  min-height: 760px;
   overflow: hidden;
   padding: 104px 24px 56px;
   background:
@@ -73,11 +73,11 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr; /* 优化左右两栏比例，给线图更舒展的空间 */
-  gap: clamp(40px, 6vw, 80px);
+  grid-template-columns: minmax(0, 760px) minmax(300px, 360px);
+  gap: 60px;
   align-items: center;
   width: min(1180px, 100%);
-  min-height: calc(82vh - 160px);
+  min-height: 600px;
   margin: 0 auto;
 }
 
@@ -85,19 +85,19 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 .home-hero__content { min-width: 0; }
     
 h1 {
-  max-width: 700px;
+  width: 100%;
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(36px, 4vw, 56px); /* 微调字号以支持大段自适应自如 */
+  font-size: 58px;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.04em;
-  text-wrap: balance;
 }
 
 .h1-line {
   display: block;
+  white-space: nowrap;
 }
 
 .h1-accent {
@@ -167,7 +167,8 @@ h1 {
 
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 1020px) {
-  .home-hero__inner { grid-template-columns: 1fr 340px; }
+  .home-hero__inner { grid-template-columns: minmax(0, 1fr) 320px; gap: 36px; }
+  h1 { font-size: 48px; }
 }
 
 @media (max-width: 800px) {
@@ -177,10 +178,10 @@ h1 {
     gap: 36px;
     min-height: auto;
   }
-  .home-hero__content { text-align: center; }
+  .home-hero__content { text-align: left; }
   .home-hero__lead { margin-left: auto; margin-right: auto; }
-  .home-hero__actions { justify-content: center; }
-  .home-hero__visual { max-width: 420px; margin: 0 auto; }
+  .home-hero__actions { justify-content: flex-start; }
+  .home-hero__visual { max-width: 420px; margin: 0; }
   .home-hero__scroll { display: none; }
 }
 
@@ -189,7 +190,8 @@ h1 {
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: clamp(30px, 8.4vw, 38px); }
+  h1 { font-size: clamp(23px, 7.4vw, 28px); letter-spacing: -0.055em; }
+  .home-hero__lead { margin-top: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

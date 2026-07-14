@@ -1,6 +1,7 @@
 <script setup>
 import { withBase } from 'vitepress'
 import { siteFooterGroups as groups, socialLinks } from '../.shared/siteNavigation.js'
+import BrandMark from './BrandMark.vue'
 
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
 </script>
@@ -10,7 +11,10 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
     <div class="site-footer__container">
       <div class="site-footer__main">
         <div class="site-footer__brand">
-          <a :href="withBase('/')">Liuli AI Lab</a>
+          <a :href="withBase('/')">
+            <BrandMark :size="20" />
+            <span>Liuli AI Lab</span>
+          </a>
           <p>记录 AI 商业视觉实践、可复用工作流与经过验证的知识资产。</p>
           <div class="site-footer__socials" aria-label="社交平台">
             <a
@@ -48,13 +52,14 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 .site-footer {
   width: 100%;
   margin: 72px 0 0;
+  border-top: 1px solid var(--border-soft);
+  background: var(--footer-bg);
 }
 
 .site-footer__container {
-  width: min(1200px, calc(100% - 48px));
+  width: min(var(--page-width), calc(100% - 48px));
   margin-inline: auto;
   padding: 58px 0 28px;
-  border-top: 1px solid var(--border-soft);
 }
 
 /*
@@ -78,6 +83,9 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 }
 
 .site-footer__brand > a {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: var(--text-small);
@@ -87,6 +95,8 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   text-decoration: none;
   white-space: nowrap;
 }
+
+.site-footer__brand > a :deep(.brand-mark) { color: var(--brand-main); }
 
 .site-footer__brand p {
   max-width: 280px;

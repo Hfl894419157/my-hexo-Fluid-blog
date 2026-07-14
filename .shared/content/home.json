@@ -1,0 +1,20 @@
+{
+  "featuredCases": [
+    "portfolio/ecommerce-visual.md",
+    "portfolio/exhibition-visual.md"
+  ],
+  "featuredWorkflows": [
+    "aigc/commercial-visual-system.md"
+  ],
+  "knowledge": {
+    "learning": [
+      "knowledge/learning-observation/ai-designer-positioning.md"
+    ],
+    "methods": [
+      "knowledge/methods/aigc-workflow-system.md"
+    ],
+    "resources": [
+      "knowledge/resources/mj-prompt.md"
+    ]
+  }
+}
