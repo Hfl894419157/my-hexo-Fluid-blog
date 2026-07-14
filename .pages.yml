@@ -17,6 +17,275 @@ settings:
       update: "更新内容：{path}"
       rename: "调整内容地址：{oldPath} -> {newPath}"
 
+components:
+  content_meta:
+    label: 基本信息
+    type: object
+    required: true
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: description
+        label: 卡片摘要
+        type: text
+        required: true
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+
+  content_publishing:
+    label: 发布设置
+    type: object
+    required: true
+    fields:
+      - name: createdAt
+        label: 创建日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: status
+        label: 发布状态
+        type: select
+        required: true
+        default: draft
+        options:
+          values:
+            - name: draft
+              label: 草稿（不公开）
+            - name: planned
+              label: 筹备中（显示占位卡）
+            - name: published
+              label: 已发布
+            - name: archived
+              label: 已归档（不公开）
+      - name: verificationStatus
+        label: 验证状态
+        type: select
+        default: 已整理
+        options:
+          values: [探索中, 已整理, 已验证, 长期维护]
+      - name: showInRecentUpdates
+        label: 计入首页最近更新
+        type: boolean
+        default: true
+
+  content_cover:
+    label: 卡片与封面
+    type: object
+    fields:
+      - name: src
+        label: 封面图片
+        type: image
+        options:
+          media: images
+      - name: alt
+        label: 封面替代文字
+        type: string
+
+  content_seo:
+    label: 高级设置
+    type: object
+    fields:
+      - name: title
+        label: SEO 标题（可选）
+        type: string
+      - name: description
+        label: SEO 描述（可选）
+        type: text
+
+  content_blocks:
+    label: 内容模块
+    description: 可新增、复制、排序、折叠或删除模块；模块标识由系统自动生成。
+    type: block
+    blockKey: type
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{index}. {type}"
+    blocks:
+      - name: richText
+        label: Markdown 图文
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: markdown
+            label: 图文正文
+            type: rich-text
+            required: true
+      - name: image
+        label: 单张图片
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: src
+            label: 图片
+            type: image
+            required: true
+            options:
+              media: images
+          - name: alt
+            label: 替代文字
+            type: string
+            required: true
+          - name: caption
+            label: 图片说明
+            type: text
+      - name: gallery
+        label: 图片组
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: items
+            label: 图片列表
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{index}. {alt}"
+            fields:
+              - name: src
+                label: 图片
+                type: image
+                required: true
+                options:
+                  media: images
+              - name: alt
+                label: 替代文字
+                type: string
+                required: true
+              - name: caption
+                label: 图片说明
+                type: text
+      - name: video
+        label: 视频
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: rawInput
+            label: 原始分享文案
+            type: text
+          - name: url
+            label: 视频链接
+            type: string
+          - name: platform
+            label: 平台
+            type: select
+            options:
+              values: [youtube, bilibili, tencent, youku, douyin, xiaohongshu, wechat, external]
+          - name: title
+            label: 视频标题
+            type: string
+          - name: summary
+            label: 视频说明
+            type: text
+          - name: tags
+            label: 视频标签
+            type: string
+            list: true
+          - name: platformCover
+            label: 自动封面
+            type: image
+            options:
+              media: images
+          - name: customCover
+            label: 自定义封面（优先）
+            type: image
+            options:
+              media: images
+          - name: duration
+            label: 时长
+            type: string
+          - name: aspect
+            label: 画面比例
+            type: select
+            default: "16:9"
+            options:
+              values: ["16:9", "4:3", "1:1", "9:16"]
+      - name: download
+        label: 网盘资源
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: rawInput
+            label: 原始分享文案
+            type: text
+          - name: url
+            label: 分享链接
+            type: string
+          - name: platform
+            label: 网盘平台
+            type: select
+            options:
+              values: [baidu, aliyun, quark, pan123, lanzou, external]
+          - name: code
+            label: 提取码 / 访问码
+            type: string
+          - name: name
+            label: 资源名称
+            type: string
+          - name: summary
+            label: 资源说明
+            type: text
+          - name: format
+            label: 文件格式
+            type: string
+          - name: size
+            label: 文件大小
+            type: string
+          - name: platformCover
+            label: 自动封面
+            type: image
+            options:
+              media: images
+          - name: customCover
+            label: 自定义封面（优先）
+            type: image
+            options:
+              media: images
+          - name: buttonLabel
+            label: 按钮文字
+            type: string
+            default: 打开资源
+      - name: externalLink
+        label: 外部链接卡片
+        fields:
+          - name: id
+            label: 模块标识
+            type: uuid
+            hidden: true
+          - name: url
+            label: 链接
+            type: string
+          - name: title
+            label: 标题
+            type: string
+          - name: summary
+            label: 说明
+            type: text
+          - name: cover
+            label: 封面
+            type: image
+            options:
+              media: images
+          - name: buttonLabel
+            label: 按钮文字
+            type: string
+            default: 访问链接
+
 content:
   - name: cases
     label: 案例
@@ -25,85 +294,21 @@ content:
     exclude: [index.md]
     format: yaml-frontmatter
     filename:
-      template: "{fields.slug}.md"
+      template: "{primary}.md"
       field: create
-    operations:
-      create: true
-      rename: false
-      delete: false
+    operations: { create: true, rename: false, delete: false }
     view:
-      primary: title
-      fields: [title, status, createdAt, verificationStatus]
-      sort: createdAt
-      order: asc
+      primary: meta.title
+      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+      sort: [publishing.createdAt, meta.title]
+      search: [meta.title, meta.description, meta.tags]
+      default: { sort: publishing.createdAt, order: desc }
     fields:
-      - name: title
-        label: 标题
-        type: string
-        required: true
-      - name: slug
-        label: 英文地址
-        type: string
-        required: true
-        pattern:
-          regex: "^[a-z0-9-]+$"
-          message: 只能使用小写英文、数字和短横线
-      - name: description
-        label: 卡片摘要
-        type: text
-        required: true
-      - name: createdAt
-        label: 创建时间
-        type: date
-        required: true
-        options:
-          format: yyyy-MM-dd
-      - name: status
-        label: 发布状态
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - name: draft
-              label: 草稿（不公开）
-            - name: planned
-              label: 筹备中（显示占位卡）
-            - name: published
-              label: 已发布
-            - name: archived
-              label: 已归档（不公开）
-      - name: verificationStatus
-        label: 验证状态
-        type: select
-        default: 已整理
-        options:
-          values: [探索中, 已整理, 已验证, 长期维护]
-      - name: showInRecentUpdates
-        label: 计入首页最近更新
-        type: boolean
-        default: true
-      - name: tags
-        label: 标签
-        type: string
-        list: true
-      - name: cover
-        label: 卡片封面
-        type: image
-        options:
-          media: images
-      - name: coverAlt
-        label: 封面图片说明
-        type: string
-      - name: pageClass
-        label: 页面样式标识
-        type: string
-        default: page-case-detail
-        hidden: true
-      - name: body
-        label: 详情正文
-        type: rich-text
-        required: true
+      - { name: meta, component: content_meta }
+      - { name: publishing, component: content_publishing }
+      - { name: cover, component: content_cover }
+      - { name: contentBlocks, component: content_blocks }
+      - { name: seo, component: content_seo }
 
   - name: workflows
     label: 工作流
@@ -112,85 +317,21 @@ content:
     exclude: [index.md]
     format: yaml-frontmatter
     filename:
-      template: "{fields.slug}.md"
+      template: "{primary}.md"
       field: create
-    operations:
-      create: true
-      rename: false
-      delete: false
+    operations: { create: true, rename: false, delete: false }
     view:
-      primary: title
-      fields: [title, status, createdAt, verificationStatus]
-      sort: createdAt
-      order: asc
+      primary: meta.title
+      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+      sort: [publishing.createdAt, meta.title]
+      search: [meta.title, meta.description, meta.tags]
+      default: { sort: publishing.createdAt, order: desc }
     fields:
-      - name: title
-        label: 标题
-        type: string
-        required: true
-      - name: slug
-        label: 英文地址
-        type: string
-        required: true
-        pattern:
-          regex: "^[a-z0-9-]+$"
-          message: 只能使用小写英文、数字和短横线
-      - name: description
-        label: 卡片摘要
-        type: text
-        required: true
-      - name: createdAt
-        label: 创建时间
-        type: date
-        required: true
-        options:
-          format: yyyy-MM-dd
-      - name: status
-        label: 发布状态
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - name: draft
-              label: 草稿（不公开）
-            - name: planned
-              label: 筹备中（显示占位卡）
-            - name: published
-              label: 已发布
-            - name: archived
-              label: 已归档（不公开）
-      - name: verificationStatus
-        label: 验证状态
-        type: select
-        default: 已整理
-        options:
-          values: [探索中, 已整理, 已验证, 长期维护]
-      - name: showInRecentUpdates
-        label: 计入首页最近更新
-        type: boolean
-        default: true
-      - name: tags
-        label: 标签
-        type: string
-        list: true
-      - name: cover
-        label: 卡片封面
-        type: image
-        options:
-          media: images
-      - name: coverAlt
-        label: 封面图片说明
-        type: string
-      - name: pageClass
-        label: 页面样式标识
-        type: string
-        default: page-workflow-detail
-        hidden: true
-      - name: body
-        label: 详情正文
-        type: rich-text
-        required: true
+      - { name: meta, component: content_meta }
+      - { name: publishing, component: content_publishing }
+      - { name: cover, component: content_cover }
+      - { name: contentBlocks, component: content_blocks }
+      - { name: seo, component: content_seo }
 
   - name: learning_entries
     label: 学习与观察
@@ -198,88 +339,21 @@ content:
     path: knowledge/learning-observation
     format: yaml-frontmatter
     filename:
-      template: "{fields.slug}.md"
+      template: "{primary}.md"
       field: create
-    operations:
-      create: true
-      rename: false
-      delete: false
+    operations: { create: true, rename: false, delete: false }
     view:
-      primary: title
-      fields: [title, status, createdAt, verificationStatus]
-      sort: createdAt
-      order: asc
+      primary: meta.title
+      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+      sort: [publishing.createdAt, meta.title]
+      search: [meta.title, meta.description, meta.tags]
+      default: { sort: publishing.createdAt, order: desc }
     fields:
-      - name: title
-        label: 标题
-        type: string
-        required: true
-      - name: slug
-        label: 英文地址
-        type: string
-        required: true
-        pattern:
-          regex: "^[a-z0-9-]+$"
-          message: 只能使用小写英文、数字和短横线
-      - name: description
-        label: 卡片摘要
-        type: text
-        required: true
-      - name: createdAt
-        label: 创建时间
-        type: date
-        required: true
-        options:
-          format: yyyy-MM-dd
-      - name: status
-        label: 发布状态
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - name: draft
-              label: 草稿（不公开）
-            - name: planned
-              label: 筹备中（显示占位卡）
-            - name: published
-              label: 已发布
-            - name: archived
-              label: 已归档（不公开）
-      - name: type
-        label: 内容类型
-        type: string
-      - name: verificationStatus
-        label: 验证状态
-        type: select
-        default: 已整理
-        options:
-          values: [探索中, 已整理, 已验证, 长期维护]
-      - name: showInRecentUpdates
-        label: 计入首页最近更新
-        type: boolean
-        default: true
-      - name: tags
-        label: 标签
-        type: string
-        list: true
-      - name: cover
-        label: 卡片封面
-        type: image
-        options:
-          media: images
-      - name: coverAlt
-        label: 封面图片说明
-        type: string
-      - name: pageClass
-        label: 页面样式标识
-        type: string
-        default: page-article-detail
-        hidden: true
-      - name: body
-        label: 详情正文
-        type: rich-text
-        required: true
+      - { name: meta, component: content_meta }
+      - { name: publishing, component: content_publishing }
+      - { name: cover, component: content_cover }
+      - { name: contentBlocks, component: content_blocks }
+      - { name: seo, component: content_seo }
 
   - name: method_entries
     label: 方法体系
@@ -287,88 +361,21 @@ content:
     path: knowledge/methods
     format: yaml-frontmatter
     filename:
-      template: "{fields.slug}.md"
+      template: "{primary}.md"
       field: create
-    operations:
-      create: true
-      rename: false
-      delete: false
+    operations: { create: true, rename: false, delete: false }
     view:
-      primary: title
-      fields: [title, status, createdAt, verificationStatus]
-      sort: createdAt
-      order: asc
+      primary: meta.title
+      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+      sort: [publishing.createdAt, meta.title]
+      search: [meta.title, meta.description, meta.tags]
+      default: { sort: publishing.createdAt, order: desc }
     fields:
-      - name: title
-        label: 标题
-        type: string
-        required: true
-      - name: slug
-        label: 英文地址
-        type: string
-        required: true
-        pattern:
-          regex: "^[a-z0-9-]+$"
-          message: 只能使用小写英文、数字和短横线
-      - name: description
-        label: 卡片摘要
-        type: text
-        required: true
-      - name: createdAt
-        label: 创建时间
-        type: date
-        required: true
-        options:
-          format: yyyy-MM-dd
-      - name: status
-        label: 发布状态
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - name: draft
-              label: 草稿（不公开）
-            - name: planned
-              label: 筹备中（显示占位卡）
-            - name: published
-              label: 已发布
-            - name: archived
-              label: 已归档（不公开）
-      - name: type
-        label: 内容类型
-        type: string
-      - name: verificationStatus
-        label: 验证状态
-        type: select
-        default: 已整理
-        options:
-          values: [探索中, 已整理, 已验证, 长期维护]
-      - name: showInRecentUpdates
-        label: 计入首页最近更新
-        type: boolean
-        default: true
-      - name: tags
-        label: 标签
-        type: string
-        list: true
-      - name: cover
-        label: 卡片封面
-        type: image
-        options:
-          media: images
-      - name: coverAlt
-        label: 封面图片说明
-        type: string
-      - name: pageClass
-        label: 页面样式标识
-        type: string
-        default: page-article-detail
-        hidden: true
-      - name: body
-        label: 详情正文
-        type: rich-text
-        required: true
+      - { name: meta, component: content_meta }
+      - { name: publishing, component: content_publishing }
+      - { name: cover, component: content_cover }
+      - { name: contentBlocks, component: content_blocks }
+      - { name: seo, component: content_seo }
 
   - name: resource_entries
     label: 资源库
@@ -376,119 +383,48 @@ content:
     path: knowledge/resources
     format: yaml-frontmatter
     filename:
-      template: "{fields.slug}.md"
+      template: "{primary}.md"
       field: create
-    operations:
-      create: true
-      rename: false
-      delete: false
+    operations: { create: true, rename: false, delete: false }
     view:
-      primary: title
-      fields: [title, status, createdAt, verificationStatus]
-      sort: createdAt
-      order: asc
+      primary: meta.title
+      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+      sort: [publishing.createdAt, meta.title]
+      search: [meta.title, meta.description, meta.tags]
+      default: { sort: publishing.createdAt, order: desc }
     fields:
-      - name: title
-        label: 标题
-        type: string
-        required: true
-      - name: slug
-        label: 英文地址
-        type: string
-        required: true
-        pattern:
-          regex: "^[a-z0-9-]+$"
-          message: 只能使用小写英文、数字和短横线
-      - name: description
-        label: 卡片摘要
-        type: text
-        required: true
-      - name: createdAt
-        label: 创建时间
-        type: date
-        required: true
-        options:
-          format: yyyy-MM-dd
-      - name: status
-        label: 发布状态
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - name: draft
-              label: 草稿（不公开）
-            - name: planned
-              label: 筹备中（显示占位卡）
-            - name: published
-              label: 已发布
-            - name: archived
-              label: 已归档（不公开）
-      - name: type
-        label: 内容类型
-        type: string
-      - name: accessType
-        label: 资源访问方式
-        type: string
-      - name: verificationStatus
-        label: 验证状态
-        type: select
-        default: 已整理
-        options:
-          values: [探索中, 已整理, 已验证, 长期维护]
-      - name: showInRecentUpdates
-        label: 计入首页最近更新
-        type: boolean
-        default: true
-      - name: tags
-        label: 标签
-        type: string
-        list: true
-      - name: cover
-        label: 卡片封面
-        type: image
-        options:
-          media: images
-      - name: coverAlt
-        label: 封面图片说明
-        type: string
-      - name: pageClass
-        label: 页面样式标识
-        type: string
-        default: page-resource-detail
-        hidden: true
-      - name: body
-        label: 详情正文
-        type: rich-text
-        required: true
+      - { name: meta, component: content_meta }
+      - { name: publishing, component: content_publishing }
+      - { name: cover, component: content_cover }
+      - { name: contentBlocks, component: content_blocks }
+      - { name: seo, component: content_seo }
 
   - name: homepage
     label: 首页内容管理
     type: file
     path: .shared/content/home.json
     format: json
-    operations:
-      delete: false
+    operations: { delete: false }
     fields:
       - name: featuredCases
-        label: 首页案例精选（数量不限，列表顺序即展示顺序）
+        label: 首页案例精选
         type: reference
         options:
           collection: cases
           multiple: true
-          search: "title,description,tags,status"
+          search: "meta.title,meta.description,meta.tags,publishing.status"
           value: "{path}"
-          label: "{fields.title} · {fields.status}"
+          label: "{meta.title} · {publishing.status}"
       - name: featuredWorkflows
-        label: 精选工作流（最多 3 条，列表顺序即首页叠加顺序）
+        label: 精选工作流（最多 3 条）
         type: reference
         options:
           collection: workflows
           multiple: true
           max: 3
-          search: "title,description,tags,status"
+          search: "meta.title,meta.description,meta.tags,publishing.status"
           value: "{path}"
-          label: "{fields.title} · {fields.status}"
+          label: "{meta.title} · {publishing.status}"
       - name: knowledge
         label: 三个知识板块
         type: object
@@ -496,110 +432,53 @@ content:
           - name: learning
             label: 学习与观察精选（最多 3 条）
             type: reference
-            options:
-              collection: learning_entries
-              multiple: true
-              max: 3
-              search: "title,description,tags,sections,status"
-              value: "{path}"
-              label: "{fields.title} · {fields.status}"
+            options: { collection: learning_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
           - name: methods
             label: 方法体系精选（最多 3 条）
             type: reference
-            options:
-              collection: method_entries
-              multiple: true
-              max: 3
-              search: "title,description,tags,sections,status"
-              value: "{path}"
-              label: "{fields.title} · {fields.status}"
+            options: { collection: method_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
           - name: resources
             label: 资源库精选（最多 3 条）
             type: reference
-            options:
-              collection: resource_entries
-              multiple: true
-              max: 3
-              search: "title,description,tags,sections,status"
-              value: "{path}"
-              label: "{fields.title} · {fields.status}"
+            options: { collection: resource_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
 
   - name: about_cards
     label: 关于页卡片
     type: file
     path: .shared/content/aboutCards.json
     format: json
-    operations:
-      delete: false
+    operations: { delete: false }
     fields:
       - name: items
         label: 卡片列表
         type: object
         list:
-          collapsible:
-            collapsed: true
-            summary: "{index}. {title}"
+          collapsible: { collapsed: true, summary: "{index}. {title}" }
         fields:
-          - name: title
-            label: 标题
-            type: string
-            required: true
-          - name: description
-            label: 说明
-            type: text
-            required: true
-          - name: tags
-            label: 标签
-            type: string
-            list: true
-          - name: link
-            label: 可选链接
-            type: string
-          - name: linkLabel
-            label: 链接按钮文字
-            type: string
+          - { name: title, label: 标题, type: string, required: true }
+          - { name: description, label: 说明, type: text, required: true }
+          - { name: tags, label: 标签, type: string, list: true }
+          - { name: link, label: 可选链接, type: string }
+          - { name: linkLabel, label: 链接按钮文字, type: string }
 
   - name: knowledge_hub_cards
     label: 知识库总览卡片
     type: file
     path: .shared/content/knowledgeHubCards.json
     format: json
-    operations:
-      delete: false
+    operations: { delete: false }
     fields:
       - name: items
         label: 卡片列表
         type: object
         list:
-          collapsible:
-            collapsed: true
-            summary: "{index}. {title}"
+          collapsible: { collapsed: true, summary: "{index}. {title}" }
         fields:
-          - name: id
-            label: 英文标识
-            type: string
-            required: true
-          - name: title
-            label: 标题
-            type: string
-            required: true
-          - name: description
-            label: 说明
-            type: text
-            required: true
-          - name: link
-            label: 可选链接
-            type: string
-          - name: linkLabel
-            label: 链接按钮文字
-            type: string
-          - name: tags
-            label: 标签
-            type: string
-            list: true
-          - name: imageSubject
-            label: 图片占位说明
-            type: string
-          - name: imageFilename
-            label: 图片文件名
-            type: string
+          - { name: id, label: 英文标识, type: string, required: true }
+          - { name: title, label: 标题, type: string, required: true }
+          - { name: description, label: 说明, type: text, required: true }
+          - { name: link, label: 可选链接, type: string }
+          - { name: linkLabel, label: 链接按钮文字, type: string }
+          - { name: tags, label: 标签, type: string, list: true }
+          - { name: imageSubject, label: 图片占位说明, type: string }
+          - { name: imageFilename, label: 图片文件名, type: string }

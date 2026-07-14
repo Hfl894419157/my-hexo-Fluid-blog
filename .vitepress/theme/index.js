@@ -1,8 +1,5 @@
-import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import SiteHeader from '../../components/SiteHeader.vue'
-import SiteFooter from '../../components/SiteFooter.vue'
-import FloatingActions from '../../components/FloatingActions.vue'
+import SiteLayout from '../../components/SiteLayout.vue'
 import ImagePlaceholder from '../../components/ImagePlaceholder.vue'
 import revealDirective from '../../components/revealDirective.js'
 import '@fontsource-variable/noto-serif-sc/wght.css'
@@ -29,10 +26,5 @@ export default {
       }
     }
   },
-  Layout() {
-    return h(DefaultTheme.Layout, null, {
-      'layout-top': () => h(SiteHeader),
-      'layout-bottom': () => [h(SiteFooter), h(FloatingActions)]
-    })
-  }
+  Layout: SiteLayout
 }
