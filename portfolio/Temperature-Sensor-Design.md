@@ -20,11 +20,11 @@ contentBlocks:
     id: d71e3ec1-95a9-4410-9f7b-455af3bf62c0
     items:
       - src: /images/uploads/gts100-ntc01-1.jpg
-        alt: "1"
+        alt: one
       - src: /images/uploads/gts100-ntc02-1.jpg
-        alt: "2"
+        alt: one
       - src: /images/uploads/gts100-ntc03.jpg
-        alt: "3"
+        alt: one
       - src: /images/uploads/gts100-ntc04.jpg
-        alt: "4"
+        alt: one
 ---
