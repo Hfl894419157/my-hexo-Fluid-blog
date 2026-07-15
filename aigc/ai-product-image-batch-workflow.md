@@ -20,7 +20,7 @@ seo:
 contentBlocks:
   - type: richText
     id: c7b8ee84-2946-4a02-98c2-5d03b66d8728
-    markdown: |+
+    markdown: |-
       > **做品牌的朋友应该都有这个痛点，每到节日，就要出一张节日海报。 甚至于一年二十四个节气，每个节气，也都要重新想创意、重新出图，搞完一张海报半天没了，我最近研究了一套AI工作流，专门解决这个问题;**
 
       **先看成果：**
@@ -53,10 +53,7 @@ contentBlocks:
 
       ![7ab4aaacf6c5620a690cb66faeb770b1.png](/images/uploads/7ab4aaacf6c5620a690cb66faeb770b1.png)
 
-  - type: richText
-    id: 988c9efa-c7e4-43dc-976a-2dcdc002628b
-    markdown: |-
-      然后把这些信息喂给AI，**让它整理成一份品牌视觉资产档案。**
+      然后把这些信息喂给AI，让它整理成一份品牌视觉资产档案。
 
       提示词如下，发给DeepSeek，直接用：
 
@@ -80,31 +77,22 @@ contentBlocks:
       ```
 
       这份档案整理好之后，可以收藏起来：
-  - type: image
-    id: 7c73c364-46e3-4998-ac3e-78a2735bf2b9
-    src: /images/uploads/image-1.png
-    alt: image.png
-  - type: richText
-    id: aedf7f66-0bee-4cbb-b2ec-a17ab76d7c58
-    markdown: |-
-      **这一步输出的核心成果，就是品牌信息，简单点说，让AI了解品牌是干嘛的，别乱出图。**
 
-      ### **第二步：生成节气海报视觉规范**
+      ![image-1.png](/images/uploads/image-1.png)
+
+      这一步输出的核心成果，就是品牌信息，简单点说，让AI了解品牌是干嘛的，别乱出图。
+
+      ### 第二步：生成节气海报视觉规范
 
       有了品牌信息，下一步是准备节气海报视觉规范。
 
       **主要目的只有一个，就是在后续生图时，明确清楚，哪些东西，是24张海报必须保持一致，哪些东西可以随节气变化的。**
 
-      **比如像固定不变的，Logo位置、品牌色用法、构图框架、文案排版区域。允许变化的，季节色调、自然场景元素、光影氛围：**
-  - type: image
-    id: 819d5571-7f23-42b5-b254-84f0cd176e4e
-    src: /images/uploads/image-2.png
-    alt: image.png
-  - type: richText
-    id: a17b97d0-ab39-4807-804e-b8d4248c511d
-    markdown: |-
-      ```
+      比如像固定不变的，Logo位置、品牌色用法、构图框架、文案排版区域。允许变化的，季节色调、自然场景元素、光影氛围：
 
+      ![image-2.png](/images/uploads/image-2.png)
+
+      ```
       你是一位企业品牌视觉系统设计师。请基于以下品牌视觉资产档案，
       生成一份完整的「二十四节气海报视觉系统规则」，
       作为全年24张海报的统一执行标准。
@@ -141,53 +129,39 @@ contentBlocks:
          - 季节关键词池（按春夏秋冬各列5个）
       ```
 
-      这里面有一个点是要注意的，++**就是创作基调**++，简单来说，就是你希望24张海报，大体是啥样。
+      这里面有一个点是要注意的，就是创作基调，简单来说，就是你希望24张海报，大体是啥样。
 
       **如果你想做无印良品那种风格，在创作基调里，不要只写简约风，这对AI来说太模糊了。**
 
       要这样描述：
 
-      > 采用无印良品的风格基调，画面极度克制，大量留白，拒绝装饰性元素；色彩以低饱和米白、浅灰为主；构图偏向日式不对称留白美学，主体只占画面1/3；光线为漫射自然光，整体呈现柔和质感；材质偏好棉麻、陶瓷、原木。
+      > **采用无印良品的风格基调，画面极度克制，大量留白，拒绝装饰性元素；色彩以低饱和米白、浅灰为主；构图偏向日式不对称留白美学，主体只占画面1/3；光线为漫射自然光，整体呈现柔和质感；材质偏好棉麻、陶瓷、原木。**
 
       这样出来的最终海报的风格基调，会保持一致：
-  - type: image
-    id: a47e2e47-1080-48f6-b6af-530a056639d7
-    src: /images/uploads/10cca671fbdc11edf00a6cf0f890648a.png
-    alt: 10cca671fbdc11edf00a6cf0f890648a.png
-  - type: richText
-    id: 580e5b88-0cb6-4348-b666-a875a3a188ce
-    markdown: 当然，如果你不会描述，**也可以让AI给你反推描述信息**，**比如我们想要把整体基调，改为宋代美学：**
-  - type: image
-    id: db4c67f9-458e-4181-9fc9-549e2e582e95
-    src: /images/uploads/image-3.png
-    alt: image.png
-  - type: richText
-    id: e2ca8506-40ad-4751-944c-99b124c3a45e
-    markdown: 好了，这一步输出的内容中，**就会直接给到每次生图时，必须要加上哪些关键词：**
-  - type: image
-    id: 546c218f-68b5-468e-be88-98292027c917
-    src: /images/uploads/image-4.png
-    alt: image.png
-  - type: richText
-    id: b2bb74c8-761b-43a2-8358-a179ee218959
-    markdown: "**这是风格一致性的主要保证：**"
-  - type: image
-    id: b8bdd92b-7905-48d1-a07b-f85642a2fa7f
-    src: /images/uploads/06c00c87e9743c0def6c1866eea80a64.png
-    alt: 06c00c87e9743c0def6c1866eea80a64.png
-  - type: richText
-    id: ebb7f40f-8578-4b2c-a0e5-6251acb803a9
-    markdown: |-
-      ### **第三步：24张创意批量策划**
 
-      当前面两步完成之后，那每一张海报大概长啥样呢？这时，**就需要用++AI来策划每一张海报的视觉画面。++**
+      ![10cca671fbdc11edf00a6cf0f890648a.png](/images/uploads/10cca671fbdc11edf00a6cf0f890648a.png)
+
+      当然，如果你不会描述，也可以让AI给你**反推描述信息，比如我们想要把整体基调，改为宋代美学：**
+
+      ![image-3.png](/images/uploads/image-3.png)
+
+      好了，这一步输出的内容中，**就会直接给到每次生图时，必须要加上哪些关键词：**
+
+      ![image-4.png](/images/uploads/image-4.png)
+
+      **这是风格一致性的主要保证：**
+
+      ![06c00c87e9743c0def6c1866eea80a64.png](/images/uploads/06c00c87e9743c0def6c1866eea80a64.png)
+
+      ### 第三步：24张创意批量策划
+
+      当前面两步完成之后，那每一张海报大概长啥样呢？这时，++**就需要用AI来策划每一张海报的视觉画面。**++
 
       **我们可以把24个节气名称，一次性全部输入，让AI批量生成，每个节气海报的视觉策划方案。**
 
       提示词如下：
 
       ```
-
       你是一位企业节气海报创意总监。请基于以下视觉规则，
       为全部24个节气批量生成创意策划方案。
 
@@ -219,31 +193,22 @@ contentBlocks:
       ```
 
       这一步，输出的结果，就是24张节气海报的生图方向：
-  - type: image
-    id: 1fb07f3e-bda1-41cc-987e-8001fa8d2b76
-    src: /images/uploads/image-5.png
-    alt: image.png
-  - type: richText
-    id: 88494c77-5133-43ee-80d0-7921e8521b36
-    markdown: |-
-      ### **第四步：直接出成品海报**
+
+      ![image-5.png](/images/uploads/image-5.png)
+
+      ### 第四步：直接出成品海报
 
       前三步都跑通之后，就可以生图了。
 
       **我使用的是chatgpt image 2，免费用户也可以每天生5张图：**
-  - type: image
-    id: f0f6fe63-4105-4c7b-9252-c140c4718ab1
-    src: /images/uploads/image-6.png
-    alt: image.png
-  - type: richText
-    id: 0bead929-0ea2-4d7f-8ee5-3e868cf87024
-    markdown: |-
+
+      ![image-6.png](/images/uploads/image-6.png)
+
       这一步，你要做的，就是把前面两步输出的内容（整体风格+生图关键词），**整合在一起，确保出图的稳定性。**
 
       提示词是这样的，把前面几步的内容，填进对应位置就行：
 
       ```
-
       你是一位专业的商业海报设计师，同时负责画面构图与文字排版。
       请根据以下所有规格，生成完整的品牌节气海报成品图提示词，
       画面与文字在同一张图中呈现。
@@ -307,28 +272,33 @@ contentBlocks:
       4. 整体保持呼吸感，画面不得拥挤
       ```
 
-      这样，每次只需要**替换节气名称、英文名、副标题文案**，以及第三步对应的创意内容，其余保持不变。
-  - type: image
-    id: 83f06168-47cf-4605-9c55-2dd85484d86b
-    src: /images/uploads/image-7.png
-    alt: image.png
-  - type: richText
-    id: 57448018-98e3-42fa-aef7-876b72ade725
-    markdown: |-
+      这样，每次只需要替换节气名称、英文名、副标题文案，以及第三步对应的创意内容，其余保持不变。
+
+      ![image-7.png](/images/uploads/image-7.png)
+
       **整套工作流跑通之后，前三步只需要做一次，第四步，每个节气重复一次就行。**
 
       比如像夏至，这个生成效果，真的太棒了：
-  - type: image
-    id: ebad09b9-5f42-4329-bc11-7c02a59dd7db
-    src: /images/uploads/image-8.jpg
-    alt: image-8.jpg
-  - type: richText
-    id: fa6bbf0e-06f6-486d-9e91-a1a9ee76a795
-    markdown: 还有这张：
-  - type: image
-    id: 1a418a2d-dfa1-4020-8516-63625e824e42
-    src: /images/uploads/image-9.jpg
-    alt: image-9.jpg
+
+      ![image-8.jpg](/images/uploads/image-8.jpg)
+
+      还有这张：
+
+      ![image-9.jpg](/images/uploads/image-9.jpg)
+
+      感兴趣的话，可以按这个思路自己跑一遍试试。
+
+      另外，如果你会AI编程，++**其实也可以做一个工具**++，避免重复生成，实现任务自动化：
+
+      好了，就这么多了。
+
+      ### 关联的内容
+
+      • [- 知识库： 知识库合集](https://liulicc.cn/knowledge/)
+
+      • [- 案例： 案例合集](https://liulicc.cn/portfolio/)
+
+      ← 返回工作流
   - type: richText
     id: 296c3c6b-6e3d-452a-b6f2-d275013cfa20
     markdown: |-
