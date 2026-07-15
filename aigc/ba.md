@@ -23,4 +23,5 @@ seo:
   description: 产品海报
 cover:
   src: /images/uploads/工作流板块图片/guf120a-w.jpg
+  alt: AI 产品图批量生成流程
 ---
