@@ -21,4 +21,6 @@ contentBlocks:
 seo:
   title: 89898989AI 产品海报图批量生成流程
   description: 89898989AI 产品海报图批量生成流程
+cover:
+  src: /images/uploads/工作流板块图片/guf120a-w.jpg
 ---
