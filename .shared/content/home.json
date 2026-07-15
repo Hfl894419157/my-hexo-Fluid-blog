@@ -1,11 +1,6 @@
 {
-  "featuredCases": [],
   "featuredWorkflows": [
-    "aigc/ai-product-image-batch-workflow.md"
-  ],
-  "knowledge": {
-    "learning": [],
-    "methods": [],
-    "resources": []
-  }
+    "aigc/ai-product-image-batch-workflow.md",
+    "aigc/风格.md"
+  ]
 }
