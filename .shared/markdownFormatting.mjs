@@ -18,9 +18,13 @@ export const configureManagedHtmlPolicy = (md) => {
   md.renderer.rules.html_block = (tokens, index, options, env, renderer) => env.managedContent
     ? escapeHtml(tokens[index].content)
     : defaultHtmlBlock(tokens, index, options, env, renderer)
-  md.renderer.rules.html_inline = (tokens, index, options, env, renderer) => env.managedContent
-    ? escapeHtml(tokens[index].content)
-    : defaultHtmlInline(tokens, index, options, env, renderer)
+  md.renderer.rules.html_inline = (tokens, index, options, env, renderer) => {
+    const token = tokens[index]
+    const isVitePressPermalinkSymbol = token.meta?.isPermalinkSymbol === true
+    return env.managedContent && !isVitePressPermalinkSymbol
+      ? escapeHtml(token.content)
+      : defaultHtmlInline(tokens, index, options, env, renderer)
+  }
 }
 
 const countDelimiter = (children, delimiter) => children.reduce((count, token) => {

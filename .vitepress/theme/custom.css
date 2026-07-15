@@ -512,7 +512,7 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich div[class*='language-'] pre { margin: 0 !important; overflow-x: hidden !important; border: 0; border-radius: 0; }
 .content-block--rich > pre { margin: 24px 0; padding: 20px 22px; overflow-x: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-soft); }
 .content-block--rich pre code,
-.content-block--rich div[class*='language-'] code { display: block; width: 100%; max-width: 100%; min-width: 0; white-space: pre-wrap !important; overflow-wrap: anywhere; word-break: break-word; }
+.content-block--rich div[class*='language-'] code { display: block; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; padding-right: 22px; padding-left: 22px; white-space: pre-wrap !important; overflow-wrap: anywhere; word-break: break-word; }
 .content-block--rich div[class*='language-'] .line { display: inline; min-width: 0; }
 .content-block--image,
 .content-block--gallery figure { margin: 0; }

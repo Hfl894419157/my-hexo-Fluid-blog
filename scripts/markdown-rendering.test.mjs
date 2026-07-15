@@ -80,3 +80,19 @@ test('正文首图高优先级，其余图片懒加载，并输出 AVIF 与 WebP
   assert.equal((html.match(/type="image\/avif"/g) || []).length, 2)
   assert.equal((html.match(/type="image\/webp"/g) || []).length, 2)
 })
+
+test('managed heading anchors keep the VitePress zero-width symbol invisible', async () => {
+  disposeMdItInstance()
+  const md = await createMarkdownRenderer(process.cwd(), {
+    html: true,
+    headers: true,
+    config(renderer) {
+      configureManagedHtmlPolicy(renderer)
+    }
+  })
+  const html = md.render('## Heading', { managedContent: true })
+
+  assert.match(html, /class="header-anchor"/)
+  assert.ok(html.includes('&ZeroWidthSpace;'))
+  assert.ok(!html.includes('&amp;ZeroWidthSpace;'))
+})
