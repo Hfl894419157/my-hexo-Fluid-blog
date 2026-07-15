@@ -5,10 +5,11 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgWorkflowStep from './svg/SvgWorkflowStep.vue'
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
-import { formatCardNumber, resolveSelections } from '../../.shared/contentClient.js'
-import homeSelections from '../../.shared/content/home.json'
+import { formatCardNumber, normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
+import homeSelectionsRaw from '../../.shared/content/home.json'
 import { getStackCardStyle, useStackWall } from './useStackWall.js'
 
+const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
 const featuredWorkflows = resolveSelections(
   contentCatalog.workflows,
   homeSelections.featuredWorkflows,

@@ -1,13 +1,14 @@
 <script setup>
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
-import { formatCardNumber, resolveSelections } from '../../.shared/contentClient.js'
-import homeSelections from '../../.shared/content/home.json'
+import { formatCardNumber, normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
+import homeSelectionsRaw from '../../.shared/content/home.json'
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import ImagePlaceholder from '../ImagePlaceholder.vue'
 import { getStackCardStyle, useStackWall } from './useStackWall.js'
 
+const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
 const cases = resolveSelections(contentCatalog.cases, homeSelections.featuredCases)
 const caseWall = useStackWall('.case-wall__card')
 </script>

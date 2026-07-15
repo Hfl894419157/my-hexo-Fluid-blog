@@ -2,16 +2,19 @@
   "name": "my-vitepress-site",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "images:prepare": "node scripts/prepare-images.mjs",
     "images:check": "node scripts/check-images.mjs",
     "dev": "npm run images:prepare && vitepress dev",
     "docs:dev": "npm run images:prepare && vitepress dev",
-    "docs:build": "npm run images:prepare && vitepress build && npm run images:check",
+    "docs:build": "npm run images:prepare && vitepress build && npm run images:check && npm run redirects:build",
     "docs:preview": "vitepress preview",
-    "build": "npm run images:prepare && vitepress build && npm run images:check",
+    "build": "npm run images:prepare && vitepress build && npm run images:check && npm run redirects:build",
     "content:check": "node scripts/validate-content.mjs",
-    "enrichment:test": "node --test scripts/enrichment.test.mjs"
+    "content:test": "node --test scripts/content-operations.test.mjs",
+    "enrichment:test": "node --test scripts/enrichment.test.mjs",
+    "redirects:build": "node scripts/generate-content-redirects.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/noto-sans-sc": "5.2.10",

@@ -2,10 +2,26 @@ export const visibleContent = (items = []) => items.filter((item) => ['published
 
 export const publishedContent = (items = []) => items.filter((item) => item.status === 'published')
 
-export const resolveSelections = (items = [], selectedPaths = [], limit = Infinity) => {
-  const byPath = new Map(items.map((item) => [item.sourcePath, item]))
-  return selectedPaths
-    .map((sourcePath) => byPath.get(sourcePath))
+const asArray = (value) => Array.isArray(value) ? value : []
+
+export const normalizeHomeSelections = (value = {}) => ({
+  featuredCases: asArray(value?.featuredCases),
+  featuredWorkflows: asArray(value?.featuredWorkflows),
+  knowledge: {
+    learning: asArray(value?.knowledge?.learning),
+    methods: asArray(value?.knowledge?.methods),
+    resources: asArray(value?.knowledge?.resources)
+  }
+})
+
+export const resolveSelections = (items = [], selectedValues = [], limit = Infinity) => {
+  const byValue = new Map()
+  for (const item of items) {
+    if (item.contentId) byValue.set(item.contentId, item)
+    if (item.sourcePath) byValue.set(item.sourcePath, item)
+  }
+  return asArray(selectedValues)
+    .map((selectedValue) => byValue.get(selectedValue))
     .filter((item) => item?.status === 'published')
     .slice(0, limit)
 }

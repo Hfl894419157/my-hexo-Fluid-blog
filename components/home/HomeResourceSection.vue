@@ -3,8 +3,10 @@ import SectionShell from '../SectionShell.vue'
 import SectionHeader from '../SectionHeader.vue'
 import BaseButton from '../BaseButton.vue'
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
-import { resolveSelections } from '../../.shared/contentClient.js'
-import homeSelections from '../../.shared/content/home.json'
+import { normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
+import homeSelectionsRaw from '../../.shared/content/home.json'
+
+const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
 
 const items = [
   {
