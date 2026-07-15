@@ -1,6 +1,6 @@
 ---
 meta:
-  title: 89898989AI 产品海报图批量生成流程
+  title: yfrtftftfgh 产品海报图批量生成流程
   description: 89898989AI 产品海报图批量生成流程
 publishing:
   createdAt: 2026-07-15
