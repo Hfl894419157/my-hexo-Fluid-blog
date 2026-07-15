@@ -299,19 +299,4 @@ contentBlocks:
       • [- 案例： 案例合集](https://liulicc.cn/portfolio/)
 
       ← 返回工作流
-  - type: richText
-    id: 296c3c6b-6e3d-452a-b6f2-d275013cfa20
-    markdown: |-
-      感兴趣的话，可以按这个思路自己跑一遍试试。
-
-      另外，如果**你会AI编程**，++**其实也可以做一个工具**++，避免重复生成，实现任务自动化：
-
-      好了，就这么多了。
-
-      ### 关联的内容
-
-      - [- **知识库：** 知识库合集](https://liulicc.cn/knowledge/)
-      - [- **案例：** 案例合集](https://liulicc.cn/portfolio/)
-
-      [← 返回工作流](https://liulicc.cn/aigc/)
 ---
