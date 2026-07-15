@@ -18,6 +18,15 @@ settings:
       rename: "调整内容地址：{oldPath} -> {newPath}"
 
 components:
+  content_id:
+    label: 内容唯一编号
+    type: uuid
+    required: true
+    hidden: true
+    options:
+      editable: false
+      generate: false
+
   content_meta:
     label: 基本信息
     type: object
@@ -322,8 +331,8 @@ content:
     format: yaml-frontmatter
     filename:
       template: "{primary}.md"
-      field: create
-    operations: { create: true, rename: false, delete: false }
+      field: true
+    operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -353,6 +362,7 @@ content:
       search: [meta.title, meta.description, meta.tags]
       default: { sort: publishing.createdAt, order: desc }
     fields:
+      - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -367,8 +377,8 @@ content:
     format: yaml-frontmatter
     filename:
       template: "{primary}.md"
-      field: create
-    operations: { create: true, rename: false, delete: false }
+      field: true
+    operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -398,6 +408,7 @@ content:
       search: [meta.title, meta.description, meta.tags]
       default: { sort: publishing.createdAt, order: desc }
     fields:
+      - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -411,8 +422,8 @@ content:
     format: yaml-frontmatter
     filename:
       template: "{primary}.md"
-      field: create
-    operations: { create: true, rename: false, delete: false }
+      field: true
+    operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -442,6 +453,7 @@ content:
       search: [meta.title, meta.description, meta.tags]
       default: { sort: publishing.createdAt, order: desc }
     fields:
+      - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -455,8 +467,8 @@ content:
     format: yaml-frontmatter
     filename:
       template: "{primary}.md"
-      field: create
-    operations: { create: true, rename: false, delete: false }
+      field: true
+    operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -486,6 +498,7 @@ content:
       search: [meta.title, meta.description, meta.tags]
       default: { sort: publishing.createdAt, order: desc }
     fields:
+      - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -499,8 +512,8 @@ content:
     format: yaml-frontmatter
     filename:
       template: "{primary}.md"
-      field: create
-    operations: { create: true, rename: false, delete: false }
+      field: true
+    operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -530,6 +543,7 @@ content:
       search: [meta.title, meta.description, meta.tags]
       default: { sort: publishing.createdAt, order: desc }
     fields:
+      - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -550,8 +564,8 @@ content:
           collection: cases
           multiple: true
           search: "meta.title,meta.description,meta.tags,publishing.status"
-          value: "{path}"
-          label: "{meta.title} · {publishing.status}"
+          value: "{fields.contentId}"
+          label: "{fields.meta.title} · {fields.publishing.status}"
       - name: featuredWorkflows
         label: 精选工作流（最多 3 条）
         type: reference
@@ -560,8 +574,8 @@ content:
           multiple: true
           max: 3
           search: "meta.title,meta.description,meta.tags,publishing.status"
-          value: "{path}"
-          label: "{meta.title} · {publishing.status}"
+          value: "{fields.contentId}"
+          label: "{fields.meta.title} · {fields.publishing.status}"
       - name: knowledge
         label: 三个知识板块
         type: object
@@ -569,15 +583,15 @@ content:
           - name: learning
             label: 学习与观察精选（最多 3 条）
             type: reference
-            options: { collection: learning_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
+            options: { collection: learning_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
           - name: methods
             label: 方法体系精选（最多 3 条）
             type: reference
-            options: { collection: method_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
+            options: { collection: method_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
           - name: resources
             label: 资源库精选（最多 3 条）
             type: reference
-            options: { collection: resource_entries, multiple: true, max: 3, value: "{path}", label: "{meta.title} · {publishing.status}" }
+            options: { collection: resource_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
 
   - name: about_cards
     label: 关于页卡片

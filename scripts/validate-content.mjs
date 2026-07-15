@@ -13,6 +13,7 @@ const catalog = loadContentCatalog()
 const selections = loadHomeSelections()
 const errors = []
 const warnings = []
+const seenContentIds = new Map()
 
 const requireValue = (condition, message) => {
   if (!condition) errors.push(message)
@@ -32,15 +33,21 @@ for (const item of catalog.all) {
   const data = parsed.data || {}
   const prefix = item.sourcePath
 
-  requireValue(filenamePattern.test(path.basename(item.sourcePath)), `${prefix}: 文件名只能包含小写英文、数字和短横线`)
+  requireValue(filenamePattern.test(path.basename(item.sourcePath)), `${prefix}: 文件名只能包含小写英文、数字、短横线，并以 .md 结尾`)
   for (const key of legacyKeys) {
     requireValue(!Object.hasOwn(data, key), `${prefix}: 不再允许旧字段 ${key}`)
   }
   requireValue(data.meta && typeof data.meta === 'object', `${prefix}: 缺少 meta`)
   requireValue(data.publishing && typeof data.publishing === 'object', `${prefix}: 缺少 publishing`)
-  requireValue(data.cover && typeof data.cover === 'object', `${prefix}: 缺少 cover`)
-  requireValue(data.seo && typeof data.seo === 'object', `${prefix}: 缺少 seo`)
+  requireValue(!data.cover || typeof data.cover === 'object', `${prefix}: cover 必须是对象`)
+  requireValue(!data.seo || typeof data.seo === 'object', `${prefix}: seo 必须是对象`)
   requireValue(Array.isArray(data.contentBlocks), `${prefix}: contentBlocks 必须是数组`)
+  requireValue(uuidPattern.test(String(data.contentId || '')), `${prefix}: 缺少有效 contentId UUID v4`)
+  if (uuidPattern.test(String(data.contentId || ''))) {
+    const duplicatePath = seenContentIds.get(data.contentId)
+    requireValue(!duplicatePath, `${prefix}: contentId 与 ${duplicatePath} 重复`)
+    seenContentIds.set(data.contentId, prefix)
+  }
   requireValue(item.title, `${prefix}: 缺少 meta.title`)
   requireValue(item.desc, `${prefix}: 缺少 meta.description`)
   requireValue(allowedStatuses.has(item.status), `${prefix}: publishing.status 必须是 draft / planned / published / archived`)
@@ -49,7 +56,9 @@ for (const item of catalog.all) {
   if (item.status === 'published') requireValue(data.contentBlocks?.length > 0, `${prefix}: 已发布内容至少需要一个内容模块`)
 
   checkImage(prefix, 'cover.src', data.cover?.src)
-  if (data.cover?.src) requireValue(String(data.cover?.alt || '').trim(), `${prefix}: 使用封面时必须填写 cover.alt`)
+  if (data.cover?.src && !String(data.cover?.alt || '').trim()) {
+    warnings.push(`${prefix}: cover.alt 为空，将自动使用文章标题`)
+  }
 
   const seenIds = new Set()
   for (const [index, block] of (data.contentBlocks || []).entries()) {
@@ -94,20 +103,25 @@ for (const item of catalog.all) {
 const duplicateUrls = catalog.all.filter((item, index, items) => items.findIndex((candidate) => candidate.url === item.url) !== index)
 for (const item of duplicateUrls) errors.push(`${item.sourcePath}: 地址 ${item.url} 重复`)
 
-const byPath = new Map(catalog.all.map((item) => [item.sourcePath, item]))
-const checkSelected = (label, paths, max = Infinity, accepts = () => true) => {
-  if (paths.length > max) errors.push(`${label}: 最多选择 ${max} 条，当前 ${paths.length} 条`)
-  const seenPaths = new Set()
-  for (const selectedPath of paths) {
-    if (seenPaths.has(selectedPath)) {
-      errors.push(`${label}: ${selectedPath} 被重复选择`)
+const bySelectionValue = new Map()
+for (const item of catalog.all) {
+  if (item.contentId) bySelectionValue.set(item.contentId, item)
+  bySelectionValue.set(item.sourcePath, item)
+}
+
+const checkSelected = (label, values, max = Infinity, accepts = () => true) => {
+  if (values.length > max) errors.push(`${label}: 最多选择 ${max} 条，当前 ${values.length} 条`)
+  const seenValues = new Set()
+  for (const selectedValue of values) {
+    if (seenValues.has(selectedValue)) {
+      errors.push(`${label}: ${selectedValue} 被重复选择`)
       continue
     }
-    seenPaths.add(selectedPath)
-    const item = byPath.get(selectedPath)
-    if (!item) errors.push(`${label}: 找不到 ${selectedPath}`)
-    else if (item.status !== 'published') errors.push(`${label}: ${selectedPath} 尚未发布`)
-    else if (!accepts(item)) errors.push(`${label}: ${selectedPath} 不属于该栏目`)
+    seenValues.add(selectedValue)
+    const item = bySelectionValue.get(selectedValue)
+    if (!item) warnings.push(`${label}: 已忽略不存在或已删除的引用 ${selectedValue}`)
+    else if (item.status !== 'published') errors.push(`${label}: ${item.sourcePath} 尚未发布`)
+    else if (!accepts(item)) errors.push(`${label}: ${item.sourcePath} 不属于该栏目`)
   }
 }
 
@@ -128,13 +142,29 @@ try {
   requireValue(config?.components?.content_blocks?.type === 'block', '.pages.yml: content_blocks 必须使用 block 字段')
   requireValue(config?.components?.content_blocks?.blockKey === 'type', '.pages.yml: content_blocks.blockKey 必须为 type')
   requireValue(config?.components?.enrichment_state?.hidden === true, '.pages.yml: 识别记录必须在后台隐藏')
+  requireValue(config?.components?.content_id?.type === 'uuid', '.pages.yml: content_id 必须使用 uuid 字段')
+  requireValue(config?.components?.content_id?.hidden === true, '.pages.yml: content_id 必须在后台隐藏')
   const collections = (config?.content || []).filter((entry) => entry.type === 'collection')
   const collectionNames = new Set(collections.map((entry) => entry.name))
   for (const name of ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']) {
     requireValue(collectionNames.has(name), `.pages.yml: 缺少集合 ${name}`)
     const collection = collections.find((entry) => entry.name === name)
+    requireValue(collection?.filename?.field === true, `.pages.yml: ${name} 必须在编辑页显示文件名`)
+    requireValue(collection?.operations?.create === true, `.pages.yml: ${name} 必须允许新建`)
+    requireValue(collection?.operations?.rename === true, `.pages.yml: ${name} 必须允许重命名`)
+    requireValue(collection?.operations?.delete === true, `.pages.yml: ${name} 必须允许删除`)
+    requireValue(collection?.fields?.some((field) => field?.name === 'contentId' && field?.component === 'content_id'), `.pages.yml: ${name} 缺少隐藏 contentId`)
     const action = collection?.actions?.find((entry) => entry.name === 'enrich-content')
     requireValue(action?.scope === 'entry' && action?.workflow === 'enrich-content.yml' && action?.ref === 'current', `.pages.yml: ${name} 缺少条目级识别 Action`)
+  }
+  const homepage = (config?.content || []).find((entry) => entry.name === 'homepage')
+  const referenceFields = [
+    homepage?.fields?.find((field) => field.name === 'featuredCases'),
+    homepage?.fields?.find((field) => field.name === 'featuredWorkflows'),
+    ...((homepage?.fields?.find((field) => field.name === 'knowledge')?.fields) || [])
+  ]
+  for (const field of referenceFields) {
+    requireValue(field?.options?.value === '{fields.contentId}', `.pages.yml: 首页引用 ${field?.name || '未知字段'} 必须保存 contentId`)
   }
   requireValue(existsSync(path.join(repoRoot, '.github', 'workflows', 'enrich-content.yml')), '缺少识别工作流 enrich-content.yml')
 } catch (error) {

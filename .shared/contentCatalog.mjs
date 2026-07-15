@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import matter from 'gray-matter'
+import { normalizeHomeSelections } from './contentClient.js'
 import { normalizeContentData } from './contentSchema.mjs'
 
 const sharedDir = path.dirname(fileURLToPath(import.meta.url))
@@ -132,6 +133,7 @@ const normalizeEntry = (absolutePath) => {
 
   return {
     id,
+    contentId: normalized.contentId,
     slug: id,
     sourcePath,
     url,
@@ -185,5 +187,5 @@ export const loadContentCatalog = ({ files } = {}) => {
 
 export const loadHomeSelections = () => {
   const file = path.join(sharedDir, 'content', 'home.json')
-  return JSON.parse(readFileSync(file, 'utf8'))
+  return normalizeHomeSelections(JSON.parse(readFileSync(file, 'utf8')))
 }

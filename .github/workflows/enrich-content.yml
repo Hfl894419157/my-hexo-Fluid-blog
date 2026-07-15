@@ -85,6 +85,7 @@ jobs:
       - name: 运行内容、识别和图片检查
         run: |
           npm run enrichment:test
+          npm run content:test
           npm run content:check
           npm run build
         env:

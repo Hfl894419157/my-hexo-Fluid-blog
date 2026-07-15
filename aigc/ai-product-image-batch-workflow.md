@@ -1,4 +1,5 @@
 ---
+contentId: 3b346090-470d-48a6-aba6-c9b910769816
 meta:
   title: AI 产品海报图批量生成流程
   description: 做了个AI工作流，把公司全年要用的海报，一次搞定了...

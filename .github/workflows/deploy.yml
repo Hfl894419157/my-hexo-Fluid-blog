@@ -30,6 +30,7 @@ jobs:
       - name: 检查内容结构与首页选择
         run: |
           npm run enrichment:test
+          npm run content:test
           npm run content:check
       - name: 构建静态文件
         run: npm run build

@@ -94,7 +94,7 @@ for (const sourceUrl of articleImageUrls) {
   lastImagePosition = position
 }
 
-const contentPictureCount = (articleHtml.match(/class="responsive-picture"/g) || []).length
+const contentPictureCount = (articleHtml.match(/<picture\b[^>]*class="[^"]*\bresponsive-image--content\b[^"]*"/g) || []).length
 const webpSourceCount = (articleHtml.match(/<source[^>]+type="image\/webp"[^>]+srcset=/g) || []).length
 assert(contentPictureCount >= articleImageUrls.length, `正文响应式 picture 数量异常：${contentPictureCount}`)
 assert(webpSourceCount >= articleImageUrls.length, `WebP source 数量异常：${webpSourceCount}`)

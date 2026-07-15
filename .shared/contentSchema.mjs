@@ -23,6 +23,7 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const seo = frontmatter.seo || {}
 
   return {
+    contentId: String(frontmatter.contentId || ''),
     title: String(meta.title || frontmatter.title || ''),
     description: String(meta.description || frontmatter.description || ''),
     tags: Array.isArray(meta.tags) ? meta.tags.map(String) : Array.isArray(frontmatter.tags) ? frontmatter.tags.map(String) : [],
