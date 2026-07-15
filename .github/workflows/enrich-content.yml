@@ -1,0 +1,131 @@
+name: Pages CMS 内容模块识别
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS payload as JSON
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-cms-enrichment-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    outputs:
+      target_ref: ${{ steps.payload.outputs.ref }}
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - name: 校验 Pages CMS 请求
+        id: payload
+        uses: actions/github-script@v8
+        env:
+          PAGES_CMS_PAYLOAD: ${{ inputs.payload }}
+        with:
+          script: |
+            const payload = JSON.parse(process.env.PAGES_CMS_PAYLOAD || '{}')
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/')
+            const allowedCollections = new Set(['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries'])
+            const allowedModes = new Set(['fill_empty', 'refresh_auto', 'overwrite_all'])
+            const pathPattern = /^(?:portfolio|aigc|knowledge\/(?:learning-observation|methods|resources))\/[a-z0-9-]+\.md$/
+            const failures = []
+            if (payload.source !== 'pages-cms') failures.push('请求来源不是 Pages CMS')
+            if (payload.repository?.owner !== owner || payload.repository?.repo !== repo) failures.push('仓库信息不匹配')
+            if (payload.context?.type !== 'entry' || !allowedCollections.has(payload.context?.name)) failures.push('Action 只能用于受管详情条目')
+            if (!pathPattern.test(payload.context?.path || '')) failures.push('内容路径不在允许范围')
+            const ref = String(payload.repository?.ref || '').replace(/^refs\/heads\//, '')
+            if (!/^[A-Za-z0-9._/-]+$/.test(ref) || ref.includes('..') || ref.startsWith('/') || ref.endsWith('/')) failures.push('分支名称无效')
+            const sha = String(payload.repository?.sha || '')
+            if (!/^[0-9a-f]{40}$/i.test(sha)) failures.push('提交号无效')
+            const mode = String(payload.inputs?.mode || 'fill_empty')
+            if (!allowedModes.has(mode)) failures.push('识别模式无效')
+            if (failures.length) throw new Error(failures.join('；'))
+            core.setOutput('path', payload.context.path)
+            core.setOutput('ref', ref)
+            core.setOutput('sha', sha)
+            core.setOutput('mode', mode)
+
+      - name: 拉取触发时的精确提交
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.payload.outputs.sha }}
+          fetch-depth: 0
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 确认分支未前进
+        env:
+          TARGET_REF: ${{ steps.payload.outputs.ref }}
+          EXPECTED_SHA: ${{ steps.payload.outputs.sha }}
+        run: |
+          REMOTE_SHA="$(git ls-remote --heads origin "refs/heads/$TARGET_REF" | cut -f1)"
+          test "$REMOTE_SHA" = "$EXPECTED_SHA" || { echo "分支已产生新提交，请在 Pages CMS 刷新后重试。"; exit 1; }
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 识别内容模块
+        env:
+          TARGET_PATH: ${{ steps.payload.outputs.path }}
+          ENRICH_MODE: ${{ steps.payload.outputs.mode }}
+        run: node scripts/enrich-content.mjs --file "$TARGET_PATH" --mode "$ENRICH_MODE"
+
+      - name: 运行内容、识别和图片检查
+        run: |
+          npm run enrichment:test
+          npm run content:check
+          npm run build
+        env:
+          SITE_VERSION: ${{ steps.payload.outputs.sha }}
+
+      - name: 提交并安全推送
+        id: commit
+        env:
+          TARGET_PATH: ${{ steps.payload.outputs.path }}
+          TARGET_REF: ${{ steps.payload.outputs.ref }}
+          EXPECTED_SHA: ${{ steps.payload.outputs.sha }}
+        run: |
+          git add -- "$TARGET_PATH"
+          if [ -d public/images/uploads/auto ]; then git add -- public/images/uploads/auto; fi
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "没有可提交的识别结果。"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "识别内容模块：$TARGET_PATH"
+          REMOTE_SHA="$(git ls-remote --heads origin "refs/heads/$TARGET_REF" | cut -f1)"
+          test "$REMOTE_SHA" = "$EXPECTED_SHA" || { echo "分支在识别期间已前进，已安全停止，未强推。"; exit 1; }
+          git push origin "HEAD:refs/heads/$TARGET_REF"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: 上传 Pages 产物
+        if: steps.payload.outputs.ref == 'main' && steps.commit.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vitepress/dist
+
+  deploy:
+    if: needs.enrich.outputs.target_ref == 'main' && needs.enrich.outputs.changed == 'true'
+    needs: enrich
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
