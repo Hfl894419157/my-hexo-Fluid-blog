@@ -8,9 +8,9 @@ meta:
     - 批量生成
     - 变量控制
 publishing:
-  createdAt: 2026-07-14
+  createdAt: 2026-07-15
   status: published
-  verificationStatus: 探索中
+  verificationStatus: 已验证
   showInRecentUpdates: true
 cover:
   src: /images/uploads/工作流板块图片/file.jpg
