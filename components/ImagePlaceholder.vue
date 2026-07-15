@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import ResponsiveImage from './ResponsiveImage.vue'
+import { focalPointCss } from '../.shared/imageProfiles.mjs'
 
 const props = defineProps({
   src: {
@@ -34,10 +35,25 @@ const props = defineProps({
   sizes: {
     type: String,
     default: '(max-width: 640px) calc(100vw - 32px), 760px'
+  },
+  profile: {
+    type: String,
+    default: 'original'
+  },
+  desktopProfile: {
+    type: String,
+    default: ''
+  },
+  focalPoint: {
+    type: String,
+    default: 'center'
   }
 })
 
 const uploadPath = computed(() => `/images/uploads/${props.filename}`)
+const objectPosition = computed(() => props.position !== 'center'
+  ? props.position
+  : focalPointCss(props.focalPoint))
 </script>
 
 <template>
@@ -49,7 +65,10 @@ const uploadPath = computed(() => `/images/uploads/${props.filename}`)
       :alt="alt || subject"
       :sizes="sizes"
       :eager="eager"
-      :style="{ objectPosition: position }"
+      :profile="profile"
+      :desktop-profile="desktopProfile"
+      :focal-point="focalPoint"
+      :style="{ objectPosition }"
     />
     <div v-else class="image-slot__placeholder" role="img" :aria-label="`图片占位：${subject}`">
       <span class="image-slot__index" aria-hidden="true">IMAGE SLOT</span>

@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs'
-import MarkdownIt from 'markdown-it'
-import { defineConfig } from 'vitepress'
+import { createMarkdownRenderer, defineConfig } from 'vitepress'
 import { loadContentCatalog } from '../.shared/contentCatalog.mjs'
 import { contentBlocksMarkdown, isManagedContentPath, normalizeContentData } from '../.shared/contentSchema.mjs'
+import { configureInlineFormatting, configureManagedHtmlPolicy } from '../.shared/markdownFormatting.mjs'
 import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
@@ -15,8 +15,18 @@ const unpublishedContentPaths = contentCatalog.all
 const sidebarEntries = (items) => items
   .filter((item) => item.status === 'published')
   .map((item) => ({ text: item.title, link: item.url }))
-const contentMarkdown = new MarkdownIt({ html: false, linkify: true })
-configureResponsiveMarkdownImages(contentMarkdown, imageManifest)
+const contentMarkdown = await createMarkdownRenderer(process.cwd(), {
+  html: true,
+  linkify: true,
+  headers: true,
+  defaultHighlightLang: 'text',
+  codeCopyButtonTitle: '复制代码',
+  config(md) {
+    configureManagedHtmlPolicy(md)
+    configureInlineFormatting(md)
+    configureResponsiveMarkdownImages(md, imageManifest)
+  }
+})
 
 const slugifyHeading = (value) => String(value || '')
   .trim()
@@ -40,10 +50,28 @@ contentMarkdown.renderer.rules.heading_open = (tokens, index, options, env, rend
 }
 
 const renderContentBlocks = (blocks) => {
-  const env = { headingCounts: new Map() }
-  return blocks.map((block) => block.type === 'richText'
-    ? { ...block, html: contentMarkdown.render(String(block.markdown || ''), env) }
-    : block)
+  const env = { headingCounts: new Map(), contentImageIndex: 0, managedContent: true }
+  return blocks.map((block) => {
+    if (block.type === 'richText') {
+      return { ...block, html: contentMarkdown.render(String(block.markdown || ''), env) }
+    }
+    if (block.type === 'image') {
+      const eager = env.contentImageIndex === 0
+      if (block.src) env.contentImageIndex += 1
+      return { ...block, eager }
+    }
+    if (block.type === 'gallery') {
+      return {
+        ...block,
+        items: (block.items || []).map((item) => {
+          const eager = env.contentImageIndex === 0
+          if (item.src) env.contentImageIndex += 1
+          return { ...item, eager }
+        })
+      }
+    }
+    return block
+  })
 }
 
 // https://vitepress.dev/reference/site-config
@@ -59,7 +87,13 @@ export default defineConfig({
     ...unpublishedContentPaths
   ],
   markdown: {
+    html: true,
+    headers: true,
+    defaultHighlightLang: 'text',
+    codeCopyButtonTitle: '复制代码',
     config(md) {
+      configureManagedHtmlPolicy(md)
+      configureInlineFormatting(md)
       configureResponsiveMarkdownImages(md, imageManifest)
     }
   },

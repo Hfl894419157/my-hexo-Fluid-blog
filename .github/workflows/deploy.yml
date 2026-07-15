@@ -50,4 +50,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: 部署到Pages
+        id: deployment
         uses: actions/deploy-pages@v5
+      - name: 清理 Cloudflare CDN 缓存
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_ZONE_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "未配置 Cloudflare Secrets，跳过缓存清理。"
+            exit 0
+          fi
+          response="$(curl --silent --show-error --fail-with-body \
+            --request POST \
+            --url "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+            --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data '{"purge_everything":true}')"
+          RESPONSE="$response" node -e "const body=JSON.parse(process.env.RESPONSE); if (!body.success) { console.error(body.errors); process.exit(1) }"

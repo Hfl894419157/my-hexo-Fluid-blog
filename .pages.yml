@@ -94,6 +94,28 @@ components:
       - name: alt
         label: 封面替代文字
         type: string
+      - name: focalPoint
+        label: 封面焦点位置
+        description: 自动裁剪时保留的主体位置；旧内容默认居中。
+        type: select
+        default: center
+        options:
+          values:
+            - { label: 左上, value: top-left }
+            - { label: 上, value: top }
+            - { label: 右上, value: top-right }
+            - { label: 左, value: left }
+            - { label: 中, value: center }
+            - { label: 右, value: right }
+            - { label: 左下, value: bottom-left }
+            - { label: 下, value: bottom }
+            - { label: 右下, value: bottom-right }
+      - name: homeOverrideSrc
+        label: 首页专用封面（可选）
+        description: 仅在自动裁剪不理想时上传；留空会继续使用上方原图。
+        type: image
+        options:
+          media: images
 
   content_seo:
     label: 高级设置
@@ -150,8 +172,13 @@ components:
             hidden: true
           - name: markdown
             label: 图文正文
+            description: 支持 Markdown 与 Source 切换；重点高亮请在 Source 模式输入 ==内容==，下划线可输入 ++内容++。
             type: rich-text
             required: true
+            options:
+              format: markdown
+              switcher: true
+              media: images
       - name: image
         label: 单张图片
         fields:

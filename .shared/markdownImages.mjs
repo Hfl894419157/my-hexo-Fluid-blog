@@ -25,19 +25,27 @@ export const configureResponsiveMarkdownImages = (md, imageManifest) => {
     const source = token.attrGet('src') || ''
     const key = normalizeImageKey(source)
     const entry = key ? imageManifest.images?.[key] : null
+    const imageIndex = Number(env.contentImageIndex || 0)
+    const isFirstContentImage = imageIndex === 0
+    env.contentImageIndex = imageIndex + 1
 
-    token.attrSet('loading', 'lazy')
+    token.attrSet('loading', isFirstContentImage ? 'eager' : 'lazy')
     token.attrSet('decoding', 'async')
-    token.attrSet('fetchpriority', 'auto')
+    token.attrSet('fetchpriority', isFirstContentImage ? 'high' : 'auto')
     if (entry?.width && entry?.height) {
       token.attrSet('width', String(entry.width))
       token.attrSet('height', String(entry.height))
     }
 
     const imageHtml = defaultImageRenderer(tokens, index, options, env, renderer)
-    if (!entry?.variants?.length) return imageHtml
+    if (!entry?.variants?.length && !entry?.avifVariants?.length) return imageHtml
 
-    const srcset = entry.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ')
-    return `<picture class="responsive-image responsive-image--content"><source type="image/webp" srcset="${escapeAttribute(srcset)}" sizes="${escapeAttribute(articleImageSizes)}">${imageHtml}</picture>`
+    const avifSrcset = entry.avifVariants?.map((variant) => `${variant.src} ${variant.width}w`).join(', ') || ''
+    const webpSrcset = entry.variants?.map((variant) => `${variant.src} ${variant.width}w`).join(', ') || ''
+    const sources = [
+      avifSrcset ? `<source type="image/avif" srcset="${escapeAttribute(avifSrcset)}" sizes="${escapeAttribute(articleImageSizes)}">` : '',
+      webpSrcset ? `<source type="image/webp" srcset="${escapeAttribute(webpSrcset)}" sizes="${escapeAttribute(articleImageSizes)}">` : ''
+    ].join('')
+    return `<picture class="responsive-image responsive-image--content">${sources}${imageHtml}</picture>`
   }
 }

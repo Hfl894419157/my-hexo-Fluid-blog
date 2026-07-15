@@ -1,3 +1,5 @@
+import { normalizeFocalPoint } from './imageProfiles.mjs'
+
 const managedPatterns = [
   /^portfolio\/[^/]+\.md$/,
   /^aigc\/[^/]+\.md$/,
@@ -33,6 +35,8 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
     showInRecentUpdates: publishing.showInRecentUpdates ?? frontmatter.showInRecentUpdates ?? true,
     cover: String(cover.src || (typeof frontmatter.cover === 'string' ? frontmatter.cover : '')),
     coverAlt: String(cover.alt || frontmatter.coverAlt || meta.title || frontmatter.title || ''),
+    coverFocalPoint: normalizeFocalPoint(cover.focalPoint),
+    homeOverrideSrc: String(cover.homeOverrideSrc || ''),
     seoTitle: String(seo.title || meta.title || frontmatter.title || ''),
     seoDescription: String(seo.description || meta.description || frontmatter.description || ''),
     contentBlocks: Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : [],

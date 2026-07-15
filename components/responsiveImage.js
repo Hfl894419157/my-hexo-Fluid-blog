@@ -1,5 +1,6 @@
 import { withBase } from 'vitepress'
 import imageManifest from '../.vitepress/cache/image-manifest.json'
+import { normalizeFocalPoint } from '../.shared/imageProfiles.mjs'
 
 const externalPattern = /^(?:https?:)?\/\//
 
@@ -19,16 +20,28 @@ const resolveUrl = (src) => {
   return withBase(src)
 }
 
-export const resolveResponsiveImage = (src) => {
+const resolveProfile = (entry, profile, focalPoint) => {
+  if (!entry) return null
+  if (profile === 'original') return entry.profiles?.original || entry
+  const profiles = entry.profiles?.[profile]
+  return profiles?.[normalizeFocalPoint(focalPoint)] || profiles?.center || entry.profiles?.original || entry
+}
+
+const toSrcset = (variants) => variants?.length
+  ? variants.map((variant) => `${resolveUrl(variant.src)} ${variant.width}w`).join(', ')
+  : ''
+
+export const resolveResponsiveImage = (src, { profile = 'original', focalPoint = 'center' } = {}) => {
   const key = resolveLocalKey(src)
   const entry = key ? imageManifest.images?.[key] : null
+  const selected = resolveProfile(entry, profile, focalPoint)
+  const croppedFallback = profile !== 'original' ? selected?.variants?.at(-1)?.src : ''
 
   return {
-    src: resolveUrl(src),
-    width: entry?.width,
-    height: entry?.height,
-    webpSrcset: entry?.variants?.length
-      ? entry.variants.map((variant) => `${resolveUrl(variant.src)} ${variant.width}w`).join(', ')
-      : ''
+    src: resolveUrl(croppedFallback || src),
+    width: selected?.width || entry?.width,
+    height: selected?.height || entry?.height,
+    avifSrcset: toSrcset(selected?.avifVariants),
+    webpSrcset: toSrcset(selected?.variants)
   }
 }

@@ -110,11 +110,14 @@ const paradigms = [
           <article class="wf-wall__card" :style="getStackCardStyle(index)">
             <a class="wf-wall__media" :href="item.link" :aria-label="`进入工作流：${item.title}`">
               <ImagePlaceholder
-                :src="item.cover"
+                :src="item.homeCover"
                 :alt="item.coverAlt"
                 :subject="item.imageSubject"
                 :filename="item.imageFilename"
                 aspect="16 / 10"
+                profile="homeMobile"
+                desktop-profile="homeDesktop"
+                :focal-point="item.coverFocalPoint"
                 sizes="(max-width: 899px) calc(100vw - 48px), 648px"
               />
             </a>

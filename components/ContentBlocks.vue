@@ -14,13 +14,13 @@ const cardLabel = (block) => block.buttonLabel || (block.type === 'download' ? '
       <section v-if="block.type === 'richText' && block.html" class="content-block content-block--rich" v-html="block.html" />
 
       <figure v-else-if="block.type === 'image' && block.src" class="content-block content-block--image">
-        <ResponsiveImage :src="block.src" :alt="block.alt || ''" sizes="(max-width: 640px) calc(100vw - 32px), 760px" />
+        <ResponsiveImage :src="block.src" :alt="block.alt || ''" :eager="block.eager" sizes="(max-width: 640px) calc(100vw - 32px), 760px" />
         <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
       </figure>
 
       <section v-else-if="block.type === 'gallery' && block.items?.length" class="content-block content-block--gallery">
         <figure v-for="(item, index) in block.items" :key="`${block.id}-${index}-${item.src}`">
-          <ResponsiveImage v-if="item.src" :src="item.src" :alt="item.alt || ''" sizes="(max-width: 640px) calc(100vw - 48px), 380px" />
+          <ResponsiveImage v-if="item.src" :src="item.src" :alt="item.alt || ''" :eager="item.eager" sizes="(max-width: 640px) calc(100vw - 48px), 380px" />
           <figcaption v-if="item.caption">{{ item.caption }}</figcaption>
         </figure>
       </section>

@@ -60,9 +60,43 @@ test('封面、SEO 和标签留空时使用安全回退', () => {
   }, 'aigc/example.md')
   assert.equal(normalized.cover, '')
   assert.equal(normalized.coverAlt, '示例标题')
+  assert.equal(normalized.coverFocalPoint, 'center')
+  assert.equal(normalized.homeOverrideSrc, '')
   assert.equal(normalized.seoTitle, '示例标题')
   assert.equal(normalized.seoDescription, '示例摘要')
   assert.deepEqual(normalized.tags, [])
+})
+
+test('封面焦点和首页覆盖图按新结构归一化', () => {
+  const normalized = normalizeContentData({
+    meta: { title: '封面测试' },
+    cover: {
+      src: '/images/uploads/master.jpg',
+      alt: '主体产品',
+      focalPoint: 'top-right',
+      homeOverrideSrc: '/images/uploads/home.jpg'
+    }
+  }, 'portfolio/example.md')
+
+  assert.equal(normalized.cover, '/images/uploads/master.jpg')
+  assert.equal(normalized.coverAlt, '主体产品')
+  assert.equal(normalized.coverFocalPoint, 'top-right')
+  assert.equal(normalized.homeOverrideSrc, '/images/uploads/home.jpg')
+})
+
+test('Pages CMS 提供九宫格焦点、首页覆盖图和 Markdown Source 切换', async () => {
+  const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
+  const cover = config.components.content_cover
+  const focalPoint = cover.fields.find((field) => field.name === 'focalPoint')
+  const homeOverride = cover.fields.find((field) => field.name === 'homeOverrideSrc')
+  const richText = config.components.content_blocks.blocks
+    .find((block) => block.name === 'richText')
+    .fields.find((field) => field.name === 'markdown')
+
+  assert.equal(focalPoint.default, 'center')
+  assert.equal(focalPoint.options.values.length, 9)
+  assert.equal(homeOverride.type, 'image')
+  assert.deepEqual(richText.options, { format: 'markdown', switcher: true, media: 'images' })
 })
 
 test('重命名历史可以串联到最终地址', () => {

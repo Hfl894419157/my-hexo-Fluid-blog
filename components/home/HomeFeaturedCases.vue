@@ -31,11 +31,14 @@ const caseWall = useStackWall('.case-wall__card')
         >
           <a class="case-wall__media" :href="item.link" :aria-label="`查看案例：${item.title}`">
             <ImagePlaceholder
-              :src="item.cover"
+              :src="item.homeCover"
               :alt="item.coverAlt"
               :subject="`${item.title}的项目主视觉或最终成果`"
               :filename="item.imageFilename"
               aspect="16 / 10"
+              profile="homeMobile"
+              desktop-profile="homeDesktop"
+              :focal-point="item.coverFocalPoint"
               sizes="(max-width: 899px) calc(100vw - 48px), 648px"
             />
           </a>
