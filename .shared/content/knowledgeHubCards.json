@@ -1,34 +1,47 @@
 {
   "items": [
     {
-      "id": "learning-observation",
-      "title": "学习与观察",
-      "description": "记录 AI 学习过程、行业趋势、工具实验与形成判断的真实过程。",
+      "id": "Research-Notes",
+      "title": "研究笔记",
+      "description": "关注 AI、设计、产品与商业领域的新变化，记录学习过程、工具实验和阶段性判断。这里不只是整理资讯，更关注这些变化为什么重要，以及是否值得进入真实工作。",
       "link": "/knowledge/learning-observation",
-      "tags": ["AI 学习", "行业观察", "实验记录"],
+      "linkLabel": "进入栏目",
+      "tags": [
+        "AI 趋势",
+        "AI 学习",
+        "设计观察",
+        "设计观察 · 工具实验"
+      ],
       "imageSubject": "学习笔记、观察线索与实验记录的知识地图",
-      "imageFilename": "knowledge-learning-observation-cover.jpg",
-      "linkLabel": "进入栏目"
+      "imageFilename": "knowledge-learning-observation-cover.jpg"
     },
     {
-      "id": "methods",
-      "title": "方法体系",
-      "description": "把成熟的商业设计经验与决策规则整理成结构化方法，让判断有据可依。",
+      "id": "Methodological-Guide",
+      "title": "方法指南",
+      "description": "围绕设计、Prompt、内容、网站和 AI 协作中的具体问题，整理经过实践验证的判断原则、分析框架、操作步骤与常见错误。",
       "link": "/knowledge/methods",
-      "tags": ["方法论", "判断标准", "工作流"],
+      "linkLabel": "进入栏目",
+      "tags": [
+        "方法论",
+        "判断标准",
+        "工作流"
+      ],
       "imageSubject": "方法结构、判断节点与复用关系图",
-      "imageFilename": "knowledge-methods-cover.jpg",
-      "linkLabel": "进入栏目"
+      "imageFilename": "knowledge-methods-cover.jpg"
     },
     {
-      "id": "resources",
-      "title": "资源库",
-      "description": "统一管理已经验证的 Prompt、清单、模板与参考资料，让资源持续进入项目。",
+      "id": "Tools-and-Resources",
+      "title": "工具与资源",
+      "description": "工具与资源用于整理能够直接进入学习或项目中的软件、平台、插件、Prompt、模板、素材和文件。每项内容尽量说明它能够解决什么问题、适合什么人、如何使用、有哪些限制，以及是否经过真实项目验证。",
       "link": "/knowledge/resources",
-      "tags": ["Prompt", "清单", "已验证资源"],
+      "linkLabel": "进入栏目",
+      "tags": [
+        "Prompt",
+        "模板",
+        "工具"
+      ],
       "imageSubject": "Prompt、模板和清单的资源索引图",
-      "imageFilename": "knowledge-resources-cover.jpg",
-      "linkLabel": "进入栏目"
+      "imageFilename": "knowledge-resources-cover.jpg"
     }
   ]
 }
