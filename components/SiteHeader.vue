@@ -187,7 +187,8 @@ onUnmounted(() => {
                 @focus="hoveredSubmenuLink = child.link"
                 @click="closeNav"
               >
-                {{ child.text }}
+                <strong>{{ child.text }}</strong>
+                <small v-if="child.description">{{ child.description }}</small>
               </a>
             </div>
           </div>
@@ -355,7 +356,7 @@ onUnmounted(() => {
   top: 100%;
   left: 50%;
   z-index: 1;
-  width: 176px;
+  width: 232px;
   padding-top: 10px;
   pointer-events: none;
   transform: translateX(-50%);
@@ -372,6 +373,8 @@ onUnmounted(() => {
 }
 
 .site-header__submenu a {
+  display: grid;
+  gap: 3px;
   padding: 10px 12px;
   border-radius: var(--radius-control);
   color: var(--text-sub);
@@ -380,6 +383,9 @@ onUnmounted(() => {
   text-decoration: none;
   transition: background-color 180ms ease, color 180ms ease;
 }
+
+.site-header__submenu a strong { font-size: inherit; font-weight: 600; }
+.site-header__submenu a small { color: var(--text-muted); font-size: 10px; line-height: 1.45; }
 
 .site-header__submenu a:hover {
   color: var(--text-main);

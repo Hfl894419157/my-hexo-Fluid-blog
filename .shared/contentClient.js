@@ -2,6 +2,11 @@ export const visibleContent = (items = []) => items.filter((item) => ['published
 
 export const publishedContent = (items = []) => items.filter((item) => item.status === 'published')
 
+export const latestPublished = (items = [], limit = 6) => publishedContent(items)
+  .slice()
+  .sort((left, right) => String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')) || String(right.createdAt || '').localeCompare(String(left.createdAt || '')))
+  .slice(0, limit)
+
 const asArray = (value) => Array.isArray(value) ? value : []
 
 export const normalizeHomeSelections = (value = {}) => ({

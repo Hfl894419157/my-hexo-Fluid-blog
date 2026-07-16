@@ -7,11 +7,12 @@ meta:
     - ceshi
 publishing:
   createdAt: 2026-07-15
-  status: published
-  verificationStatus: 已验证
-  showInRecentUpdates: true
+  status: draft
+  verificationStatus: 探索中
+  showInRecentUpdates: false
 cover:
   src: /images/uploads/7ab4aaacf6c5620a690cb66faeb770b1.png
+  alt: 测试作品封面
 contentBlocks:
   - type: image
     id: c2bdca8b-8980-47d7-be23-d8180fb85bf4

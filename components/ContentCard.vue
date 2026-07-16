@@ -39,6 +39,7 @@ const isPublished = computed(() => props.item.status !== 'planned' && Boolean(pr
       />
     </div>
     <div class="content-card__body">
+      <span v-if="item.eyebrow" class="content-card__eyebrow">{{ item.eyebrow }}</span>
       <h2>{{ item.title }}</h2>
       <p>{{ item.summary || item.desc }}</p>
       <div class="content-card__tags" aria-label="内容标签">
@@ -66,6 +67,7 @@ const isPublished = computed(() => props.item.status !== 'planned' && Boolean(pr
 .content-card__media { display: block; overflow: hidden; text-decoration: none; }
 .content-card__media :deep(.image-slot) { border: 0; border-bottom: 1px solid var(--border-soft); }
 .content-card__body { display: flex; min-height: 268px; flex: 1; flex-direction: column; padding: 26px 24px 28px; }
+.content-card__eyebrow { margin-bottom: 9px; color: var(--brand-main); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
 .content-card h2 {
   min-height: 3em;
   margin: 0;

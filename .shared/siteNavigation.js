@@ -1,17 +1,16 @@
 export const navItems = [
-  { text: '首页', link: '/' },
-  { text: '案例', link: '/portfolio/' },
+  { text: '作品集', link: '/portfolio/' },
   { text: '工作流', link: '/aigc/' },
   {
     text: '知识库',
     link: '/knowledge/',
     children: [
-      { text: '学习与观察', link: '/knowledge/learning-observation' },
-      { text: '方法体系', link: '/knowledge/methods' },
-      { text: '资源库', link: '/knowledge/resources' }
+      { text: '研究笔记', description: '趋势、观察、学习与实验', link: '/knowledge/learning-observation' },
+      { text: '方法指南', description: '教程、框架、Prompt 与实战', link: '/knowledge/methods' },
+      { text: '工具与资源', description: '软件、插件、模板与文件', link: '/knowledge/resources' }
     ]
   },
-  { text: '关于', link: '/resume' }
+  { text: '关于我', link: '/resume' }
 ]
 
 export const socialLinks = [
@@ -43,7 +42,7 @@ export const siteFooterGroups = [
   {
     title: '探索',
     links: [
-      { text: '案例', link: '/portfolio/' },
+      { text: '作品集', link: '/portfolio/' },
       { text: '工作流', link: '/aigc/' },
       { text: '知识库', link: '/knowledge/' }
     ]
@@ -51,15 +50,16 @@ export const siteFooterGroups = [
   {
     title: '知识',
     links: [
-      { text: '学习与观察', link: '/knowledge/learning-observation' },
-      { text: '方法体系', link: '/knowledge/methods' },
-      { text: '资源库', link: '/knowledge/resources' }
+      { text: '研究笔记', link: '/knowledge/learning-observation' },
+      { text: '方法指南', link: '/knowledge/methods' },
+      { text: '工具与资源', link: '/knowledge/resources' }
     ]
   },
   {
-    title: '联系',
+    title: '关于',
     links: [
       { text: '关于我', link: '/resume' },
+      { text: '常见问题', link: '/faq' },
       { text: '邮件合作', link: 'mailto:1442855983@qq.com' }
     ]
   }

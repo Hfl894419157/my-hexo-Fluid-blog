@@ -18,9 +18,9 @@ const caseWall = useStackWall('.case-wall__card')
     <div class="case-wall__head">
       <SectionHeader
         :title-lines="['先看结果', '再理解它为什么成立']"
-        desc="每个案例把作品、判断和上下文放在同一条证据链上。向下滚动，案例会依次进入视野。"
+        desc="每个作品把结果、判断和上下文放在同一条证据链上。向下滚动，项目会依次进入视野。"
       />
-      <BaseButton href="/portfolio/" variant="ghost">全部案例</BaseButton>
+      <BaseButton href="/portfolio/" variant="ghost">全部作品</BaseButton>
     </div>
 
     <div ref="caseWall" class="case-wall" :class="{ 'case-wall--static': cases.length < 2 }">
@@ -29,7 +29,7 @@ const caseWall = useStackWall('.case-wall__card')
           class="case-wall__card"
           :style="getStackCardStyle(index)"
         >
-          <a class="case-wall__media" :href="item.link" :aria-label="`查看案例：${item.title}`">
+          <a class="case-wall__media" :href="item.link" :aria-label="`查看作品：${item.title}`">
             <ImagePlaceholder
               :src="item.homeCover"
               :alt="item.coverAlt"
@@ -49,7 +49,7 @@ const caseWall = useStackWall('.case-wall__card')
             <div class="case-wall__tags">
               <span v-for="tag in item.tags" :key="tag">{{ tag }}</span>
             </div>
-            <a class="case-wall__link" :href="item.link">查看完整案例 <span aria-hidden="true">→</span></a>
+            <a class="case-wall__link" :href="item.link">查看完整作品 <span aria-hidden="true">→</span></a>
           </div>
         </article>
         <div

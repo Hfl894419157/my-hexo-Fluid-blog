@@ -1,9 +1,11 @@
 {
   "featuredWorkflows": [
-    "3b346090-470d-48a6-aba6-c9b910769816",
-    "869f8a5e-d2c8-460c-a733-a3c0aac7655f"
+    "3b346090-470d-48a6-aba6-c9b910769816"
   ],
-  "featuredCases": [
-    "99b420b9-6de6-49c2-8917-c1f063d04333"
-  ]
+  "featuredCases": [],
+  "knowledge": {
+    "learning": [],
+    "methods": [],
+    "resources": []
+  }
 }

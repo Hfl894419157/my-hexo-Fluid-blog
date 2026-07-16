@@ -1,0 +1,112 @@
+{
+  "items": [
+    {
+      "id": "9be221b5-2494-4d44-90cf-c78fa0a28986",
+      "category": "cooperation",
+      "question": "目前可以合作哪些类型的项目？",
+      "answer": "目前主要聚焦商业视觉、AI 内容生产、可复用工作流和知识系统建设。建议在邮件中说明项目背景、目标、时间和期望交付，我会根据实际情况判断是否适合合作。",
+      "link": "mailto:1442855983@qq.com",
+      "linkLabel": "发送合作邮件",
+      "published": true
+    },
+    {
+      "id": "ee8a4cf5-6288-4a9a-b8e4-feab18ad3ecf",
+      "category": "cooperation",
+      "question": "发起合作前需要准备什么信息？",
+      "answer": "请尽量准备品牌或产品资料、项目目标、目标受众、使用场景、时间节点、预算范围和参考方向。信息越完整，越容易快速判断工作范围。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "85927c76-5dce-4921-b2fe-0e97106510e1",
+      "category": "cooperation",
+      "question": "项目报价和周期如何确定？",
+      "answer": "报价和周期会根据目标、工作范围、交付数量、修改轮次与时间要求综合评估。确认需求后再给出对应方案，不使用脱离项目背景的统一报价。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "e0bc6452-579d-4d59-b5b2-84b72f44d8f0",
+      "category": "cooperation",
+      "question": "项目资料和未公开内容会保密吗？",
+      "answer": "合作资料只用于项目沟通与执行。涉及未公开产品、品牌资产或内部数据时，可以在启动前明确保密边界；未经许可不会作为公开案例展示。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "310bd9cd-a99d-4f59-83f7-7719965847d2",
+      "category": "resources",
+      "question": "软件资源为什么有的是官网链接，有的是网盘链接？",
+      "answer": "第三方商业软件和在线平台优先跳转官方网站，确保版本、安全和授权来源可靠；本人制作或明确允许分享的模板、清单和文件才会提供网盘下载。",
+      "link": "/knowledge/resources",
+      "linkLabel": "查看工具与资源",
+      "published": true
+    },
+    {
+      "id": "04248a66-f019-4fc6-bddc-1c23b150df42",
+      "category": "resources",
+      "question": "网站会提供 Photoshop 等软件的破解安装包吗？",
+      "answer": "不会。网站不提供破解软件、来源不明的安装包或规避授权的下载内容。商业软件会链接到官方渠道，避免版权和安全风险。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "579a8122-28d2-4416-89a0-c191036b2784",
+      "category": "resources",
+      "question": "网盘链接或提取码失效怎么办？",
+      "answer": "请先确认文章内的平台和提取码是否完整。如果链接已经失效，可以通过邮件提供资源名称和页面地址，我会在确认分享权限后更新。",
+      "link": "mailto:1442855983@qq.com",
+      "linkLabel": "反馈失效链接",
+      "published": true
+    },
+    {
+      "id": "e6b66eb0-43e7-4090-8825-b9238e54a99e",
+      "category": "resources",
+      "question": "下载的模板、Prompt 和素材可以商用吗？",
+      "answer": "不同资源的授权范围不同，请以资源文章中的版权说明为准。未明确标注可商用时，不应默认获得转售、再分发或无限制商用授权。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "dbeed9a2-11d5-4d3a-bab6-f070024a2101",
+      "category": "site",
+      "question": "研究笔记、方法指南和工具与资源有什么区别？",
+      "answer": "研究笔记记录趋势、观察和实验判断；方法指南解决具体问题并提供步骤与框架；工具与资源用于整理软件、插件、Prompt、模板、素材和文件。",
+      "link": "/knowledge/",
+      "linkLabel": "进入知识库",
+      "published": true
+    },
+    {
+      "id": "318cb012-3ab3-4136-a8ea-dd7e63f2a98c",
+      "category": "site",
+      "question": "如何搜索网站里的文章和资源？",
+      "answer": "点击顶部的搜索按钮，可以按标题、栏目、正文和 FAQ 内容进行匹配。知识库页面的热门主题也可以直接作为搜索关键词。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "5b1c1aef-b502-4e61-adf8-bf60e4ea668e",
+      "category": "site",
+      "question": "文章里的代码或提示词如何复制？",
+      "answer": "代码块右上角提供复制按钮。浏览器不允许自动写入剪贴板时，网站会选中代码并提示使用 Ctrl+C 或 Command+C 完成复制。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    },
+    {
+      "id": "48495031-e3b7-4a88-888a-f138749a12c1",
+      "category": "site",
+      "question": "网站内容多久更新一次？",
+      "answer": "网站按实际项目、研究和资源维护情况更新，不承诺固定频率。首页的“最近更新”会显示已发布且允许展示的最新维护记录。",
+      "link": "",
+      "linkLabel": "",
+      "published": true
+    }
+  ]
+}

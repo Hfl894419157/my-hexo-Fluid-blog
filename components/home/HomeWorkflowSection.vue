@@ -51,7 +51,7 @@ const paradigms = [
     id: 'compounding',
     iconNum: 5,
     title: '资产沉淀与复利',
-    desc: '将交付项目中被验证的 Prompt、参数模板和检查清单送回资源库，让每次交付产生资产复利。',
+    desc: '将交付项目中被验证的 Prompt、参数模板和检查清单送回工具与资源，让每次交付产生资产复利。',
     proof: '构建越用越聪明的专有生产库'
   }
 ]

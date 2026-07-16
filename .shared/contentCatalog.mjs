@@ -88,11 +88,28 @@ const getGitUpdatedAt = (sourcePath, fallback) => {
 
 const getTypeLabel = (kind, sections, frontmatter) => {
   if (frontmatter.type) return String(frontmatter.type)
-  if (kind === 'case') return '案例'
+  if (kind === 'case') return '作品集'
   if (kind === 'workflow') return '工作流'
-  if (kind === 'resource') return '资源库'
-  if (sections.includes('methods')) return '方法体系'
-  return '学习与观察'
+  if (kind === 'resource') return '工具与资源'
+  if (sections.includes('methods')) return '方法指南'
+  return '研究笔记'
+}
+
+const resourceTypeLabels = {
+  software: '软件',
+  'ai-tool': 'AI 工具',
+  plugin: '插件',
+  prompt: 'Prompt',
+  template: '模板',
+  asset: '素材',
+  document: '文档',
+  other: '其他'
+}
+
+const resourceAccessLabels = {
+  official: '访问官网',
+  cloud: '网盘下载',
+  contact: '联系获取'
 }
 
 const getImageFilename = (kind, id) => {
@@ -159,7 +176,11 @@ const normalizeEntry = (absolutePath) => {
     image: normalized.cover,
     imageSubject: getImageSubject(kind, title),
     imageFilename: getImageFilename(kind, id),
-    cta: kind === 'case' ? '查看案例' : kind === 'workflow' ? '进入工作流' : kind === 'resource' ? '查看资源' : '阅读全文'
+    project: normalized.project,
+    resourceMeta: normalized.resourceMeta,
+    resourceTypeLabel: resourceTypeLabels[normalized.resourceMeta.type] || resourceTypeLabels.other,
+    resourceAccessLabel: resourceAccessLabels[normalized.resourceMeta.access] || resourceAccessLabels.contact,
+    cta: kind === 'case' ? '查看作品' : kind === 'workflow' ? '进入工作流' : kind === 'resource' ? '查看资源' : '阅读全文'
   }
 }
 

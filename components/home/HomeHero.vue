@@ -17,11 +17,11 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
         </h1>
 
         <p class="home-hero__lead hero-fade-in-item" style="--hero-delay: 100ms">
-          这里记录我真实案例、方法判断、生产流程及经验证的资源。
+          这里记录真实作品、方法判断、生产流程及经验证的资源。
         </p>
 
         <div class="home-hero__actions hero-fade-in-item" style="--hero-delay: 200ms">
-          <BaseButton href="/portfolio/">查看实践案例</BaseButton>
+          <BaseButton href="/portfolio/">查看实践作品</BaseButton>
           <BaseButton href="/knowledge/" variant="secondary">进入知识系统</BaseButton>
         </div>
 

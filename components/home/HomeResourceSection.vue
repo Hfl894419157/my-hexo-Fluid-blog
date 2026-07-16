@@ -10,20 +10,20 @@ const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
 
 const items = [
   {
-    title: '学习与观察',
-    desc: '记录我学习 AI 的过程笔记、行业趋势观察与具体的工具实验测试结论。',
+    title: '研究笔记',
+    desc: '记录 AI、设计、产品与商业领域的新变化，以及学习过程、工具实验和阶段性判断。',
     featured: resolveSelections(contentCatalog.learning, homeSelections.knowledge.learning, 3),
     href: '/knowledge/learning-observation'
   },
   {
-    title: '方法体系',
-    desc: '把成熟的商业设计经验和决策规则沉淀为结构化方法，让判断有据可依。',
+    title: '方法指南',
+    desc: '围绕具体问题整理教程步骤、分析框架、Prompt 方法与经过验证的实战经验。',
     featured: resolveSelections(contentCatalog.methods, homeSelections.knowledge.methods, 3),
     href: '/knowledge/methods'
   },
   {
-    title: '资源库',
-    desc: '统一管理我实战验证过的 Prompt 结构、项目检查清单、快捷工具和参考资源。',
+    title: '工具与资源',
+    desc: '整理软件、平台、插件、Prompt、模板、素材与可以直接进入项目的文件。',
     featured: resolveSelections(contentCatalog.resources, homeSelections.knowledge.resources, 3),
     href: '/knowledge/resources'
   }

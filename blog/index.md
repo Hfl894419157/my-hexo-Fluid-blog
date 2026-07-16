@@ -1,5 +1,5 @@
 ---
-title: 方法体系 (已迁移)
+title: 方法指南 (已迁移)
 layout: page
 ---
 
@@ -10,4 +10,4 @@ onMounted(() => {
 })
 </script>
 
-页面已迁移，正在为您跳转到新地址：[方法体系](/knowledge/methods)...
+页面已迁移，正在为您跳转到新地址：[方法指南](/knowledge/methods)...

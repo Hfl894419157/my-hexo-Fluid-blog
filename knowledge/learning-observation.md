@@ -1,5 +1,5 @@
 ---
-title: 学习与观察
+title: 研究笔记
 layout: page
 pageClass: page-overview-list
 ---
@@ -9,7 +9,7 @@ import BlogList from '../blog/BlogList.vue'
 </script>
 
 <BlogList
-  title="学习与观察"
-  description="用于记录 AI 学习笔记、行业趋势、工具变化和实验记录。"
+  title="研究笔记"
+  description="记录 AI、设计、产品与商业领域的新变化，以及学习过程、工具实验和阶段性判断。"
   variant="industry"
 />

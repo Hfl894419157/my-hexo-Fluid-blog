@@ -7,7 +7,7 @@ const paths = [
     title: '看成果',
     desc: '查看真实项目、个人角色、关键判断和最终交付。',
     href: '/portfolio/',
-    label: '查看实践案例 →',
+    label: '查看实践作品 →',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>`
   },
   {
@@ -21,7 +21,7 @@ const paths = [
   {
     key: 'accumulation',
     title: '看积累',
-    desc: '查看学习笔记、方法体系、模板、清单和验证资源。',
+    desc: '查看研究笔记、方法指南、软件、模板和验证资源。',
     href: '/knowledge/',
     label: '进入知识系统 →',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path></svg>`

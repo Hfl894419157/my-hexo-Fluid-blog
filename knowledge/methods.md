@@ -1,5 +1,5 @@
 ---
-title: 方法体系
+title: 方法指南
 layout: page
 pageClass: page-overview-list
 ---

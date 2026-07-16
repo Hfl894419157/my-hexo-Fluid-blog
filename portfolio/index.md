@@ -1,5 +1,5 @@
 ---
-title: 案例库
+title: 作品集
 layout: page
 sidebar: false
 pageClass: page-overview-list

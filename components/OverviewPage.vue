@@ -16,6 +16,7 @@ defineProps({
 <template>
   <div class="overview-page">
     <PageHero :title-lines="titleLines" :description="description" :visual="visual" :topics="topics" />
+    <slot name="before-list" />
     <section class="overview-content">
       <header class="overview-content__head">
         <h2>{{ sectionTitle }}</h2>

@@ -1,14 +1,19 @@
 import { createContentLoader } from 'vitepress'
+import { readFileSync } from 'node:fs'
 import { contentBlocksMarkdown, normalizeContentData } from '../.shared/contentSchema.mjs'
 
+const faqData = JSON.parse(readFileSync(new URL('../.shared/content/faq.json', import.meta.url), 'utf8'))
+const publishedFaq = faqData.items.filter((item) => item.published !== false)
+
 const sectionLabels = [
-  { prefix: '/portfolio/', label: '案例' },
+  { prefix: '/portfolio/', label: '作品集' },
   { prefix: '/aigc/', label: '工作流' },
-  { prefix: '/knowledge/learning-observation', label: '学习与观察' },
-  { prefix: '/knowledge/methods', label: '方法体系' },
-  { prefix: '/knowledge/resources', label: '资源库' },
+  { prefix: '/knowledge/learning-observation', label: '研究笔记' },
+  { prefix: '/knowledge/methods', label: '方法指南' },
+  { prefix: '/knowledge/resources', label: '工具与资源' },
   { prefix: '/knowledge/', label: '知识库' },
-  { prefix: '/resume', label: '关于' },
+  { prefix: '/faq', label: '常见问题' },
+  { prefix: '/resume', label: '关于我' },
   { prefix: '/', label: '首页' }
 ]
 
@@ -57,6 +62,12 @@ const getSection = (url) => {
   return match?.label || 'Site'
 }
 
+const normalizeSearchUrl = (url = '') =>
+  String(url).replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/'
+
+const getPageStatus = (frontmatter = {}) =>
+  String(frontmatter?.publishing?.status || frontmatter?.status || 'published')
+
 export default createContentLoader('**/*.md', {
   includeSrc: true,
   transform(data) {
@@ -64,7 +75,7 @@ export default createContentLoader('**/*.md', {
       .filter((page) => page.url && page.src)
       .filter((page) => page.url !== '/design-qa')
       .filter((page) => !page.url.startsWith('/blog/') && !page.url.startsWith('/resources/'))
-      .filter((page) => !['draft', 'planned', 'archived'].includes(normalizeContentData(page.frontmatter, page.url).status))
+      .filter((page) => !['draft', 'planned', 'archived'].includes(getPageStatus(page.frontmatter)))
       .filter((page) => page.frontmatter?.search !== false)
       .map((page) => {
         const src = stripFrontmatter(page.src || '')
@@ -72,8 +83,15 @@ export default createContentLoader('**/*.md', {
         const blockMarkdown = contentBlocksMarkdown(normalized.contentBlocks)
         const searchableSource = [src, blockMarkdown].filter(Boolean).join('\n\n')
         const title = normalized.title || getTitle(src, page.frontmatter)
-        const headings = getHeadings(searchableSource)
-        const text = [normalized.description, stripMarkdown(searchableSource)].filter(Boolean).join(' ')
+        const isFaqPage = normalizeSearchUrl(page.url) === '/faq'
+        const faqHeadings = isFaqPage
+          ? publishedFaq.map((item) => ({ text: item.question, anchor: item.id, level: 2 }))
+          : []
+        const headings = [...getHeadings(searchableSource), ...faqHeadings]
+        const faqText = isFaqPage
+          ? publishedFaq.flatMap((item) => [item.question, item.answer]).join(' ')
+          : ''
+        const text = [normalized.description, stripMarkdown(searchableSource), faqText].filter(Boolean).join(' ')
 
         return {
           title,

@@ -6,6 +6,13 @@ media:
     categories: [image]
     extensions: [png, jpg, jpeg, webp, gif, svg]
     rename: safe
+  - name: documents
+    label: 简历与文档
+    input: public/files
+    output: /files
+    categories: [document]
+    extensions: [pdf]
+    rename: safe
 
 settings:
   content:
@@ -127,6 +134,48 @@ components:
       - name: description
         label: SEO 描述（可选）
         type: text
+
+  project_meta:
+    label: 项目资料（可选）
+    type: object
+    fields:
+      - { name: role, label: 我的角色, type: string }
+      - { name: year, label: 项目年份, type: string }
+      - { name: client, label: 客户 / 品牌, type: string }
+      - { name: services, label: 服务内容, type: string, list: true }
+      - { name: outcome, label: 项目成果, type: text }
+
+  resource_meta:
+    label: 资源属性
+    type: object
+    fields:
+      - name: type
+        label: 资源类型
+        type: select
+        required: true
+        default: other
+        options:
+          values:
+            - { label: 软件, value: software }
+            - { label: AI 工具, value: ai-tool }
+            - { label: 插件, value: plugin }
+            - { label: Prompt, value: prompt }
+            - { label: 模板, value: template }
+            - { label: 素材, value: asset }
+            - { label: 文档, value: document }
+            - { label: 其他, value: other }
+      - name: access
+        label: 获取方式
+        type: select
+        required: true
+        default: contact
+        options:
+          values:
+            - { label: 访问官网, value: official }
+            - { label: 网盘下载, value: cloud }
+            - { label: 联系获取, value: contact }
+      - { name: platform, label: 平台 / 来源, type: string }
+      - { name: licenseNote, label: 授权与版权说明, type: text }
 
   enrichment_state:
     label: 识别记录
@@ -351,7 +400,7 @@ components:
 
 content:
   - name: cases
-    label: 案例
+    label: 作品集
     type: collection
     path: portfolio
     exclude: [index.md]
@@ -381,6 +430,19 @@ content:
               - { label: 仅补充空白（推荐）, value: fill_empty }
               - { label: 更新未被人工修改的自动字段, value: refresh_auto }
               - { label: 全部重新识别, value: overwrite_all }
+      - name: duplicate-content
+        label: 复制为新草稿
+        scope: entry
+        workflow: duplicate-content.yml
+        ref: current
+        cancelable: false
+        confirm:
+          title: 复制当前作品为新草稿？
+          message: 系统会重新生成内容编号和模块编号，不会覆盖原作品。
+          button: 创建副本
+        fields:
+          - { name: title, label: 新标题, type: text, required: true }
+          - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
 
     view:
       primary: meta.title
@@ -393,6 +455,7 @@ content:
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
+      - { name: project, component: project_meta }
       - { name: contentBlocks, component: content_blocks }
       - { name: seo, component: content_seo }
 
@@ -427,51 +490,19 @@ content:
               - { label: 仅补充空白（推荐）, value: fill_empty }
               - { label: 更新未被人工修改的自动字段, value: refresh_auto }
               - { label: 全部重新识别, value: overwrite_all }
-
-    view:
-      primary: meta.title
-      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
-      sort: [publishing.createdAt, meta.title]
-      search: [meta.title, meta.description, meta.tags]
-      default: { sort: publishing.createdAt, order: desc }
-    fields:
-      - { name: contentId, component: content_id }
-      - { name: meta, component: content_meta }
-      - { name: publishing, component: content_publishing }
-      - { name: cover, component: content_cover }
-      - { name: contentBlocks, component: content_blocks }
-      - { name: seo, component: content_seo }
-
-  - name: learning_entries
-    label: 学习与观察
-    type: collection
-    path: knowledge/learning-observation
-    format: yaml-frontmatter
-    filename:
-      template: "{primary}.md"
-      field: true
-    operations: { create: true, rename: true, delete: true }
-    actions:
-      - name: enrich-content
-        label: 识别内容模块
+      - name: duplicate-content
+        label: 复制为新草稿
         scope: entry
-        workflow: enrich-content.yml
+        workflow: duplicate-content.yml
         ref: current
         cancelable: false
         confirm:
-          title: 识别当前内容模块？
-          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
-          button: 开始识别
+          title: 复制当前工作流为新草稿？
+          message: 系统会重新生成内容编号和模块编号，不会覆盖原工作流。
+          button: 创建副本
         fields:
-          - name: mode
-            label: 识别方式
-            type: select
-            required: true
-            default: fill_empty
-            options:
-              - { label: 仅补充空白（推荐）, value: fill_empty }
-              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
-              - { label: 全部重新识别, value: overwrite_all }
+          - { name: title, label: 新标题, type: text, required: true }
+          - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
 
     view:
       primary: meta.title
@@ -487,176 +518,315 @@ content:
       - { name: contentBlocks, component: content_blocks }
       - { name: seo, component: content_seo }
 
-  - name: method_entries
-    label: 方法体系
-    type: collection
-    path: knowledge/methods
-    format: yaml-frontmatter
-    filename:
-      template: "{primary}.md"
-      field: true
-    operations: { create: true, rename: true, delete: true }
-    actions:
-      - name: enrich-content
-        label: 识别内容模块
-        scope: entry
-        workflow: enrich-content.yml
-        ref: current
-        cancelable: false
-        confirm:
-          title: 识别当前内容模块？
-          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
-          button: 开始识别
+  - name: knowledge_content
+    label: 知识库内容
+    type: group
+    items:
+      - name: learning_entries
+        label: 研究笔记
+        type: collection
+        path: knowledge/learning-observation
+        format: yaml-frontmatter
+        filename:
+          template: "{primary}.md"
+          field: true
+        operations: { create: true, rename: true, delete: true }
+        actions:
+          - name: enrich-content
+            label: 识别内容模块
+            scope: entry
+            workflow: enrich-content.yml
+            ref: current
+            cancelable: false
+            confirm:
+              title: 识别当前内容模块？
+              message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+              button: 开始识别
+            fields:
+              - name: mode
+                label: 识别方式
+                type: select
+                required: true
+                default: fill_empty
+                options:
+                  - { label: 仅补充空白（推荐）, value: fill_empty }
+                  - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+                  - { label: 全部重新识别, value: overwrite_all }
+          - name: duplicate-content
+            label: 复制为新草稿
+            scope: entry
+            workflow: duplicate-content.yml
+            ref: current
+            cancelable: false
+            confirm: { title: 复制当前研究笔记？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
+            fields:
+              - { name: title, label: 新标题, type: text, required: true }
+              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
+        view:
+          primary: meta.title
+          fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+          sort: [publishing.createdAt, meta.title]
+          search: [meta.title, meta.description, meta.tags]
+          default: { sort: publishing.createdAt, order: desc }
         fields:
-          - name: mode
-            label: 识别方式
-            type: select
-            required: true
-            default: fill_empty
+          - { name: contentId, component: content_id }
+          - { name: meta, component: content_meta }
+          - { name: publishing, component: content_publishing }
+          - { name: cover, component: content_cover }
+          - { name: contentBlocks, component: content_blocks }
+          - { name: seo, component: content_seo }
+
+      - name: method_entries
+        label: 方法指南
+        type: collection
+        path: knowledge/methods
+        format: yaml-frontmatter
+        filename:
+          template: "{primary}.md"
+          field: true
+        operations: { create: true, rename: true, delete: true }
+        actions:
+          - name: enrich-content
+            label: 识别内容模块
+            scope: entry
+            workflow: enrich-content.yml
+            ref: current
+            cancelable: false
+            confirm:
+              title: 识别当前内容模块？
+              message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+              button: 开始识别
+            fields:
+              - name: mode
+                label: 识别方式
+                type: select
+                required: true
+                default: fill_empty
+                options:
+                  - { label: 仅补充空白（推荐）, value: fill_empty }
+                  - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+                  - { label: 全部重新识别, value: overwrite_all }
+          - name: duplicate-content
+            label: 复制为新草稿
+            scope: entry
+            workflow: duplicate-content.yml
+            ref: current
+            cancelable: false
+            confirm: { title: 复制当前方法指南？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
+            fields:
+              - { name: title, label: 新标题, type: text, required: true }
+              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
+        view:
+          primary: meta.title
+          fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+          sort: [publishing.createdAt, meta.title]
+          search: [meta.title, meta.description, meta.tags]
+          default: { sort: publishing.createdAt, order: desc }
+        fields:
+          - { name: contentId, component: content_id }
+          - { name: meta, component: content_meta }
+          - { name: publishing, component: content_publishing }
+          - { name: cover, component: content_cover }
+          - { name: contentBlocks, component: content_blocks }
+          - { name: seo, component: content_seo }
+
+      - name: resource_entries
+        label: 工具与资源
+        type: collection
+        path: knowledge/resources
+        format: yaml-frontmatter
+        filename:
+          template: "{primary}.md"
+          field: true
+        operations: { create: true, rename: true, delete: true }
+        actions:
+          - name: enrich-content
+            label: 识别内容模块
+            scope: entry
+            workflow: enrich-content.yml
+            ref: current
+            cancelable: false
+            confirm:
+              title: 识别当前内容模块？
+              message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
+              button: 开始识别
+            fields:
+              - name: mode
+                label: 识别方式
+                type: select
+                required: true
+                default: fill_empty
+                options:
+                  - { label: 仅补充空白（推荐）, value: fill_empty }
+                  - { label: 更新未被人工修改的自动字段, value: refresh_auto }
+                  - { label: 全部重新识别, value: overwrite_all }
+          - name: duplicate-content
+            label: 复制为新草稿
+            scope: entry
+            workflow: duplicate-content.yml
+            ref: current
+            cancelable: false
+            confirm: { title: 复制当前资源？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
+            fields:
+              - { name: title, label: 新标题, type: text, required: true }
+              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
+        view:
+          primary: meta.title
+          fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
+          sort: [publishing.createdAt, meta.title]
+          search: [meta.title, meta.description, meta.tags, resourceMeta.type, resourceMeta.access]
+          default: { sort: publishing.createdAt, order: desc }
+        fields:
+          - { name: contentId, component: content_id }
+          - { name: meta, component: content_meta }
+          - { name: publishing, component: content_publishing }
+          - { name: cover, component: content_cover }
+          - { name: resourceMeta, component: resource_meta }
+          - { name: contentBlocks, component: content_blocks }
+          - { name: seo, component: content_seo }
+
+  - name: site_management
+    label: 站点管理
+    type: group
+    items:
+      - name: homepage
+        label: 首页内容
+        type: file
+        path: .shared/content/home.json
+        format: json
+        operations: { delete: false }
+        fields:
+          - name: featuredCases
+            label: 首页作品精选
+            type: reference
             options:
-              - { label: 仅补充空白（推荐）, value: fill_empty }
-              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
-              - { label: 全部重新识别, value: overwrite_all }
-
-    view:
-      primary: meta.title
-      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
-      sort: [publishing.createdAt, meta.title]
-      search: [meta.title, meta.description, meta.tags]
-      default: { sort: publishing.createdAt, order: desc }
-    fields:
-      - { name: contentId, component: content_id }
-      - { name: meta, component: content_meta }
-      - { name: publishing, component: content_publishing }
-      - { name: cover, component: content_cover }
-      - { name: contentBlocks, component: content_blocks }
-      - { name: seo, component: content_seo }
-
-  - name: resource_entries
-    label: 资源库
-    type: collection
-    path: knowledge/resources
-    format: yaml-frontmatter
-    filename:
-      template: "{primary}.md"
-      field: true
-    operations: { create: true, rename: true, delete: true }
-    actions:
-      - name: enrich-content
-        label: 识别内容模块
-        scope: entry
-        workflow: enrich-content.yml
-        ref: current
-        cancelable: false
-        confirm:
-          title: 识别当前内容模块？
-          message: 请先保存草稿。全部重新识别会覆盖可自动识别字段，但不会覆盖自定义封面。
-          button: 开始识别
-        fields:
-          - name: mode
-            label: 识别方式
-            type: select
-            required: true
-            default: fill_empty
+              collection: cases
+              multiple: true
+              search: "meta.title,meta.description,meta.tags,publishing.status"
+              value: "{fields.contentId}"
+              label: "{fields.meta.title} · {fields.publishing.status}"
+          - name: featuredWorkflows
+            label: 精选工作流（最多 3 条）
+            type: reference
             options:
-              - { label: 仅补充空白（推荐）, value: fill_empty }
-              - { label: 更新未被人工修改的自动字段, value: refresh_auto }
-              - { label: 全部重新识别, value: overwrite_all }
+              collection: workflows
+              multiple: true
+              max: 3
+              search: "meta.title,meta.description,meta.tags,publishing.status"
+              value: "{fields.contentId}"
+              label: "{fields.meta.title} · {fields.publishing.status}"
+          - name: knowledge
+            label: 三个知识板块
+            type: object
+            fields:
+              - name: learning
+                label: 研究笔记精选（最多 3 条）
+                type: reference
+                options: { collection: learning_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
+              - name: methods
+                label: 方法指南精选（最多 3 条）
+                type: reference
+                options: { collection: method_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
+              - name: resources
+                label: 工具与资源精选（最多 3 条）
+                type: reference
+                options: { collection: resource_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
 
-    view:
-      primary: meta.title
-      fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
-      sort: [publishing.createdAt, meta.title]
-      search: [meta.title, meta.description, meta.tags]
-      default: { sort: publishing.createdAt, order: desc }
-    fields:
-      - { name: contentId, component: content_id }
-      - { name: meta, component: content_meta }
-      - { name: publishing, component: content_publishing }
-      - { name: cover, component: content_cover }
-      - { name: contentBlocks, component: content_blocks }
-      - { name: seo, component: content_seo }
-
-  - name: homepage
-    label: 首页内容管理
-    type: file
-    path: .shared/content/home.json
-    format: json
-    operations: { delete: false }
-    fields:
-      - name: featuredCases
-        label: 首页案例精选
-        type: reference
-        options:
-          collection: cases
-          multiple: true
-          search: "meta.title,meta.description,meta.tags,publishing.status"
-          value: "{fields.contentId}"
-          label: "{fields.meta.title} · {fields.publishing.status}"
-      - name: featuredWorkflows
-        label: 精选工作流（最多 3 条）
-        type: reference
-        options:
-          collection: workflows
-          multiple: true
-          max: 3
-          search: "meta.title,meta.description,meta.tags,publishing.status"
-          value: "{fields.contentId}"
-          label: "{fields.meta.title} · {fields.publishing.status}"
-      - name: knowledge
-        label: 三个知识板块
-        type: object
+      - name: profile
+        label: 个人资料与简历
+        type: file
+        path: .shared/content/profile.json
+        format: json
+        operations: { delete: false }
         fields:
-          - name: learning
-            label: 学习与观察精选（最多 3 条）
-            type: reference
-            options: { collection: learning_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
-          - name: methods
-            label: 方法体系精选（最多 3 条）
-            type: reference
-            options: { collection: method_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
-          - name: resources
-            label: 资源库精选（最多 3 条）
-            type: reference
-            options: { collection: resource_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
+          - { name: name, label: 姓名, type: string, required: true }
+          - { name: role, label: 职业定位, type: string, required: true }
+          - { name: avatar, label: 头像, type: image, options: { media: images } }
+          - { name: intro, label: 个人简介, type: text, required: true }
+          - { name: yearsLabel, label: 实践年限说明, type: string }
+          - name: capabilities
+            label: 核心能力
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{index}. {title}" } }
+            fields:
+              - { name: title, label: 能力名称, type: string, required: true }
+              - { name: description, label: 能力说明, type: text, required: true }
+          - { name: services, label: 合作方向, type: string, list: true }
+          - name: experience
+            label: 工作经历（无内容时前台隐藏）
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{index}. {role}" } }
+            fields:
+              - { name: period, label: 时间, type: string, required: true }
+              - { name: company, label: 公司 / 组织, type: string, required: true }
+              - { name: role, label: 职位 / 角色, type: string, required: true }
+              - { name: description, label: 经历说明, type: text }
+          - { name: email, label: 合作邮箱, type: string, required: true }
+          - { name: resumePdf, label: 个人简历 PDF（可选）, type: file, options: { media: documents, extensions: [pdf] } }
 
-  - name: about_cards
-    label: 关于页卡片
-    type: file
-    path: .shared/content/aboutCards.json
-    format: json
-    operations: { delete: false }
-    fields:
-      - name: items
-        label: 卡片列表
-        type: object
-        list:
-          collapsible: { collapsed: true, summary: "{index}. {title}" }
+      - name: knowledge_hub_cards
+        label: 知识库总览
+        type: file
+        path: .shared/content/knowledgeHubCards.json
+        format: json
+        operations: { delete: false }
         fields:
-          - { name: title, label: 标题, type: string, required: true }
-          - { name: description, label: 说明, type: text, required: true }
-          - { name: tags, label: 标签, type: string, list: true }
-          - { name: link, label: 可选链接, type: string }
-          - { name: linkLabel, label: 链接按钮文字, type: string }
+          - name: items
+            label: 三个栏目卡片
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{index}. {title}" } }
+            fields:
+              - { name: id, label: 英文标识, type: string, required: true }
+              - { name: title, label: 标题, type: string, required: true }
+              - { name: description, label: 说明, type: text, required: true }
+              - { name: link, label: 栏目链接, type: string, required: true }
+              - { name: linkLabel, label: 链接按钮文字, type: string }
+              - { name: tags, label: 标签, type: string, list: true }
+              - { name: imageSubject, label: 图片占位说明, type: string }
+              - { name: imageFilename, label: 图片文件名, type: string }
 
-  - name: knowledge_hub_cards
-    label: 知识库总览卡片
-    type: file
-    path: .shared/content/knowledgeHubCards.json
-    format: json
-    operations: { delete: false }
-    fields:
-      - name: items
-        label: 卡片列表
-        type: object
-        list:
-          collapsible: { collapsed: true, summary: "{index}. {title}" }
+      - name: faq
+        label: 常见问题 FAQ
+        type: file
+        path: .shared/content/faq.json
+        format: json
+        operations: { delete: false }
         fields:
-          - { name: id, label: 英文标识, type: string, required: true }
-          - { name: title, label: 标题, type: string, required: true }
-          - { name: description, label: 说明, type: text, required: true }
-          - { name: link, label: 可选链接, type: string }
-          - { name: linkLabel, label: 链接按钮文字, type: string }
-          - { name: tags, label: 标签, type: string, list: true }
-          - { name: imageSubject, label: 图片占位说明, type: string }
-          - { name: imageFilename, label: 图片文件名, type: string }
+          - name: items
+            label: 问题列表（列表顺序即前台顺序）
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{index}. {question}" } }
+            fields:
+              - { name: id, label: 问题编号, type: uuid, required: true }
+              - name: category
+                label: 问题分类
+                type: select
+                required: true
+                options:
+                  values:
+                    - { label: 合作咨询, value: cooperation }
+                    - { label: 资源下载, value: resources }
+                    - { label: 网站使用, value: site }
+              - { name: question, label: 问题, type: string, required: true }
+              - { name: answer, label: 答案, type: text, required: true }
+              - { name: link, label: 可选链接, type: string }
+              - { name: linkLabel, label: 链接文字, type: string }
+              - { name: published, label: 前台显示, type: boolean, default: true }
+
+      - name: about_cards
+        label: 旧版关于页卡片（兼容）
+        type: file
+        path: .shared/content/aboutCards.json
+        format: json
+        operations: { delete: false }
+        fields:
+          - name: items
+            label: 旧版卡片列表
+            type: object
+            list: { collapsible: { collapsed: true, summary: "{index}. {title}" } }
+            fields:
+              - { name: title, label: 标题, type: string, required: true }
+              - { name: description, label: 说明, type: text, required: true }
+              - { name: tags, label: 标签, type: string, list: true }
+              - { name: link, label: 可选链接, type: string }
+              - { name: linkLabel, label: 链接按钮文字, type: string }

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 关于韩福利
-description: 从商业设计实践出发，探索 AI 如何真正进入工作。
+description: 商业视觉设计、AI 工作流实践、代表作品与合作方式。
 sidebar: false
 pageClass: page-about-detail
 ---

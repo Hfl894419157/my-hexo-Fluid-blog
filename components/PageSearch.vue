@@ -30,6 +30,20 @@ const score = (page) => {
   return value
 }
 
+const buildResult = (page) => {
+  const title = normalize(page.title)
+  const heading = page.headings?.find((item) =>
+    terms.value.some((term) => normalize(item.text).includes(term))
+  )
+  const titleMatches = terms.value.some((term) => title.includes(term))
+
+  return {
+    ...page,
+    resultTitle: heading?.text || page.title,
+    target: heading && !titleMatches ? `${page.url}#${heading.anchor}` : page.url
+  }
+}
+
 const results = computed(() => {
   if (!terms.value.length) return []
   return searchPages
@@ -37,13 +51,13 @@ const results = computed(() => {
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 7)
-    .map(({ page }) => page)
+    .map(({ page }) => buildResult(page))
 })
 
 watch(results, () => { selectedIndex.value = 0 })
 
 const go = (page = results.value[selectedIndex.value]) => {
-  if (page) router.go(withBase(page.url))
+  if (page) router.go(withBase(page.target || page.url))
 }
 
 const onKeydown = (event) => {
@@ -80,18 +94,18 @@ const useTopic = (topic) => {
     </div>
 
     <div v-if="query.trim()" class="page-search__results" aria-live="polite">
-      <button
+      <a
         v-for="(result, index) in results"
         :key="result.url"
-        type="button"
+        :href="withBase(result.target || result.url)"
         :class="{ active: selectedIndex === index }"
         @mouseenter="selectedIndex = index"
-        @click="go(result)"
+        @click.prevent="go(result)"
       >
         <span>{{ result.section }}</span>
-        <strong>{{ result.title }}</strong>
+        <strong>{{ result.resultTitle }}</strong>
         <i aria-hidden="true">进入 →</i>
-      </button>
+      </a>
       <p v-if="!results.length">没有找到匹配内容，请换一个关键词。</p>
     </div>
 
@@ -193,7 +207,7 @@ const useTopic = (topic) => {
   box-shadow: var(--shadow-card);
 }
 
-.page-search__results button {
+.page-search__results a {
   display: grid;
   grid-template-columns: 110px minmax(0, 1fr) auto;
   gap: 14px;
@@ -204,11 +218,12 @@ const useTopic = (topic) => {
   background: transparent;
   color: inherit;
   text-align: left;
+  text-decoration: none;
   cursor: pointer;
 }
 
-.page-search__results button:hover,
-.page-search__results button.active { background: var(--bg-soft); }
+.page-search__results a:hover,
+.page-search__results a.active { background: var(--bg-soft); }
 .page-search__results span { color: var(--brand-main); font-size: var(--text-label); }
 .page-search__results strong { overflow: hidden; font-size: var(--text-small); text-overflow: ellipsis; white-space: nowrap; }
 .page-search__results i { color: var(--text-muted); font-size: var(--text-label); font-style: normal; }
@@ -219,7 +234,7 @@ const useTopic = (topic) => {
   .page-search__field { min-height: 56px; padding: 0 14px; }
   .page-search__field input { font-size: 14px; }
   .page-search__results { top: calc(100% - 8px); right: 16px; left: 16px; }
-  .page-search__results button { grid-template-columns: 72px minmax(0, 1fr); gap: 8px; }
+  .page-search__results a { grid-template-columns: 72px minmax(0, 1fr); gap: 8px; }
   .page-search__results i { display: none; }
 }
 </style>

@@ -13,7 +13,7 @@
     "docs:preview": "vitepress preview",
     "build": "npm run images:prepare && vitepress build && npm run images:check && npm run redirects:build",
     "content:check": "node scripts/validate-content.mjs",
-    "content:test": "node --test scripts/content-operations.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs",
+    "content:test": "node --test scripts/content-operations.test.mjs scripts/duplicate-content.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs",
     "enrichment:test": "node --test scripts/enrichment.test.mjs",
     "redirects:build": "node scripts/generate-content-redirects.mjs"
   },

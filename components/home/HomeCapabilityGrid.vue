@@ -10,7 +10,7 @@ const capabilities = [
     index: '01',
     title: '商业视觉生成',
     desc: '从产品事实和商业目标出发，定义可控的视觉变量，让生成结果从一开始就服务于转化。',
-    evidence: '案例、主图、详情页、视频和设计结果',
+    evidence: '作品、主图、详情页、视频和设计结果',
     href: '/portfolio/'
   },
   {

@@ -5,7 +5,7 @@ import { data as contentCatalog } from '../.shared/content.data.mjs'
 import { visibleContent } from '../.shared/contentClient.js'
 
 const props = defineProps({
-  title: { type: String, default: '方法体系' },
+  title: { type: String, default: '方法指南' },
   description: { type: String, default: '把经过实践验证的设计判断、生产方法与复盘经验整理成可以反复使用的知识。' },
   variant: { type: String, default: 'methods' }
 })
@@ -35,9 +35,9 @@ const items = computed(() => source.value.map((item) => ({
     :title-lines="[title]"
     :description="description"
     visual="knowledge"
-    :topics="variant === 'industry' ? ['AI 设计', '行业观察', '个人品牌', '知识管理'] : ['方法论', '工作流', '项目复盘', '判断标准']"
+    :topics="variant === 'industry' ? ['AI 趋势', '行业观察', '学习记录', '工具实验'] : ['教程步骤', '分析框架', 'Prompt 方法', '实战经验']"
     :items="items"
-    :section-title="variant === 'industry' ? '学习与观察' : '方法文章'"
+    :section-title="variant === 'industry' ? '全部研究笔记' : '全部方法指南'"
     section-description="标题、正文和标签都可以通过上方搜索栏参与全站匹配。"
   />
 </template>

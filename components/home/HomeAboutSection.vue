@@ -64,7 +64,7 @@ const manifestos = [
         </div>
 
         <div class="ab-actions">
-          <BaseButton href="/resume" variant="ghost">了解实验室实践背书</BaseButton>
+          <BaseButton href="/resume" variant="ghost">了解我的实践背书</BaseButton>
         </div>
       </div>
     </div>

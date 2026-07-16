@@ -8,6 +8,7 @@ import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
 const imageManifest = JSON.parse(readFileSync(new URL('./cache/image-manifest.json', import.meta.url), 'utf8'))
+const faqData = JSON.parse(readFileSync(new URL('../.shared/content/faq.json', import.meta.url), 'utf8'))
 const contentCatalog = loadContentCatalog()
 const unpublishedContentPaths = contentCatalog.all
   .filter((item) => item.status !== 'published')
@@ -78,7 +79,7 @@ const renderContentBlocks = (blocks) => {
 export default defineConfig({
   lang: 'zh-CN',
   title: "韩福利 | AI 实践与知识系统",
-  description: "记录 AI 商业视觉案例、可复用工作流、方法洞察与经过验证的知识资产",
+  description: "记录 AI 商业视觉作品、可复用工作流、研究方法与经过验证的工具资源",
   cleanUrls: true,
   srcExclude: [
     'design-qa.md',
@@ -121,6 +122,22 @@ export default defineConfig({
       pageData.frontmatter.contentSearchText = searchableMarkdown
     }
 
+    if (normalizedPath === 'faq.md') {
+      const entities = faqData.items
+        .filter((item) => item.published !== false)
+        .map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer }
+        }))
+      pageData.frontmatter.head ??= []
+      pageData.frontmatter.head.push([
+        'script',
+        { type: 'application/ld+json' },
+        JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: entities })
+      ])
+    }
+
     const canonicalPath = pageData.relativePath
       .replace(/\\/g, '/')
       .replace(/(^|\/)index\.md$/, '$1')
@@ -144,9 +161,9 @@ export default defineConfig({
     sidebar: {
       '/portfolio/': [
         {
-          text: '案例',
+          text: '作品集',
           items: [
-            { text: '案例总览', link: '/portfolio/' },
+            { text: '作品总览', link: '/portfolio/' },
             ...sidebarEntries(contentCatalog.cases)
           ]
         }
@@ -162,7 +179,7 @@ export default defineConfig({
       ],
       '/knowledge/learning-observation/': [
         {
-          text: '学习与观察',
+          text: '研究笔记',
           items: [
             { text: '栏目总览', link: '/knowledge/learning-observation' },
             ...sidebarEntries(contentCatalog.learning)
@@ -171,7 +188,7 @@ export default defineConfig({
       ],
       '/knowledge/methods/': [
         {
-          text: '方法体系',
+          text: '方法指南',
           items: [
             { text: '栏目总览', link: '/knowledge/methods' },
             ...sidebarEntries(contentCatalog.methods)
@@ -180,9 +197,9 @@ export default defineConfig({
       ],
       '/knowledge/resources/': [
         {
-          text: '资源库',
+          text: '工具与资源',
           items: [
-            { text: '资源总览', link: '/knowledge/resources' },
+            { text: '工具与资源总览', link: '/knowledge/resources' },
             ...sidebarEntries(contentCatalog.resources)
           ]
         }

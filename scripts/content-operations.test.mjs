@@ -6,31 +6,47 @@ import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { normalizeHomeSelections, resolveSelections } from '../.shared/contentClient.js'
-import { normalizeContentData } from '../.shared/contentSchema.mjs'
+import { latestPublished, normalizeHomeSelections, resolveSelections } from '../.shared/contentClient.js'
+import { getPageClass, isManagedContentPath, normalizeContentData } from '../.shared/contentSchema.mjs'
 import { collectContentRedirects, parseRenameLog, resolveRenameChains } from './lib/content-history.mjs'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const collectionNames = ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']
+const flattenContent = (entries = []) => entries.flatMap((entry) => entry.type === 'group' ? flattenContent(entry.items || []) : [entry])
 
 test('五个内容集合开放文件名、重命名和删除，并使用稳定 contentId', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
-  const collections = (config.content || []).filter((entry) => collectionNames.includes(entry.name))
+  const entries = flattenContent(config.content || [])
+  const collections = entries.filter((entry) => collectionNames.includes(entry.name))
   assert.equal(collections.length, collectionNames.length)
 
   for (const collection of collections) {
     assert.equal(collection.filename.field, true, `${collection.name} 应显示文件名`)
     assert.deepEqual(collection.operations, { create: true, rename: true, delete: true })
     assert.ok(collection.fields.some((field) => field.name === 'contentId' && field.component === 'content_id'))
+    const duplicateAction = collection.actions.find((action) => action.name === 'duplicate-content')
+    assert.equal(duplicateAction.workflow, 'duplicate-content.yml')
+    assert.equal(duplicateAction.scope, 'entry')
   }
 
-  const homepage = config.content.find((entry) => entry.name === 'homepage')
+  const homepage = entries.find((entry) => entry.name === 'homepage')
   const referenceFields = [
     homepage.fields.find((field) => field.name === 'featuredCases'),
     homepage.fields.find((field) => field.name === 'featuredWorkflows'),
     ...homepage.fields.find((field) => field.name === 'knowledge').fields
   ]
   assert.ok(referenceFields.every((field) => field.options.value === '{fields.contentId}'))
+})
+
+test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、个人资料和 PDF 媒体', async () => {
+  const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
+  const groups = (config.content || []).filter((entry) => entry.type === 'group')
+  assert.ok(groups.some((entry) => entry.name === 'knowledge_content'))
+  assert.ok(groups.some((entry) => entry.name === 'site_management'))
+  const entries = flattenContent(config.content || [])
+  assert.ok(entries.some((entry) => entry.name === 'faq' && entry.path === '.shared/content/faq.json'))
+  assert.ok(entries.some((entry) => entry.name === 'profile' && entry.path === '.shared/content/profile.json'))
+  assert.ok((config.media || []).some((entry) => entry.name === 'documents' && entry.extensions.includes('pdf')))
 })
 
 test('首页配置缺少空字段时自动补齐', () => {
@@ -65,6 +81,57 @@ test('封面、SEO 和标签留空时使用安全回退', () => {
   assert.equal(normalized.seoTitle, '示例标题')
   assert.equal(normalized.seoDescription, '示例摘要')
   assert.deepEqual(normalized.tags, [])
+  assert.deepEqual(normalized.project, { role: '', year: '', client: '', services: [], outcome: '' })
+  assert.equal(normalized.resourceMeta.type, 'other')
+  assert.equal(normalized.resourceMeta.access, 'contact')
+})
+
+test('知识库最近更新只返回最多六篇已发布内容并按更新时间倒序', () => {
+  const items = Array.from({ length: 8 }, (_, index) => ({
+    id: index,
+    status: index === 7 ? 'draft' : 'published',
+    updatedAt: `2026-07-${String(index + 1).padStart(2, '0')}`,
+    createdAt: '2026-01-01'
+  }))
+  assert.deepEqual(latestPublished(items, 6).map((item) => item.id), [6, 5, 4, 3, 2, 1])
+})
+
+test('FAQ 首版包含三组各四题，并接入搜索锚点与 FAQPage 结构化数据', async () => {
+  const faq = JSON.parse(await readFile(path.join(repoRoot, '.shared/content/faq.json'), 'utf8'))
+  const published = faq.items.filter((item) => item.published !== false)
+  assert.equal(published.length, 12)
+  for (const category of ['cooperation', 'resources', 'site']) {
+    assert.equal(published.filter((item) => item.category === category).length, 4)
+  }
+  const searchSource = await readFile(path.join(repoRoot, '.vitepress/search.data.mjs'), 'utf8')
+  const pageSearchSource = await readFile(path.join(repoRoot, 'components/PageSearch.vue'), 'utf8')
+  const configSource = await readFile(path.join(repoRoot, '.vitepress/config.mts'), 'utf8')
+  assert.match(searchSource, /normalizeSearchUrl\(page\.url\) === '\/faq'/)
+  assert.match(searchSource, /frontmatter\?\.publishing\?\.status \|\| frontmatter\?\.status \|\| 'published'/)
+  assert.match(searchSource, /anchor: item\.id/)
+  assert.match(pageSearchSource, /target: heading && !titleMatches/)
+  assert.match(pageSearchSource, /:href="withBase\(result\.target \|\| result\.url\)"/)
+  assert.match(configSource, /'@type': 'FAQPage'/)
+})
+
+test('作品资料和资源获取方式按新结构归一化', () => {
+  const project = normalizeContentData({
+    project: { role: '视觉设计', year: 2026, client: '示例品牌', services: ['策略', '设计'], outcome: '完成交付' }
+  }, 'portfolio/example.md')
+  assert.deepEqual(project.project, { role: '视觉设计', year: '2026', client: '示例品牌', services: ['策略', '设计'], outcome: '完成交付' })
+
+  const resource = normalizeContentData({
+    resourceMeta: { type: 'software', access: 'official', platform: 'Adobe', licenseNote: '请使用正版' }
+  }, 'knowledge/resources/example.md')
+  assert.deepEqual(resource.resourceMeta, { type: 'software', access: 'official', platform: 'Adobe', licenseNote: '请使用正版' })
+})
+
+test('栏目 index 页面不会被误判为受管详情页', () => {
+  assert.equal(isManagedContentPath('portfolio/index.md'), false)
+  assert.equal(isManagedContentPath('aigc/index.md'), false)
+  assert.equal(getPageClass('portfolio/index.md'), '')
+  assert.equal(isManagedContentPath('portfolio/example.md'), true)
+  assert.equal(getPageClass('portfolio/example.md'), 'page-case-detail')
 })
 
 test('封面焦点和首页覆盖图按新结构归一化', () => {

@@ -1,8 +1,8 @@
 import { normalizeFocalPoint } from './imageProfiles.mjs'
 
 const managedPatterns = [
-  /^portfolio\/[^/]+\.md$/,
-  /^aigc\/[^/]+\.md$/,
+  /^portfolio\/(?!index\.md$)[^/]+\.md$/,
+  /^aigc\/(?!index\.md$)[^/]+\.md$/,
   /^knowledge\/(?:learning-observation|methods|resources)\/[^/]+\.md$/
 ]
 
@@ -11,8 +11,8 @@ export const isManagedContentPath = (sourcePath = '') =>
 
 export const getPageClass = (sourcePath = '') => {
   const normalized = String(sourcePath).replace(/\\/g, '/')
-  if (/^portfolio\/[^/]+\.md$/.test(normalized)) return 'page-case-detail'
-  if (/^aigc\/[^/]+\.md$/.test(normalized)) return 'page-workflow-detail'
+  if (/^portfolio\/(?!index\.md$)[^/]+\.md$/.test(normalized)) return 'page-case-detail'
+  if (/^aigc\/(?!index\.md$)[^/]+\.md$/.test(normalized)) return 'page-workflow-detail'
   if (/^knowledge\/(?:learning-observation|methods)\/[^/]+\.md$/.test(normalized)) return 'page-article-detail'
   if (/^knowledge\/resources\/[^/]+\.md$/.test(normalized)) return 'page-resource-detail'
   return ''
@@ -23,6 +23,14 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const publishing = frontmatter.publishing || {}
   const cover = frontmatter.cover && typeof frontmatter.cover === 'object' ? frontmatter.cover : {}
   const seo = frontmatter.seo || {}
+  const project = frontmatter.project && typeof frontmatter.project === 'object' ? frontmatter.project : {}
+  const resourceMeta = frontmatter.resourceMeta && typeof frontmatter.resourceMeta === 'object' ? frontmatter.resourceMeta : {}
+  const blocks = Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : []
+  const resourceTypes = new Set(['software', 'ai-tool', 'plugin', 'prompt', 'template', 'asset', 'document', 'other'])
+  const accessTypes = new Set(['official', 'cloud', 'contact'])
+  const inferredAccess = blocks.some((block) => block?.type === 'download')
+    ? 'cloud'
+    : blocks.some((block) => block?.type === 'externalLink') ? 'official' : 'contact'
 
   return {
     contentId: String(frontmatter.contentId || ''),
@@ -39,7 +47,20 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
     homeOverrideSrc: String(cover.homeOverrideSrc || ''),
     seoTitle: String(seo.title || meta.title || frontmatter.title || ''),
     seoDescription: String(seo.description || meta.description || frontmatter.description || ''),
-    contentBlocks: Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : [],
+    contentBlocks: blocks,
+    project: {
+      role: String(project.role || ''),
+      year: String(project.year || ''),
+      client: String(project.client || ''),
+      services: Array.isArray(project.services) ? project.services.map(String).filter(Boolean) : [],
+      outcome: String(project.outcome || '')
+    },
+    resourceMeta: {
+      type: resourceTypes.has(String(resourceMeta.type)) ? String(resourceMeta.type) : 'other',
+      access: accessTypes.has(String(resourceMeta.access)) ? String(resourceMeta.access) : inferredAccess,
+      platform: String(resourceMeta.platform || ''),
+      licenseNote: String(resourceMeta.licenseNote || '')
+    },
     pageClass: getPageClass(sourcePath)
   }
 }

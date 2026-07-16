@@ -15,7 +15,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
             <BrandMark :size="20" />
             <span>Liuli AI Lab</span>
           </a>
-          <p>记录 AI 商业视觉实践、可复用工作流与经过验证的知识资产。</p>
+          <p>记录 AI 商业视觉作品、可复用工作流、研究方法与经过验证的工具资源。</p>
           <div class="site-footer__socials" aria-label="社交平台">
             <a
               v-for="item in socialLinks"

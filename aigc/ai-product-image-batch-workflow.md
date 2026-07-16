@@ -298,7 +298,7 @@ contentBlocks:
 
       • [- 知识库： 知识库合集](https://liulicc.cn/knowledge/)
 
-      • [- 案例： 案例合集](https://liulicc.cn/portfolio/)
+      • [- 作品集： 查看全部作品](https://liulicc.cn/portfolio/)
 
       [← 返回工作流](https://liulicc.cn/aigc/)
 ---
