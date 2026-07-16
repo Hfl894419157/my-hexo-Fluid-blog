@@ -15,6 +15,7 @@ publishing:
 cover:
   src: /images/uploads/工作流板块图片/file.jpg
   alt: AI 产品图批量生成流程
+  focalPoint: bottom
 seo:
   title: AI 产品海报图批量生成流程
   description: 做了个AI工作流，把公司全年要用的海报，一次搞定了...
@@ -299,5 +300,5 @@ contentBlocks:
 
       • [- 案例： 案例合集](https://liulicc.cn/portfolio/)
 
-      ← 返回工作流
+      [← 返回工作流](https://liulicc.cn/aigc/)
 ---
