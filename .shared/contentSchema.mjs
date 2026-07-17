@@ -1,5 +1,24 @@
 import { normalizeFocalPoint } from './imageProfiles.mjs'
 
+export const portfolioGalleryLayouts = ['auto', 'third', 'half', 'two-thirds', 'full']
+const portfolioGalleryLayoutSet = new Set(portfolioGalleryLayouts)
+
+export const normalizePortfolioGalleryLayout = (value = 'auto') =>
+  portfolioGalleryLayoutSet.has(String(value)) ? String(value) : 'auto'
+
+const normalizeContentBlocks = (blocks = []) => blocks.map((block) => {
+  if (block?.type !== 'gallery') return block
+  return {
+    ...block,
+    items: Array.isArray(block.items)
+      ? block.items.map((item) => ({
+        ...item,
+        layout: normalizePortfolioGalleryLayout(item?.layout)
+      }))
+      : []
+  }
+})
+
 const managedPatterns = [
   /^portfolio\/(?!index\.md$)[^/]+\.md$/,
   /^aigc\/(?!index\.md$)[^/]+\.md$/,
@@ -25,7 +44,7 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const seo = frontmatter.seo || {}
   const project = frontmatter.project && typeof frontmatter.project === 'object' ? frontmatter.project : {}
   const resourceMeta = frontmatter.resourceMeta && typeof frontmatter.resourceMeta === 'object' ? frontmatter.resourceMeta : {}
-  const blocks = Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : []
+  const blocks = normalizeContentBlocks(Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : [])
   const resourceTypes = new Set(['software', 'ai-tool', 'plugin', 'prompt', 'template', 'asset', 'document', 'other'])
   const accessTypes = new Set(['official', 'cloud', 'contact'])
   const inferredAccess = blocks.some((block) => block?.type === 'download')

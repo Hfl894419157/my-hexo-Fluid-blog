@@ -2,7 +2,7 @@
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
-import SvgAboutIdent from './svg/SvgAboutIdent.vue'
+import SvgHomeAboutIllustration from './svg/SvgHomeAboutIllustration.vue'
 
 // 升级实验室的理念宣誓，抛弃原本行政化、表格化的简历感，改用极具专业力量的“宣言式”陈列
 const manifestos = [
@@ -24,25 +24,8 @@ const manifestos = [
 <template>
   <SectionShell id="about" tone="soft">
     <div class="ab-layout">
-      <!-- 左侧：升级为充满呼吸感与科技背书的“实验室电子铭牌” -->
-      <div class="ab-badge-area" v-reveal="{ delay: 0, y: 32 }">
-        <div class="ab-badge">
-          <div class="ab-badge__glow" aria-hidden="true"></div>
-          <div class="ab-badge__inner">
-            <div class="ab-badge__logo">
-              <SvgAboutIdent />
-            </div>
-            <div class="ab-badge__meta">
-              <span class="ab-badge__label">EST. 2026</span>
-              <strong class="ab-badge__title">LIULI AI LAB</strong>
-              <p class="ab-badge__desc">实践驱动的 AI 视觉协同</p>
-            </div>
-            <div class="ab-badge__footer">
-              <span>SYSTEMATIC</span>
-              <span>VERIFIED</span>
-            </div>
-          </div>
-        </div>
+      <div class="ab-visual" v-reveal="{ delay: 0, y: 32 }">
+        <SvgHomeAboutIllustration />
       </div>
 
       <!-- 右侧：大字号的画册风宣言排版 -->
@@ -79,101 +62,16 @@ const manifestos = [
   align-items: center;
 }
 
-/* ─── 左侧：实验室电子铭牌卡片 ────────────────────────── */
-.ab-badge-area {
+/* ─── 左侧：用户提供的主题插画 ────────────────────────── */
+.ab-visual {
   display: flex;
+  width: 100%;
   justify-content: center;
 }
 
-.ab-badge {
-  position: relative;
-  width: min(340px, 100%);
-  aspect-ratio: 4 / 5;
-  background: var(--bg-card);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-card);
-  padding: 32px;
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* 微弱的环境呼吸光晕 */
-.ab-badge__glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--brand-main) 4%, transparent), transparent 60%);
-  pointer-events: none;
-}
-
-.ab-badge__inner {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
-.ab-badge__logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  border: 1px solid var(--border-soft);
-  border-radius: 16px;
-  background: var(--bg-soft);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.ab-badge__logo :deep(svg) {
-  width: 48px;
-  height: 48px;
-}
-
-.ab-badge__meta {
-  margin-top: 40px;
-  margin-bottom: auto;
-}
-
-.ab-badge__label {
-  display: block;
-  font-size: var(--text-micro);
-  letter-spacing: 0.15em;
-  color: var(--brand-main);
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.ab-badge__title {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: 0.05em;
-}
-
-.ab-badge__desc {
-  margin: 6px 0 0;
-  font-size: var(--text-caption);
-  color: var(--text-sub);
-}
-
-.ab-badge__footer {
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px dashed var(--border-soft);
-  padding-top: 20px;
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
+.ab-visual :deep(.home-about-illustration) {
+  width: min(440px, 100%);
+  filter: drop-shadow(0 22px 36px color-mix(in srgb, var(--text-main), transparent 90%));
 }
 
 /* ─── 右侧：高端画册风宣言列表 ────────────────────────── */
@@ -237,7 +135,7 @@ const manifestos = [
     gap: 40px;
   }
   
-  .ab-badge-area {
+  .ab-visual {
     order: 2;
   }
   
@@ -245,14 +143,6 @@ const manifestos = [
     order: 1;
   }
   
-  .ab-badge {
-    aspect-ratio: auto;
-    padding: 28px;
-  }
-
-  .ab-badge__meta {
-    margin-top: 28px;
-    margin-bottom: 28px;
-  }
+  .ab-visual :deep(.home-about-illustration) { width: min(380px, 86vw); }
 }
 </style>

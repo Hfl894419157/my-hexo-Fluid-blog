@@ -1,8 +1,12 @@
 <script setup>
 import ResponsiveImage from './ResponsiveImage.vue'
 import ContentVideo from './ContentVideo.vue'
+import PortfolioGallery from './PortfolioGallery.vue'
 
-defineProps({ blocks: { type: Array, default: () => [] } })
+defineProps({
+  blocks: { type: Array, default: () => [] },
+  variant: { type: String, default: 'default' }
+})
 
 const cardCover = (block) => block.customCover || block.platformCover || block.cover || ''
 const cardLabel = (block) => block.buttonLabel || (block.type === 'download' ? '打开资源' : '访问链接')
@@ -17,6 +21,11 @@ const cardLabel = (block) => block.buttonLabel || (block.type === 'download' ? '
         <ResponsiveImage :src="block.src" :alt="block.alt || ''" :eager="block.eager" sizes="(max-width: 640px) calc(100vw - 32px), 760px" />
         <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
       </figure>
+
+      <PortfolioGallery
+        v-else-if="block.type === 'gallery' && block.items?.length && variant === 'portfolio'"
+        :items="block.items"
+      />
 
       <section v-else-if="block.type === 'gallery' && block.items?.length" class="content-block content-block--gallery">
         <figure v-for="(item, index) in block.items" :key="`${block.id}-${index}-${item.src}`">

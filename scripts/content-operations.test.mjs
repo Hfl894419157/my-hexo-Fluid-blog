@@ -7,7 +7,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 import { latestPublished, normalizeHomeSelections, resolveSelections } from '../.shared/contentClient.js'
-import { getPageClass, isManagedContentPath, normalizeContentData } from '../.shared/contentSchema.mjs'
+import { getPageClass, isManagedContentPath, normalizeContentData, normalizePortfolioGalleryLayout } from '../.shared/contentSchema.mjs'
 import { collectContentRedirects, parseRenameLog, resolveRenameChains } from './lib/content-history.mjs'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -114,6 +114,23 @@ test('FAQ 首版包含三组各四题，并接入搜索锚点与 FAQPage 结构�
   assert.match(configSource, /'@type': 'FAQPage'/)
 })
 
+test('全局页面标题使用 Liuli AI Lab 且公开页面元数据不包含真实姓名', async () => {
+  const configSource = await readFile(path.join(repoRoot, '.vitepress/config.mts'), 'utf8')
+  const resumeSource = await readFile(path.join(repoRoot, 'resume.md'), 'utf8')
+  assert.match(configSource, /title: 'Liuli AI Lab'/)
+  assert.match(configSource, /titleTemplate: ':title · Liuli AI Lab'/)
+  assert.doesNotMatch(configSource, /韩福利/)
+  assert.match(resumeSource, /title: 关于我/)
+  assert.doesNotMatch(resumeSource, /关于韩福利/)
+})
+
+test('客服二维码预先挂载并使用 eager 响应式图片', async () => {
+  const source = await readFile(path.join(repoRoot, 'components/FloatingActions.vue'), 'utf8')
+  assert.match(source, /v-show="contactOpen"/)
+  assert.equal((source.match(/\s+eager\s*\n/g) || []).length, 2)
+  assert.doesNotMatch(source, /v-if="contactOpen"/)
+})
+
 test('作品资料和资源获取方式按新结构归一化', () => {
   const project = normalizeContentData({
     project: { role: '视觉设计', year: 2026, client: '示例品牌', services: ['策略', '设计'], outcome: '完成交付' }
@@ -164,6 +181,55 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和 Markdown Source 切�
   assert.equal(focalPoint.options.values.length, 9)
   assert.equal(homeOverride.type, 'image')
   assert.deepEqual(richText.options, { format: 'markdown', switcher: true, media: 'images' })
+})
+
+test('作品集后台使用专用图片组并提供五档可排序布局', async () => {
+  const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
+  const entries = flattenContent(config.content || [])
+  const cases = entries.find((entry) => entry.name === 'cases')
+  const contentField = cases.fields.find((field) => field.name === 'contentBlocks')
+  assert.equal(contentField.component, 'portfolio_content_blocks')
+
+  const gallery = config.components.portfolio_content_blocks.blocks.find((block) => block.name === 'gallery')
+  const items = gallery.fields.find((field) => field.name === 'items')
+  const itemId = items.fields.find((field) => field.name === 'id')
+  const layout = items.fields.find((field) => field.name === 'layout')
+  assert.equal(itemId.type, 'uuid')
+  assert.equal(itemId.hidden, true)
+  assert.equal(items.list.collapsible.collapsed, true)
+  assert.deepEqual(layout.options.values.map((option) => option.value), ['auto', 'third', 'half', 'two-thirds', 'full'])
+})
+
+test('作品图片布局未知时安全回退为自动', () => {
+  assert.equal(normalizePortfolioGalleryLayout('full'), 'full')
+  assert.equal(normalizePortfolioGalleryLayout('unexpected'), 'auto')
+
+  const normalized = normalizeContentData({
+    contentBlocks: [{
+      type: 'gallery',
+      items: [
+        { src: '/images/a.jpg', layout: 'half' },
+        { src: '/images/b.jpg', layout: 'unexpected' }
+      ]
+    }]
+  }, 'portfolio/example.md')
+  assert.deepEqual(normalized.contentBlocks[0].items.map((item) => item.layout), ['half', 'auto'])
+})
+
+test('作品图片拖动后的数组顺序在归一化过程中保持不变', () => {
+  const draggedOrder = [
+    { id: '1c3c66e2-a0e6-45f6-914f-9006e447e596', src: '/images/c.jpg', alt: '第三张', layout: 'full' },
+    { id: '6eed1203-b287-48bd-a0a9-94303fa2eb1d', src: '/images/a.jpg', alt: '第一张', layout: 'third' },
+    { id: '0d696df3-90f7-4f6e-8563-9a6e8d94392b', src: '/images/b.jpg', alt: '第二张', layout: 'half' }
+  ]
+  const normalized = normalizeContentData({
+    contentBlocks: [{ type: 'gallery', items: draggedOrder }]
+  }, 'portfolio/example.md')
+
+  assert.deepEqual(
+    normalized.contentBlocks[0].items.map((item) => item.id),
+    draggedOrder.map((item) => item.id)
+  )
 })
 
 test('重命名历史可以串联到最终地址', () => {

@@ -1,6 +1,6 @@
 <script setup>
 import BaseButton from '../BaseButton.vue'
-import SvgHeroVisual from './svg/SvgHeroVisual.vue'
+import HomeHeroLottie from './HomeHeroLottie.vue'
 </script>
 
 <template>
@@ -27,9 +27,9 @@ import SvgHeroVisual from './svg/SvgHeroVisual.vue'
 
       </div>
 
-      <!-- Right: SVG Visual -->
+      <!-- Right: themed Lottie visual -->
       <div class="home-hero__visual hero-fade-in-item" aria-hidden="true" style="--hero-delay: 280ms">
-        <SvgHeroVisual />
+        <HomeHeroLottie />
       </div>
     </div>
 
@@ -134,9 +134,8 @@ h1 {
   justify-content: center;
 }
 
-.home-hero__visual :deep(svg) {
-  width: min(100%, 500px); /* 提升至 500px 展现极简线稿细节 */
-  height: auto;
+.home-hero__visual :deep(.home-hero-lottie) {
+  width: min(100%, 420px);
 }
 
 /* ─── Scroll indicator ───────────────────────────────── */

@@ -114,17 +114,19 @@ onUnmounted(() => {
 
     <Transition name="contact-preview">
       <div
-        v-if="contactOpen"
+        v-show="contactOpen"
         id="customer-contact-preview"
         class="floating-service__preview"
         role="group"
         aria-label="客服二维码"
+        :aria-hidden="!contactOpen"
       >
         <figure class="floating-service__qr-item">
           <ResponsiveImage
             :src="wechatQr"
             alt="微信客服二维码"
             sizes="164px"
+            eager
           />
           <figcaption>微信</figcaption>
         </figure>
@@ -133,6 +135,7 @@ onUnmounted(() => {
             :src="qqQr"
             alt="QQ 客服二维码"
             sizes="164px"
+            eager
           />
           <figcaption>QQ</figcaption>
         </figure>
@@ -290,7 +293,7 @@ onUnmounted(() => {
 .contact-preview-leave-active,
 .floating-action-enter-active,
 .floating-action-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.12s ease, transform 0.12s ease;
 }
 
 .contact-preview-enter-from,

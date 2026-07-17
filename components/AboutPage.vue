@@ -15,6 +15,7 @@ const works = publishedContent(contentCatalog.cases).slice(0, 3).map((item) => (
   cta: '查看作品'
 }))
 const mailLink = `mailto:${profile.email}`
+const yearsValue = String(profile.yearsValue).padStart(2, '0')
 </script>
 
 <template>
@@ -31,9 +32,14 @@ const mailLink = `mailto:${profile.email}`
         <img :src="withBase(profile.avatar)" :alt="`${profile.name}的头像`">
       </div>
       <div class="about-profile__copy">
-        <span>{{ profile.yearsLabel }}</span>
-        <h2>{{ profile.name }}</h2>
-        <strong>{{ profile.role }}</strong>
+        <div class="about-profile__identity">
+          <h2>{{ profile.name }}</h2>
+          <div class="about-profile__tenure" aria-label="实践年限">
+            <strong>{{ yearsValue }}</strong>
+            <span>{{ profile.yearsLabel }}</span>
+          </div>
+        </div>
+        <strong class="about-profile__role">{{ profile.role }}</strong>
         <p>{{ profile.intro }}</p>
         <div class="about-profile__actions">
           <a :href="mailLink">联系合作</a>
@@ -86,9 +92,12 @@ const mailLink = `mailto:${profile.email}`
 .about-profile { display: grid; grid-template-columns: minmax(240px, 340px) minmax(0, 1fr); gap: clamp(36px, 6vw, 84px); align-items: center; padding: 34px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-card); }
 .about-profile__portrait { overflow: hidden; aspect-ratio: 4 / 5; border-radius: calc(var(--radius-card) - 4px); background: var(--bg-soft); }
 .about-profile__portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.about-profile__copy > span { color: var(--brand-main); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
-.about-profile__copy h2 { margin: 18px 0 0; font-size: clamp(36px, 5vw, 58px); line-height: 1.15; }
-.about-profile__copy > strong { display: block; margin-top: 12px; color: var(--text-main); font-size: 18px; }
+.about-profile__identity { display: flex; gap: clamp(24px, 4vw, 52px); align-items: flex-end; justify-content: space-between; }
+.about-profile__copy h2 { margin: 0; font-size: clamp(36px, 5vw, 58px); line-height: 1.15; }
+.about-profile__tenure { display: grid; flex: 0 0 auto; grid-template-columns: auto minmax(0, 74px); gap: 10px; align-items: end; padding: 0 0 5px 22px; border-left: 1px solid var(--border-strong); color: var(--brand-main); }
+.about-profile__tenure strong { font-family: var(--font-display); font-size: clamp(34px, 4vw, 48px); font-weight: 600; letter-spacing: -.05em; line-height: .9; }
+.about-profile__tenure span { padding-bottom: 1px; color: var(--text-sub); font-size: 12px; font-weight: 700; letter-spacing: .08em; line-height: 1.35; }
+.about-profile__role { display: block; margin-top: 14px; color: var(--text-main); font-size: 18px; }
 .about-profile__copy > p { max-width: 680px; margin: 20px 0 0; color: var(--text-sub); font-size: 15px; line-height: 1.9; }
 .about-profile__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .about-profile__actions a,
@@ -122,6 +131,13 @@ const mailLink = `mailto:${profile.email}`
 @media (max-width: 640px) {
   .about-profile { grid-template-columns: 1fr; padding: 20px; }
   .about-profile__portrait { max-width: 260px; }
+  .about-profile__copy { display: flex; flex-direction: column; }
+  .about-profile__identity { display: contents; }
+  .about-profile__copy h2 { order: 1; margin-top: 4px; }
+  .about-profile__role { order: 2; }
+  .about-profile__tenure { order: 3; width: fit-content; margin-top: 22px; padding-left: 16px; }
+  .about-profile__copy > p { order: 4; }
+  .about-profile__actions { order: 5; }
   .about-section { margin-top: 52px; }
   .about-section > header { display: grid; gap: 10px; }
   .about-section > header h2 { font-size: 28px; }
