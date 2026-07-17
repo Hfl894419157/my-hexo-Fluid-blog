@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import sharp from 'sharp'
 import { loadContentCatalog } from '../.shared/contentCatalog.mjs'
 import { imageProfileDefinitions, normalizeFocalPoint } from '../.shared/imageProfiles.mjs'
+import { richHtmlImageSources } from '../.shared/richHtml.mjs'
 
 const projectRoot = process.cwd()
 const publicRoot = path.join(projectRoot, 'public')
@@ -110,7 +111,8 @@ for (const block of articleData.contentBlocks || []) {
   if (block.type === 'image' && block.src) articleImageUrls.push(block.src)
   if (block.type === 'gallery') articleImageUrls.push(...(block.items || []).map((item) => item.src).filter(Boolean))
   if (block.type === 'richText') {
-    articleImageUrls.push(...[...String(block.markdown || '').matchAll(/!\[[^\]]*\]\((\/images\/uploads\/[^)\s]+)\)/g)].map((match) => match[1]))
+    if (block.html) articleImageUrls.push(...richHtmlImageSources(block.html))
+    else articleImageUrls.push(...[...String(block.legacyMarkdown || block.markdown || '').matchAll(/!\[[^\]]*\]\((\/images\/uploads\/[^)\s]+)\)/g)].map((match) => match[1]))
   }
 }
 assert(articleImageUrls.length === 14, `问题文章正文图片数量异常：${articleImageUrls.length}`)

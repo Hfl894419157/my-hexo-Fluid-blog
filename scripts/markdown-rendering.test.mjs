@@ -3,6 +3,7 @@ import test from 'node:test'
 import { createMarkdownRenderer, disposeMdItInstance } from 'vitepress'
 import { configureInlineFormatting, configureManagedHtmlPolicy } from '../.shared/markdownFormatting.mjs'
 import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
+import { renderRichHtml, richHtmlSearchText, sanitizeRichHtml } from '../.shared/richHtml.mjs'
 
 const imageManifest = {
   images: {
@@ -95,4 +96,43 @@ test('managed heading anchors keep the VitePress zero-width symbol invisible', a
   assert.match(html, /class="header-anchor"/)
   assert.ok(html.includes('&ZeroWidthSpace;'))
   assert.ok(!html.includes('&amp;ZeroWidthSpace;'))
+})
+
+test('高保真 HTML 保留安全排版并移除脚本、事件和危险定位', () => {
+  const source = [
+    '<section style="padding: 24px; background-color: #f2f2f2; position: fixed">',
+    '<h2 style="text-align: center; color: #8a4f2d">整篇导入</h2>',
+    '<p onclick="alert(1)" style="font-size: 18px; line-height: 1.8">保留正文</p>',
+    '<a href="javascript:alert(1)">危险链接</a>',
+    '<script>alert(1)</script>',
+    '</section>'
+  ].join('')
+  const html = sanitizeRichHtml(source)
+
+  assert.match(html, /padding:24px/)
+  assert.match(html, /text-align:center/)
+  assert.match(html, /font-size:18px/)
+  assert.doesNotMatch(html, /position:fixed|onclick|javascript:|script/i)
+  assert.equal(richHtmlSearchText(html), '整篇导入保留正文危险链接')
+})
+
+test('高保真 HTML 图片复用响应式产物并标记独立图文间距', () => {
+  const html = renderRichHtml(
+    '<p><img src="/images/uploads/test.jpg" alt="测试图片"></p><p>图片后的正文</p>',
+    imageManifest,
+    { headingCounts: new Map(), contentImageIndex: 0 }
+  )
+
+  assert.match(html, /class="content-rich-media-row"/)
+  assert.match(html, /class="responsive-image responsive-image--content"/)
+  assert.match(html, /type="image\/avif"/)
+  assert.match(html, /type="image\/webp"/)
+  assert.match(html, /loading="eager"/)
+  assert.match(html, /width="1600"/)
+  assert.match(html, /height="900"/)
+})
+
+test('rich HTML strips data image URLs at the rendering boundary', () => {
+  const html = sanitizeRichHtml('<p><img src="data:image/png;base64,AAAA" alt="inline"></p>')
+  assert.doesNotMatch(html, /data:image\//i)
 })

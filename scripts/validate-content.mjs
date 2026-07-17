@@ -4,6 +4,7 @@ import matter from 'gray-matter'
 import yaml from 'js-yaml'
 import { loadContentCatalog, loadHomeSelections, repoRoot } from '../.shared/contentCatalog.mjs'
 import { portfolioGalleryLayouts } from '../.shared/contentSchema.mjs'
+import { richHtmlImages, sanitizeRichHtml } from '../.shared/richHtml.mjs'
 
 const allowedStatuses = new Set(['draft', 'planned', 'published', 'archived'])
 const allowedBlockTypes = new Set(['richText', 'image', 'gallery', 'video', 'download', 'externalLink'])
@@ -88,10 +89,27 @@ for (const item of catalog.all) {
     seenIds.add(block?.id)
 
     if (block?.type === 'richText') {
-      requireValue(String(block.markdown || '').trim(), `${label} richText.markdown 不能为空`)
-      requireValue(!/<img\b[^>]*\bsrc=["']\//i.test(block.markdown || ''), `${label} 不允许直接输出本地 <img>`)
-      for (const match of String(block.markdown || '').matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
-        checkImage(prefix, `${label} Markdown 图片`, match[1])
+      const html = String(block.html || '')
+      const legacyMarkdown = String(block.legacyMarkdown || block.markdown || '')
+      requireValue(html.trim() || legacyMarkdown.trim(), `${label} richText 正文不能为空`)
+      if (html.trim()) {
+        requireValue(block.format === 'html', `${label} 使用 html 时 format 必须为 html`)
+        requireValue(!/<(?:script|style|iframe)\b/i.test(html), `${label} 不允许 script / style / iframe`)
+        requireValue(!/\son[a-z]+\s*=/i.test(html), `${label} 不允许 HTML 事件属性`)
+        requireValue(!/javascript\s*:/i.test(html), `${label} 不允许 javascript: 链接`)
+        requireValue(!/(?:position\s*:\s*(?:fixed|absolute)|margin(?:-[a-z]+)?\s*:\s*-)/i.test(html), `${label} 不允许固定定位或负边距`)
+        requireValue(sanitizeRichHtml(html).trim().length > 0, `${label} HTML 清洗后不能为空`)
+        for (const [imageIndex, image] of richHtmlImages(html).entries()) {
+          const imageLabel = `${label} HTML 图片[${imageIndex}]`
+          requireValue(image.src.startsWith('/images/uploads/'), `${imageLabel} 必须归档到 /images/uploads/`)
+          requireValue(String(image.alt || '').trim(), `${imageLabel} alt 不能为空`)
+          checkImage(prefix, imageLabel, image.src)
+        }
+      } else {
+        requireValue(!/<img\b[^>]*\bsrc=["']\//i.test(legacyMarkdown), `${label} 旧 Markdown 不允许直接输出本地 <img>`)
+        for (const match of legacyMarkdown.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+          checkImage(prefix, `${label} Markdown 图片`, match[1])
+        }
       }
     }
     if (block?.type === 'image') {

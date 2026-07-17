@@ -1,4 +1,5 @@
 import { normalizeFocalPoint } from './imageProfiles.mjs'
+import { richHtmlSearchText } from './richHtml.mjs'
 
 export const portfolioGalleryLayouts = ['auto', 'third', 'half', 'two-thirds', 'full']
 const portfolioGalleryLayoutSet = new Set(portfolioGalleryLayouts)
@@ -7,6 +8,16 @@ export const normalizePortfolioGalleryLayout = (value = 'auto') =>
   portfolioGalleryLayoutSet.has(String(value)) ? String(value) : 'auto'
 
 const normalizeContentBlocks = (blocks = []) => blocks.map((block) => {
+  if (block?.type === 'richText') {
+    const html = String(block.html || '')
+    const legacyMarkdown = String(block.legacyMarkdown || block.markdown || '')
+    return {
+      ...block,
+      format: html || block.format === 'html' ? 'html' : 'markdown',
+      html,
+      legacyMarkdown
+    }
+  }
   if (block?.type !== 'gallery') return block
   return {
     ...block,
@@ -85,7 +96,11 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
 }
 
 export const blockSearchText = (block = {}) => {
-  if (block.type === 'richText') return String(block.markdown || '')
+  if (block.type === 'richText') {
+    return block.html
+      ? richHtmlSearchText(block.html)
+      : String(block.legacyMarkdown || block.markdown || '')
+  }
   if (block.type === 'image') return [block.alt, block.caption].filter(Boolean).join(' ')
   if (block.type === 'gallery') {
     return (block.items || []).flatMap((item) => [item.alt, item.caption]).filter(Boolean).join(' ')

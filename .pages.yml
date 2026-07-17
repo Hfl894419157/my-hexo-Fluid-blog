@@ -213,21 +213,33 @@ components:
         summary: "{index}. {type}"
     blocks:
       - name: richText
-        label: Markdown 图文
+        label: 高保真图文
         fields:
           - name: id
             label: 模块标识
             type: uuid
             hidden: true
-          - name: markdown
+          - name: format
+            label: 正文格式
+            type: string
+            hidden: true
+            default: html
+          - name: html
             label: 图文正文
-            description: 支持 Markdown 与 Source 切换；重点高亮请在 Source 模式输入 ==内容==，下划线可输入 ++内容++。
+            description: 支持整篇富文本粘贴、图片粘贴及 Editor / Source 切换；外部图片会由增强后台自动归档。
             type: rich-text
             required: true
             options:
-              format: markdown
+              format: html
               switcher: true
               media: images
+              path: public/images/uploads/imported
+              rename: random
+          - name: legacyMarkdown
+            label: 迁移前 Markdown（回退）
+            type: text
+            hidden: true
+            readonly: true
       - name: image
         label: 单张图片
         fields:
@@ -412,11 +424,14 @@ components:
         label: 作品说明（可选）
         fields:
           - { name: id, label: 模块标识, type: uuid, hidden: true }
-          - name: markdown
+          - { name: format, label: 正文格式, type: string, hidden: true, default: html }
+          - name: html
             label: 图文正文
             type: rich-text
             required: true
-            options: { format: markdown, switcher: true, media: images }
+            description: 支持整篇富文本粘贴、图片粘贴及 Editor / Source 切换；外部图片会由增强后台自动归档。
+            options: { format: html, switcher: true, media: images, path: public/images/uploads/imported, rename: random }
+          - { name: legacyMarkdown, label: 迁移前 Markdown（回退）, type: text, hidden: true, readonly: true }
       - name: image
         label: 单张通栏图片
         fields:

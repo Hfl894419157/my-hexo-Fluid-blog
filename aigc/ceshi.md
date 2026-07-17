@@ -6,7 +6,7 @@ meta:
   tags:
     - 测试草稿
 publishing:
-  createdAt: 2026-07-15
+  createdAt: '2026-07-15'
   status: draft
   verificationStatus: 探索中
   showInRecentUpdates: false
@@ -16,5 +16,8 @@ cover:
 contentBlocks:
   - type: richText
     id: 2534121b-5dcd-4df4-9624-070362f40755
-    markdown: desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部
+    format: html
+    html: |
+      <p>desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部</p>
+    legacyMarkdown: desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部desad的风格DVD司法部
 ---

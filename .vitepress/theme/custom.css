@@ -516,6 +516,21 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich td { color: var(--text-sub); font-size: 14px; line-height: 1.7; }
 .content-block--rich img,
 .content-block--rich picture { max-width: 100%; }
+.content-block--rich .content-rich-media-row {
+  width: 100%;
+  max-width: 100%;
+  margin: 34px 0 36px !important;
+}
+.content-block--rich .content-rich-media-row:first-child { margin-top: 0 !important; }
+.content-block--rich figure.content-rich-media-row { margin-bottom: 28px !important; }
+.content-block--rich .content-rich-media-row picture,
+.content-block--rich .content-rich-media-row img { display: block; width: 100%; height: auto; }
+.content-block--rich section,
+.content-block--rich article,
+.content-block--rich div,
+.content-block--rich span { max-width: 100%; }
+.content-block--rich [style*='width'],
+.content-block--rich [style*='max-width'] { max-width: 100% !important; }
 .content-block--rich :not(pre) > code { max-width: 100%; padding: .15em .38em; border-radius: 4px; background: var(--bg-soft); color: var(--brand-main); font-size: .88em; overflow-wrap: anywhere; }
 .content-block--rich div[class*='language-'],
 .content-block--rich pre { width: 100%; max-width: 100%; min-width: 0; }
@@ -539,6 +554,8 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--gallery img { display: block; width: 100%; height: auto; }
 .content-block--image figcaption,
 .content-block--gallery figcaption { margin-top: 10px; color: var(--text-muted); font-size: 13px; line-height: 1.65; text-align: center; }
+.content-block--image + .content-block--rich { margin-top: 10px; }
+.content-block--image:has(figcaption) + .content-block--rich { margin-top: 2px; }
 .content-block--gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .content-video { overflow: hidden; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-card); }
 .content-video__stage { position: relative; overflow: hidden; background: var(--bg-soft); }
@@ -572,6 +589,10 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 
 @media (max-width: 640px) {
   .content-blocks { gap: 22px; }
+  .content-block--image + .content-block--rich { margin-top: 6px; }
+  .content-block--image:has(figcaption) + .content-block--rich { margin-top: 0; }
+  .content-block--rich .content-rich-media-row { margin-top: 24px !important; margin-bottom: 28px !important; }
+  .content-block--rich figure.content-rich-media-row { margin-bottom: 22px !important; }
   .content-block--rich h2 { margin-top: 42px; font-size: 26px; }
   .content-block--rich h3 { margin-top: 28px; font-size: 20px; }
   .content-block--rich p,
