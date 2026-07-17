@@ -1,6 +1,6 @@
 <script setup>
 import BaseButton from '../BaseButton.vue'
-import HomeHeroLottie from './HomeHeroLottie.vue'
+import SvgHeroIllustration from './svg/SvgHeroIllustration.vue'
 </script>
 
 <template>
@@ -27,9 +27,9 @@ import HomeHeroLottie from './HomeHeroLottie.vue'
 
       </div>
 
-      <!-- Right: themed Lottie visual -->
+      <!-- Right: themed static SVG visual -->
       <div class="home-hero__visual hero-fade-in-item" aria-hidden="true" style="--hero-delay: 280ms">
-        <HomeHeroLottie />
+        <SvgHeroIllustration />
       </div>
     </div>
 
@@ -134,7 +134,7 @@ h1 {
   justify-content: center;
 }
 
-.home-hero__visual :deep(.home-hero-lottie) {
+.home-hero__visual :deep(.hero-illustration) {
   width: min(100%, 420px);
 }
 
@@ -168,6 +168,7 @@ h1 {
 @media (max-width: 1020px) {
   .home-hero__inner { grid-template-columns: minmax(0, 1fr) 320px; gap: 36px; }
   h1 { font-size: 48px; }
+  .home-hero__visual :deep(.hero-illustration) { width: min(100%, 380px); }
 }
 
 @media (max-width: 800px) {
@@ -180,7 +181,7 @@ h1 {
   .home-hero__content { text-align: left; }
   .home-hero__lead { margin-left: auto; margin-right: auto; }
   .home-hero__actions { justify-content: flex-start; }
-  .home-hero__visual { max-width: 420px; margin: 0; }
+  .home-hero__visual { max-width: 380px; margin: 0; }
   .home-hero__scroll { display: none; }
 }
 
@@ -191,6 +192,7 @@ h1 {
 @media (max-width: 480px) {
   h1 { font-size: clamp(23px, 7.4vw, 28px); letter-spacing: -0.055em; }
   .home-hero__lead { margin-top: 22px; }
+  .home-hero__visual { width: min(88vw, 360px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

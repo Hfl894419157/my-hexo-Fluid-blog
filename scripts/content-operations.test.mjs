@@ -168,19 +168,25 @@ test('封面焦点和首页覆盖图按新结构归一化', () => {
   assert.equal(normalized.homeOverrideSrc, '/images/uploads/home.jpg')
 })
 
-test('Pages CMS 提供九宫格焦点、首页覆盖图和 Markdown Source 切换', async () => {
+test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 切换', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const cover = config.components.content_cover
   const focalPoint = cover.fields.find((field) => field.name === 'focalPoint')
   const homeOverride = cover.fields.find((field) => field.name === 'homeOverrideSrc')
   const richText = config.components.content_blocks.blocks
     .find((block) => block.name === 'richText')
-    .fields.find((field) => field.name === 'markdown')
+    .fields.find((field) => field.name === 'html')
 
   assert.equal(focalPoint.default, 'center')
   assert.equal(focalPoint.options.values.length, 9)
   assert.equal(homeOverride.type, 'image')
-  assert.deepEqual(richText.options, { format: 'markdown', switcher: true, media: 'images' })
+  assert.deepEqual(richText.options, {
+    format: 'html',
+    switcher: true,
+    media: 'images',
+    path: 'public/images/uploads/imported',
+    rename: 'random'
+  })
 })
 
 test('作品集后台使用专用图片组并提供五档可排序布局', async () => {

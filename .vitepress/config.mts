@@ -4,6 +4,7 @@ import { loadContentCatalog } from '../.shared/contentCatalog.mjs'
 import { contentBlocksMarkdown, isManagedContentPath, normalizeContentData } from '../.shared/contentSchema.mjs'
 import { configureInlineFormatting, configureManagedHtmlPolicy } from '../.shared/markdownFormatting.mjs'
 import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
+import { renderRichHtml } from '../.shared/richHtml.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
@@ -54,7 +55,10 @@ const renderContentBlocks = (blocks) => {
   const env = { headingCounts: new Map(), contentImageIndex: 0, managedContent: true }
   return blocks.map((block) => {
     if (block.type === 'richText') {
-      return { ...block, html: contentMarkdown.render(String(block.markdown || ''), env) }
+      const html = block.html
+        ? renderRichHtml(block.html, imageManifest, env)
+        : contentMarkdown.render(String(block.legacyMarkdown || block.markdown || ''), env)
+      return { ...block, html }
     }
     if (block.type === 'image') {
       const eager = env.contentImageIndex === 0

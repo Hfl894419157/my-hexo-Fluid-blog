@@ -96,7 +96,6 @@ const paradigms = [
     <section v-if="featuredWorkflows.length" class="wf-featured" aria-labelledby="featured-workflows-title">
       <div class="wf-featured__head">
         <div>
-          <span>SELECTED WORKFLOWS</span>
           <h3 id="featured-workflows-title">精选工作流</h3>
         </div>
         <BaseButton href="/aigc/" variant="text">查看全部工作流 →</BaseButton>
@@ -262,14 +261,8 @@ h3 {
   gap: 24px;
 }
 
-.wf-featured__head > div > span {
-  color: var(--brand-main);
-  font: 700 10px/1 var(--font-mono);
-  letter-spacing: .16em;
-}
-
 .wf-featured__head h3 {
-  margin-top: 10px;
+  margin-top: 0;
   font-size: 26px;
 }
 
