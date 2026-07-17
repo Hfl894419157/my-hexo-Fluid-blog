@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "fonts:prepare": "node scripts/prepare-fonts.mjs",
-    "images:prepare": "npm run fonts:prepare && node scripts/prepare-images.mjs",
+    "animations:prepare": "node scripts/prepare-home-lottie.mjs",
+    "images:prepare": "npm run fonts:prepare && npm run animations:prepare && node scripts/prepare-images.mjs",
     "images:check": "node scripts/check-images.mjs",
     "dev": "npm run images:prepare && vitepress dev",
     "docs:dev": "npm run images:prepare && vitepress dev",
@@ -13,7 +14,7 @@
     "docs:preview": "vitepress preview",
     "build": "npm run images:prepare && vitepress build && npm run images:check && npm run redirects:build",
     "content:check": "node scripts/validate-content.mjs",
-    "content:test": "node --test scripts/content-operations.test.mjs scripts/duplicate-content.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs",
+    "content:test": "node --test scripts/content-operations.test.mjs scripts/duplicate-content.test.mjs scripts/home-lottie.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs",
     "enrichment:test": "node --test scripts/enrichment.test.mjs",
     "redirects:build": "node scripts/generate-content-redirects.mjs"
   },
@@ -25,5 +26,8 @@
     "markdown-it": "^14.1.0",
     "sharp": "^0.35.3",
     "vitepress": "^1.0.0-rc.40"
+  },
+  "dependencies": {
+    "lottie-web": "^5.13.0"
   }
 }

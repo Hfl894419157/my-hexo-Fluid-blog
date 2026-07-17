@@ -10,6 +10,7 @@ import ContentBlocks from './ContentBlocks.vue'
 const { frontmatter } = useData()
 const isModular = computed(() => frontmatter.value.modularContent === true)
 const blocks = computed(() => frontmatter.value.contentBlocksRendered || [])
+const contentVariant = computed(() => frontmatter.value.pageClass === 'page-case-detail' ? 'portfolio' : 'default')
 const detailFacts = computed(() => {
   if (frontmatter.value.pageClass === 'page-case-detail') {
     const project = frontmatter.value.project || {}
@@ -51,7 +52,7 @@ const detailFacts = computed(() => {
             </div>
           </dl>
         </header>
-        <ContentBlocks :blocks="blocks" />
+        <ContentBlocks :blocks="blocks" :variant="contentVariant" />
       </div>
     </template>
     <template #layout-bottom>

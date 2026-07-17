@@ -398,6 +398,64 @@ components:
             type: string
             default: 访问链接
 
+  portfolio_content_blocks:
+    label: 作品内容
+    description: 建议使用“作品图片组”；组内图片可新增、删除、折叠和拖动排序，列表顺序就是前台顺序。
+    type: block
+    blockKey: type
+    list:
+      collapsible:
+        collapsed: true
+        summary: "{index}. {type}"
+    blocks:
+      - name: richText
+        label: 作品说明（可选）
+        fields:
+          - { name: id, label: 模块标识, type: uuid, hidden: true }
+          - name: markdown
+            label: 图文正文
+            type: rich-text
+            required: true
+            options: { format: markdown, switcher: true, media: images }
+      - name: image
+        label: 单张通栏图片
+        fields:
+          - { name: id, label: 模块标识, type: uuid, hidden: true }
+          - { name: src, label: 图片, type: image, required: true, options: { media: images } }
+          - { name: alt, label: 替代文字, type: string, required: true }
+          - { name: caption, label: 图片说明, type: text }
+      - name: gallery
+        label: 作品图片组
+        fields:
+          - { name: id, label: 模块标识, type: uuid, hidden: true }
+          - name: items
+            label: 作品图片（可拖动排序）
+            type: object
+            required: true
+            list:
+              min: 1
+              collapsible:
+                collapsed: true
+                summary: "{index}. {alt} · {layout}"
+            fields:
+              - { name: id, label: 图片标识, type: uuid, hidden: true }
+              - { name: src, label: 图片, type: image, required: true, options: { media: images } }
+              - { name: alt, label: 替代文字, type: string, required: true }
+              - { name: caption, label: 图片说明（可选）, type: text }
+              - name: layout
+                label: 展示宽度
+                description: 自动会根据图片横竖比例选择宽度；手机端统一通栏。
+                type: select
+                required: true
+                default: auto
+                options:
+                  values:
+                    - { label: 智能自动, value: auto }
+                    - { label: 三分之一, value: third }
+                    - { label: 二分之一, value: half }
+                    - { label: 三分之二, value: two-thirds }
+                    - { label: 整行通栏, value: full }
+
 content:
   - name: cases
     label: 作品集
@@ -456,7 +514,7 @@ content:
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
       - { name: project, component: project_meta }
-      - { name: contentBlocks, component: content_blocks }
+      - { name: contentBlocks, component: portfolio_content_blocks }
       - { name: seo, component: content_seo }
 
   - name: workflows
@@ -743,7 +801,8 @@ content:
           - { name: role, label: 职业定位, type: string, required: true }
           - { name: avatar, label: 头像, type: image, options: { media: images } }
           - { name: intro, label: 个人简介, type: text, required: true }
-          - { name: yearsLabel, label: 实践年限说明, type: string }
+          - { name: yearsValue, label: 实践年数, type: number, required: true }
+          - { name: yearsLabel, label: 年限说明, type: string, required: true }
           - name: capabilities
             label: 核心能力
             type: object

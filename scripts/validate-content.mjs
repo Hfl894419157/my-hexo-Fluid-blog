@@ -3,11 +3,13 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import yaml from 'js-yaml'
 import { loadContentCatalog, loadHomeSelections, repoRoot } from '../.shared/contentCatalog.mjs'
+import { portfolioGalleryLayouts } from '../.shared/contentSchema.mjs'
 
 const allowedStatuses = new Set(['draft', 'planned', 'published', 'archived'])
 const allowedBlockTypes = new Set(['richText', 'image', 'gallery', 'video', 'download', 'externalLink'])
 const allowedResourceTypes = new Set(['software', 'ai-tool', 'plugin', 'prompt', 'template', 'asset', 'document', 'other'])
 const allowedResourceAccess = new Set(['official', 'cloud', 'contact'])
+const allowedPortfolioGalleryLayouts = new Set(portfolioGalleryLayouts)
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const filenamePattern = /^[a-z0-9-]+\.md$/
 const legacyKeys = ['title', 'description', 'slug', 'createdAt', 'status', 'verificationStatus', 'showInRecentUpdates', 'tags', 'coverAlt', 'pageClass']
@@ -57,6 +59,15 @@ for (const item of catalog.all) {
   requireValue(item.createdAt !== '2099-12-31', `${prefix}: 缺少 publishing.createdAt`)
   if (!item.tags.length) warnings.push(`${prefix}: 建议至少填写一个 meta.tags`)
   if (item.status === 'published') requireValue(data.contentBlocks?.length > 0, `${prefix}: 已发布内容至少需要一个内容模块`)
+  if (item.kind === 'case' && item.status === 'published') {
+    const portfolioImageCount = (data.contentBlocks || []).reduce((count, block) => {
+      if (block?.type === 'image' && block.src) return count + 1
+      if (block?.type === 'gallery') return count + (block.items || []).filter((image) => image?.src).length
+      return count
+    }, 0)
+    requireValue(String(data.cover?.src || '').trim(), `${prefix}: 已发布作品必须设置卡片封面`)
+    requireValue(portfolioImageCount > 0, `${prefix}: 已发布作品至少需要一张作品图片`)
+  }
 
   if (item.kind === 'resource' && data.resourceMeta) {
     requireValue(allowedResourceTypes.has(String(data.resourceMeta.type || '')), `${prefix}: resourceMeta.type 无效`)
@@ -94,6 +105,15 @@ for (const item of catalog.all) {
         requireValue(image.src, `${label}.items[${itemIndex}].src 不能为空`)
         requireValue(String(image.alt || '').trim(), `${label}.items[${itemIndex}].alt 不能为空`)
         checkImage(prefix, `${label}.items[${itemIndex}].src`, image.src)
+        if (item.kind === 'case') {
+          requireValue(uuidPattern.test(String(image.id || '')), `${label}.items[${itemIndex}].id 必须是 UUID v4`)
+          requireValue(!seenIds.has(image.id), `${label}.items[${itemIndex}].id UUID 重复`)
+          seenIds.add(image.id)
+          requireValue(
+            allowedPortfolioGalleryLayouts.has(String(image.layout || 'auto')),
+            `${label}.items[${itemIndex}].layout 必须是 auto / third / half / two-thirds / full`
+          )
+        }
       }
     }
     if (block?.type === 'video') {
@@ -160,6 +180,8 @@ const profile = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content'
 requireValue(String(profile.name || '').trim(), 'profile.json: name 不能为空')
 requireValue(String(profile.role || '').trim(), 'profile.json: role 不能为空')
 requireValue(String(profile.intro || '').trim(), 'profile.json: intro 不能为空')
+requireValue(Number.isFinite(profile.yearsValue) && profile.yearsValue >= 0, 'profile.json: yearsValue 必须是非负数字')
+requireValue(String(profile.yearsLabel || '').trim(), 'profile.json: yearsLabel 不能为空')
 if (profile.avatar) checkImage('profile.json', 'avatar', profile.avatar)
 if (profile.resumePdf) requireValue(existsSync(path.join(repoRoot, 'public', String(profile.resumePdf).replace(/^\//, ''))), `profile.json: 找不到简历 ${profile.resumePdf}`)
 
@@ -168,6 +190,8 @@ try {
   requireValue(config?.settings?.content?.merge === true, '.pages.yml: 必须保留 settings.content.merge')
   requireValue(config?.components?.content_blocks?.type === 'block', '.pages.yml: content_blocks 必须使用 block 字段')
   requireValue(config?.components?.content_blocks?.blockKey === 'type', '.pages.yml: content_blocks.blockKey 必须为 type')
+  requireValue(config?.components?.portfolio_content_blocks?.type === 'block', '.pages.yml: portfolio_content_blocks 必须使用 block 字段')
+  requireValue(config?.components?.portfolio_content_blocks?.blockKey === 'type', '.pages.yml: portfolio_content_blocks.blockKey 必须为 type')
   requireValue(config?.components?.enrichment_state?.hidden === true, '.pages.yml: 识别记录必须在后台隐藏')
   requireValue(config?.components?.content_id?.type === 'uuid', '.pages.yml: content_id 必须使用 uuid 字段')
   requireValue(config?.components?.content_id?.hidden === true, '.pages.yml: content_id 必须在后台隐藏')
@@ -188,6 +212,11 @@ try {
     requireValue(duplicateAction?.scope === 'entry' && duplicateAction?.workflow === 'duplicate-content.yml' && duplicateAction?.ref === 'current', `.pages.yml: ${name} 缺少复制为新草稿 Action`)
   }
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
+  const cases = contentEntries.find((entry) => entry.name === 'cases')
+  requireValue(
+    cases?.fields?.some((field) => field.name === 'contentBlocks' && field.component === 'portfolio_content_blocks'),
+    '.pages.yml: 作品集必须使用 portfolio_content_blocks'
+  )
   const referenceFields = [
     homepage?.fields?.find((field) => field.name === 'featuredCases'),
     homepage?.fields?.find((field) => field.name === 'featuredWorkflows'),

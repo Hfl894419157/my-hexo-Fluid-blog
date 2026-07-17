@@ -78,7 +78,8 @@ const renderContentBlocks = (blocks) => {
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: 'zh-CN',
-  title: "韩福利 | AI 实践与知识系统",
+  title: 'Liuli AI Lab',
+  titleTemplate: ':title · Liuli AI Lab',
   description: "记录 AI 商业视觉作品、可复用工作流、研究方法与经过验证的工具资源",
   cleanUrls: true,
   srcExclude: [
