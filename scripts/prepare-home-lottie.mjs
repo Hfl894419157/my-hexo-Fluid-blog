@@ -10,29 +10,61 @@ const repoRoot = path.resolve(scriptDir, '..')
 export const homeHeroLottieSource = path.join(repoRoot, 'public', 'animations', 'home-hero-source.json')
 export const homeHeroLottieOutput = path.join(repoRoot, 'public', '_generated', 'animations')
 
-export const homeHeroPalettes = {
+export const homeHeroThemeStyles = {
   light: {
-    ink: [23, 19, 15],
-    accent: [138, 79, 45],
-    soft: [224, 199, 174]
+    brightness: 1,
+    contrast: 1,
+    tones: {
+      blue: { target: [83, 117, 185], amount: 0.04 },
+      green: { target: [157, 201, 179], amount: 0.06 },
+      yellow: { target: [215, 160, 67], amount: 0.08 },
+      skin: { target: [231, 158, 139], amount: 0.04 },
+      neutral: { target: [247, 242, 234], amount: 0.05 }
+    }
   },
   dark: {
-    ink: [244, 241, 234],
-    accent: [195, 149, 85],
-    soft: [105, 78, 51]
+    brightness: 0.94,
+    contrast: 1.02,
+    tones: {
+      blue: { target: [105, 137, 205], amount: 0.12 },
+      green: { target: [137, 185, 162], amount: 0.14 },
+      yellow: { target: [207, 154, 70], amount: 0.14 },
+      skin: { target: [222, 151, 132], amount: 0.08 },
+      neutral: { target: [238, 232, 221], amount: 0.1 }
+    }
   }
 }
 
-const mix = (from, to, amount) => from.map((value, index) =>
-  Math.round(value + (to[index] - value) * amount)
-)
+const clampChannel = (value) => Math.max(0, Math.min(255, Math.round(value)))
 
-const mapLuminance = (luminance, palette) => {
-  if (luminance <= 0.5) return mix(palette.ink, palette.accent, luminance / 0.5)
-  return mix(palette.accent, palette.soft, (luminance - 0.5) / 0.5)
+const getHue = (red, green, blue) => {
+  const max = Math.max(red, green, blue)
+  const min = Math.min(red, green, blue)
+  const delta = max - min
+  if (!delta) return 0
+  if (max === red) return (60 * ((green - blue) / delta) + 360) % 360
+  if (max === green) return 60 * ((blue - red) / delta + 2)
+  return 60 * ((red - green) / delta + 4)
 }
 
-export const recolorEmbeddedPng = async (dataUrl, palette) => {
+const getTone = (red, green, blue) => {
+  const chroma = Math.max(red, green, blue) - Math.min(red, green, blue)
+  if (chroma < 20) return 'neutral'
+  const hue = getHue(red, green, blue)
+  if (hue >= 190 && hue <= 265) return 'blue'
+  if (hue >= 105 && hue < 190) return 'green'
+  if (hue >= 25 && hue < 70) return 'yellow'
+  if (hue < 25 || hue >= 345) return 'skin'
+  return null
+}
+
+const tuneChannel = (value, target, amount, style) => {
+  const contrasted = (value - 128) * style.contrast + 128
+  const adjusted = contrasted * style.brightness
+  return clampChannel(adjusted + (target - adjusted) * amount)
+}
+
+export const tuneEmbeddedPng = async (dataUrl, style) => {
   if (!String(dataUrl).startsWith('data:image/png;base64,')) return dataUrl
 
   const source = Buffer.from(dataUrl.split(',', 2)[1], 'base64')
@@ -43,15 +75,11 @@ export const recolorEmbeddedPng = async (dataUrl, palette) => {
 
   for (let offset = 0; offset < data.length; offset += info.channels) {
     if (data[offset + 3] === 0) continue
-    const luminance = (
-      data[offset] * 0.2126
-      + data[offset + 1] * 0.7152
-      + data[offset + 2] * 0.0722
-    ) / 255
-    const [red, green, blue] = mapLuminance(luminance, palette)
-    data[offset] = red
-    data[offset + 1] = green
-    data[offset + 2] = blue
+    const tone = getTone(data[offset], data[offset + 1], data[offset + 2])
+    const treatment = tone ? style.tones[tone] : { target: [0, 0, 0], amount: 0 }
+    data[offset] = tuneChannel(data[offset], treatment.target[0], treatment.amount, style)
+    data[offset + 1] = tuneChannel(data[offset + 1], treatment.target[1], treatment.amount, style)
+    data[offset + 2] = tuneChannel(data[offset + 2], treatment.target[2], treatment.amount, style)
   }
 
   const output = await sharp(data, {
@@ -61,10 +89,10 @@ export const recolorEmbeddedPng = async (dataUrl, palette) => {
   return `data:image/png;base64,${output.toString('base64')}`
 }
 
-export const buildThemedHomeHero = async (source, palette) => {
+export const buildThemedHomeHero = async (source, style) => {
   const animation = structuredClone(source)
   for (const asset of animation.assets || []) {
-    if (asset?.p) asset.p = await recolorEmbeddedPng(asset.p, palette)
+    if (asset?.p) asset.p = await tuneEmbeddedPng(asset.p, style)
   }
   return animation
 }
@@ -77,8 +105,8 @@ export const prepareHomeHeroLottie = async ({
   await mkdir(outputDirectory, { recursive: true })
 
   const outputs = []
-  for (const [theme, palette] of Object.entries(homeHeroPalettes)) {
-    const animation = await buildThemedHomeHero(source, palette)
+  for (const [theme, style] of Object.entries(homeHeroThemeStyles)) {
+    const animation = await buildThemedHomeHero(source, style)
     const outputPath = path.join(outputDirectory, `home-hero-${theme}.json`)
     await writeFile(outputPath, JSON.stringify(animation))
     outputs.push(outputPath)
