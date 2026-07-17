@@ -104,6 +104,12 @@ export default defineConfig({
     hostname: siteOrigin
   },
   head: [
+    ['link', {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      href: '/images/brand/liuli-favicon-32.png'
+    }],
     ['meta', { name: 'site-version', content: siteVersion }],
     ['meta', {
       name: 'robots',

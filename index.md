@@ -1,6 +1,7 @@
 ---
 layout: home
-title: AI 视觉实践与知识系统
+title: Liuli AI Lab
+titleTemplate: false
 ---
 
 <script setup>
