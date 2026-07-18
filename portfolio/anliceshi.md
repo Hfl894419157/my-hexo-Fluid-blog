@@ -13,9 +13,10 @@ publishing:
 cover:
   src: /images/uploads/7ab4aaacf6c5620a690cb66faeb770b1.png
   alt: 测试作品封面
+  focalPoint: center
 contentBlocks:
   - type: image
     id: c2bdca8b-8980-47d7-be23-d8180fb85bf4
-    src: /images/uploads/gts100-ntc01-1.jpg
+    src: /images/uploads/1-1.png
     alt: "1"
 ---
