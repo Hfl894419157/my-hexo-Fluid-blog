@@ -271,6 +271,7 @@ components:
             label: 图片列表
             type: object
             list:
+              batch: true
               collapsible:
                 collapsed: true
                 summary: "{index}. {alt}"
@@ -449,6 +450,7 @@ components:
             required: true
             list:
               min: 1
+              batch: true
               collapsible:
                 collapsed: true
                 summary: "{index}. {alt} · {layout}"
