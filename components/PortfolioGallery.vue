@@ -13,24 +13,10 @@ let resizeFrame = 0
 
 const figures = () => Array.from(galleryRef.value?.querySelectorAll('.portfolio-gallery__item') || [])
 
-const resolveAutoLayout = (image) => {
-  const ratio = image.naturalWidth && image.naturalHeight
-    ? image.naturalWidth / image.naturalHeight
-    : 1
-  if (ratio >= 1.55) return 'two-thirds'
-  if (ratio <= 0.82) return 'third'
-  return 'half'
-}
-
 const updateFigure = (figure) => {
   const grid = galleryRef.value
   const content = figure.querySelector('.portfolio-gallery__content')
   if (!grid || !content) return
-
-  const image = content.querySelector('img')
-  if (figure.dataset.layout === 'auto' && image?.complete) {
-    figure.dataset.autoLayout = resolveAutoLayout(image)
-  }
 
   const styles = getComputedStyle(grid)
   const rowHeight = Number.parseFloat(styles.gridAutoRows) || 8
@@ -40,7 +26,54 @@ const updateFigure = (figure) => {
   figure.style.gridRowEnd = `span ${rowSpan}`
 }
 
-const updateLayout = () => figures().forEach(updateFigure)
+const updateLayout = () => {
+  const list = figures()
+  if (!list.length) return
+
+  // 1. 获取每张图片的初始解析布局
+  const resolvedLayouts = list.map((figure) => {
+    const itemLayout = figure.getAttribute('data-layout')
+    if (itemLayout !== 'auto') {
+      return itemLayout
+    }
+    // 自动布局：根据宽高比判断
+    const image = figure.querySelector('.portfolio-gallery__content img')
+    if (image && image.complete && image.naturalWidth && image.naturalHeight) {
+      const ratio = image.naturalWidth / image.naturalHeight
+      // 明显的横图设为 full，竖图/方图设为 half
+      return ratio > 1.2 ? 'full' : 'half'
+    }
+    return 'half'
+  })
+
+  // 2. 扫描并配对 half 布局，落单的 half 升级为 full，确保页面宽度及两端对齐
+  const paired = new Set()
+  for (let i = 0; i < resolvedLayouts.length; i++) {
+    if (resolvedLayouts[i] === 'half' && !paired.has(i)) {
+      let nextHalfIndex = -1
+      for (let j = i + 1; j < resolvedLayouts.length; j++) {
+        if (resolvedLayouts[j] === 'half' && !paired.has(j)) {
+          nextHalfIndex = j
+          break
+        }
+      }
+      if (nextHalfIndex !== -1) {
+        paired.add(i)
+        paired.add(nextHalfIndex)
+      } else {
+        // 落单，升级为 full
+        resolvedLayouts[i] = 'full'
+      }
+    }
+  }
+
+  // 3. 应用 resolved 结果并计算高度
+  list.forEach((figure, index) => {
+    const finalLayout = resolvedLayouts[index]
+    figure.setAttribute('data-layout-resolved', finalLayout)
+    updateFigure(figure)
+  })
+}
 
 const scheduleLayout = () => {
   if (resizeFrame) cancelAnimationFrame(resizeFrame)
@@ -59,7 +92,11 @@ const observeGallery = () => {
 
 const onImageLoad = (event) => {
   const figure = event.target.closest('.portfolio-gallery__item')
-  if (figure) updateFigure(figure)
+  if (figure) {
+    // 图片加载完后重新计算该图高度，并整体进行布局调整以防比例变化
+    updateFigure(figure)
+    scheduleLayout()
+  }
 }
 
 watch(() => props.items, async () => {
@@ -122,13 +159,10 @@ onUnmounted(() => {
   grid-column: span 6;
 }
 
-.portfolio-gallery__item[data-layout="third"],
-.portfolio-gallery__item[data-layout="auto"][data-auto-layout="third"] { grid-column: span 4; }
-.portfolio-gallery__item[data-layout="half"],
-.portfolio-gallery__item[data-layout="auto"][data-auto-layout="half"] { grid-column: span 6; }
-.portfolio-gallery__item[data-layout="two-thirds"],
-.portfolio-gallery__item[data-layout="auto"][data-auto-layout="two-thirds"] { grid-column: span 8; }
-.portfolio-gallery__item[data-layout="full"] { grid-column: 1 / -1; }
+.portfolio-gallery__item[data-layout-resolved="third"] { grid-column: span 4; }
+.portfolio-gallery__item[data-layout-resolved="half"] { grid-column: span 6; }
+.portfolio-gallery__item[data-layout-resolved="two-thirds"] { grid-column: span 8; }
+.portfolio-gallery__item[data-layout-resolved="full"] { grid-column: 1 / -1; }
 
 .portfolio-gallery__content,
 .portfolio-gallery__content :deep(.responsive-picture),
@@ -153,20 +187,16 @@ onUnmounted(() => {
 
 @media (max-width: 1024px) {
   .portfolio-gallery__item,
-  .portfolio-gallery__item[data-layout="third"],
-  .portfolio-gallery__item[data-layout="half"],
-  .portfolio-gallery__item[data-layout="auto"][data-auto-layout="third"],
-  .portfolio-gallery__item[data-layout="auto"][data-auto-layout="half"] { grid-column: span 6; }
+  .portfolio-gallery__item[data-layout-resolved="third"],
+  .portfolio-gallery__item[data-layout-resolved="half"] { grid-column: span 6; }
 
-  .portfolio-gallery__item[data-layout="two-thirds"],
-  .portfolio-gallery__item[data-layout="full"],
-  .portfolio-gallery__item[data-layout="auto"][data-auto-layout="two-thirds"] { grid-column: 1 / -1; }
+  .portfolio-gallery__item[data-layout-resolved="two-thirds"],
+  .portfolio-gallery__item[data-layout-resolved="full"] { grid-column: 1 / -1; }
 }
 
 @media (max-width: 640px) {
   .portfolio-gallery { grid-auto-rows: 6px; gap: 14px; }
   .portfolio-gallery__item,
-  .portfolio-gallery__item[data-layout],
-  .portfolio-gallery__item[data-layout="auto"][data-auto-layout] { grid-column: 1 / -1; }
+  .portfolio-gallery__item[data-layout-resolved] { grid-column: 1 / -1; }
 }
 </style>

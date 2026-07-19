@@ -401,12 +401,8 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
   .page-workflow-detail .VPDoc .content-container,
   .page-article-detail .VPDoc .content-container,
   .page-resource-detail .VPDoc .content-container { width: 100% !important; max-width: var(--article-width) !important; margin: 0 auto !important; padding: 0 !important; }
-  .page-case-detail .VPDoc .container,
-  .page-case-detail .VPDoc .content,
-  .page-case-detail .VPDoc .content-container { max-width: var(--page-width) !important; }
-  .page-case-detail .modular-document__header,
-  .page-case-detail .content-block--rich { max-width: var(--article-width); margin-right: auto; margin-left: auto; }
 }
+
 
 @media (max-width: 959px) {
   .page-case-detail .VPSidebar,
