@@ -49,10 +49,10 @@ const yearsValue = String(profile.yearsValue).padStart(2, '0')
       </div>
     </section>
 
-    <section v-if="profile.capabilities.length" class="about-section">
+    <section v-if="profile.capabilities?.length" class="about-section">
       <header><h2>核心能力</h2><p>能力必须对应真实实践，并能持续产生可复用的结果。</p></header>
       <div class="about-capabilities">
-        <article v-for="(item, index) in profile.capabilities" :key="item.title">
+        <article v-for="(item, index) in (profile.capabilities || [])" :key="item.title">
           <span>{{ String(index + 1).padStart(2, '0') }}</span>
           <h3>{{ item.title }}</h3>
           <p>{{ item.description }}</p>
@@ -65,15 +65,15 @@ const yearsValue = String(profile.yearsValue).padStart(2, '0')
       <div class="about-works"><ContentCard v-for="item in works" :key="item.sourcePath" :item="item" /></div>
     </section>
 
-    <section v-if="profile.services.length" class="about-section about-services">
+    <section v-if="profile.services?.length" class="about-section about-services">
       <header><h2>合作方向</h2><p>如果你的项目属于以下方向，可以在邮件中说明背景、目标和时间。</p></header>
-      <ul><li v-for="service in profile.services" :key="service">{{ service }}</li></ul>
+      <ul><li v-for="service in (profile.services || [])" :key="service">{{ service }}</li></ul>
     </section>
 
-    <section v-if="profile.experience.length" class="about-section about-experience">
+    <section v-if="profile.experience?.length" class="about-section about-experience">
       <header><h2>工作经历</h2></header>
       <ol>
-        <li v-for="item in profile.experience" :key="`${item.period}-${item.company}`">
+        <li v-for="item in (profile.experience || [])" :key="`${item.period}-${item.company}`">
           <time>{{ item.period }}</time>
           <div><h3>{{ item.role }}</h3><strong>{{ item.company }}</strong><p v-if="item.description">{{ item.description }}</p></div>
         </li>

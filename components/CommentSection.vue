@@ -204,7 +204,7 @@ onMounted(() => {
         <!-- 子回复列表 -->
         <div v-if="comment.replies?.length" class="reply-list">
           <div 
-            v-for="reply in (comment.replies.length > 3 && !isRepliesExpanded(comment.id) 
+            v-for="reply in ((comment.replies?.length || 0) > 3 && !isRepliesExpanded(comment.id) 
               ? comment.replies.slice(0, 3) 
               : comment.replies)" 
             :key="reply.id" 
@@ -221,9 +221,9 @@ onMounted(() => {
             <p class="comment-body">{{ reply.content }}</p>
           </div>
 
-          <div v-if="comment.replies.length > 3" class="reply-expand-actions">
+          <div v-if="(comment.replies?.length || 0) > 3" class="reply-expand-actions">
             <button class="expand-toggle-btn" @click="toggleExpandReplies(comment.id)">
-              {{ isRepliesExpanded(comment.id) ? '收起回复' : `展开全部 ${comment.replies.length} 条回复` }}
+              {{ isRepliesExpanded(comment.id) ? '收起回复' : `展开全部 ${comment.replies?.length || 0} 条回复` }}
             </button>
           </div>
         </div>
@@ -274,17 +274,15 @@ onMounted(() => {
 }
 
 .reply-form-container {
-  background: var(--bg-card);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-card, 12px);
-  padding: 20px;
-  margin-top: 16px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-top: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
-  transition: border-color 0.22s ease;
+  box-shadow: none;
 }
 
-.comment-form-container:focus-within, .reply-form-container:focus-within {
+.comment-form-container:focus-within {
   border-color: var(--brand-main);
 }
 
