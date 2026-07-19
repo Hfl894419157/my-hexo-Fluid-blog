@@ -497,6 +497,14 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich h6 { margin: 24px 0 10px; font-family: var(--font-sans); font-size: 15px; line-height: 1.6; letter-spacing: .02em; }
 .content-block--rich p,
 .content-block--rich li { max-width: 100%; color: var(--text-sub); font-family: var(--font-sans); font-size: 16px; line-height: 1.9; }
+.content-block--rich p { margin: 22px 0; }
+.content-block--rich p:has(> img),
+.content-block--rich p:has(> picture) { margin: 36px 0; }
+.content-block--rich p + p:has(> img),
+.content-block--rich p + p:has(> picture),
+.content-block--rich p + figure:has(img) { margin-top: 36px; }
+.content-block--rich figure:has(img) + p,
+.content-block--rich p:has(> img) + p { margin-top: 36px; }
 .content-block--rich strong { color: var(--text-main); font-weight: 700; }
 .content-block--rich em { font-style: italic; }
 .content-block--rich u { text-decoration-line: underline; text-decoration-color: color-mix(in srgb, var(--brand-main) 72%, transparent); text-decoration-thickness: .09em; text-underline-offset: .18em; }
