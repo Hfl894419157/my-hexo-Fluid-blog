@@ -123,7 +123,7 @@ let mobileBytes = 0
 let desktopBytes = 0
 
 for (const sourceUrl of articleImageUrls) {
-  const entry = manifest.images[sourceUrl]
+  const entry = manifest.images[normalizeLocalImageUrl(sourceUrl)]
   assert(entry, `问题文章图片未进入清单：${sourceUrl}`)
   originalBytes += entry.bytes
   mobileBytes += chooseVariant(entry, 480).bytes

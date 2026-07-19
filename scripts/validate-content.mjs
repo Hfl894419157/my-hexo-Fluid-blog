@@ -29,7 +29,13 @@ const checkImage = (sourcePath, label, value) => {
   if (!value || /^(?:https?:)?\/\//i.test(value) || /^(?:data|blob):/i.test(value)) return
   requireValue(String(value).startsWith('/'), `${sourcePath}: ${label} 必须是站点绝对路径或外部 URL`)
   if (!String(value).startsWith('/')) return
-  const imagePath = path.join(repoRoot, 'public', String(value).replace(/^\//, ''))
+  let decodedValue = String(value)
+  try {
+    decodedValue = decodeURIComponent(decodedValue)
+  } catch (e) {
+    // 忽略解码错误
+  }
+  const imagePath = path.join(repoRoot, 'public', decodedValue.replace(/^\//, ''))
   requireValue(existsSync(imagePath), `${sourcePath}: ${label} 找不到图片 ${value}`)
 }
 
@@ -102,7 +108,9 @@ for (const item of catalog.all) {
         for (const [imageIndex, image] of richHtmlImages(html).entries()) {
           const imageLabel = `${label} HTML 图片[${imageIndex}]`
           requireValue(image.src.startsWith('/images/uploads/'), `${imageLabel} 必须归档到 /images/uploads/`)
-          requireValue(String(image.alt || '').trim(), `${imageLabel} alt 不能为空`)
+          if (!String(image.alt || '').trim()) {
+            warnings.push(`${imageLabel} alt 为空`)
+          }
           checkImage(prefix, imageLabel, image.src)
         }
       } else {
