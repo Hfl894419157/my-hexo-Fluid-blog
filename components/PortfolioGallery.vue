@@ -88,7 +88,7 @@ onUnmounted(() => {
       v-for="(item, index) in items"
       :key="item.id || `${index}-${item.src}`"
       class="portfolio-gallery__item"
-      :data-layout="normalizePortfolioGalleryLayout(item.layout)"
+      :data-layout="items.length === 1 ? 'full' : normalizePortfolioGalleryLayout(item.layout)"
     >
       <div class="portfolio-gallery__content">
         <ResponsiveImage
