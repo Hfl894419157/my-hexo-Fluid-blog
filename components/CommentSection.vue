@@ -11,14 +11,8 @@ const commentKey = computed(() => `blog-comments-${frontmatter.value.contentId |
 const comments = ref([])
 const activeReplyId = ref(null)
 
-// 发表主评论表单
-const authorName = ref('')
-const authorRole = ref('client') // 'client' 客户 / 'author' 作者自己
+// 发表评论和回复的内容
 const commentText = ref('')
-
-// 回复表单
-const replyName = ref('')
-const replyRole = ref('author') // 默认回复为作者自己
 const replyText = ref('')
 
 // 模拟初始化数据，让页面不空旷
@@ -26,16 +20,16 @@ const getMockComments = () => {
   return [
     {
       id: 1,
-      author: '客户_李总',
+      author: '访客',
       role: 'client',
       content: '这个工作流在实际项目对接中太有用了，规范化视觉建档能规避掉很多反复沟通的成本！',
       createdAt: '2026-07-18 16:30',
       replies: [
         {
           id: 101,
-          author: '作者',
-          role: 'author',
-          content: '是的李总！其实第一步和第二步整理好之后，后续的工作量能减少 80%，也能更好地保证品牌调性的稳定。',
+          author: '访客',
+          role: 'client',
+          content: '是的！其实第一步和第二步整理好之后，后续的工作量能减少 80%，也能更好地保证品牌调性的稳定。',
           createdAt: '2026-07-18 17:15'
         }
       ]
@@ -66,12 +60,12 @@ const saveComments = () => {
 
 // 提交主评论
 const submitComment = () => {
-  if (!authorName.value.trim() || !commentText.value.trim()) return
+  if (!commentText.value.trim()) return
 
   const newComment = {
     id: Date.now(),
-    author: authorName.value.trim(),
-    role: authorRole.value,
+    author: '访客',
+    role: 'client',
     content: commentText.value.trim(),
     createdAt: formatDateTime(new Date()),
     replies: []
@@ -81,20 +75,19 @@ const submitComment = () => {
   saveComments()
 
   commentText.value = ''
-  // 保持名字，方便连续发帖，只清空内容
 }
 
 // 提交回复
 const submitReply = (parentId) => {
-  if (!replyName.value.trim() || !replyText.value.trim()) return
+  if (!replyText.value.trim()) return
 
   const parentComment = comments.value.find(c => c.id === parentId)
   if (!parentComment) return
 
   const newReply = {
     id: Date.now(),
-    author: replyName.value.trim(),
-    role: replyRole.value,
+    author: '访客',
+    role: 'client',
     content: replyText.value.trim(),
     createdAt: formatDateTime(new Date())
   }
@@ -112,10 +105,6 @@ const toggleReplyForm = (commentId) => {
   } else {
     activeReplyId.value = commentId
     replyText.value = ''
-    // 自动为回复者代入作者名字
-    if (!replyName.value) {
-      replyName.value = '作者'
-    }
   }
 }
 
@@ -141,40 +130,9 @@ onMounted(() => {
 
     <!-- 评论输入区域 -->
     <div class="comment-form-container">
-      <div class="comment-form-meta">
-        <input 
-          v-model="authorName" 
-          type="text" 
-          placeholder="您的昵称..." 
-          class="comment-input comment-input--name"
-          required
-        />
-        
-        <div class="role-selector">
-          <label class="role-option">
-            <input 
-              v-model="authorRole" 
-              type="radio" 
-              value="client" 
-              name="authorRole"
-            />
-            <span class="role-label client-label">客户</span>
-          </label>
-          <label class="role-option">
-            <input 
-              v-model="authorRole" 
-              type="radio" 
-              value="author" 
-              name="authorRole"
-            />
-            <span class="role-label author-label">作者</span>
-          </label>
-        </div>
-      </div>
-
       <textarea 
         v-model="commentText" 
-        placeholder="写下您的意见或讨论内容..." 
+        placeholder="写下您的讨论或反馈意见..." 
         class="comment-textarea"
         rows="3"
         required
@@ -199,12 +157,6 @@ onMounted(() => {
           <div class="comment-user">
             <span class="user-avatar">{{ comment.author.slice(0, 1) }}</span>
             <span class="user-name">{{ comment.author }}</span>
-            <span 
-              class="user-badge" 
-              :class="`user-badge--${comment.role}`"
-            >
-              {{ comment.role === 'author' ? '作者' : '客户' }}
-            </span>
           </div>
           <span class="comment-date">{{ comment.createdAt }}</span>
         </div>
@@ -220,34 +172,6 @@ onMounted(() => {
 
         <!-- 回复输入表单 -->
         <div v-if="activeReplyId === comment.id" class="reply-form-container">
-          <div class="reply-form-meta">
-            <input 
-              v-model="replyName" 
-              type="text" 
-              placeholder="您的昵称..." 
-              class="comment-input comment-input--name comment-input--sm"
-            />
-            <div class="role-selector">
-              <label class="role-option">
-                <input 
-                  v-model="replyRole" 
-                  type="radio" 
-                  value="client" 
-                  :name="`replyRole-${comment.id}`"
-                />
-                <span class="role-label client-label">客户</span>
-              </label>
-              <label class="role-option">
-                <input 
-                  v-model="replyRole" 
-                  type="radio" 
-                  value="author" 
-                  :name="`replyRole-${comment.id}`"
-                />
-                <span class="role-label author-label">作者</span>
-              </label>
-            </div>
-          </div>
           <textarea 
             v-model="replyText" 
             placeholder="回复内容..." 
@@ -271,12 +195,6 @@ onMounted(() => {
               <div class="comment-user">
                 <span class="user-avatar user-avatar--sm">{{ reply.author.slice(0, 1) }}</span>
                 <span class="user-name">{{ reply.author }}</span>
-                <span 
-                  class="user-badge" 
-                  :class="`user-badge--${reply.role}`"
-                >
-                  {{ reply.role === 'author' ? '作者' : '客户' }}
-                </span>
                 <span class="reply-to-text">回复给主层</span>
               </div>
               <span class="comment-date">{{ reply.createdAt }}</span>
