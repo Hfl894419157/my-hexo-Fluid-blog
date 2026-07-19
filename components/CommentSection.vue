@@ -15,6 +15,19 @@ const activeReplyId = ref(null)
 const commentText = ref('')
 const replyText = ref('')
 
+// 存储哪些评论的回复被展开了
+const expandedComments = ref(new Set())
+
+const isRepliesExpanded = (commentId) => expandedComments.value.has(commentId)
+
+const toggleExpandReplies = (commentId) => {
+  if (expandedComments.value.has(commentId)) {
+    expandedComments.value.delete(commentId)
+  } else {
+    expandedComments.value.add(commentId)
+  }
+}
+
 // 模拟初始化数据，让页面不空旷
 const getMockComments = () => {
   return [
@@ -151,7 +164,7 @@ onMounted(() => {
     </div>
 
     <div v-else class="comment-list">
-      <div v-for="comment in comments" :key="comment.id" class="comment-card">
+      <div v-for="comment in comments" :key="comment.id" class="comment-item">
         <!-- 评论主信息 -->
         <div class="comment-header">
           <div class="comment-user">
@@ -190,7 +203,13 @@ onMounted(() => {
 
         <!-- 子回复列表 -->
         <div v-if="comment.replies?.length" class="reply-list">
-          <div v-for="reply in comment.replies" :key="reply.id" class="reply-card">
+          <div 
+            v-for="reply in (comment.replies.length > 3 && !isRepliesExpanded(comment.id) 
+              ? comment.replies.slice(0, 3) 
+              : comment.replies)" 
+            :key="reply.id" 
+            class="reply-card"
+          >
             <div class="comment-header">
               <div class="comment-user">
                 <span class="user-avatar user-avatar--sm">{{ reply.author.slice(0, 1) }}</span>
@@ -200,6 +219,12 @@ onMounted(() => {
               <span class="comment-date">{{ reply.createdAt }}</span>
             </div>
             <p class="comment-body">{{ reply.content }}</p>
+          </div>
+
+          <div v-if="comment.replies.length > 3" class="reply-expand-actions">
+            <button class="expand-toggle-btn" @click="toggleExpandReplies(comment.id)">
+              {{ isRepliesExpanded(comment.id) ? '收起回复' : `展开全部 ${comment.replies.length} 条回复` }}
+            </button>
           </div>
         </div>
       </div>
@@ -228,17 +253,18 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--text-main);
 }
 
 .comment-count {
   font-size: var(--text-body);
   font-weight: 500;
-  opacity: 0.6;
+  color: var(--text-muted);
 }
 
 /* 评论输入表单样式 */
-.comment-form-container, .reply-form-container {
-  background: var(--bg-soft, rgba(0, 0, 0, 0.02));
+.comment-form-container {
+  background: var(--bg-section);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card, 12px);
   padding: 20px;
@@ -247,93 +273,28 @@ onMounted(() => {
   transition: border-color 0.22s ease;
 }
 
-.comment-form-container:focus-within, .reply-form-container:focus-within {
-  border-color: var(--brand-main);
-}
-
-.comment-form-meta, .reply-form-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.comment-input {
-  min-height: 38px;
-  padding: 0 12px;
+.reply-form-container {
+  background: var(--bg-card);
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius-control, 6px);
-  font-size: var(--text-small);
-  background: var(--bg-main, #ffffff);
-  color: var(--text-main);
-  outline: none;
+  border-radius: var(--radius-card, 12px);
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
   transition: border-color 0.22s ease;
 }
 
-.comment-input:focus {
+.comment-form-container:focus-within, .reply-form-container:focus-within {
   border-color: var(--brand-main);
-}
-
-.comment-input--name {
-  width: 200px;
-}
-
-.comment-input--sm {
-  width: 150px;
-  min-height: 32px;
-  font-size: var(--text-small);
-}
-
-.role-selector {
-  display: inline-flex;
-  gap: 12px;
-  background: var(--border-soft);
-  padding: 4px;
-  border-radius: var(--radius-control, 6px);
-}
-
-.role-option {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-
-.role-option input {
-  display: none;
-}
-
-.role-label {
-  padding: 4px 8px;
-  font-size: var(--text-small);
-  font-weight: 500;
-  border-radius: 4px;
-  transition: background 0.22s, color 0.22s;
-  opacity: 0.6;
-}
-
-.role-option input:checked + .role-label {
-  background: var(--bg-main, #ffffff);
-  opacity: 1;
-  font-weight: 700;
-}
-
-.role-option input:checked + .client-label {
-  color: #3b82f6;
-}
-
-.role-option input:checked + .author-label {
-  color: var(--brand-main);
 }
 
 .comment-textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius-control, 6px);
+  border-radius: var(--radius-control, 8px);
   font-size: var(--text-body);
-  background: var(--bg-main, #ffffff);
+  background: var(--bg-page);
   color: var(--text-main);
   outline: none;
   resize: vertical;
@@ -361,37 +322,48 @@ onMounted(() => {
 
 .cancel-reply-btn {
   font-size: var(--text-small);
-  opacity: 0.6;
+  color: var(--text-muted);
   cursor: pointer;
   background: none;
   border: none;
+  transition: color 0.2s;
 }
 
 .cancel-reply-btn:hover {
-  opacity: 1;
+  color: var(--text-main);
 }
 
 /* 列表样式 */
 .comment-empty {
   text-align: center;
   padding: 40px;
-  opacity: 0.5;
   font-style: italic;
   border: 1px dashed var(--border-soft);
   border-radius: var(--radius-card, 12px);
+  color: var(--text-muted);
 }
 
 .comment-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card, 14px);
+  background: var(--bg-section);
+  padding: 24px;
 }
 
-.comment-card {
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-card, 12px);
-  padding: 24px;
-  background: var(--bg-main, #ffffff);
+.comment-item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.comment-item:first-child {
+  padding-top: 0;
 }
 
 .comment-header {
@@ -431,34 +403,18 @@ onMounted(() => {
 .user-name {
   font-weight: 700;
   font-size: var(--text-body);
-}
-
-.user-badge {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-weight: 500;
-}
-
-.user-badge--author {
-  background: rgba(var(--brand-main-rgb, 178, 143, 113), 0.1);
-  color: var(--brand-main);
-}
-
-.user-badge--client {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  color: var(--text-main);
 }
 
 .reply-to-text {
   font-size: var(--text-small);
-  opacity: 0.5;
+  color: var(--text-muted);
   margin-left: 4px;
 }
 
 .comment-date {
   font-size: var(--text-small);
-  opacity: 0.5;
+  color: var(--text-muted);
 }
 
 .comment-body {
@@ -466,6 +422,7 @@ onMounted(() => {
   line-height: 1.6;
   margin: 0 0 16px 0;
   white-space: pre-wrap;
+  color: var(--text-sub);
 }
 
 .comment-actions {
@@ -477,14 +434,14 @@ onMounted(() => {
   background: none;
   border: none;
   font-size: var(--text-small);
-  opacity: 0.6;
+  color: var(--text-muted);
   cursor: pointer;
   padding: 0;
-  transition: opacity 0.22s;
+  transition: color 0.22s;
 }
 
 .action-btn:hover {
-  opacity: 1;
+  color: var(--text-main);
 }
 
 /* 回复列表缩进 */
@@ -507,18 +464,34 @@ onMounted(() => {
   padding-top: 0;
 }
 
-.reply-form-container {
-  margin-top: 16px;
-  background: var(--bg-soft, rgba(0, 0, 0, 0.01));
+.reply-expand-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.expand-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--brand-main);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: opacity 0.2s;
+}
+
+.expand-toggle-btn:hover {
+  opacity: 0.8;
 }
 
 .comment-footer-tip {
   margin-top: 48px;
   font-size: var(--text-small);
-  opacity: 0.5;
-  background: var(--bg-soft);
+  color: var(--text-muted);
+  background: var(--bg-page);
   padding: 12px 16px;
-  border-radius: var(--radius-control, 6px);
+  border-radius: var(--radius-control, 8px);
   border: 1px solid var(--border-soft);
 }
 </style>

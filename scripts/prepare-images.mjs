@@ -171,92 +171,101 @@ for (const absolutePath of imageFiles) {
   const relativePath = toPosix(path.relative(publicRoot, absolutePath)).normalize('NFC')
   const sourceUrl = `/${relativePath}`
   const extension = path.extname(absolutePath).toLowerCase()
-  const buffer = await readFile(absolutePath)
-  const metadata = await sharp(buffer, { animated: true }).metadata()
-  const { width: sourceWidth, height: sourceHeight } = orientedSize(metadata)
+  try {
+    const buffer = await readFile(absolutePath)
+    if (buffer.length === 0) {
+      console.warn(`WARN ${relativePath}: 图片为空文件 (0字节)，已跳过处理`)
+      continue
+    }
+    const metadata = await sharp(buffer, { animated: true }).metadata()
+    const { width: sourceWidth, height: sourceHeight } = orientedSize(metadata)
 
-  if (!sourceWidth || !sourceHeight) {
-    throw new Error(`无法读取图片尺寸：${relativePath}`)
-  }
+    if (!sourceWidth || !sourceHeight) {
+      console.warn(`WARN ${relativePath}: 无法读取图片尺寸，已跳过处理`)
+      continue
+    }
 
-  const sourceInfo = await stat(absolutePath)
-  const hash = createHash('sha256').update(buffer).digest('hex').slice(0, 16)
-  const entry = {
-    src: sourceUrl,
-    width: sourceWidth,
-    height: sourceHeight,
-    bytes: sourceInfo.size,
-    format: metadata.format,
-    variants: [],
-    avifVariants: [],
-    profiles: {}
-  }
-  if (losslessUrls.has(sourceUrl)) entry.avifSkipped = 'lossless-source'
+    const sourceInfo = await stat(absolutePath)
+    const hash = createHash('sha256').update(buffer).digest('hex').slice(0, 16)
+    const entry = {
+      src: sourceUrl,
+      width: sourceWidth,
+      height: sourceHeight,
+      bytes: sourceInfo.size,
+      format: metadata.format,
+      variants: [],
+      avifVariants: [],
+      profiles: {}
+    }
+    if (losslessUrls.has(sourceUrl)) entry.avifSkipped = 'lossless-source'
 
-  if ((metadata.pages || 1) > 1) {
-    entry.skipped = 'animated'
-    images[sourceUrl] = entry
-    continue
-  }
+    if ((metadata.pages || 1) > 1) {
+      entry.skipped = 'animated'
+      images[sourceUrl] = entry
+      continue
+    }
 
-  const outputDirectory = path.join(generatedRoot, hash)
-  await mkdir(outputDirectory, { recursive: true })
+    const outputDirectory = path.join(generatedRoot, hash)
+    await mkdir(outputDirectory, { recursive: true })
 
-  const original = await buildVariantSet({
-    buffer,
-    extension,
-    hash,
-    outputDirectory,
-    sourceHeight,
-    sourceUrl,
-    sourceWidth,
-    widths: targetWidths
-  })
-  entry.variants = original.variants
-  entry.avifVariants = original.avifVariants
-  entry.profiles.original = {
-    width: sourceWidth,
-    height: sourceHeight,
-    variants: original.variants,
-    avifVariants: original.avifVariants
-  }
-
-  for (const request of profileRequests.get(sourceUrl)?.values() || []) {
-    const definition = imageProfileDefinitions[request.profile]
-    const crop = getCropBox(sourceWidth, sourceHeight, definition.aspect, request.focalPoint)
-    const profileSet = await buildVariantSet({
+    const original = await buildVariantSet({
       buffer,
-      crop,
       extension,
       hash,
       outputDirectory,
-      outputPrefix: `${request.profile}-${request.focalPoint}-`,
       sourceHeight,
       sourceUrl,
       sourceWidth,
-      widths: definition.widths
+      widths: targetWidths
     })
-    const largest = profileSet.variants.at(-1)
-    entry.profiles[request.profile] ||= {}
-    entry.profiles[request.profile][request.focalPoint] = {
-      width: largest?.width || crop.width,
-      height: largest?.height || crop.height,
-      aspect: definition.aspect,
-      variants: profileSet.variants,
-      avifVariants: profileSet.avifVariants
+    entry.variants = original.variants
+    entry.avifVariants = original.avifVariants
+    entry.profiles.original = {
+      width: sourceWidth,
+      height: sourceHeight,
+      variants: original.variants,
+      avifVariants: original.avifVariants
     }
-  }
 
-  const allProfileSets = Object.entries(entry.profiles)
-    .flatMap(([profile, value]) => profile === 'original' ? [value] : Object.values(value))
-  for (const set of allProfileSets) {
-    webpVariantCount += set.variants?.length || 0
-    avifVariantCount += set.avifVariants?.length || 0
-    generatedBytes += [...(set.variants || []), ...(set.avifVariants || [])]
-      .reduce((sum, variant) => sum + variant.bytes, 0)
-  }
+    for (const request of profileRequests.get(sourceUrl)?.values() || []) {
+      const definition = imageProfileDefinitions[request.profile]
+      const crop = getCropBox(sourceWidth, sourceHeight, definition.aspect, request.focalPoint)
+      const profileSet = await buildVariantSet({
+        buffer,
+        crop,
+        extension,
+        hash,
+        outputDirectory,
+        outputPrefix: `${request.profile}-${request.focalPoint}-`,
+        sourceHeight,
+        sourceUrl,
+        sourceWidth,
+        widths: definition.widths
+      })
+      const largest = profileSet.variants.at(-1)
+      entry.profiles[request.profile] ||= {}
+      entry.profiles[request.profile][request.focalPoint] = {
+        width: largest?.width || crop.width,
+        height: largest?.height || crop.height,
+        aspect: definition.aspect,
+        variants: profileSet.variants,
+        avifVariants: profileSet.avifVariants
+      }
+    }
 
-  images[sourceUrl] = entry
+    const allProfileSets = Object.entries(entry.profiles)
+      .flatMap(([profile, value]) => profile === 'original' ? [value] : Object.values(value))
+    for (const set of allProfileSets) {
+      webpVariantCount += set.variants?.length || 0
+      avifVariantCount += set.avifVariants?.length || 0
+      generatedBytes += [...(set.variants || []), ...(set.avifVariants || [])]
+        .reduce((sum, variant) => sum + variant.bytes, 0)
+    }
+
+    images[sourceUrl] = entry
+  } catch (err) {
+    console.warn(`WARN ${relativePath}: 处理图片失败，原因：${err.message}`)
+  }
 }
 
 const manifest = {

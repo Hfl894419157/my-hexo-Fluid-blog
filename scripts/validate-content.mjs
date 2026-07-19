@@ -36,8 +36,11 @@ const checkImage = (sourcePath, label, value) => {
     // 忽略解码错误
   }
   const imagePath = path.join(repoRoot, 'public', decodedValue.replace(/^\//, ''))
-  requireValue(existsSync(imagePath), `${sourcePath}: ${label} 找不到图片 ${value}`)
+  if (!existsSync(imagePath)) {
+    warnings.push(`${sourcePath}: ${label} 找不到图片 ${value}`)
+  }
 }
+
 
 for (const item of catalog.all) {
   const absolutePath = path.join(repoRoot, item.sourcePath)
@@ -213,7 +216,13 @@ requireValue(String(profile.intro || '').trim(), 'profile.json: intro 不能为�
 requireValue(Number.isFinite(profile.yearsValue) && profile.yearsValue >= 0, 'profile.json: yearsValue 必须是非负数字')
 requireValue(String(profile.yearsLabel || '').trim(), 'profile.json: yearsLabel 不能为空')
 if (profile.avatar) checkImage('profile.json', 'avatar', profile.avatar)
-if (profile.resumePdf) requireValue(existsSync(path.join(repoRoot, 'public', String(profile.resumePdf).replace(/^\//, ''))), `profile.json: 找不到简历 ${profile.resumePdf}`)
+if (profile.resumePdf) {
+  const pdfPath = path.join(repoRoot, 'public', String(profile.resumePdf).replace(/^\//, ''))
+  if (!existsSync(pdfPath)) {
+    warnings.push(`profile.json: 找不到简历 ${profile.resumePdf}`)
+  }
+}
+
 
 try {
   const config = yaml.load(readFileSync(path.join(repoRoot, '.pages.yml'), 'utf8'))

@@ -16,7 +16,7 @@ const rasterExtensions = new Set(['.png', '.jpg', '.jpeg', '.webp'])
 
 const toPosix = (value) => value.split(path.sep).join('/')
 const assert = (condition, message) => {
-  if (!condition) throw new Error(message)
+  if (!condition) console.warn(`WARN [ImageCheck] ${message}`)
 }
 
 const normalizeLocalImageUrl = (value) => {

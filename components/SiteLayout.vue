@@ -53,6 +53,7 @@ const detailFacts = computed(() => {
             </div>
           </dl>
         </header>
+        <hr class="modular-document__divider" />
         <ContentBlocks :blocks="blocks" :variant="contentVariant" />
         <CommentSection v-if="frontmatter.pageClass" />
       </div>
