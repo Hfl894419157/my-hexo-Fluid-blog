@@ -2,7 +2,7 @@
 contentId: 4ad30ecb-deac-4526-8c62-313946621468
 meta:
   title: 北食刻品牌设计
-  description: 北食刻品牌设计
+  description: 北食刻品牌设计.
   tags:
     - 品牌设计
     - logo设计
