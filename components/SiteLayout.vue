@@ -6,6 +6,7 @@ import SiteHeader from './SiteHeader.vue'
 import SiteFooter from './SiteFooter.vue'
 import FloatingActions from './FloatingActions.vue'
 import ContentBlocks from './ContentBlocks.vue'
+import CommentSection from './CommentSection.vue'
 
 const { frontmatter } = useData()
 const isModular = computed(() => frontmatter.value.modularContent === true)
@@ -53,6 +54,12 @@ const detailFacts = computed(() => {
           </dl>
         </header>
         <ContentBlocks :blocks="blocks" :variant="contentVariant" />
+        <CommentSection v-if="frontmatter.pageClass" />
+      </div>
+    </template>
+    <template #doc-after>
+      <div class="modular-document" v-if="!isModular && frontmatter.pageClass">
+        <CommentSection />
       </div>
     </template>
     <template #layout-bottom>
