@@ -480,7 +480,7 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
   .project-facts > div:nth-child(odd) { border-right: 0; border-bottom: 1px solid var(--border-soft); }
   .project-facts > div:last-child { border-bottom: 0; }
 }
-.content-blocks { display: grid; gap: 26px; }
+.content-blocks { display: grid; gap: 36px; }
 .content-block { min-width: 0; }
 .content-block--rich { width: 100%; max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .content-block--rich > :first-child { margin-top: 0 !important; }
@@ -516,10 +516,10 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich .content-rich-media-row {
   width: 100%;
   max-width: 100%;
-  margin: 34px 0 36px !important;
+  margin: 42px 0 44px !important;
 }
 .content-block--rich .content-rich-media-row:first-child { margin-top: 0 !important; }
-.content-block--rich figure.content-rich-media-row { margin-bottom: 28px !important; }
+.content-block--rich figure.content-rich-media-row { margin-bottom: 36px !important; }
 .content-block--rich .content-rich-media-row picture,
 .content-block--rich .content-rich-media-row img { display: block; width: 100%; height: auto; }
 .content-block--rich section,
@@ -545,6 +545,8 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich div[class*='language-'] .line { display: inline; min-width: 0; }
 .content-block--image,
 .content-block--gallery figure { margin: 0; }
+.content-block--image + .content-block--rich { margin-top: 6px; }
+.content-block--rich + .content-block--image { margin-top: 6px; }
 .content-block--image .responsive-picture,
 .content-block--image img,
 .content-block--gallery .responsive-picture,
@@ -585,7 +587,7 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 640px) {
-  .content-blocks { gap: 22px; }
+  .content-blocks { gap: 28px; }
   .content-block--image + .content-block--rich { margin-top: 6px; }
   .content-block--image:has(figcaption) + .content-block--rich { margin-top: 0; }
   .content-block--rich .content-rich-media-row { margin-top: 24px !important; margin-bottom: 28px !important; }

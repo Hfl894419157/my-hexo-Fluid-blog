@@ -153,6 +153,16 @@ export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
     addSource($, picture, 'image/avif', entry.avifVariants)
   })
 
+  // Wrap standalone <pre> blocks with language container and inject copy button
+  $('pre').each((_, element) => {
+    const pre = $(element)
+    // Skip if already inside a language wrapper
+    if (pre.parent().is('div[class*="language-"]')) return
+    const lang = pre.find('code').attr('class')?.match(/language-(\S+)/)?.[1] || 'text'
+    pre.wrap(`<div class="language-${lang}"></div>`)
+    pre.parent().prepend('<button class="copy" title="复制代码"></button>')
+  })
+
   return $.html()
 }
 
