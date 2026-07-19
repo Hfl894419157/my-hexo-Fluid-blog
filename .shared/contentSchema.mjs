@@ -22,8 +22,9 @@ const normalizeContentBlocks = (blocks = []) => blocks.map((block) => {
   return {
     ...block,
     items: Array.isArray(block.items)
-      ? block.items.map((item) => ({
+      ? block.items.map((item, idx) => ({
         ...item,
+        id: item.id || `fallback-id-${idx}-${String(item.src || '').slice(-15)}`,
         layout: normalizePortfolioGalleryLayout(item?.layout)
       }))
       : []

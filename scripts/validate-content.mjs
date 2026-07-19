@@ -132,9 +132,13 @@ for (const item of catalog.all) {
         requireValue(String(image.alt || '').trim(), `${label}.items[${itemIndex}].alt 不能为空`)
         checkImage(prefix, `${label}.items[${itemIndex}].src`, image.src)
         if (item.kind === 'case') {
-          requireValue(uuidPattern.test(String(image.id || '')), `${label}.items[${itemIndex}].id 必须是 UUID v4`)
-          requireValue(!seenIds.has(image.id), `${label}.items[${itemIndex}].id UUID 重复`)
-          seenIds.add(image.id)
+          if (image.id) {
+            requireValue(uuidPattern.test(String(image.id)), `${label}.items[${itemIndex}].id 必须是 UUID v4`)
+            requireValue(!seenIds.has(image.id), `${label}.items[${itemIndex}].id UUID 重复`)
+            seenIds.add(image.id)
+          } else {
+            warnings.push(`${label}.items[${itemIndex}].id 缺失，将自动使用 fallback-id`)
+          }
           requireValue(
             allowedPortfolioGalleryLayouts.has(String(image.layout || 'auto')),
             `${label}.items[${itemIndex}].layout 必须是 auto / third / half / two-thirds / full`
