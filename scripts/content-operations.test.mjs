@@ -193,16 +193,12 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
   })
 })
 
-test('作品集后台统一使用富文本内容编辑器', async () => {
+test('作品集后台配置模块化内容且包含图文、视频和网盘', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const entries = flattenContent(config.content || [])
   const cases = entries.find((entry) => entry.name === 'cases')
-  const contentField = cases.fields.find((field) => field.name === 'content' || field.name === 'contentBlocks')
-  assert.ok(contentField, '应配置作品内容字段')
-  if (contentField.name === 'content') {
-    assert.equal(contentField.type, 'rich-text')
-    assert.equal(contentField.options.switcher, false)
-  }
+  const contentField = cases.fields.find((field) => field.name === 'contentBlocks')
+  assert.equal(contentField.component, 'content_blocks')
 })
 
 test('作品图片布局未知时安全回退为自动', () => {

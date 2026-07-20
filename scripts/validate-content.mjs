@@ -259,8 +259,8 @@ try {
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
   const cases = contentEntries.find((entry) => entry.name === 'cases')
   requireValue(
-    cases?.fields?.some((field) => (field.name === 'content' && field.type === 'rich-text') || (field.name === 'contentBlocks' && field.component === 'portfolio_content_blocks')),
-    '.pages.yml: 作品集必须配置 unified content 富文本或 portfolio_content_blocks'
+    cases?.fields?.some((field) => field.name === 'contentBlocks' && (field.component === 'content_blocks' || field.component === 'portfolio_content_blocks')),
+    '.pages.yml: 作品集必须配置 contentBlocks 内容模块'
   )
   const referenceFields = [
     homepage?.fields?.find((field) => field.name === 'featuredCases'),
