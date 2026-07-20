@@ -1,4 +1,5 @@
 export const navItems = [
+  { text: '首页', link: '/' },
   { text: '作品集', link: '/portfolio/' },
   { text: '工作流', link: '/aigc/' },
   {
