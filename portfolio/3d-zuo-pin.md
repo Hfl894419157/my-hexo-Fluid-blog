@@ -2,7 +2,7 @@
 contentId: 2e2425de-8c61-4aab-abd0-8084290387ad
 meta:
   title: 3D模型渲染作品合集
-  description: 主要是通过C4D进行的模型搭建，通过Keyshot+红移动，以及AI的辅助进行模型渲染输出。
+  description: 主要是通过C4D进行的模型搭建，通过Keyshot+红移动，以及AI的辅助进行模型渲染输出
   tags:
     - 模型搭建
     - 产品模型
