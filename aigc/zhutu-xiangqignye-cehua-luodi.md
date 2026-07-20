@@ -14,8 +14,8 @@ publishing:
   verificationStatus: 已验证
   showInRecentUpdates: true
 cover:
-  focalPoint: bottom
-  src: /images/uploads/工作流板块图片/GTS200工作流案例/8.png
+  focalPoint: center
+  src: /images/uploads/工作流板块图片/GTS200工作流案例/封面.jpg
 contentBlocks:
   - type: richText
     id: 2c3cc590-e6f0-4159-a124-41b6b74a4e61
