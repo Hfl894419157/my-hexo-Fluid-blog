@@ -46,4 +46,11 @@ contentBlocks:
       src="/images/uploads/%E6%A1%88%E4%BE%8B%E6%9D%BF%E5%9D%97%E5%9B%BE%E7%89%87/3D%E6%A8%A1%E6%90%AD%E5%BB%BA%E5%9E%8B%E6%B8%B2%E6%9F%93/21.jpg"><img
       src="/images/uploads/%E6%A1%88%E4%BE%8B%E6%9D%BF%E5%9D%97%E5%9B%BE%E7%89%87/3D%E6%A8%A1%E6%90%AD%E5%BB%BA%E5%9E%8B%E6%B8%B2%E6%9F%93/22.jpg"><img
       src="/images/uploads/%E6%A1%88%E4%BE%8B%E6%9D%BF%E5%9D%97%E5%9B%BE%E7%89%87/3D%E6%A8%A1%E6%90%AD%E5%BB%BA%E5%9E%8B%E6%B8%B2%E6%9F%93/23.jpg"><p></p>
+  - type: gallery
+    id: 9ac35fb9-5a95-469e-ae2e-4efa26d190d1
+    items:
+      - id: 26f9a3ca-e4a9-48a3-9f64-28aab09ad88b
+        src: /images/uploads/案例板块图片/3D模搭建型渲染/1.jpg
+        alt: "1"
+        layout: auto
 ---
