@@ -24,6 +24,7 @@ export const useStackWall = (cardSelector) => {
       card.style.setProperty('--stack-scale', '1')
       card.style.setProperty('--stack-lift', '0px')
       card.style.setProperty('--stack-brightness', '1')
+      card.style.setProperty('--stack-blur', '0px')
     })
   }
 
@@ -45,6 +46,7 @@ export const useStackWall = (cardSelector) => {
         card.style.setProperty('--stack-scale', '1')
         card.style.setProperty('--stack-lift', '0px')
         card.style.setProperty('--stack-brightness', '1')
+        card.style.setProperty('--stack-blur', '0px')
         return
       }
 
@@ -55,7 +57,8 @@ export const useStackWall = (cardSelector) => {
 
       card.style.setProperty('--stack-scale', String(1 - progress * 0.025))
       card.style.setProperty('--stack-lift', `${progress * -8}px`)
-      card.style.setProperty('--stack-brightness', String(1 - progress * 0.08))
+      card.style.setProperty('--stack-brightness', String(1 - progress * 0.12))
+      card.style.setProperty('--stack-blur', `${(progress * 14).toFixed(2)}px`)
     })
   }
 
