@@ -14,7 +14,7 @@ export const richHtmlAllowedTags = [
   'strong', 'b', 'em', 'i', 'u', 's', 'del', 'mark', 'small', 'sub', 'sup',
   'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
   'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
-  'figure', 'figcaption', 'picture', 'source', 'img', 'a'
+  'figure', 'figcaption', 'picture', 'source', 'img', 'a', 'iframe'
 ]
 
 export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || ''), {
@@ -24,12 +24,13 @@ export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || '')
     a: ['href', 'target', 'rel', 'title'],
     img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding', 'fetchpriority'],
     source: ['srcset', 'sizes', 'type'],
+    iframe: ['src', 'title', 'loading', 'allow', 'allowfullscreen', 'style', 'width', 'height', 'frameborder'],
     code: ['class'],
     th: ['colspan', 'rowspan', 'scope'],
     td: ['colspan', 'rowspan']
   },
   allowedSchemes: ['http', 'https', 'mailto'],
-  allowedSchemesByTag: { img: ['http', 'https'] },
+  allowedSchemesByTag: { img: ['http', 'https'], iframe: ['https'] },
   allowProtocolRelative: false,
   allowedStyles: {
     '*': {
@@ -64,7 +65,8 @@ export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || '')
       display: [/^(?:block|inline|inline-block|flex|grid)$/i],
       'justify-content': [/^(?:start|end|center|space-between|space-around)$/i],
       'align-items': [/^(?:start|end|center|stretch)$/i],
-      gap: [safeLength]
+      gap: [safeLength],
+      'aspect-ratio': [/^\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?$/i]
     }
   },
   transformTags: {
@@ -106,6 +108,74 @@ const addSource = ($, picture, type, variants) => {
   picture.prepend(source)
 }
 
+const parseVideoInfo = (text, href) => {
+  const target = href || text || ''
+  if (!target) return null
+  try {
+    const url = new URL(target)
+    const host = url.hostname.toLowerCase().replace(/^www\./, '')
+    if (host === 'youtu.be' || host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+      let id = ''
+      if (host === 'youtu.be') id = url.pathname.split('/').filter(Boolean)[0] || ''
+      else if (url.pathname === '/watch') id = url.searchParams.get('v') || ''
+      else {
+        const match = url.pathname.match(/^\/(?:shorts|embed)\/([\w-]{6,})/)
+        id = match?.[1] || ''
+      }
+      if (id) {
+        return {
+          platform: 'youtube',
+          embedUrl: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}`,
+          originalUrl: target
+        }
+      }
+    }
+    if (host.includes('bilibili.com') || host.includes('b23.tv')) {
+      const bvid = target.match(/\b(BV[\w]+)\b/i)?.[1] || ''
+      const aid = target.match(/\bav(\d+)\b/i)?.[1] || ''
+      if (bvid) {
+        return {
+          platform: 'bilibili',
+          embedUrl: `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(bvid)}&high_quality=1`,
+          originalUrl: target
+        }
+      }
+      if (aid) {
+        return {
+          platform: 'bilibili',
+          embedUrl: `https://player.bilibili.com/player.html?aid=${encodeURIComponent(aid)}&high_quality=1`,
+          originalUrl: target
+        }
+      }
+    }
+  } catch {}
+  return null
+}
+
+const parseNetdiskInfo = (text, href) => {
+  const content = `${text || ''} ${href || ''}`
+  if (!content) return null
+  const isBaidu = /pan\.baidu\.com/i.test(content)
+  const isAliyun = /aliyundrive\.com|alipan\.com/i.test(content)
+  const isQuark = /pan\.quark\.cn/i.test(content)
+  const is123 = /123pan\.com|123684\.com/i.test(content)
+  const isLanzou = /lanzou/i.test(content)
+
+  if (!isBaidu && !isAliyun && !isQuark && !is123 && !isLanzou) return null
+
+  const platformName = isBaidu ? '百度网盘' : isAliyun ? '阿里云盘' : isQuark ? '夸克网盘' : is123 ? '123云盘' : '蓝奏云'
+  const codeMatch = content.match(/(?:提取码|访问码|密码|pwd)[:：\s]*([a-zA-Z0-9]{4,8})/i) || content.match(/[?&]pwd=([a-zA-Z0-9]{4,8})/i)
+  const code = codeMatch ? codeMatch[1] : ''
+  const urlMatch = content.match(/(https?:\/\/[^\s"'<>]+)/i)
+  const targetUrl = href || (urlMatch ? urlMatch[1] : '')
+
+  return {
+    platform: platformName,
+    url: targetUrl,
+    code
+  }
+}
+
 export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
   const safe = sanitizeRichHtml(value)
   const $ = load(safe, null, false)
@@ -118,6 +188,49 @@ export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
     const count = env.headingCounts.get(base) || 0
     env.headingCounts.set(base, count + 1)
     heading.attr('id', count ? `${base}-${count + 1}` : base)
+  })
+
+  // Smart Video and Netdisk Link transformation
+  $('p, a').each((_, element) => {
+    const $el = $(element)
+    if ($el.children().length > 1 && !$el.is('a')) return
+    const text = $el.text().trim()
+    const href = $el.attr('href') || ''
+    
+    // Check video
+    const video = parseVideoInfo(text, href)
+    if (video && !$el.closest('.content-video').length) {
+      const container = $(`
+        <article class="content-video" style="margin: 28px 0;">
+          <div class="content-video__stage" style="aspect-ratio: 16 / 9; width: 100%; border-radius: var(--radius-card); overflow: hidden; background: var(--bg-soft);">
+            <iframe src="${video.embedUrl}" title="视频播放器" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; border: 0; display: block;"></iframe>
+          </div>
+        </article>
+      `)
+      $el.replaceWith(container)
+      return
+    }
+
+    // Check netdisk
+    const netdisk = parseNetdiskInfo(text, href)
+    if (netdisk && netdisk.url && !$el.closest('.content-resource-card').length) {
+      const codeHtml = netdisk.code ? `<span class="netdisk-code" style="padding: 3px 8px; background: var(--bg-soft); border-radius: 4px; font-size: 12px; font-family: var(--font-mono);">提取码：${netdisk.code}</span>` : ''
+      const card = $(`
+        <div class="content-resource-card" style="margin: 24px 0; padding: 18px 20px; border: 1px solid var(--border-soft); border-radius: var(--radius-card); background: var(--bg-card); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 22px;">📦</span>
+            <div>
+              <strong style="font-size: 14px; font-weight: 600; color: var(--text-main); display: block;">${netdisk.platform} 资源</strong>
+              ${codeHtml ? `<div style="margin-top: 4px;">${codeHtml}</div>` : ''}
+            </div>
+          </div>
+          <a href="${netdisk.url}" target="_blank" rel="noopener noreferrer" style="padding: 8px 16px; background: var(--brand-main); color: #ffffff; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            打开资源 ↗
+          </a>
+        </div>
+      `)
+      $el.replaceWith(card)
+    }
   })
 
   $('img').each((_, element) => {

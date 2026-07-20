@@ -49,6 +49,43 @@ export const getPageClass = (sourcePath = '') => {
   return ''
 }
 
+export const convertBlocksToUnifiedHtml = (blocks = []) => {
+  return blocks.map((block) => {
+    if (!block) return ''
+    if (block.type === 'richText') {
+      return String(block.html || block.legacyMarkdown || block.markdown || '')
+    }
+    if (block.type === 'image' && block.src) {
+      const alt = String(block.alt || '').replace(/"/g, '&quot;')
+      const caption = block.caption ? `<figcaption>${block.caption}</figcaption>` : ''
+      return `<figure><img src="${block.src}" alt="${alt}">${caption}</figure>`
+    }
+    if (block.type === 'gallery' && Array.isArray(block.items)) {
+      return block.items.map((item) => {
+        if (!item?.src) return ''
+        const alt = String(item.alt || '').replace(/"/g, '&quot;')
+        const caption = item.caption ? `<figcaption>${item.caption}</figcaption>` : ''
+        return `<figure><img src="${item.src}" alt="${alt}">${caption}</figure>`
+      }).join('\n')
+    }
+    if (block.type === 'video') {
+      const url = block.url || block.rawInput || ''
+      const title = block.title ? ` ${block.title}` : ''
+      return url ? `<p>${url}${title}</p>` : ''
+    }
+    if (block.type === 'download') {
+      const url = block.url || block.rawInput || ''
+      const code = block.code ? ` 提取码：${block.code}` : ''
+      const name = block.name ? ` (${block.name})` : ''
+      return url ? `<p>${url}${code}${name}</p>` : ''
+    }
+    if (block.type === 'externalLink' && block.url) {
+      return `<p>${block.url}${block.title ? ` ${block.title}` : ''}</p>`
+    }
+    return ''
+  }).filter(Boolean).join('\n\n')
+}
+
 export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const meta = frontmatter.meta || {}
   const publishing = frontmatter.publishing || {}
@@ -58,12 +95,18 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const resourceMeta = frontmatter.resourceMeta && typeof frontmatter.resourceMeta === 'object' ? frontmatter.resourceMeta : {}
   const rawBlocks = Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : []
   let blocks = normalizeContentBlocks(rawBlocks)
-  if (!blocks.length && frontmatter.content && typeof frontmatter.content === 'string') {
+  
+  let unifiedHtml = String(frontmatter.content || '')
+  if (!unifiedHtml && rawBlocks.length > 0) {
+    unifiedHtml = convertBlocksToUnifiedHtml(rawBlocks)
+  }
+
+  if (!blocks.length) {
     blocks = [{
       id: 'unified-content-block',
       type: 'richText',
       format: 'html',
-      html: String(frontmatter.content)
+      html: unifiedHtml
     }]
   }
   const resourceTypes = new Set(['software', 'ai-tool', 'plugin', 'prompt', 'template', 'asset', 'document', 'other'])

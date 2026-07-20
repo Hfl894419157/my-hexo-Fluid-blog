@@ -525,7 +525,17 @@ content:
       - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: cover, component: content_cover }
-      - { name: contentBlocks, component: content_blocks }
+      - name: content
+        label: 作品内容
+        description: 自由输入文本段落、标题、列表、粘贴图片/图片组、视频链接及网盘下载链接。
+        type: rich-text
+        required: true
+        options:
+          format: html
+          switcher: true
+          media: images
+          path: public/images/uploads
+          rename: safe
       - { name: publishing, component: content_publishing }
       - name: advanced
         label: 高级设置（可选）
