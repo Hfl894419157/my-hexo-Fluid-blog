@@ -2,6 +2,8 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'public/images/uploads/**'
   pull_request:
     branches: [main]
   workflow_dispatch:

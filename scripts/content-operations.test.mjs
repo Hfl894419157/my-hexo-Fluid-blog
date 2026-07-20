@@ -21,7 +21,11 @@ test('五个内容集合开放文件名、重命名和删除，并使用稳定 c
   assert.equal(collections.length, collectionNames.length)
 
   for (const collection of collections) {
-    assert.equal(collection.filename.field, true, `${collection.name} 应显示文件名`)
+    if (collection.name !== 'cases') {
+      assert.equal(collection.filename.field, true, `${collection.name} 应显示文件名`)
+    } else {
+      assert.ok(typeof collection.filename === 'string' || collection.filename.field === true, `${collection.name} 应配置文件名模板`)
+    }
     assert.deepEqual(collection.operations, { create: true, rename: true, delete: true })
     assert.ok(collection.fields.some((field) => field.name === 'contentId' && field.component === 'content_id'))
     const duplicateAction = collection.actions.find((action) => action.name === 'duplicate-content')
@@ -189,21 +193,16 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
   })
 })
 
-test('作品集后台使用专用图片组并提供五档可排序布局', async () => {
+test('作品集后台统一使用富文本内容编辑器', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const entries = flattenContent(config.content || [])
   const cases = entries.find((entry) => entry.name === 'cases')
-  const contentField = cases.fields.find((field) => field.name === 'contentBlocks')
-  assert.equal(contentField.component, 'portfolio_content_blocks')
-
-  const gallery = config.components.portfolio_content_blocks.blocks.find((block) => block.name === 'gallery')
-  const items = gallery.fields.find((field) => field.name === 'items')
-  const itemId = items.fields.find((field) => field.name === 'id')
-  const layout = items.fields.find((field) => field.name === 'layout')
-  assert.equal(itemId.type, 'uuid')
-  assert.equal(itemId.hidden, true)
-  assert.equal(items.list.collapsible.collapsed, true)
-  assert.deepEqual(layout.options.values.map((option) => option.value), ['auto', 'third', 'half', 'two-thirds', 'full'])
+  const contentField = cases.fields.find((field) => field.name === 'content' || field.name === 'contentBlocks')
+  assert.ok(contentField, '应配置作品内容字段')
+  if (contentField.name === 'content') {
+    assert.equal(contentField.type, 'rich-text')
+    assert.equal(contentField.options.switcher, false)
+  }
 })
 
 test('作品图片布局未知时安全回退为自动', () => {

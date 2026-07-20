@@ -511,7 +511,13 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--rich mark { padding: .08em .2em; border-radius: 3px; background: var(--mark-bg); color: var(--mark-text); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .content-block--rich a { color: var(--brand-main); font-weight: 600; text-underline-offset: .2em; }
 .content-block--rich ul,
-.content-block--rich ol { max-width: 100%; padding-left: 1.55em; }
+.content-block--rich ol { max-width: 100%; padding-left: 1.55em; margin: 18px 0; }
+.content-block--rich ul { list-style-type: disc; }
+.content-block--rich ol { list-style-type: decimal; }
+.content-block--rich ul ul { list-style-type: circle; margin: 8px 0; }
+.content-block--rich ol ol { list-style-type: lower-alpha; margin: 8px 0; }
+.content-block--rich li { max-width: 100%; color: var(--text-sub); font-family: var(--font-sans); font-size: 16px; line-height: 1.9; margin: 6px 0; display: list-item; }
+.content-block--rich li > p { margin: 4px 0; }
 .content-block--rich blockquote { max-width: 100%; margin: 24px 0; padding: 18px 20px; border-left: 3px solid var(--brand-main); background: var(--bg-soft); }
 .content-block--rich blockquote > p { margin: 0 !important; }
 .content-block--rich table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border: 1px solid var(--border-soft); border-radius: var(--radius-card); }

@@ -1,6 +1,7 @@
 import { load } from 'cheerio'
 import sanitizeHtml from 'sanitize-html'
 import { articleImageSizes } from './markdownImages.mjs'
+import { partitionJustifiedRows } from './justifiedGallery.mjs'
 
 const safeLength = /^(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))$/i
 const safeSpacing = /^(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))(?:\s+(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))){0,3}$/i
@@ -19,7 +20,7 @@ export const richHtmlAllowedTags = [
 export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || ''), {
   allowedTags: richHtmlAllowedTags,
   allowedAttributes: {
-    '*': ['style', 'title'],
+    '*': ['style', 'title', 'class'],
     a: ['href', 'target', 'rel', 'title'],
     img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding', 'fetchpriority'],
     source: ['srcset', 'sizes', 'type'],
@@ -28,9 +29,6 @@ export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || '')
     td: ['colspan', 'rowspan']
   },
   allowedSchemes: ['http', 'https', 'mailto'],
-  // Published content is required to use archived site media. Data/blob URLs
-  // are intentionally stripped at the final rendering boundary as well as
-  // rejected by content validation.
   allowedSchemesByTag: { img: ['http', 'https'] },
   allowProtocolRelative: false,
   allowedStyles: {
@@ -153,10 +151,54 @@ export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
     addSource($, picture, 'image/avif', entry.avifVariants)
   })
 
+  // Group adjacent single-image containers into justified gallery rows
+  const imageContainers = $('.content-rich-media-row').toArray()
+  let currentGroup = []
+
+  const flushGroup = () => {
+    if (currentGroup.length >= 2) {
+      const items = currentGroup.map((el) => {
+        const $el = $(el)
+        const $img = $el.find('img')
+        const src = $img.attr('src') || ''
+        const width = Number($img.attr('width')) || 0
+        const height = Number($img.attr('height')) || 0
+        return { el, $el, src, width, height }
+      })
+
+      const rows = partitionJustifiedRows(items, imageManifest)
+      for (const row of rows) {
+        if (row.length > 1) {
+          const rowWrapper = $('<div class="portfolio-gallery-row portfolio-gallery-row--multi"></div>')
+          row[0].$el.before(rowWrapper)
+          for (const item of row) {
+            item.$el.css({
+              flex: `${item.ratio} ${item.ratio} 0%`,
+              'aspect-ratio': `${item.ratio}`
+            })
+            rowWrapper.append(item.$el)
+          }
+        }
+      }
+    }
+    currentGroup = []
+  }
+
+  for (let i = 0; i < imageContainers.length; i++) {
+    const current = $(imageContainers[i])
+    const prev = currentGroup.length ? $(currentGroup[currentGroup.length - 1]) : null
+    if (prev && current.prev().get(0) === prev.get(0)) {
+      currentGroup.push(imageContainers[i])
+    } else {
+      flushGroup()
+      currentGroup = [imageContainers[i]]
+    }
+  }
+  flushGroup()
+
   // Wrap standalone <pre> blocks with language container and inject copy button
   $('pre').each((_, element) => {
     const pre = $(element)
-    // Skip if already inside a language wrapper
     if (pre.parent().is('div[class*="language-"]')) return
     const lang = pre.find('code').attr('class')?.match(/language-(\S+)/)?.[1] || 'text'
     pre.wrap(`<div class="language-${lang}"></div>`)

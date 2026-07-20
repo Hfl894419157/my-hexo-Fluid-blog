@@ -56,7 +56,16 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const seo = frontmatter.seo || {}
   const project = frontmatter.project && typeof frontmatter.project === 'object' ? frontmatter.project : {}
   const resourceMeta = frontmatter.resourceMeta && typeof frontmatter.resourceMeta === 'object' ? frontmatter.resourceMeta : {}
-  const blocks = normalizeContentBlocks(Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : [])
+  const rawBlocks = Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : []
+  let blocks = normalizeContentBlocks(rawBlocks)
+  if (!blocks.length && frontmatter.content && typeof frontmatter.content === 'string') {
+    blocks = [{
+      id: 'unified-content-block',
+      type: 'richText',
+      format: 'html',
+      html: String(frontmatter.content)
+    }]
+  }
   const resourceTypes = new Set(['software', 'ai-tool', 'plugin', 'prompt', 'template', 'asset', 'document', 'other'])
   const accessTypes = new Set(['official', 'cloud', 'contact'])
   const inferredAccess = blocks.some((block) => block?.type === 'download')

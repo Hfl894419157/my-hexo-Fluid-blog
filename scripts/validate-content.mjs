@@ -56,7 +56,7 @@ for (const item of catalog.all) {
   requireValue(data.publishing && typeof data.publishing === 'object', `${prefix}: 缺少 publishing`)
   requireValue(!data.cover || typeof data.cover === 'object', `${prefix}: cover 必须是对象`)
   requireValue(!data.seo || typeof data.seo === 'object', `${prefix}: seo 必须是对象`)
-  requireValue(Array.isArray(data.contentBlocks), `${prefix}: contentBlocks 必须是数组`)
+  requireValue(Boolean(data.content) || Array.isArray(data.contentBlocks), `${prefix}: 必须包含 content 正文或 contentBlocks 数组`)
   requireValue(uuidPattern.test(String(data.contentId || '')), `${prefix}: 缺少有效 contentId UUID v4`)
   if (uuidPattern.test(String(data.contentId || ''))) {
     const duplicatePath = seenContentIds.get(data.contentId)
@@ -68,13 +68,17 @@ for (const item of catalog.all) {
   requireValue(allowedStatuses.has(item.status), `${prefix}: publishing.status 必须是 draft / planned / published / archived`)
   requireValue(item.createdAt !== '2099-12-31', `${prefix}: 缺少 publishing.createdAt`)
   if (!item.tags.length) warnings.push(`${prefix}: 建议至少填写一个 meta.tags`)
-  if (item.status === 'published') requireValue(data.contentBlocks?.length > 0, `${prefix}: 已发布内容至少需要一个内容模块`)
+  const hasContent = Boolean(data.content) || (Array.isArray(data.contentBlocks) && data.contentBlocks.length > 0)
+  if (item.status === 'published') requireValue(hasContent, `${prefix}: 已发布内容至少需要包含作品内容或内容模块`)
   if (item.kind === 'case' && item.status === 'published') {
-    const portfolioImageCount = (data.contentBlocks || []).reduce((count, block) => {
+    let portfolioImageCount = (data.contentBlocks || []).reduce((count, block) => {
       if (block?.type === 'image' && block.src) return count + 1
       if (block?.type === 'gallery') return count + (block.items || []).filter((image) => image?.src).length
       return count
     }, 0)
+    if (data.content && typeof data.content === 'string') {
+      portfolioImageCount += richHtmlImages(data.content).length
+    }
     requireValue(String(data.cover?.src || '').trim(), `${prefix}: 已发布作品必须设置卡片封面`)
     requireValue(portfolioImageCount > 0, `${prefix}: 已发布作品至少需要一张作品图片`)
   }
@@ -240,7 +244,9 @@ try {
   for (const name of ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']) {
     requireValue(collectionNames.has(name), `.pages.yml: 缺少集合 ${name}`)
     const collection = collections.find((entry) => entry.name === name)
-    requireValue(collection?.filename?.field === true, `.pages.yml: ${name} 必须在编辑页显示文件名`)
+    if (name !== 'cases') {
+      requireValue(collection?.filename?.field === true, `.pages.yml: ${name} 必须在编辑页显示文件名`)
+    }
     requireValue(collection?.operations?.create === true, `.pages.yml: ${name} 必须允许新建`)
     requireValue(collection?.operations?.rename === true, `.pages.yml: ${name} 必须允许重命名`)
     requireValue(collection?.operations?.delete === true, `.pages.yml: ${name} 必须允许删除`)
@@ -253,8 +259,8 @@ try {
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
   const cases = contentEntries.find((entry) => entry.name === 'cases')
   requireValue(
-    cases?.fields?.some((field) => field.name === 'contentBlocks' && field.component === 'portfolio_content_blocks'),
-    '.pages.yml: 作品集必须使用 portfolio_content_blocks'
+    cases?.fields?.some((field) => (field.name === 'content' && field.type === 'rich-text') || (field.name === 'contentBlocks' && field.component === 'portfolio_content_blocks')),
+    '.pages.yml: 作品集必须配置 unified content 富文本或 portfolio_content_blocks'
   )
   const referenceFields = [
     homepage?.fields?.find((field) => field.name === 'featuredCases'),

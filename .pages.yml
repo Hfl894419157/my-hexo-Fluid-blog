@@ -478,9 +478,7 @@ content:
     path: portfolio
     exclude: [index.md]
     format: yaml-frontmatter
-    filename:
-      template: "{primary}.md"
-      field: true
+    filename: "work-{yyyy}{MM}{dd}-{hh}{mm}{ss}.md"
     operations: { create: true, rename: true, delete: true }
     actions:
       - name: enrich-content
@@ -526,11 +524,25 @@ content:
     fields:
       - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
-      - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
-      - { name: project, component: project_meta }
-      - { name: contentBlocks, component: portfolio_content_blocks }
-      - { name: seo, component: content_seo }
+      - name: content
+        label: 作品内容
+        type: rich-text
+        required: true
+        options:
+          format: html
+          switcher: false
+          media: images
+          path: public/images/uploads
+          rename: safe
+      - { name: publishing, component: content_publishing }
+      - name: advanced
+        label: 高级设置（可选）
+        type: object
+        collapsed: true
+        fields:
+          - { name: project, component: project_meta }
+          - { name: seo, component: content_seo }
 
   - name: workflows
     label: 工作流
