@@ -203,8 +203,8 @@ components:
           - { name: size, type: string }
 
   content_blocks:
-    label: 内容模块
-    description: 可新增、复制、排序、折叠或删除模块；模块标识由系统自动生成。
+    label: 正文内容
+    description: 支持文字排版、图片粘贴、视频链接和网盘链接；外部图片会由增强后台自动归档。
     type: block
     blockKey: type
     list:
@@ -213,7 +213,7 @@ components:
         summary: "{index}. {type}"
     blocks:
       - name: richText
-        label: 高保真图文
+        label: 正文
         fields:
           - name: id
             label: 模块标识
@@ -225,8 +225,8 @@ components:
             hidden: true
             default: html
           - name: html
-            label: 图文正文
-            description: 支持整篇富文本粘贴、图片粘贴及 Editor / Source 切换；外部图片会由增强后台自动归档。
+            label: 正文
+            description: 直接粘贴文字、图片、视频链接或网盘链接，系统会自动识别并渲染。
             type: rich-text
             required: true
             options:
@@ -236,183 +236,14 @@ components:
               path: public/images/uploads/imported
               rename: random
           - name: legacyMarkdown
-            label: 迁移前 Markdown（回退）
+            label: 旧版 Markdown（回退）
             type: text
             hidden: true
             readonly: true
-      - name: image
-        label: 单张图片
-        fields:
-          - name: id
-            label: 模块标识
-            type: uuid
-            hidden: true
-          - name: src
-            label: 图片
-            type: image
-            required: true
-            options:
-              media: images
-          - name: alt
-            label: 替代文字
-            type: string
-            required: true
-          - name: caption
-            label: 图片说明
-            type: text
-      - name: gallery
-        label: 图片组
-        fields:
-          - name: id
-            label: 模块标识
-            type: uuid
-            hidden: true
-          - name: items
-            label: 图片列表
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{index}. {alt}"
-            fields:
-              - name: src
-                label: 图片
-                type: image
-                required: true
-                options:
-                  media: images
-              - name: alt
-                label: 替代文字
-                type: string
-                required: true
-              - name: caption
-                label: 图片说明
-                type: text
-      - name: video
-        label: 视频
-        fields:
-          - name: id
-            label: 模块标识
-            type: uuid
-            hidden: true
-          - name: rawInput
-            label: 原始分享文案
-            type: text
-          - name: url
-            label: 视频链接
-            type: string
-          - name: platform
-            label: 平台
-            type: select
-            options:
-              values: [youtube, bilibili, tencent, youku, douyin, xiaohongshu, wechat, external]
-          - name: title
-            label: 视频标题
-            type: string
-          - name: summary
-            label: 视频说明
-            type: text
-          - name: tags
-            label: 视频标签
-            type: string
-            list: true
-          - name: platformCover
-            label: 自动封面
-            type: image
-            options:
-              media: images
-          - name: customCover
-            label: 自定义封面（优先）
-            type: image
-            options:
-              media: images
-          - name: duration
-            label: 时长
-            type: string
-          - name: aspect
-            label: 画面比例
-            type: select
-            default: "16:9"
-            options:
-              values: ["16:9", "4:3", "1:1", "9:16"]
-          - { name: _enrichment, component: enrichment_state }
-      - name: download
-        label: 网盘资源
-        fields:
-          - name: id
-            label: 模块标识
-            type: uuid
-            hidden: true
-          - name: rawInput
-            label: 原始分享文案
-            type: text
-          - name: url
-            label: 分享链接
-            type: string
-          - name: platform
-            label: 网盘平台
-            type: select
-            options:
-              values: [baidu, aliyun, quark, pan123, lanzou, external]
-          - name: code
-            label: 提取码 / 访问码
-            type: string
-          - name: name
-            label: 资源名称
-            type: string
-          - name: summary
-            label: 资源说明
-            type: text
-          - name: format
-            label: 文件格式
-            type: string
-          - name: size
-            label: 文件大小
-            type: string
-          - name: platformCover
-            label: 自动封面
-            type: image
-            options:
-              media: images
-          - name: customCover
-            label: 自定义封面（优先）
-            type: image
-            options:
-              media: images
-          - name: buttonLabel
-            label: 按钮文字
-            type: string
-            default: 打开资源
-          - { name: _enrichment, component: enrichment_state }
-      - name: externalLink
-        label: 外部链接卡片
-        fields:
-          - name: id
-            label: 模块标识
-            type: uuid
-            hidden: true
-          - name: url
-            label: 链接
-            type: string
-          - name: title
-            label: 标题
-            type: string
-          - name: summary
-            label: 说明
-            type: text
-          - name: cover
-            label: 封面
-            type: image
-            options:
-              media: images
-          - name: buttonLabel
-            label: 按钮文字
-            type: string
-            default: 访问链接
 
   portfolio_content_blocks:
     label: 作品内容
-    description: 建议使用“作品图片组”；组内图片可新增、删除、折叠和拖动排序，列表顺序就是前台顺序。
+    description: 正文说明支持图片粘贴和视频/网盘链接；图片组可拖动排序。
     type: block
     blockKey: type
     list:
@@ -421,24 +252,17 @@ components:
         summary: "{index}. {type}"
     blocks:
       - name: richText
-        label: 作品说明（可选）
+        label: 正文说明
         fields:
           - { name: id, label: 模块标识, type: uuid, hidden: true }
           - { name: format, label: 正文格式, type: string, hidden: true, default: html }
           - name: html
-            label: 图文正文
+            label: 正文
             type: rich-text
             required: true
-            description: 支持整篇富文本粘贴、图片粘贴及 Editor / Source 切换；外部图片会由增强后台自动归档。
+            description: 支持文字、图片粘贴、视频链接和网盘链接。
             options: { format: html, switcher: true, media: images, path: public/images/uploads/imported, rename: random }
-          - { name: legacyMarkdown, label: 迁移前 Markdown（回退）, type: text, hidden: true, readonly: true }
-      - name: image
-        label: 单张通栏图片
-        fields:
-          - { name: id, label: 模块标识, type: uuid, hidden: true }
-          - { name: src, label: 图片, type: image, required: true, options: { media: images } }
-          - { name: alt, label: 替代文字, type: string, required: true }
-          - { name: caption, label: 图片说明, type: text }
+          - { name: legacyMarkdown, label: 旧版 Markdown（回退）, type: text, hidden: true, readonly: true }
       - name: gallery
         label: 作品图片组
         fields:
@@ -451,25 +275,12 @@ components:
               min: 1
               collapsible:
                 collapsed: true
-                summary: "{index}. {alt} · {layout}"
+                summary: "{index}. {alt}"
             fields:
               - { name: id, label: 图片标识, type: uuid, hidden: true }
               - { name: src, label: 图片, type: image, required: true, options: { media: images } }
               - { name: alt, label: 替代文字, type: string, required: true }
               - { name: caption, label: 图片说明（可选）, type: text }
-              - name: layout
-                label: 展示宽度
-                description: 自动会根据图片横竖比例选择宽度；手机端统一通栏。
-                type: select
-                required: true
-                default: auto
-                options:
-                  values:
-                    - { label: 智能自动, value: auto }
-                    - { label: 三分之一, value: third }
-                    - { label: 二分之一, value: half }
-                    - { label: 三分之二, value: two-thirds }
-                    - { label: 整行通栏, value: full }
 
 content:
   - name: cases
@@ -525,17 +336,7 @@ content:
       - { name: contentId, component: content_id }
       - { name: meta, component: content_meta }
       - { name: cover, component: content_cover }
-      - name: content
-        label: 作品内容
-        description: 自由输入文本段落、标题、列表、粘贴图片/图片组、视频链接及网盘下载链接。
-        type: rich-text
-        required: true
-        options:
-          format: html
-          switcher: true
-          media: images
-          path: public/images/uploads
-          rename: safe
+      - { name: contentBlocks, component: portfolio_content_blocks }
       - { name: publishing, component: content_publishing }
       - name: advanced
         label: 高级设置（可选）
