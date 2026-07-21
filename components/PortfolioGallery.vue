@@ -32,6 +32,18 @@ const enrichedItems = computed(() => {
 const justifiedRows = computed(() => {
   return partitionJustifiedRows(enrichedItems.value)
 })
+
+const rowClass = (row) => {
+  if (row.length === 1) {
+    return row[0].ratio >= 1.0
+      ? 'portfolio-gallery-row--single-landscape'
+      : 'portfolio-gallery-row--single-portrait'
+  }
+  if (row.length === 2 && row[0].ratio < 1.0 && row[1].ratio < 1.0) {
+    return 'portfolio-gallery-row--portrait-pair'
+  }
+  return 'portfolio-gallery-row--multi'
+}
 </script>
 
 <template>
@@ -39,12 +51,7 @@ const justifiedRows = computed(() => {
     <div
       v-for="(row, rowIndex) in justifiedRows"
       :key="`row-${rowIndex}`"
-      class="portfolio-gallery-row"
-      :class="{
-        'portfolio-gallery-row--single-portrait': row.length === 1 && row[0].ratio < 1.0,
-        'portfolio-gallery-row--single-landscape': row.length === 1 && row[0].ratio >= 1.0,
-        'portfolio-gallery-row--multi': row.length > 1
-      }"
+      :class="['portfolio-gallery-row', rowClass(row)]"
     >
       <figure
         v-for="(item, itemIndex) in row"
@@ -85,11 +92,13 @@ const justifiedRows = computed(() => {
   align-items: stretch;
 }
 
+/* ----- 横版图：每行一张，满宽显示 ----- */
 .portfolio-gallery-row--single-landscape .portfolio-gallery-item {
   flex: 1 1 100% !important;
   width: 100%;
 }
 
+/* ----- 竖版图单独一张（奇数时）居中显示 ----- */
 .portfolio-gallery-row--single-portrait {
   justify-content: center;
 }
@@ -101,6 +110,34 @@ const justifiedRows = computed(() => {
   margin: 0 auto;
 }
 
+/* ----- 竖版图两两配对：等宽并排，视觉平衡 ----- */
+.portfolio-gallery-row--portrait-pair {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 18px;
+}
+
+.portfolio-gallery-row--portrait-pair .portfolio-gallery-item {
+  flex: 1 1 0%;
+  min-width: 0;
+  aspect-ratio: auto !important;
+}
+
+.portfolio-gallery-row--portrait-pair .portfolio-gallery__content {
+  width: 100%;
+  height: 100%;
+}
+
+.portfolio-gallery-row--portrait-pair .portfolio-gallery__content :deep(img) {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: calc(var(--radius-card) - 2px);
+  background: var(--bg-soft);
+}
+
+/* ----- 通用 item 样式 ----- */
 .portfolio-gallery-item {
   min-width: 0;
   margin: 0;
@@ -134,6 +171,7 @@ const justifiedRows = computed(() => {
   text-align: center;
 }
 
+/* ----- 移动端：一律单列，满宽显示 ----- */
 @media (max-width: 640px) {
   .portfolio-gallery {
     gap: 14px;
@@ -148,7 +186,10 @@ const justifiedRows = computed(() => {
     max-width: 100% !important;
     aspect-ratio: auto !important;
   }
-  .portfolio-gallery-row--multi .portfolio-gallery-item {
+  .portfolio-gallery-row--portrait-pair {
+    flex-wrap: wrap;
+  }
+  .portfolio-gallery-row--portrait-pair .portfolio-gallery-item {
     flex: 1 1 calc(50% - 7px) !important;
   }
 }

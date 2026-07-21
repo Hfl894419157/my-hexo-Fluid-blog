@@ -22,94 +22,41 @@ export const partitionJustifiedRows = (items = [], imageManifest = {}) => {
   let i = 0
 
   while (i < list.length) {
-    const remaining = list.length - i
-    const item1 = list[i]
+    const item = list[i]
 
-    if (item1.breakBefore && i > 0) {
-      // Break handled by previous iteration
-    }
-
-    if (item1.fullRow) {
-      rows.push([item1])
+    // 显式指定 fullRow 或 layout=full 的独立成行
+    if (item.fullRow || item.layout === 'full') {
+      rows.push([item])
       i += 1
       continue
     }
 
-    if (remaining === 1) {
-      rows.push([item1])
-      i += 1
-      continue
-    }
+    const isLandscape = item.ratio >= 1.0
 
-    const item2 = list[i + 1]
-    if (item2.breakBefore) {
-      rows.push([item1])
-      i += 1
-      continue
-    }
-
-    if (remaining === 2) {
-      const ratioDiff = Math.max(item1.ratio / item2.ratio, item2.ratio / item1.ratio)
-      if (ratioDiff > 1.75 || item2.fullRow) {
-        rows.push([item1])
-        i += 1
-      } else {
-        rows.push([item1, item2])
-        i += 2
-      }
-      continue
-    }
-
-    // remaining >= 3
-    const item3 = list[i + 2]
-    if (item3.breakBefore || item3.fullRow) {
-      const ratioDiff = Math.max(item1.ratio / item2.ratio, item2.ratio / item1.ratio)
-      if (ratioDiff > 1.75 || item2.fullRow) {
-        rows.push([item1])
-        i += 1
-      } else {
-        rows.push([item1, item2])
-        i += 2
-      }
-      continue
-    }
-
-    const r1 = item1.ratio
-    const r2 = item2.ratio
-    const r3 = item3.ratio
-
-    // Check 3-item patterns:
-    // 1. 1 Landscape + 2 Portraits (e.g. r1 >= 1.15, r2 < 1.05, r3 < 1.05)
-    if (r1 >= 1.15 && r2 < 1.05 && r3 < 1.05) {
-      rows.push([item1])
-      i += 1
-      continue
-    }
-
-    // 2. 2 Portraits + 1 Landscape (e.g. r1 < 1.05, r2 < 1.05, r3 >= 1.15)
-    if (r1 < 1.05 && r2 < 1.05 && r3 >= 1.15) {
-      rows.push([item1, item2])
-      i += 2
-      continue
-    }
-
-    // 3. 3 similar aspect ratios (e.g., all 3 portrait or all 3 moderate landscape)
-    const minR = Math.min(r1, r2, r3)
-    const maxR = Math.max(r1, r2, r3)
-    if (maxR / minR < 1.5 && (r1 + r2 + r3) <= 4.2) {
-      rows.push([item1, item2, item3])
-      i += 3
-      continue
-    }
-
-    // Default 3+ item fallback: pair two or take single if ratio mismatch
-    const pairRatioDiff = Math.max(r1 / r2, r2 / r1)
-    if (pairRatioDiff > 1.75 || r1 > 1.4) {
-      rows.push([item1])
+    if (isLandscape) {
+      // 横版图：每行一张，满宽显示
+      rows.push([item])
       i += 1
     } else {
-      rows.push([item1, item2])
-      i += 2
+      // 竖版图：尝试两两配对
+      if (i + 1 < list.length) {
+        const nextItem = list[i + 1]
+        const nextIsLandscape = nextItem.ratio >= 1.0
+
+        if (!nextIsLandscape && !nextItem.fullRow && nextItem.layout !== 'full') {
+          // 两张竖版图配对一行
+          rows.push([item, nextItem])
+          i += 2
+        } else {
+          // 下一张是横版，当前竖版单独一行
+          rows.push([item])
+          i += 1
+        }
+      } else {
+        // 最后一张竖版图，单独居中显示
+        rows.push([item])
+        i += 1
+      }
     }
   }
 
