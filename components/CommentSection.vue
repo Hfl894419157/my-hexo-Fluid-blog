@@ -10,10 +10,15 @@ const commentKey = computed(() => `blog-comments-${frontmatter.value.contentId |
 
 const comments = ref([])
 const activeReplyId = ref(null)
+const activeReplyToReplyId = ref(null)
 
 // 发表评论和回复的内容
 const commentText = ref('')
 const replyText = ref('')
+const replyToReplyText = ref('')
+
+// 作者模式（显示删除按钮）
+const authorMode = ref(false)
 
 // 存储哪些评论的回复被展开了
 const expandedComments = ref(new Set())
@@ -26,6 +31,11 @@ const toggleExpandReplies = (commentId) => {
   } else {
     expandedComments.value.add(commentId)
   }
+}
+
+// 切换作者模式
+const toggleAuthorMode = () => {
+  authorMode.value = !authorMode.value
 }
 
 // 模拟初始化数据，让页面不空旷
@@ -102,7 +112,8 @@ const submitReply = (parentId) => {
     author: '访客',
     role: 'client',
     content: replyText.value.trim(),
-    createdAt: formatDateTime(new Date())
+    createdAt: formatDateTime(new Date()),
+    replies: []
   }
 
   parentComment.replies.push(newReply)
@@ -112,13 +123,76 @@ const submitReply = (parentId) => {
   activeReplyId.value = null
 }
 
+// 提交对回复的回复
+const submitReplyToReply = (commentId, replyId) => {
+  if (!replyToReplyText.value.trim()) return
+
+  const parentComment = comments.value.find(c => c.id === commentId)
+  if (!parentComment) return
+
+  const parentReply = parentComment.replies.find(r => r.id === replyId)
+  if (!parentReply) return
+
+  if (!parentReply.replies) parentReply.replies = []
+
+  const newReply = {
+    id: Date.now(),
+    author: '访客',
+    role: 'client',
+    content: replyToReplyText.value.trim(),
+    createdAt: formatDateTime(new Date())
+  }
+
+  parentReply.replies.push(newReply)
+  saveComments()
+
+  replyToReplyText.value = ''
+  activeReplyToReplyId.value = null
+}
+
 const toggleReplyForm = (commentId) => {
   if (activeReplyId.value === commentId) {
     activeReplyId.value = null
   } else {
     activeReplyId.value = commentId
+    activeReplyToReplyId.value = null
     replyText.value = ''
   }
+}
+
+const toggleReplyToReplyForm = (commentId, replyId) => {
+  const key = `${commentId}-${replyId}`
+  if (activeReplyToReplyId.value === key) {
+    activeReplyToReplyId.value = null
+  } else {
+    activeReplyToReplyId.value = key
+    activeReplyId.value = null
+    replyToReplyText.value = ''
+  }
+}
+
+// 删除评论
+const deleteComment = (commentId) => {
+  comments.value = comments.value.filter(c => c.id !== commentId)
+  saveComments()
+}
+
+// 删除回复
+const deleteReply = (commentId, replyId) => {
+  const parentComment = comments.value.find(c => c.id === commentId)
+  if (!parentComment) return
+  parentComment.replies = parentComment.replies.filter(r => r.id !== replyId)
+  saveComments()
+}
+
+// 删除对回复的回复
+const deleteNestedReply = (commentId, replyId, nestedId) => {
+  const parentComment = comments.value.find(c => c.id === commentId)
+  if (!parentComment) return
+  const parentReply = parentComment.replies.find(r => r.id === replyId)
+  if (!parentReply || !parentReply.replies) return
+  parentReply.replies = parentReply.replies.filter(r => r.id !== nestedId)
+  saveComments()
 }
 
 const formatDateTime = (date) => {
@@ -137,9 +211,14 @@ onMounted(() => {
 
 <template>
   <div class="comment-section">
-    <h3 class="comment-title">
-      发表讨论 <span class="comment-count">({{ comments.length }} 条)</span>
-    </h3>
+    <div class="comment-title-row">
+      <h3 class="comment-title">
+        发表讨论 <span class="comment-count">({{ comments.length }} 条)</span>
+      </h3>
+      <button class="author-toggle" @click="toggleAuthorMode" :class="{ active: authorMode }">
+        {{ authorMode ? '🔓 作者模式' : '🔒 作者模式' }}
+      </button>
+    </div>
 
     <!-- 评论输入区域 -->
     <div class="comment-form-container">
@@ -178,8 +257,11 @@ onMounted(() => {
 
         <!-- 操作区 -->
         <div class="comment-actions">
-          <button class="action-btn reply-btn" @click="toggleReplyForm(comment.id)">
+          <button class="action-btn" @click="toggleReplyForm(comment.id)">
             💬 回复
+          </button>
+          <button v-if="authorMode" class="action-btn action-btn--danger" @click="deleteComment(comment.id)">
+            🗑️ 删除
           </button>
         </div>
 
@@ -214,11 +296,57 @@ onMounted(() => {
               <div class="comment-user">
                 <span class="user-avatar user-avatar--sm">{{ reply.author.slice(0, 1) }}</span>
                 <span class="user-name">{{ reply.author }}</span>
-                <span class="reply-to-text">回复给主层</span>
               </div>
               <span class="comment-date">{{ reply.createdAt }}</span>
             </div>
             <p class="comment-body">{{ reply.content }}</p>
+
+            <!-- 回复的操作区 -->
+            <div class="comment-actions">
+              <button class="action-btn" @click="toggleReplyToReplyForm(comment.id, reply.id)">
+                💬 回复
+              </button>
+              <button v-if="authorMode" class="action-btn action-btn--danger" @click="deleteReply(comment.id, reply.id)">
+                🗑️ 删除
+              </button>
+            </div>
+
+            <!-- 对回复的回复输入框 -->
+            <div v-if="activeReplyToReplyId === `${comment.id}-${reply.id}`" class="reply-form-container">
+              <textarea 
+                v-model="replyToReplyText" 
+                placeholder="回复内容..." 
+                class="comment-textarea comment-textarea--sm"
+                rows="2"
+              ></textarea>
+              <div class="reply-form-submit">
+                <BaseButton variant="secondary" size="sm" @click="submitReplyToReply(comment.id, reply.id)">
+                  提交回复
+                </BaseButton>
+                <button class="cancel-reply-btn" @click="activeReplyToReplyId = null">
+                  取消
+                </button>
+              </div>
+            </div>
+
+            <!-- 对回复的回复（嵌套回复） -->
+            <div v-if="reply.replies?.length" class="nested-reply-list">
+              <div v-for="nested in reply.replies" :key="nested.id" class="nested-reply-card">
+                <div class="comment-header">
+                  <div class="comment-user">
+                    <span class="user-avatar user-avatar--sm">{{ nested.author.slice(0, 1) }}</span>
+                    <span class="user-name">{{ nested.author }}</span>
+                  </div>
+                  <span class="comment-date">{{ nested.createdAt }}</span>
+                </div>
+                <p class="comment-body">{{ nested.content }}</p>
+                <div class="comment-actions">
+                  <button v-if="authorMode" class="action-btn action-btn--danger" @click="deleteNestedReply(comment.id, reply.id, nested.id)">
+                    🗑️ 删除
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div v-if="(comment.replies?.length || 0) > 3" class="reply-expand-actions">
@@ -440,6 +568,78 @@ onMounted(() => {
 
 .action-btn:hover {
   color: var(--text-main);
+}
+
+.action-btn--danger {
+  color: #e74c3c;
+}
+
+.action-btn--danger:hover {
+  color: #c0392b;
+}
+
+/* 作者模式开关 */
+.comment-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.comment-title {
+  font-size: var(--text-h3);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.author-toggle {
+  font-size: var(--text-small);
+  padding: 4px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control, 8px);
+  background: var(--bg-page);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.22s;
+}
+
+.author-toggle.active {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.06);
+}
+
+.author-toggle:hover {
+  border-color: var(--border-strong);
+}
+
+/* 嵌套回复样式 */
+.nested-reply-list {
+  margin-top: 12px;
+  margin-left: 20px;
+  padding-left: 16px;
+  border-left: 2px dotted var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nested-reply-card {
+  padding: 8px 0 0 0;
+}
+
+.nested-reply-card .comment-body {
+  font-size: var(--text-small);
+}
+
+.nested-reply-card .comment-actions {
+  margin: 4px 0 0;
 }
 
 /* 回复列表缩进 */

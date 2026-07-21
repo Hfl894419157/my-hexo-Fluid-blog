@@ -1,72 +1,75 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import ResponsiveImage from './ResponsiveImage.vue'
-import { partitionJustifiedRows, getAspectRatio } from '../.shared/justifiedGallery.mjs'
 
 const props = defineProps({
   items: { type: Array, default: () => [] }
 })
 
+// 用真实的自然宽高比判断横竖版
 const loadedRatios = ref({})
 
-const onImageLoad = (event, index, item) => {
-  const img = event.target
-  if (img && img.naturalWidth && img.naturalHeight) {
-    const ratio = img.naturalWidth / img.naturalHeight
-    const key = item.id || item.src || index
-    if (loadedRatios.value[key] !== ratio) {
-      loadedRatios.value = { ...loadedRatios.value, [key]: ratio }
+const onImageLoad = (e, index) => {
+  const img = e.target
+  if (img?.naturalWidth && img?.naturalHeight) {
+    loadedRatios.value = { ...loadedRatios.value, [index]: img.naturalWidth / img.naturalHeight }
+  }
+}
+
+const getRatio = (item, index) => {
+  const dynamic = loadedRatios.value[index]
+  if (dynamic) return dynamic
+  if (item.width && item.height) return item.width / item.height
+  return 1.5 // 默认横版
+}
+
+const isLandscape = (item, index) => getRatio(item, index) >= 1.0
+
+const groupedRows = computed(() => {
+  const rows = []
+  let i = 0
+  while (i < props.items.length) {
+    const item = props.items[i]
+    if (isLandscape(item, i)) {
+      // 横版图：每行一张
+      rows.push({ items: [item], startIndex: i, class: 'row-landscape' })
+      i += 1
+    } else {
+      // 竖版图：两两配对
+      if (i + 1 < props.items.length && !isLandscape(props.items[i + 1], i + 1)) {
+        rows.push({ items: [item, props.items[i + 1]], startIndex: i, class: 'row-portrait-pair' })
+        i += 2
+      } else {
+        rows.push({ items: [item], startIndex: i, class: 'row-portrait-single' })
+        i += 1
+      }
     }
   }
-}
-
-const enrichedItems = computed(() => {
-  return props.items.map((item, index) => {
-    const key = item.id || item.src || index
-    const dynamicRatio = loadedRatios.value[key]
-    const ratio = dynamicRatio || getAspectRatio(item)
-    return { ...item, ratio }
-  })
+  return rows
 })
-
-const justifiedRows = computed(() => {
-  return partitionJustifiedRows(enrichedItems.value)
-})
-
-const rowClass = (row) => {
-  if (row.length === 1) {
-    return row[0].ratio >= 1.0
-      ? 'portfolio-gallery-row--single-landscape'
-      : 'portfolio-gallery-row--single-portrait'
-  }
-  if (row.length === 2 && row[0].ratio < 1.0 && row[1].ratio < 1.0) {
-    return 'portfolio-gallery-row--portrait-pair'
-  }
-  return 'portfolio-gallery-row--multi'
-}
 </script>
 
 <template>
   <section class="content-block portfolio-gallery" aria-label="作品图片组">
     <div
-      v-for="(row, rowIndex) in justifiedRows"
+      v-for="(row, rowIndex) in groupedRows"
       :key="`row-${rowIndex}`"
-      :class="['portfolio-gallery-row', rowClass(row)]"
+      :class="['portfolio-gallery-row', row.class]"
     >
       <figure
-        v-for="(item, itemIndex) in row"
+        v-for="(item, itemIndex) in row.items"
         :key="item.id || `${rowIndex}-${itemIndex}-${item.src}`"
         class="portfolio-gallery-item"
-        :style="{ flex: `${item.ratio} ${item.ratio} 0%`, aspectRatio: `${item.ratio}` }"
       >
         <div class="portfolio-gallery__content">
           <ResponsiveImage
             v-if="item.src"
             :src="item.src"
             :alt="item.alt || ''"
+            profile="original"
             :eager="item.eager"
             sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 50vw, 760px"
-            @load="(e) => onImageLoad(e, itemIndex, item)"
+            @load="(e) => onImageLoad(e, row.startIndex + itemIndex)"
           />
           <figcaption v-if="item.caption">{{ item.caption }}</figcaption>
         </div>
@@ -92,52 +95,35 @@ const rowClass = (row) => {
   align-items: stretch;
 }
 
-/* ----- 横版图：每行一张，满宽显示 ----- */
-.portfolio-gallery-row--single-landscape .portfolio-gallery-item {
-  flex: 1 1 100% !important;
+/* ----- 横版图：每行一张，原比例展示 ----- */
+.portfolio-gallery-row.row-landscape .portfolio-gallery-item {
   width: 100%;
 }
 
 /* ----- 竖版图单独一张（奇数时）居中显示 ----- */
-.portfolio-gallery-row--single-portrait {
+.portfolio-gallery-row.row-portrait-single {
   justify-content: center;
 }
 
-.portfolio-gallery-row--single-portrait .portfolio-gallery-item {
-  flex: none !important;
+.portfolio-gallery-row.row-portrait-single .portfolio-gallery-item {
   width: 100%;
   max-width: min(100%, 580px);
   margin: 0 auto;
 }
 
-/* ----- 竖版图两两配对：等宽并排，视觉平衡 ----- */
-.portfolio-gallery-row--portrait-pair {
+/* ----- 竖版图两两配对：等宽并排 ----- */
+.portfolio-gallery-row.row-portrait-pair {
   display: flex;
   flex-wrap: nowrap;
   gap: 18px;
 }
 
-.portfolio-gallery-row--portrait-pair .portfolio-gallery-item {
+.portfolio-gallery-row.row-portrait-pair .portfolio-gallery-item {
   flex: 1 1 0%;
   min-width: 0;
-  aspect-ratio: auto !important;
 }
 
-.portfolio-gallery-row--portrait-pair .portfolio-gallery__content {
-  width: 100%;
-  height: 100%;
-}
-
-.portfolio-gallery-row--portrait-pair .portfolio-gallery__content :deep(img) {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: calc(var(--radius-card) - 2px);
-  background: var(--bg-soft);
-}
-
-/* ----- 通用 item 样式 ----- */
+/* ----- 通用 item 样式（不裁剪，完整展示） ----- */
 .portfolio-gallery-item {
   min-width: 0;
   margin: 0;
@@ -148,7 +134,6 @@ const rowClass = (row) => {
 
 .portfolio-gallery__content {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -157,8 +142,8 @@ const rowClass = (row) => {
 .portfolio-gallery__content :deep(img) {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: calc(var(--radius-card) - 2px);
   background: var(--bg-soft);
 }
@@ -182,14 +167,13 @@ const rowClass = (row) => {
     gap: 14px;
   }
   .portfolio-gallery-item {
-    flex: 1 1 100% !important;
+    width: 100% !important;
     max-width: 100% !important;
-    aspect-ratio: auto !important;
   }
-  .portfolio-gallery-row--portrait-pair {
+  .portfolio-gallery-row.row-portrait-pair {
     flex-wrap: wrap;
   }
-  .portfolio-gallery-row--portrait-pair .portfolio-gallery-item {
+  .portfolio-gallery-row.row-portrait-pair .portfolio-gallery-item {
     flex: 1 1 calc(50% - 7px) !important;
   }
 }
