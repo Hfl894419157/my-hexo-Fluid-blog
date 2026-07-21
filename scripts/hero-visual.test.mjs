@@ -10,11 +10,13 @@ test('首页使用单一静态 SVG，并完整移除 Lottie 构建链', () => {
   const workflow = read('components/home/HomeWorkflowSection.vue')
   const pkg = JSON.parse(read('package.json'))
 
-  assert.match(hero, /SvgHeroIllustration/)
+  assert.doesNotMatch(hero, /SvgHeroIllustration/)
   assert.doesNotMatch(hero, /HomeHeroLottie|home-hero-lottie/)
+  assert.match(hero, /home-hero__actions/)
+  assert.match(hero, /查看实践作品/)
+  assert.match(hero, /进入知识系统/)  
+  // SVG 插画文件保留（不再在 Hero 中使用，但被其他页面引用）
   assert.match(illustration, /viewBox="0 0 1024 1024"/)
-  assert.match(illustration, /--hero-svg-accent: #a86c45/)
-  assert.match(illustration, /--hero-svg-accent: #c39555/)
   assert.doesNotMatch(workflow, /SELECTED WORKFLOWS/)
   assert.equal(pkg.dependencies?.['lottie-web'], undefined)
   assert.equal(pkg.scripts?.['animations:prepare'], undefined)

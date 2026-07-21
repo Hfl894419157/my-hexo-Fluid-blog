@@ -1,6 +1,5 @@
 <script setup>
 import BaseButton from '../BaseButton.vue'
-import SvgHeroIllustration from './svg/SvgHeroIllustration.vue'
 </script>
 
 <template>
@@ -9,7 +8,6 @@ import SvgHeroIllustration from './svg/SvgHeroIllustration.vue'
     <div class="home-hero__grid" aria-hidden="true"></div>
 
     <div class="home-hero__inner">
-      <!-- Left: Copy -->
       <div class="home-hero__content">
         <h1 class="hero-fade-in-item" style="--hero-delay: 0ms">
           <span class="h1-line">把 AI 学习与设计实践</span>
@@ -24,12 +22,6 @@ import SvgHeroIllustration from './svg/SvgHeroIllustration.vue'
           <BaseButton href="/portfolio/">查看实践作品</BaseButton>
           <BaseButton href="/knowledge/" variant="secondary">进入知识系统</BaseButton>
         </div>
-
-      </div>
-
-      <!-- Right: themed static SVG visual -->
-      <div class="home-hero__visual hero-fade-in-item" aria-hidden="true" style="--hero-delay: 280ms">
-        <SvgHeroIllustration />
       </div>
     </div>
 
@@ -72,18 +64,17 @@ import SvgHeroIllustration from './svg/SvgHeroIllustration.vue'
 .home-hero__inner {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 760px) minmax(300px, 360px);
-  gap: 60px;
-  align-items: center;
-  width: min(1180px, 100%);
+  width: min(760px, 100%);
   min-height: 600px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-/* ─── Content (left) ─────────────────────────────────── */
-.home-hero__content { min-width: 0; }
-    
+/* ─── Content ────────────────────────────────────────── */
 h1 {
   width: 100%;
   margin: 0;
@@ -111,7 +102,7 @@ h1 {
 
 .home-hero__lead {
   max-width: 580px;
-  margin: 28px 0 0;
+  margin: 28px auto 0;
   color: var(--text-sub);
   font-size: clamp(15px, 1.2vw, 17px);
   line-height: 2;
@@ -123,19 +114,11 @@ h1 {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 36px;
-}
-
-/* ─── Visual (right) ─────────────────────────────────── */
-.home-hero__visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
-.home-hero__visual :deep(.hero-illustration) {
-  width: min(100%, 420px);
+.home-hero__actions :deep(.base-button) {
+  flex: 0 0 auto;
 }
 
 /* ─── Scroll indicator ───────────────────────────────── */
@@ -166,22 +149,12 @@ h1 {
 
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 1020px) {
-  .home-hero__inner { grid-template-columns: minmax(0, 1fr) 320px; gap: 36px; }
   h1 { font-size: 48px; }
-  .home-hero__visual :deep(.hero-illustration) { width: min(100%, 380px); }
 }
 
 @media (max-width: 800px) {
   .home-hero { padding: 96px 24px 48px; min-height: auto; }
-  .home-hero__inner {
-    grid-template-columns: 1fr;
-    gap: 36px;
-    min-height: auto;
-  }
-  .home-hero__content { text-align: left; }
-  .home-hero__lead { margin-left: auto; margin-right: auto; }
-  .home-hero__actions { justify-content: flex-start; }
-  .home-hero__visual { max-width: 380px; margin: 0; }
+  .home-hero__inner { min-height: auto; }
   .home-hero__scroll { display: none; }
 }
 
@@ -192,7 +165,6 @@ h1 {
 @media (max-width: 480px) {
   h1 { font-size: clamp(23px, 7.4vw, 28px); letter-spacing: -0.055em; }
   .home-hero__lead { margin-top: 22px; }
-  .home-hero__visual { width: min(88vw, 360px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
