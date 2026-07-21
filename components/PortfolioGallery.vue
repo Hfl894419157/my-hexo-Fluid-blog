@@ -1,154 +1,141 @@
 <script setup>
-import { computed, ref } from 'vue'
-import ResponsiveImage from './ResponsiveImage.vue'
+import { computed } from 'vue'
+import { withBase } from 'vitepress'
 
 const props = defineProps({
   items: { type: Array, default: () => [] }
 })
-
-// 用真实的自然宽高比判断横竖版
-const loadedRatios = ref({})
-
-const onImageLoad = (e, index) => {
-  const img = e.target
-  if (img?.naturalWidth && img?.naturalHeight) {
-    loadedRatios.value = { ...loadedRatios.value, [index]: img.naturalWidth / img.naturalHeight }
-  }
-}
-
-const getRatio = (item, index) => {
-  const dynamic = loadedRatios.value[index]
-  if (dynamic) return dynamic
-  if (item.width && item.height) return item.width / item.height
-  return 1.5 // 默认横版
-}
-
-const isLandscape = (item, index) => getRatio(item, index) >= 1.0
 
 const groupedRows = computed(() => {
   const rows = []
   let i = 0
   while (i < props.items.length) {
     const item = props.items[i]
-    if (isLandscape(item, i)) {
-      // 横版图：每行一张
-      rows.push({ items: [item], startIndex: i, class: 'row-landscape' })
+    const w = item.width || 0
+    const h = item.height || 0
+    const isLandscape = !w || !h || w / h >= 1.0
+
+    if (isLandscape) {
+      rows.push({ items: [item], class: 'row-landscape' })
       i += 1
     } else {
-      // 竖版图：两两配对
-      if (i + 1 < props.items.length && !isLandscape(props.items[i + 1], i + 1)) {
-        rows.push({ items: [item, props.items[i + 1]], startIndex: i, class: 'row-portrait-pair' })
-        i += 2
+      if (i + 1 < props.items.length) {
+        const next = props.items[i + 1]
+        const nw = next.width || 0
+        const nh = next.height || 0
+        const nextIsLandscape = nw && nh && nw / nh >= 1.0
+        if (!nextIsLandscape) {
+          rows.push({ items: [item, next], class: 'row-portrait-pair' })
+          i += 2
+        } else {
+          rows.push({ items: [item], class: 'row-portrait-single' })
+          i += 1
+        }
       } else {
-        rows.push({ items: [item], startIndex: i, class: 'row-portrait-single' })
+        rows.push({ items: [item], class: 'row-portrait-single' })
         i += 1
       }
     }
   }
   return rows
 })
+
+const imgUrl = (src) => {
+  if (!src) return ''
+  return /^(https?:)?\/\//.test(src) ? src : withBase(src)
+}
 </script>
 
 <template>
-  <section class="content-block portfolio-gallery" aria-label="作品图片组">
+  <section class="pf-gallery">
     <div
-      v-for="(row, rowIndex) in groupedRows"
-      :key="`row-${rowIndex}`"
-      :class="['portfolio-gallery-row', row.class]"
+      v-for="(row, ri) in groupedRows"
+      :key="ri"
+      :class="['pf-row', row.class]"
     >
       <figure
-        v-for="(item, itemIndex) in row.items"
-        :key="item.id || `${rowIndex}-${itemIndex}-${item.src}`"
-        class="portfolio-gallery-item"
+        v-for="(item, ii) in row.items"
+        :key="item.id || `${ri}-${ii}`"
+        class="pf-figure"
       >
-        <div class="portfolio-gallery__content">
-          <ResponsiveImage
-            v-if="item.src"
-            :src="item.src"
-            :alt="item.alt || ''"
-            profile="original"
-            :eager="item.eager"
-            sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 50vw, 760px"
-            @load="(e) => onImageLoad(e, row.startIndex + itemIndex)"
-          />
-          <figcaption v-if="item.caption">{{ item.caption }}</figcaption>
-        </div>
+        <img
+          v-if="item.src"
+          :src="imgUrl(item.src)"
+          :alt="item.alt || ''"
+          loading="lazy"
+          decoding="async"
+          class="pf-img"
+        />
+        <figcaption v-if="item.caption" class="pf-caption">{{ item.caption }}</figcaption>
       </figure>
     </div>
   </section>
 </template>
 
 <style scoped>
-.portfolio-gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+.pf-gallery {
   width: 100%;
   margin: 36px 0;
 }
 
-.portfolio-gallery-row {
-  display: flex;
-  flex-wrap: nowrap;
-  width: 100%;
-  gap: 18px;
-  align-items: stretch;
+/* 行与行之间的间距 */
+.pf-gallery > .pf-row + .pf-row {
+  margin-top: 18px;
 }
 
-/* ----- 横版图：每行一张，原比例展示 ----- */
-.portfolio-gallery-row.row-landscape .portfolio-gallery-item {
+/* ----- 横版图行 ----- */
+.pf-row.row-landscape {
   width: 100%;
 }
 
-/* ----- 竖版图单独一张（奇数时）居中显示 ----- */
-.portfolio-gallery-row.row-portrait-single {
-  justify-content: center;
-}
-
-.portfolio-gallery-row.row-portrait-single .portfolio-gallery-item {
-  width: 100%;
-  max-width: min(100%, 580px);
-  margin: 0 auto;
-}
-
-/* ----- 竖版图两两配对：等宽并排 ----- */
-.portfolio-gallery-row.row-portrait-pair {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 18px;
-}
-
-.portfolio-gallery-row.row-portrait-pair .portfolio-gallery-item {
-  flex: 1 1 0%;
-  min-width: 0;
-}
-
-/* ----- 通用 item 样式（不裁剪，完整展示） ----- */
-.portfolio-gallery-item {
-  min-width: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.portfolio-gallery__content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.portfolio-gallery__content :deep(.responsive-picture),
-.portfolio-gallery__content :deep(img) {
-  display: block;
+.pf-row.row-landscape .pf-img {
   width: 100%;
   height: auto;
-  object-fit: contain;
+  display: block;
   border-radius: calc(var(--radius-card) - 2px);
   background: var(--bg-soft);
 }
 
-.portfolio-gallery figcaption {
+/* ----- 竖版配对行 ----- */
+.pf-row.row-portrait-pair {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+}
+
+.pf-row.row-portrait-pair .pf-figure {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-row.row-portrait-pair .pf-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: calc(var(--radius-card) - 2px);
+  background: var(--bg-soft);
+}
+
+/* ----- 单张竖版居中 ----- */
+.pf-row.row-portrait-single {
+  text-align: center;
+}
+
+.pf-row.row-portrait-single .pf-img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+  border-radius: calc(var(--radius-card) - 2px);
+  background: var(--bg-soft);
+}
+
+/* ----- 通用 ----- */
+.pf-figure {
+  margin: 0;
+  padding: 0;
+}
+
+.pf-caption {
   margin-top: 8px;
   color: var(--text-muted);
   font-size: 13px;
@@ -156,25 +143,9 @@ const groupedRows = computed(() => {
   text-align: center;
 }
 
-/* ----- 移动端：一律单列，满宽显示 ----- */
+/* ----- 移动端 ----- */
 @media (max-width: 640px) {
-  .portfolio-gallery {
-    gap: 14px;
-    margin: 24px 0;
-  }
-  .portfolio-gallery-row {
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-  .portfolio-gallery-item {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .portfolio-gallery-row.row-portrait-pair {
-    flex-wrap: wrap;
-  }
-  .portfolio-gallery-row.row-portrait-pair .portfolio-gallery-item {
-    flex: 1 1 calc(50% - 7px) !important;
-  }
+  .pf-gallery { margin: 24px 0; }
+  .pf-row.row-portrait-pair { gap: 14px; }
 }
 </style>
