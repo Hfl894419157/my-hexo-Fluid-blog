@@ -5,16 +5,19 @@ import DotField from './DotField.vue'
 
 <template>
   <section class="home-hero">
-    <!-- Interactive dot field（颜色跟随主题，见 DotField.vue 文件头说明） -->
-    <DotField
-      class="home-hero__dots"
-      :dot-radius="2.4"
-      :dot-spacing="18"
-      :bulge-strength="82"
-      :glow-radius="160"
-      :cursor-radius="550"
-      aria-hidden="true"
-    />
+    <!--
+      Interactive dot field：定位由独立包装层负责，DotField 只负责填满包装层。
+      避免开发/生产环境 CSS 注入顺序不同，导致画布宽度不完整。
+    -->
+    <div class="home-hero__dots" aria-hidden="true">
+      <DotField
+        :dot-radius="2.4"
+        :dot-spacing="18"
+        :bulge-strength="82"
+        :glow-radius="160"
+        :cursor-radius="550"
+      />
+    </div>
 
     <div class="home-hero__inner">
       <div class="home-hero__content">
@@ -54,10 +57,12 @@ import DotField from './DotField.vue'
     var(--site-background);
 }
 
-/* Dot field 点阵层：边缘淡出，与网格层融合 */
+/* Dot field 点阵层：上下边缘淡出，与 Hero 背景融合 */
 .home-hero__dots {
   position: absolute;
+  z-index: 0;
   inset: 0;
+  overflow: hidden;
   pointer-events: none;
   mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 72%, transparent 100%);
 }

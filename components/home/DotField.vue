@@ -10,15 +10,16 @@
     亮色（:root）与暗色（html.dark）各有一套，VitePress 切换主题时自动重读。
   - 显式传入 prop 可覆盖主题变量（例如在非首页场景自定义配色）。
 
-  使用示例：
-    <DotField
-      :dot-radius="2.4"
-      :dot-spacing="18"
-      :bulge-strength="82"
-      :glow-radius="160"
-      :cursor-radius="550"
-      style="position: absolute; inset: 0; pointer-events: none;"
-    />
+  使用示例（定位交给包装层，避免组件内外 position 样式相互覆盖）：
+    <div style="position: absolute; inset: 0; pointer-events: none;">
+      <DotField
+        :dot-radius="2.4"
+        :dot-spacing="18"
+        :bulge-strength="82"
+        :glow-radius="160"
+        :cursor-radius="550"
+      />
+    </div>
 -->
 <script>
 // SSR 安全的递增 id（避免 Math.random 造成 hydration 不一致）
@@ -91,7 +92,8 @@ let cleanupEffect = null
 onMounted(() => {
   const canvas = canvasRef.value
   const glowEl = glowRef.value
-  if (!canvas) return
+  const container = canvas?.parentElement
+  if (!canvas || !container) return
 
   resolveThemeColors()
 
@@ -99,6 +101,7 @@ onMounted(() => {
   const dpr = Math.min(window.devicePixelRatio || 1, 2)
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   let resizeTimer
+  let resizeObserver
 
   function resize() {
     clearTimeout(resizeTimer)
@@ -106,12 +109,13 @@ onMounted(() => {
   }
 
   function doResize() {
-    const rect = canvas.parentElement.getBoundingClientRect()
+    const rect = container.getBoundingClientRect()
     const w = rect.width
     const h = rect.height
+    if (w <= 0 || h <= 0) return
 
-    canvas.width = w * dpr
-    canvas.height = h * dpr
+    canvas.width = Math.max(1, Math.round(w * dpr))
+    canvas.height = Math.max(1, Math.round(h * dpr))
     canvas.style.width = `${w}px`
     canvas.style.height = `${h}px`
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
@@ -265,6 +269,10 @@ onMounted(() => {
 
   doResize()
   window.addEventListener('resize', resize)
+  if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(resize)
+    resizeObserver.observe(container)
+  }
   if (!reduceMotion) {
     window.addEventListener('mousemove', onMouseMove, { passive: true })
   }
@@ -279,6 +287,7 @@ onMounted(() => {
     cancelAnimationFrame(rafId)
     if (speedInterval) clearInterval(speedInterval)
     clearTimeout(resizeTimer)
+    resizeObserver?.disconnect()
     window.removeEventListener('resize', resize)
     window.removeEventListener('mousemove', onMouseMove)
   }
@@ -330,5 +339,6 @@ watch([isDark, () => props.gradientFrom, () => props.gradientTo, () => props.glo
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 </style>
