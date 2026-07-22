@@ -1,5 +1,4 @@
 <script setup>
-import PageHero from './PageHero.vue'
 import ContentCard from './ContentCard.vue'
 import ImagePlaceholder from './ImagePlaceholder.vue'
 import { data as contentCatalog } from '../.shared/content.data.mjs'
@@ -31,13 +30,6 @@ const latest = latestPublished([...contentCatalog.learning, ...contentCatalog.me
 
 <template>
   <div class="knowledge-hub">
-    <PageHero
-      :title-lines="['知识库']"
-      description="把研究、方法与工具资源，沉淀成能够被搜索、验证并再次复用的个人知识系统。"
-      visual="knowledge"
-      :topics="['AI 趋势', '实战方法', '软件工具', 'Prompt', '模板资源']"
-    />
-
     <section class="knowledge-hub__section">
       <header class="knowledge-hub__head">
         <h2>三类知识入口</h2>
