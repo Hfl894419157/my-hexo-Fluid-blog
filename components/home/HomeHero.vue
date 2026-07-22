@@ -1,11 +1,20 @@
 <script setup>
 import BaseButton from '../BaseButton.vue'
+import DotField from './DotField.vue'
 </script>
 
 <template>
   <section class="home-hero">
-    <!-- Background grid -->
-    <div class="home-hero__grid" aria-hidden="true"></div>
+    <!-- Interactive dot field（颜色跟随主题，见 DotField.vue 文件头说明） -->
+    <DotField
+      class="home-hero__dots"
+      :dot-radius="2.4"
+      :dot-spacing="18"
+      :bulge-strength="82"
+      :glow-radius="160"
+      :cursor-radius="550"
+      aria-hidden="true"
+    />
 
     <div class="home-hero__inner">
       <div class="home-hero__content">
@@ -45,19 +54,12 @@ import BaseButton from '../BaseButton.vue'
     var(--site-background);
 }
 
-/* Dot grid overlay */
-.home-hero__grid {
+/* Dot field 点阵层：边缘淡出，与网格层融合 */
+.home-hero__dots {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 70%, transparent 100%),
-              linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-  mask-composite: intersect;
-  opacity: 0.35;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 72%, transparent 100%);
 }
 
 /* ─── Inner layout ───────────────────────────────────── */

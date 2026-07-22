@@ -71,6 +71,10 @@
   --nav-shadow: 0 12px 34px rgba(23, 19, 15, 0.08);
   --card-overlay: rgba(255, 255, 255, 0.74);
   --grid-line: rgba(138, 79, 45, 0.08);
+  /* DotField 点阵背景（components/home/DotField.vue）——亮色主题 */
+  --dotfield-from: rgba(138, 79, 45, 0.55);
+  --dotfield-to: rgba(168, 108, 69, 0.35);
+  --dotfield-glow: rgba(168, 108, 69, 0.08);
   --mask-solid: #17130f;
   --mark-bg: rgba(212, 159, 61, 0.28);
   --mark-text: #2b2118;
@@ -129,6 +133,10 @@ html.dark {
   --nav-shadow: 0 14px 42px rgba(0, 0, 0, 0.26);
   --card-overlay: rgba(23, 24, 27, 0.74);
   --grid-line: rgba(244, 241, 234, 0.055);
+  /* DotField 点阵背景（components/home/DotField.vue）——暗色主题 */
+  --dotfield-from: rgba(210, 177, 123, 0.8);
+  --dotfield-to: rgba(195, 149, 85, 0.5);
+  --dotfield-glow: rgba(195, 149, 85, 0.12);
   --mark-bg: rgba(195, 149, 85, 0.26);
   --mark-text: #fff7e8;
   color-scheme: dark;
