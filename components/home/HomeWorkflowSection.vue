@@ -117,7 +117,7 @@ const paradigms = [
                 profile="homeMobile"
                 desktop-profile="homeDesktop"
                 :focal-point="item.coverFocalPoint"
-                sizes="(max-width: 899px) calc(100vw - 48px), 648px"
+                sizes="(max-width: 899px) calc(100vw - 48px), 748px"
               />
             </a>
             <div class="wf-wall__copy">
@@ -248,7 +248,7 @@ h3 {
 }
 
 .wf-featured {
-  width: min(1080px, 100%);
+  width: 100%;
   margin: 64px auto 0;
   padding-top: 34px;
   border-top: 1px solid var(--border-soft);
@@ -281,7 +281,7 @@ h3 {
   top: var(--sticky-offset);
   z-index: calc(10 + var(--stack-index));
   display: grid;
-  grid-template-columns: minmax(0, 60%) minmax(0, 40%);
+  grid-template-columns: minmax(0, 1fr) minmax(0, min(432px, 40%));
   width: 100%;
   height: var(--workflow-card-height);
   min-width: 0;

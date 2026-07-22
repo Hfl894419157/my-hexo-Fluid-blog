@@ -39,7 +39,7 @@ const caseWall = useStackWall('.case-wall__card')
               profile="homeMobile"
               desktop-profile="homeDesktop"
               :focal-point="item.coverFocalPoint"
-              sizes="(max-width: 899px) calc(100vw - 48px), 648px"
+              sizes="(max-width: 899px) calc(100vw - 48px), 748px"
             />
           </a>
           <div class="case-wall__copy">
@@ -67,7 +67,7 @@ const caseWall = useStackWall('.case-wall__card')
 .case-wall__head { display: grid; justify-items: center; gap: 24px; text-align: center; }
 .case-wall {
   --case-card-height: clamp(520px, calc(100vh - 180px), 640px);
-  width: min(1080px, 100%);
+  width: 100%;
   margin: 48px auto 0;
 }
 .case-wall__card {
@@ -79,7 +79,7 @@ const caseWall = useStackWall('.case-wall__card')
   top: var(--sticky-offset);
   z-index: calc(10 + var(--stack-index));
   display: grid;
-  grid-template-columns: minmax(0, 60%) minmax(0, 40%);
+  grid-template-columns: minmax(0, 1fr) minmax(0, min(432px, 40%));
   width: 100%;
   height: var(--case-card-height);
   overflow: hidden;
