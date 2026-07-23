@@ -33,8 +33,11 @@ test('竖图按上中下焦点生成 16:9 裁剪框', () => {
   assert.equal(top.height, 506)
 })
 
-test('三个封面输出 profile 保持约定比例', () => {
+test('六个封面输出 profile 保持约定比例', () => {
   assert.equal(imageProfileDefinitions.card.aspect, 16 / 9)
+  assert.equal(imageProfileDefinitions.homeCase.aspect, 16 / 9)
+  assert.equal(imageProfileDefinitions.homeCaseDesktop.aspect, 4 / 3)
+  assert.equal(imageProfileDefinitions.homeWorkflowDesktop.aspect, 4 / 3)
   assert.equal(imageProfileDefinitions.homeDesktop.aspect, 1)
   assert.equal(imageProfileDefinitions.homeMobile.aspect, 16 / 10)
 })

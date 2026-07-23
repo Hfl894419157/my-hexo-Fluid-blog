@@ -72,6 +72,13 @@ const collectProfileRequests = () => {
   for (const item of loadContentCatalog().all) {
     add(item.cover, 'card', item.coverFocalPoint)
     const homeSource = item.homeOverrideSrc || item.cover
+    if (item.kind === 'case') {
+      add(homeSource, 'homeCase', item.coverFocalPoint)
+      add(homeSource, 'homeCaseDesktop', item.coverFocalPoint)
+    }
+    if (item.kind === 'workflow') {
+      add(homeSource, 'homeWorkflowDesktop', item.coverFocalPoint)
+    }
     add(homeSource, 'homeDesktop', item.coverFocalPoint)
     add(homeSource, 'homeMobile', item.coverFocalPoint)
   }

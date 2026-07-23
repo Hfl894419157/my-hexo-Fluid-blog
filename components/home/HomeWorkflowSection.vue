@@ -115,7 +115,7 @@ const paradigms = [
                 :filename="item.imageFilename"
                 aspect="16 / 10"
                 profile="homeMobile"
-                desktop-profile="homeDesktop"
+                desktop-profile="homeWorkflowDesktop"
                 :focal-point="item.coverFocalPoint"
                 sizes="(max-width: 899px) calc(100vw - 48px), 748px"
               />
@@ -267,7 +267,6 @@ h3 {
 }
 
 .wf-wall {
-  --workflow-card-height: clamp(520px, calc(100vh - 180px), 640px);
   width: 100%;
   margin-top: 24px;
 }
@@ -283,7 +282,7 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, min(432px, 40%));
   width: 100%;
-  height: var(--workflow-card-height);
+  height: auto;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border-soft);
@@ -308,8 +307,9 @@ h3 {
   will-change: auto;
 }
 .wf-wall--static .wf-wall__spacer { display: none; }
-.wf-wall__media { display: block; min-width: 0; overflow: hidden; background: var(--bg-soft); }
-.wf-wall__media :deep(.image-slot) { height: 100%; border: 0; border-right: 1px solid var(--border-soft); }
+.wf-wall__media { display: block; min-width: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-soft); }
+.wf-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 4 / 3; border: 0; border-right: 1px solid var(--border-soft); }
+.wf-wall__media :deep(.image-slot__image) { object-fit: cover; }
 .wf-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
 .wf-wall__number { color: var(--brand-main); font: 700 11px/1 var(--font-mono); letter-spacing: .14em; }
 .wf-wall h4 { margin: 20px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: 34px; line-height: 1.3; }
@@ -339,6 +339,7 @@ h3 {
     will-change: auto;
   }
   .wf-wall__spacer { display: none; }
+  .wf-wall__media { aspect-ratio: 16 / 10; }
   .wf-wall__media :deep(.image-slot) { height: auto; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--border-soft); }
   .wf-wall__copy { padding: 30px 26px 34px; }
   .wf-wall h4 { font-size: 27px; }

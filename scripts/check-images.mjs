@@ -100,6 +100,13 @@ for (const item of loadContentCatalog().all) {
   assert(cardEntry?.profiles?.card?.[focalPoint], `内容列表封面缺少 card:${focalPoint}：${item.sourcePath}`)
   const homeSource = normalizeLocalImageUrl(item.homeOverrideSrc || item.cover)
   const homeEntry = manifest.images[homeSource]
+  if (item.kind === 'case') {
+    assert(homeEntry?.profiles?.homeCase?.[focalPoint], `首页作品封面缺少 homeCase:${focalPoint}：${item.sourcePath}`)
+    assert(homeEntry?.profiles?.homeCaseDesktop?.[focalPoint], `首页作品封面缺少 homeCaseDesktop:${focalPoint}：${item.sourcePath}`)
+  }
+  if (item.kind === 'workflow') {
+    assert(homeEntry?.profiles?.homeWorkflowDesktop?.[focalPoint], `首页工作流封面缺少 homeWorkflowDesktop:${focalPoint}：${item.sourcePath}`)
+  }
   assert(homeEntry?.profiles?.homeDesktop?.[focalPoint], `首页封面缺少 homeDesktop:${focalPoint}：${item.sourcePath}`)
   assert(homeEntry?.profiles?.homeMobile?.[focalPoint], `首页封面缺少 homeMobile:${focalPoint}：${item.sourcePath}`)
 }

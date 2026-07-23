@@ -35,9 +35,9 @@ const caseWall = useStackWall('.case-wall__card')
               :alt="item.coverAlt"
               :subject="`${item.title}的项目主视觉或最终成果`"
               :filename="item.imageFilename"
-              aspect="16 / 10"
-              profile="homeMobile"
-              desktop-profile="homeDesktop"
+              aspect="16 / 9"
+              profile="homeCase"
+              desktop-profile="homeCaseDesktop"
               :focal-point="item.coverFocalPoint"
               sizes="(max-width: 899px) calc(100vw - 48px), 748px"
             />
@@ -66,7 +66,6 @@ const caseWall = useStackWall('.case-wall__card')
 <style scoped>
 .case-wall__head { display: grid; justify-items: center; gap: 24px; text-align: center; }
 .case-wall {
-  --case-card-height: clamp(520px, calc(100vh - 180px), 640px);
   width: 100%;
   margin: 48px auto 0;
 }
@@ -81,7 +80,7 @@ const caseWall = useStackWall('.case-wall__card')
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, min(432px, 40%));
   width: 100%;
-  height: var(--case-card-height);
+  height: auto;
   overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: 18px;
@@ -105,8 +104,16 @@ const caseWall = useStackWall('.case-wall__card')
   will-change: auto;
 }
 .case-wall--static .case-wall__spacer { display: none; }
-.case-wall__media { display: block; min-width: 0; overflow: hidden; background: var(--bg-soft); }
-.case-wall__media :deep(.image-slot) { height: 100%; border: 0; border-right: 1px solid var(--border-soft); }
+.case-wall__media {
+  display: block;
+  min-width: 0;
+  align-self: start;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+.case-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 4 / 3; border: 0; border-right: 1px solid var(--border-soft); }
+.case-wall__media :deep(.image-slot .image-slot__image) { object-fit: cover; }
 .case-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
 .case-wall__number { color: var(--brand-main); font: 700 11px/1 var(--font-mono); letter-spacing: .14em; }
 .case-wall h3 { margin: 20px 0 0; font-size: 34px; line-height: 1.3; }
@@ -127,7 +134,8 @@ const caseWall = useStackWall('.case-wall__card')
     will-change: auto;
   }
   .case-wall__spacer { display: none; }
-  .case-wall__media :deep(.image-slot) { height: auto; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--border-soft); }
+  .case-wall__media { aspect-ratio: 16 / 9; }
+  .case-wall__media :deep(.image-slot) { aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--border-soft); }
   .case-wall__copy { padding: 30px 26px 34px; }
   .case-wall h3 { font-size: 27px; }
 }
