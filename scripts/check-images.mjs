@@ -104,6 +104,9 @@ for (const item of loadContentCatalog().all) {
     assert(homeEntry?.profiles?.homeCase?.[focalPoint], `首页作品封面缺少 homeCase:${focalPoint}：${item.sourcePath}`)
     assert(homeEntry?.profiles?.homeCaseDesktop?.[focalPoint], `首页作品封面缺少 homeCaseDesktop:${focalPoint}：${item.sourcePath}`)
   }
+  if (item.kind === 'workflow') {
+    assert(homeEntry?.profiles?.homeWorkflowDesktop?.[focalPoint], `首页工作流封面缺少 homeWorkflowDesktop:${focalPoint}：${item.sourcePath}`)
+  }
   assert(homeEntry?.profiles?.homeDesktop?.[focalPoint], `首页封面缺少 homeDesktop:${focalPoint}：${item.sourcePath}`)
   assert(homeEntry?.profiles?.homeMobile?.[focalPoint], `首页封面缺少 homeMobile:${focalPoint}：${item.sourcePath}`)
 }

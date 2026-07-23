@@ -76,6 +76,9 @@ const collectProfileRequests = () => {
       add(homeSource, 'homeCase', item.coverFocalPoint)
       add(homeSource, 'homeCaseDesktop', item.coverFocalPoint)
     }
+    if (item.kind === 'workflow') {
+      add(homeSource, 'homeWorkflowDesktop', item.coverFocalPoint)
+    }
     add(homeSource, 'homeDesktop', item.coverFocalPoint)
     add(homeSource, 'homeMobile', item.coverFocalPoint)
   }
