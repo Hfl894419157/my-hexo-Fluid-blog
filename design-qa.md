@@ -1,78 +1,76 @@
-# Design QA
+# Design QA — 关于我编辑式个人档案
 
-## 验收范围
+## 对比目标
 
-- 基线：保留当前 39 个未提交本地变更；本轮未拉取、未提交、未推送。
-- 目标：统一 1180px 页面基线，修复列表与页脚居中、文章三栏覆盖和右侧目录滚动问题，并为六个列表页补齐 6 张卡片。
-- 视口：1520×900、1280×800、1024×800、390×844。
-- 主题与状态：深色、浅色、搜索结果、移动端导航、移动端本页目录、文章开头/中段。
+- Source visual truth: `C:\Users\Administrator\.codex\generated_images\019f8f1a-aabd-79e2-afd4-b6b8e3b42138\call_L6AmW1PArWcSvIU5Xz3vJC5t.png`
+- Implementation route: `http://127.0.0.1:4175/resume`
+- Hero implementation: `.audit/about-editorial/desktop-light-hero.png`
+- Full-page implementation: `.audit/about-editorial/desktop-light-full.jpg`
+- Dark implementation: `.audit/about-editorial/desktop-dark-hero-settled.png`
+- Mobile implementation: `.audit/about-editorial/mobile-light-hero.png`
+- Combined comparison: `.audit/about-editorial/qa-hero-comparison.jpg`
 
-## 参考与对比证据
+## 规格与归一化
 
-- 用户参考图：
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\868aaede-8ec9-44ea-8196-9802ce4f89a0.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\e15ab589-f8c7-49ac-a0dc-801db4b1c694.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\efd8ec48-e15c-49b2-a365-e93b05bda6b2.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\1220f45b-801a-4b5c-a48a-a62de19ce5fb.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\d147b87a-7537-4591-a533-93655958a6e7.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\a080233f-dcd3-4a64-b433-4dbb76b98007.png`
-  - `G:\常见程序应用\xwechat_files\wxid_pdgkts1to86t22_cb46\temp\InputTemp\187bd990-a5ed-4d68-872a-c0bfb9404375.png`
-- 组合对比：
-  - `.audit/qa-comparison-list.png`
-  - `.audit/qa-comparison-article.png`
-  - `.audit/qa-comparison-footer.png`
-- 实现截图：
-  - `.audit/implementation-portfolio-1520.png`
-  - `.audit/implementation-knowledge-1520.png`
-  - `.audit/implementation-footer-1520.png`
-  - `.audit/implementation-article-1280-top.png`
-  - `.audit/implementation-article-1280-mid.png`
-  - `.audit/implementation-article-1024.png`
-  - `.audit/implementation-portfolio-390.png`
-  - `.audit/implementation-article-390.png`
+- Source image: 873 × 1801 px。
+- Desktop viewport: 1440 × 900 CSS px；页面可用宽度 1425px；device density 1。
+- Desktop screenshot: 1425 × 891 px。
+- Mobile viewport: 390 × 844 CSS px；页面可用宽度 375px；无水平溢出。
+- Hero 对比时将 source 顶部 873 × 610 区域按 cover 归一化到 1425 × 891，与浅色实现同尺寸并排比较。
+- 长页使用六张连续桌面视口截图拼接为 1425 × 4896，避免重复触发动效导致离屏内容在 full-page capture 中复位。
 
-## 全局版式检查
+## 状态与交互
 
-- 1520px 视口的可用内容宽度为 1505px；顶部菜单、页面主容器和页脚内容容器均为 1180px，左右边界统一为 162.5px / 1342.5px，中心点均为 752.5px。
-- 清除了 VitePress 在宽屏下对 `.VPContent.has-sidebar` 追加的右侧 40px 内边距；Hero、搜索区、标题区和卡片区与顶部菜单同轴。
-- 页脚背景仍铺满视口，内部 `.site-footer__container` 独立按 1180px 居中，不受栏目侧栏影响。
-- 所有检查视口均无水平溢出。
+- 浅色与深色主题均完成浏览器渲染检查。
+- 首屏加载后，人物、标签、姓名、角色、陈述和事实信息按顺序由下向上显现。
+- 成长路径首项的重复触发状态实测：
+  - 进入前：`reveal-item`
+  - 进入视口：`reveal-item is-revealed`
+  - 完全离开：`reveal-item`
+  - 向上回滚重新进入：`reveal-item is-revealed`
+- 首页等未传入 `repeat: true` 的元素仍保持一次播放。
+- `prefers-reduced-motion` 保留全局直接显示降级。
+- 浏览器控制台：0 error，0 warning。
 
-## 卡片与响应式检查
+## Full-view comparison evidence
 
-- `/portfolio/`：6 张，桌面 3×2；4 张筹备中卡片无链接。
-- `/aigc/`：6 张，桌面 3×2；5 张筹备中卡片无链接。
-- `/knowledge/`：6 张，桌面 3×2；全部指向现有栏目入口。
-- `/knowledge/learning-observation`：6 张，桌面 3×2；3 张筹备中卡片无链接。
-- `/knowledge/methods`：6 张，桌面 3×2；5 张筹备中卡片无链接。
-- `/knowledge/resources`：6 张，桌面 3×2；4 张筹备中卡片无链接。
-- 1024px 为 2 列，390px 为 1 列；卡片标题、摘要、标签和状态文案完整，没有死链或空白占位卡。
+- 信息架构与视觉稿一致：人物首屏、成长路径、工作方式、当前实践、继续了解。
+- 实现保留现有站点导航与全站容器，因此首屏比生成稿多出品牌导航留白；这是有意保持全站一致性，不构成设计偏差。
+- 长页没有复用首页能力卡和案例卡，整体密度、章节节奏和细分割线符合个人档案定位。
 
-## 文章三栏与目录检查
+## Focused region comparison evidence
 
-- 1280px 桌面结构测量为 `180 + 30 + 760 + 30 + 180`：左栏 42.5–222.5px、正文 252.5–1012.5px、右栏 1042.5–1222.5px，与顶部菜单左右边界一致。
-- 正文宽度选择器已限制为直接子容器，右侧目录内部 `.content` 不再被错误拉宽为 760px。
-- 左侧栏目导航按页面可用宽度计算定位，滚动条不会再制造约 7.5px 偏移。
-- 右侧目录使用 sticky 定位；在文章中段（scrollY=900）仍稳定于顶部菜单下方 132px，目录高度 216px。
-- VitePress 自动 active 状态正常；中段滚动时“保存变量关系”切换为当前高亮，目录本身不随正文漂移。
-- 1199px 以下隐藏桌面双侧栏，1024px 正文 760px 单列居中；390px 使用 343px 内容宽度，并保留移动端栏目菜单和“本页目录”下拉。
+- 首屏组合对比显示人物与文字双栏、姓名层级、铜棕强调、事实信息分栏均与视觉稿方向一致。
+- 实现使用真实头像原图和响应式 AVIF 变体，没有使用占位图、CSS 图形或生成的人物替代。
+- 中文标题使用现有展示字体，正文使用全站正文字体；移动端保持单栏且标题没有裁切。
 
-## 视觉与内容检查
+## Required fidelity surfaces
 
-- 字体、暖金色强调色、深浅主题、卡片边框和占位图继续沿用现有设计系统。
-- 卡片图像区保持 16:9；已发布卡片的图片、标题与 CTA 可点击，筹备中卡片显示“内容筹备中”且不生成锚点。
-- 六组新增占位内容均与对应栏目主题匹配，文案和标签可作为后续 Markdown 发布前的真实占位。
-- 页脚品牌、说明、社交链接、三组导航和底部版权在同一居中容器内，视觉重心与页面中心一致。
+- Fonts and typography: 展示字体、正文字体、字号层级、行高与字距清晰；中英文标签使用 mono 字体形成对比。
+- Spacing and layout rhythm: 桌面双栏、章节 124px 节奏、列表细分割线和移动端 88px 节奏稳定，无横向溢出。
+- Colors and visual tokens: 全部复用 `--text-*`、`--brand-main`、`--border-soft`、`--bg-*`，浅色与深色均符合现有品牌体系。
+- Image quality and asset fidelity: 首屏使用真实人物照片；当前实践使用仓库内真实 AI 工作流截图；裁切、清晰度和暗色图像处理正常。
+- Copy and content: 使用确认后的阶段编号，不虚构年份；个人陈述、三条工作原则和四个继续了解入口完整。
 
-## 交互与工程检查
+## Findings
 
-- 搜索：输入“工作流”后显示标题、栏目和正文匹配结果；搜索层可正常关闭。
-- 主题：深色切换为浅色后可恢复深色。
-- 移动端：站点菜单可展开/关闭；文章“本页目录”可展开并显示 5 个章节。
-- 浏览器控制台：0 个 error，0 个 warning。
-- `git diff --check`：通过，仅有仓库既有 LF/CRLF 提示。
-- `npm run build`：通过，VitePress 生产构建无路由或数据编译错误。
+- 无 P0、P1 或 P2 问题。
+- P3：移动端首屏需要滚动后才能看到完整个人陈述，这是保留人物优先策略的结果，可在后续根据用户反馈缩短人物图高度。
 
-## 最终结果
+## Comparison history
+
+- Pass 1: 未发现需要修复的 P0/P1/P2 视觉差异，因此没有进入修复循环。
+
+## Implementation checklist
+
+- [x] 编辑式人物首屏
+- [x] 五阶段成长路径
+- [x] 三条工作原则
+- [x] 当前实践与真实素材
+- [x] 四个继续了解入口
+- [x] 浅色与深色主题
+- [x] 桌面与移动端响应式
+- [x] 上下回滚重复显现
+- [x] 构建、内容测试与控制台检查
 
 final result: passed
