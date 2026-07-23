@@ -5,7 +5,6 @@ import HomePaths from './components/home/HomePaths.vue'
 import HomeFeaturedCases from './components/home/HomeFeaturedCases.vue'
 import HomeWorkflowSection from './components/home/HomeWorkflowSection.vue'
 import HomeResourceSection from './components/home/HomeResourceSection.vue'
-import HomeRecentUpdates from './components/home/HomeRecentUpdates.vue'
 import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
 import HomeAboutSection from './components/home/HomeAboutSection.vue'
 import HomeCTA from './components/home/HomeCTA.vue'
@@ -26,7 +25,6 @@ onUnmounted(() => {
     <HomeFeaturedCases />
     <HomeWorkflowSection />
     <HomeResourceSection />
-    <HomeRecentUpdates />
     <HomeCapabilityGrid />
     <HomeAboutSection />
     <HomeCTA />
