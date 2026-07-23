@@ -37,6 +37,7 @@ const caseWall = useStackWall('.case-wall__card')
               :filename="item.imageFilename"
               aspect="16 / 9"
               profile="homeCase"
+              desktop-profile="homeCaseDesktop"
               :focal-point="item.coverFocalPoint"
               sizes="(max-width: 899px) calc(100vw - 48px), 748px"
             />
@@ -107,12 +108,12 @@ const caseWall = useStackWall('.case-wall__card')
   display: block;
   min-width: 0;
   align-self: start;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-soft);
 }
-.case-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 16 / 9; border: 0; border-right: 1px solid var(--border-soft); }
-.case-wall__media :deep(.image-slot .image-slot__image) { object-fit: contain; }
+.case-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 4 / 3; border: 0; border-right: 1px solid var(--border-soft); }
+.case-wall__media :deep(.image-slot .image-slot__image) { object-fit: cover; }
 .case-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
 .case-wall__number { color: var(--brand-main); font: 700 11px/1 var(--font-mono); letter-spacing: .14em; }
 .case-wall h3 { margin: 20px 0 0; font-size: 34px; line-height: 1.3; }
@@ -133,6 +134,7 @@ const caseWall = useStackWall('.case-wall__card')
     will-change: auto;
   }
   .case-wall__spacer { display: none; }
+  .case-wall__media { aspect-ratio: 16 / 9; }
   .case-wall__media :deep(.image-slot) { aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--border-soft); }
   .case-wall__copy { padding: 30px 26px 34px; }
   .case-wall h3 { font-size: 27px; }

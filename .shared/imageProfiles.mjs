@@ -25,6 +25,7 @@ const focalCoordinates = {
 export const imageProfileDefinitions = {
   card: { aspect: 16 / 9, widths: [320, 480, 760] },
   homeCase: { aspect: 16 / 9, widths: [480, 760, 1080] },
+  homeCaseDesktop: { aspect: 4 / 3, widths: [480, 760, 1080] },
   homeDesktop: { aspect: 1, widths: [480, 760, 1080] },
   homeMobile: { aspect: 16 / 10, widths: [320, 480, 760, 1080] }
 }
