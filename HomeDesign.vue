@@ -3,6 +3,7 @@ import { onMounted, onUnmounted } from 'vue'
 import HomeHero from './components/home/HomeHero.vue'
 import HomePaths from './components/home/HomePaths.vue'
 import HomeFeaturedCases from './components/home/HomeFeaturedCases.vue'
+import HomeVideoShowcase from './components/home/HomeVideoShowcase.vue'
 import HomeWorkflowSection from './components/home/HomeWorkflowSection.vue'
 import HomeResourceSection from './components/home/HomeResourceSection.vue'
 import HomeCapabilityGrid from './components/home/HomeCapabilityGrid.vue'
@@ -23,6 +24,7 @@ onUnmounted(() => {
     <HomeHero />
     <HomePaths />
     <HomeFeaturedCases />
+    <HomeVideoShowcase />
     <HomeWorkflowSection />
     <HomeResourceSection />
     <HomeCapabilityGrid />

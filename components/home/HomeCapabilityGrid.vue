@@ -42,7 +42,7 @@ const capabilities = [
 
 <template>
   <SectionShell id="capabilities">
-    <div class="cap-head">
+    <div class="cap-head" v-reveal="{ y: 24, repeat: true }">
       <SectionHeader
         :title-lines="['能力必须对应证据', '也必须产生结果']"
         desc="不使用毫无意义的软件熟练度进度条，而是让每个专业方向连接真实内容与可复用产出。"
@@ -51,8 +51,9 @@ const capabilities = [
     </div>
 
     <div class="cap-grid">
-      <a v-for="item in capabilities" :key="item.index"
-        :href="item.href" class="cap-card">
+      <a v-for="(item, index) in capabilities" :key="item.index"
+        :href="item.href" class="cap-card"
+        v-reveal="{ delay: index * 70, y: 24, repeat: true }">
 
         <!-- Icon + number -->
         <div class="cap-card__header">
@@ -110,7 +111,13 @@ const capabilities = [
   background: var(--bg-card);
   color: inherit;
   text-decoration: none;
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  transition:
+    opacity var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color .25s,
+    box-shadow .25s;
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .cap-card:hover {

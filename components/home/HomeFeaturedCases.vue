@@ -15,7 +15,7 @@ const caseWall = useStackWall('.case-wall__card')
 
 <template>
   <SectionShell id="featured-cases" compact>
-    <div class="case-wall__head">
+    <div class="case-wall__head" v-reveal="{ y: 24, repeat: true }">
       <SectionHeader
         :title-lines="['先看结果', '再理解它为什么成立']"
         desc="每个作品把结果、判断和上下文放在同一条证据链上。向下滚动，项目会依次进入视野。"
@@ -23,7 +23,12 @@ const caseWall = useStackWall('.case-wall__card')
       <BaseButton href="/portfolio/" variant="ghost">全部作品</BaseButton>
     </div>
 
-    <div ref="caseWall" class="case-wall" :class="{ 'case-wall--static': cases.length < 2 }">
+    <div
+      ref="caseWall"
+      class="case-wall"
+      :class="{ 'case-wall--static': cases.length < 2 }"
+      v-reveal="{ y: 24, repeat: true }"
+    >
       <template v-for="(item, index) in cases" :key="item.id">
         <article
           class="case-wall__card"

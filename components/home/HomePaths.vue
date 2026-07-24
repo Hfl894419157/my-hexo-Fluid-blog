@@ -33,10 +33,11 @@ const paths = [
   <SectionShell id="home-paths" compact>
     <div class="paths-grid">
       <a
-        v-for="path in paths"
+        v-for="(path, index) in paths"
         :key="path.key"
         :href="path.href"
         class="path-card"
+        v-reveal="{ delay: index * 70, y: 24, repeat: true }"
       >
         <div class="path-card__icon" v-html="path.icon" />
         <div class="path-card__content">
@@ -65,7 +66,13 @@ const paths = [
   background: var(--bg-card);
   color: inherit;
   text-decoration: none;
-  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
+  transition:
+    opacity var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .path-card:hover {

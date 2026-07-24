@@ -60,7 +60,7 @@ const paradigms = [
 <template>
   <SectionShell id="workflow" tone="soft">
     <!-- ① 标题区：重塑对 AI 工作流程的从容发散 -->
-    <div class="wf-head" v-reveal="{ delay: 0, y: 16 }">
+    <div class="wf-head" v-reveal="{ delay: 0, y: 24, repeat: true }">
       <SectionHeader
         :title-lines="['由实践驱动的五阶段工作流', '让 AI 生产进入确定性轨道']"
         desc="从需求输入、变量拆解、方向生成，到人工介入判断与最终的资产化沉淀。我不相信单次随机生成的“奇迹”，而是将每次任务整理为可重复的交付流程。"
@@ -74,7 +74,7 @@ const paradigms = [
         v-for="(item, idx) in paradigms" 
         :key="item.id" 
         class="wf-card"
-        v-reveal="{ delay: idx * 80, y: 24 }"
+        v-reveal="{ delay: idx * 70, y: 24, repeat: true }"
       >
         <!-- SVG 图标概念性图示 -->
         <div class="wf-card__icon">
@@ -168,10 +168,13 @@ const paradigms = [
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
   background: var(--bg-card);
-  transition: 
-    border-color var(--transition-smooth), 
-    box-shadow var(--transition-smooth), 
-    transform var(--transition-smooth);
+  transition:
+    opacity var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .wf-card:hover {

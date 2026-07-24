@@ -3,6 +3,8 @@
 // 定义全局的 Observer 实例单例，复用连接池以获得最高运行性能
 let globalObserver = null
 const repeatTargets = new WeakSet()
+const resetTimers = new WeakMap()
+const REVEAL_COOLDOWN = 180
 
 function getObserver() {
   if (typeof window === 'undefined') return null
@@ -13,6 +15,8 @@ function getObserver() {
       // 当元素至少有 10% 的面积进入视口时触发
       if (entry.isIntersecting) {
         const el = entry.target
+        window.clearTimeout(resetTimers.get(el))
+        resetTimers.delete(el)
         // 激活 CSS 过渡
         el.classList.add('is-revealed')
         // 默认只播放一次；repeat 元素保留观察，以便重新进入视口时再次播放
@@ -20,8 +24,13 @@ function getObserver() {
           globalObserver.unobserve(el)
         }
       } else if (entry.intersectionRatio === 0 && repeatTargets.has(entry.target)) {
-        // 仅在完全离开观察区后复位，避免停留在视口边缘时闪烁
-        entry.target.classList.remove('is-revealed')
+        // 完全离开并经过短暂冷却后复位，避免在视口边缘抖动时反复闪烁。
+        const el = entry.target
+        window.clearTimeout(resetTimers.get(el))
+        resetTimers.set(el, window.setTimeout(() => {
+          el.classList.remove('is-revealed')
+          resetTimers.delete(el)
+        }, REVEAL_COOLDOWN))
       }
     })
   }, {
@@ -43,7 +52,7 @@ export default {
     const delay = config.delay !== undefined ? config.delay : 0
     const y = config.y !== undefined ? config.y : 28
     const blur = config.blur !== undefined ? config.blur : 6
-    const duration = config.duration !== undefined ? config.duration : 800
+    const duration = config.duration !== undefined ? config.duration : 700
     const repeat = config.repeat === true
 
     el.style.setProperty('--reveal-delay', `${delay}ms`)
@@ -76,5 +85,7 @@ export default {
     if (observer) {
       observer.unobserve(el)
     }
+    window.clearTimeout(resetTimers.get(el))
+    resetTimers.delete(el)
   }
 }
