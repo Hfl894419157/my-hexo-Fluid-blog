@@ -13,9 +13,10 @@ publishing:
   verificationStatus: 已验证
   showInRecentUpdates: true
 cover:
-  src: /images/uploads/工作流板块图片/AI 产品海报图批量生成流程/封面图片.jpg
+  src: /images/uploads/工作流板块图片/AI 产品海报图批量生成流程/封面2.jpg
   alt: AI 产品图批量生成流程
   focalPoint: bottom-right
+  homeOverrideSrc: /images/uploads/工作流板块图片/AI 产品海报图批量生成流程/封面2.jpg
 seo:
   title: AI 产品海报图批量生成流程
   description: 做了个AI工作流，把公司全年要用的海报，一次搞定了...
