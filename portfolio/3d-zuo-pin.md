@@ -15,9 +15,9 @@ publishing:
   verificationStatus: 已整理
   showInRecentUpdates: true
 cover:
-  src: /images/uploads/案例板块图片/3D模搭建型渲染/10.jpg
+  src: /images/uploads/案例板块图片/3D模搭建型渲染/101.png
   focalPoint: center
-  homeOverrideSrc: /images/uploads/案例板块图片/3D模搭建型渲染/10.jpg
+  homeOverrideSrc: /images/uploads/案例板块图片/3D模搭建型渲染/101.png
 contentBlocks:
   - type: gallery
     id: 9ac35fb9-5a95-469e-ae2e-4efa26d190d1
