@@ -3,7 +3,6 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import yaml from 'js-yaml'
 import {
-  buildBilibiliEmbedUrl,
   extractBilibiliId,
   normalizeHomeVideoCases,
   normalizeHomeVideoPlaceholderCases
@@ -48,52 +47,32 @@ test('B 站链接只提取可信域名中的 BV 编号', () => {
   assert.equal(extractBilibiliId('https://b23.tv/short-code'), '')
 })
 
-test('播放器地址支持静音自动播放并且不泄露原始参数', () => {
-  const embed = buildBilibiliEmbedUrl(
-    'https://www.bilibili.com/video/BV1xx411c7mD?spm_id_from=333',
-    { autoplay: true, muted: true }
-  )
-  const url = new URL(embed)
-  assert.equal(url.origin, 'https://player.bilibili.com')
-  assert.equal(url.searchParams.get('bvid'), 'BV1xx411c7mD')
-  assert.equal(url.searchParams.get('danmaku'), '0')
-  assert.equal(url.searchParams.get('autoplay'), '1')
-  assert.equal(url.searchParams.get('muted'), '1')
-  assert.equal(url.searchParams.has('spm_id_from'), false)
+test('首页视频统一使用海报与 B 站外链，不嵌入受限播放器', () => {
+  assert.match(showcaseSource, /:href="activeCase\.url"/)
+  assert.match(showcaseSource, /target="_blank"/)
+  assert.match(showcaseSource, /rel="noopener noreferrer"/)
+  assert.doesNotMatch(showcaseSource, /<iframe/)
+  assert.doesNotMatch(showcaseSource, /buildBilibiliEmbedUrl/)
+  assert.doesNotMatch(showcaseSource, /IntersectionObserver/)
+  assert.doesNotMatch(showcaseSource, /在哔哩哔哩打开/)
 })
 
-test('用户点击播放时生成非静音的本页播放器地址', () => {
-  const embed = buildBilibiliEmbedUrl(
-    'https://www.bilibili.com/video/BV1xx411c7mD',
-    { autoplay: true, muted: false }
-  )
-  const url = new URL(embed)
-  assert.equal(url.searchParams.get('autoplay'), '1')
-  assert.equal(url.searchParams.get('muted'), '0')
-})
-
-test('首页播放器原位加载并按视口、设备与用户偏好控制自动播放', () => {
-  assert.match(showcaseSource, /ref="stage"/)
-  assert.match(showcaseSource, /v-if="iframeSrc"/)
-  assert.match(showcaseSource, /new IntersectionObserver/)
-  assert.match(showcaseSource, /intersectionRatio >= 0\.5/)
-  assert.match(showcaseSource, /intersectionRatio < 0\.25/)
-  assert.match(showcaseSource, /stageVisibilityRatio < 0\.5/)
-  assert.match(showcaseSource, /startPlayback\(\{ muted: true, mode: 'auto' \}\)/)
-  assert.match(showcaseSource, /desktopQuery\?\.matches/)
-  assert.match(showcaseSource, /!reducedMotionQuery\?\.matches/)
-  assert.match(showcaseSource, /!connection\?\.saveData/)
-  assert.match(showcaseSource, /class="video-stage__stop"/)
-  assert.doesNotMatch(showcaseSource, /<dialog/)
-  assert.doesNotMatch(showcaseSource, /动态作品选集/)
-})
-
-test('单条视频仍显示缩略卡，多条视频使用动态列数', () => {
+test('单条视频隐藏缩略列表，多条视频按数组顺序提供完整切换列表', () => {
+  assert.match(showcaseSource, /v-if="cases\.length > 1"[\s\S]*?ref="videoList"/)
   assert.match(showcaseSource, /ref="videoList"/)
+  assert.match(showcaseSource, /v-for="\(item, index\) in cases"/)
+  assert.match(showcaseSource, /const activeIndex = ref\(0\)/)
+  assert.match(showcaseSource, /@click="selectCase\(index\)"/)
   assert.match(showcaseSource, /const listMaxWidth = computed/)
   assert.match(showcaseSource, /--video-card-columns/)
   assert.match(showcaseSource, /--video-list-max-width/)
   assert.match(showcaseSource, /width: min\(var\(--video-list-max-width\), 100%\)/)
+})
+
+test('视频模块使用居中的次级标题层级和动态视觉眉题', () => {
+  assert.match(showcaseSource, /class="video-showcase__eyebrow">动态视觉/)
+  assert.match(showcaseSource, /\.video-showcase__head[\s\S]*?text-align: center/)
+  assert.match(showcaseSource, /font-size: clamp\(24px, 2\.5vw, 30px\)/)
 })
 
 test('首页只保留已发布、完整且有效的前四条视频', () => {

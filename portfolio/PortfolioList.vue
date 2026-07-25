@@ -28,6 +28,7 @@ const items = publishedContent(contentCatalog.cases)
     description="按电商、3D 渲染、品牌系统、展会视觉等方向浏览作品合集。"
     visual="cases"
     :topics="['电商视觉', '展会视觉', '品牌系统', '3D 渲染', '转化设计']"
+    :show-hero="false"
     :items="items"
     section-title="作品方向"
     section-description="每张卡片对应一个独立作品合集；进入后可连续浏览该方向的完整视觉成果。"
