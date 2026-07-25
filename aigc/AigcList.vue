@@ -24,6 +24,7 @@ const items = visibleContent(contentCatalog.workflows).map((item) => ({
     description="从真实商业项目出发，把输入、变量、生成、人工判断与复盘沉淀为稳定可复用的生产系统。"
     visual="workflow"
     :topics="['需求输入', '变量拆解', '方向生成', '人工判断', '资产沉淀']"
+    :show-hero="false"
     :items="items"
     section-title="可复用工作流"
     section-description="工作流页面记录可以直接进入下一次项目的结构、判断标准与交付方法。"

@@ -1,49 +1,59 @@
 <script setup>
-import { computed } from 'vue'
-import { withBase } from 'vitepress'
+import { computed, reactive } from 'vue'
+import ResponsiveImage from './ResponsiveImage.vue'
+import { resolveResponsiveImage } from './responsiveImage.js'
 
 const props = defineProps({
   items: { type: Array, default: () => [] }
 })
+
+const loadedOrientations = reactive({})
+
+const itemKey = (item, index) => item.id || `${index}-${item.src || 'image'}`
+
+const orientationFor = (item, index) => {
+  const key = itemKey(item, index)
+  if (loadedOrientations[key]) return loadedOrientations[key]
+
+  const resolved = item.src ? resolveResponsiveImage(item.src) : {}
+  const width = Number(resolved.width || item.width || 0)
+  const height = Number(resolved.height || item.height || 0)
+  return width && height && width < height ? 'portrait' : 'landscape'
+}
+
+const rememberOrientation = (item, index, event) => {
+  const image = event.currentTarget
+  if (!image?.naturalWidth || !image?.naturalHeight) return
+  loadedOrientations[itemKey(item, index)] = image.naturalWidth < image.naturalHeight
+    ? 'portrait'
+    : 'landscape'
+}
 
 const groupedRows = computed(() => {
   const rows = []
   let i = 0
   while (i < props.items.length) {
     const item = props.items[i]
-    const w = item.width || 0
-    const h = item.height || 0
-    const isLandscape = !w || !h || w / h >= 1.0
+    const orientation = orientationFor(item, i)
 
-    if (isLandscape) {
-      rows.push({ items: [item], class: 'row-landscape' })
+    if (orientation === 'landscape') {
+      rows.push({ entries: [{ item, index: i }], class: 'row-landscape' })
       i += 1
-    } else {
-      if (i + 1 < props.items.length) {
-        const next = props.items[i + 1]
-        const nw = next.width || 0
-        const nh = next.height || 0
-        const nextIsLandscape = nw && nh && nw / nh >= 1.0
-        if (!nextIsLandscape) {
-          rows.push({ items: [item, next], class: 'row-portrait-pair' })
-          i += 2
-        } else {
-          rows.push({ items: [item], class: 'row-portrait-single' })
-          i += 1
-        }
-      } else {
-        rows.push({ items: [item], class: 'row-portrait-single' })
-        i += 1
-      }
+      continue
     }
+
+    const next = props.items[i + 1]
+    const hasPortraitPair = next && orientationFor(next, i + 1) === 'portrait'
+    rows.push({
+      entries: hasPortraitPair
+        ? [{ item, index: i }, { item: next, index: i + 1 }]
+        : [{ item, index: i }],
+      class: hasPortraitPair ? 'row-portrait-pair' : 'row-portrait-single'
+    })
+    i += hasPortraitPair ? 2 : 1
   }
   return rows
 })
-
-const imgUrl = (src) => {
-  if (!src) return ''
-  return /^(https?:)?\/\//.test(src) ? src : withBase(src)
-}
 </script>
 
 <template>
@@ -54,19 +64,24 @@ const imgUrl = (src) => {
       :class="['pf-row', row.class]"
     >
       <figure
-        v-for="(item, ii) in row.items"
-        :key="item.id || `${ri}-${ii}`"
+        v-for="entry in row.entries"
+        :key="itemKey(entry.item, entry.index)"
         class="pf-figure"
       >
-        <img
-          v-if="item.src"
-          :src="imgUrl(item.src)"
-          :alt="item.alt || ''"
-          loading="lazy"
-          decoding="async"
+        <ResponsiveImage
+          v-if="entry.item.src"
+          :src="entry.item.src"
+          :alt="entry.item.alt || ''"
+          :eager="entry.item.eager"
+          :sizes="row.class === 'row-portrait-pair'
+            ? '(max-width: 640px) calc(100vw - 32px), 371px'
+            : row.class === 'row-portrait-single'
+              ? '(max-width: 640px) calc(100vw - 32px), 520px'
+              : '(max-width: 640px) calc(100vw - 32px), 760px'"
           class="pf-img"
+          @load="rememberOrientation(entry.item, entry.index, $event)"
         />
-        <figcaption v-if="item.caption" class="pf-caption">{{ item.caption }}</figcaption>
+        <figcaption v-if="entry.item.caption" class="pf-caption">{{ entry.item.caption }}</figcaption>
       </figure>
     </div>
   </section>
@@ -118,21 +133,32 @@ const imgUrl = (src) => {
 
 /* ----- 单张竖版居中 ----- */
 .pf-row.row-portrait-single {
-  text-align: center;
+  display: grid;
+  justify-items: center;
 }
 
-.pf-row.row-portrait-single .pf-img {
-  max-width: 100%;
-  height: auto;
-  display: inline-block;
-  border-radius: calc(var(--radius-card) - 2px);
-  background: var(--bg-soft);
+.pf-row.row-portrait-single .pf-figure {
+  width: min(68%, 520px);
 }
 
 /* ----- 通用 ----- */
 .pf-figure {
+  min-width: 0;
   margin: 0;
   padding: 0;
+}
+
+.pf-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-card) - 2px);
+  background: var(--bg-soft);
+}
+
+.pf-figure :deep(.responsive-picture) {
+  display: block;
+  width: 100%;
 }
 
 .pf-caption {
@@ -146,6 +172,11 @@ const imgUrl = (src) => {
 /* ----- 移动端 ----- */
 @media (max-width: 640px) {
   .pf-gallery { margin: 24px 0; }
-  .pf-row.row-portrait-pair { gap: 14px; }
+  .pf-gallery > .pf-row + .pf-row { margin-top: 14px; }
+  .pf-row.row-portrait-pair {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .pf-row.row-portrait-single .pf-figure { width: 100%; }
 }
 </style>

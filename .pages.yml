@@ -286,6 +286,7 @@ components:
             required: true
             list:
               min: 1
+              batch: true
               collapsible:
                 collapsed: true
                 summary: "{index}. {alt}"
@@ -662,14 +663,14 @@ content:
                     - { label: 其他动态视觉, value: 其他动态视觉 }
               - { name: description, label: 案例说明, type: text, required: true }
               - name: poster
-                label: 播放前封面与缩略图（建议 1600×900）
-                description: 同时用于主画面播放前封面和下方视频切换缩略卡。
+                label: 视频封面与缩略图（建议 1600×900）
+                description: 用于首页主画面；配置多条视频时也用于下方切换缩略卡。
                 type: image
                 required: true
                 options: { media: images }
               - name: url
                 label: B 站视频链接（必须包含 BV 编号）
-                description: 点击首页播放后会在原画面内加载，并尝试静音自动播放。
+                description: 点击首页播放按钮后会在新标签页打开该视频。
                 type: string
               - { name: duration, label: 时长（例如 00:36）, type: string }
 

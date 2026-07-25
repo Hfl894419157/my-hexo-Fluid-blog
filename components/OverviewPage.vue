@@ -7,6 +7,7 @@ defineProps({
   description: { type: String, required: true },
   visual: { type: String, default: 'system' },
   topics: { type: Array, default: () => [] },
+  showHero: { type: Boolean, default: true },
   items: { type: Array, default: () => [] },
   sectionTitle: { type: String, default: '内容列表' },
   sectionDescription: { type: String, default: '' }
@@ -16,6 +17,7 @@ defineProps({
 <template>
   <div class="overview-page">
     <PageHero
+      v-if="showHero"
       :title-lines="titleLines"
       :description="description"
       :visual="visual"

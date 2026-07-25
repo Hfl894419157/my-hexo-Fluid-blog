@@ -1,8 +1,7 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import videoContent from '../../.shared/content/videos.json'
 import {
-  buildBilibiliEmbedUrl,
   normalizeHomeVideoCases,
   normalizeHomeVideoPlaceholderCases
 } from '../../.shared/videoClient.js'
@@ -14,85 +13,14 @@ const placeholderCases = publishedCases.length === 0
 const cases = publishedCases.length ? publishedCases : placeholderCases
 const isPlaceholder = placeholderCases.length > 0
 const activeIndex = ref(0)
-const stage = ref(null)
-const playButton = ref(null)
-const playerFrame = ref(null)
 const videoList = ref(null)
-const iframeSrc = ref('')
-const playbackMode = ref('idle')
-const isStageInView = ref(false)
 const activeCase = computed(() => cases[activeIndex.value])
 const cardColumns = computed(() => Math.max(1, cases.length))
 const listMaxWidth = computed(() => cases.length < 3
   ? `${cases.length * 300 + Math.max(0, cases.length - 1) * 16}px`
   : '100%')
 
-let observer
-let autoPlayTimer
-let desktopQuery
-let reducedMotionQuery
-let connection
-let stageVisibilityRatio = 0
-
-const clearAutoPlayTimer = () => {
-  if (!autoPlayTimer) return
-  window.clearTimeout(autoPlayTimer)
-  autoPlayTimer = undefined
-}
-
-const stopPlayback = () => {
-  iframeSrc.value = ''
-  playbackMode.value = 'idle'
-}
-
-const canAutoPlay = () => (
-  !isPlaceholder
-  && desktopQuery?.matches
-  && !reducedMotionQuery?.matches
-  && !connection?.saveData
-)
-
-const startPlayback = async ({ muted, mode, focus = false }) => {
-  if (isPlaceholder || !activeCase.value) return
-  const embedUrl = buildBilibiliEmbedUrl(activeCase.value.url, {
-    autoplay: true,
-    muted
-  })
-  if (!embedUrl) return
-  iframeSrc.value = embedUrl
-  playbackMode.value = mode
-  if (focus) {
-    await nextTick()
-    playerFrame.value?.focus()
-  }
-}
-
-const scheduleAutoPlayback = () => {
-  clearAutoPlayTimer()
-  if (
-    !isStageInView.value
-    || stageVisibilityRatio < 0.5
-    || !canAutoPlay()
-    || iframeSrc.value
-    || document.hidden
-  ) return
-
-  autoPlayTimer = window.setTimeout(() => {
-    autoPlayTimer = undefined
-    if (
-      !isStageInView.value
-      || stageVisibilityRatio < 0.5
-      || !canAutoPlay()
-      || iframeSrc.value
-      || document.hidden
-    ) return
-    startPlayback({ muted: true, mode: 'auto' })
-  }, 500)
-}
-
 const selectCase = (index) => {
-  clearAutoPlayTimer()
-  stopPlayback()
   if (index === activeIndex.value) return
   activeIndex.value = index
 }
@@ -106,88 +34,14 @@ const focusSelection = async (index) => {
 const moveSelection = (offset) => {
   focusSelection((activeIndex.value + offset + cases.length) % cases.length)
 }
-
-const playInline = () => {
-  clearAutoPlayTimer()
-  startPlayback({ muted: false, mode: 'manual', focus: true })
-}
-
-const stopInline = () => {
-  clearAutoPlayTimer()
-  stopPlayback()
-  nextTick(() => playButton.value?.focus())
-}
-
-const handleVisibilityChange = () => {
-  if (document.hidden) {
-    clearAutoPlayTimer()
-    stopPlayback()
-    return
-  }
-  scheduleAutoPlayback()
-}
-
-const handlePlaybackPreferenceChange = () => {
-  if (!canAutoPlay() && playbackMode.value === 'auto') stopPlayback()
-  scheduleAutoPlayback()
-}
-
-watch(activeIndex, async () => {
-  clearAutoPlayTimer()
-  stopPlayback()
-  await nextTick()
-  scheduleAutoPlayback()
-})
-
-onMounted(() => {
-  desktopQuery = window.matchMedia('(min-width: 900px)')
-  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-  connection = navigator.connection
-
-  if ('IntersectionObserver' in window) {
-    observer = new IntersectionObserver((entries) => {
-      const entry = entries[0]
-      if (!entry) return
-      stageVisibilityRatio = entry.intersectionRatio
-      if (entry.intersectionRatio >= 0.5) {
-        isStageInView.value = true
-        scheduleAutoPlayback()
-      } else if (entry.intersectionRatio < 0.25) {
-        isStageInView.value = false
-        clearAutoPlayTimer()
-        stopPlayback()
-      } else {
-        clearAutoPlayTimer()
-      }
-    }, { threshold: [0, 0.25, 0.5] })
-
-    if (stage.value) observer.observe(stage.value)
-  }
-
-  document.addEventListener('visibilitychange', handleVisibilityChange)
-  desktopQuery.addEventListener?.('change', handlePlaybackPreferenceChange)
-  reducedMotionQuery.addEventListener?.('change', handlePlaybackPreferenceChange)
-  connection?.addEventListener?.('change', handlePlaybackPreferenceChange)
-})
-
-onBeforeUnmount(() => {
-  clearAutoPlayTimer()
-  stopPlayback()
-  observer?.disconnect()
-  document.removeEventListener('visibilitychange', handleVisibilityChange)
-  desktopQuery?.removeEventListener?.('change', handlePlaybackPreferenceChange)
-  reducedMotionQuery?.removeEventListener?.('change', handlePlaybackPreferenceChange)
-  connection?.removeEventListener?.('change', handlePlaybackPreferenceChange)
-})
 </script>
 
 <template>
   <section v-if="cases.length" id="video-showcase" class="video-showcase" aria-labelledby="video-showcase-title">
     <header class="video-showcase__head" v-reveal="{ y: 20, repeat: true }">
-      <div>
-        <h3 id="video-showcase-title">让画面在时间里建立信息与情绪</h3>
-        <p class="video-showcase__desc">三维动画与 AI 视频实践，围绕产品、场景与传播目标组织镜头、材质和节奏。</p>
-      </div>
+      <p class="video-showcase__eyebrow">动态视觉</p>
+      <h3 id="video-showcase-title">让画面在时间里建立信息与情绪</h3>
+      <p class="video-showcase__desc">三维动画与 AI 视频实践，围绕产品、场景与传播目标组织镜头、材质和节奏。</p>
       <span v-if="cases.length > 1" class="video-showcase__index">
         {{ String(activeIndex + 1).padStart(2, '0') }} / {{ String(cases.length).padStart(2, '0') }}
       </span>
@@ -196,55 +50,40 @@ onBeforeUnmount(() => {
     <div class="video-showcase__layout">
       <article
         id="video-panel"
-        ref="stage"
         class="video-stage"
-        :class="{ 'video-stage--playing': iframeSrc }"
         role="tabpanel"
         v-reveal="{ y: 20, repeat: true }"
       >
-        <template v-if="iframeSrc">
-          <iframe
-            ref="playerFrame"
-            :key="activeCase.id"
-            :src="iframeSrc"
-            :title="`${activeCase.title}哔哩哔哩播放器`"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            scrolling="no"
-            referrerpolicy="strict-origin-when-cross-origin"
-            tabindex="0"
-          ></iframe>
-          <button class="video-stage__stop" type="button" @click="stopInline">返回封面</button>
-        </template>
-
-        <template v-else>
-          <img
-            :src="activeCase.poster"
-            :alt="`${activeCase.title}视频封面`"
-            width="1600"
-            height="900"
-            loading="lazy"
-            decoding="async"
-          >
-          <div class="video-stage__shade" aria-hidden="true"></div>
-          <div class="video-stage__copy">
-            <h4>{{ activeCase.title }}</h4>
-            <p>{{ activeCase.description }}</p>
-          </div>
-          <button
-            ref="playButton"
-            class="video-stage__play"
-            type="button"
-            :disabled="isPlaceholder"
-            :aria-label="isPlaceholder ? `${activeCase.title}的视频内容准备中` : `在本页播放${activeCase.title}`"
-            @click="playInline"
-          >
-            {{ isPlaceholder ? '视频内容准备中' : '在本页播放' }}
-          </button>
-          <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
-        </template>
+        <img
+          :src="activeCase.poster"
+          :alt="`${activeCase.title}视频封面`"
+          width="1600"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        >
+        <div class="video-stage__shade" aria-hidden="true"></div>
+        <div class="video-stage__copy">
+          <h4>{{ activeCase.title }}</h4>
+          <p v-if="activeCase.description">{{ activeCase.description }}</p>
+        </div>
+        <a
+          v-if="!isPlaceholder"
+          class="video-stage__play"
+          :href="activeCase.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="`在哔哩哔哩播放${activeCase.title}`"
+        >
+          <span class="video-stage__play-icon" aria-hidden="true">▶</span>
+          播放视频
+        </a>
+        <span v-else class="video-stage__play video-stage__play--disabled">视频内容准备中</span>
+        <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
       </article>
 
       <div
+        v-if="cases.length > 1"
         ref="videoList"
         class="video-list"
         role="tablist"
@@ -281,17 +120,9 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <div class="video-showcase__foot">
-        <p v-if="isPlaceholder" class="video-showcase__preview-note">
-          当前为版式预览，完整视频正在整理，后续将开放播放。
-        </p>
-        <a
-          v-else
-          :href="activeCase.url"
-          target="_blank"
-          rel="noreferrer"
-        >在哔哩哔哩打开 <span aria-hidden="true">↗</span></a>
-      </div>
+      <p v-if="isPlaceholder" class="video-showcase__preview-note">
+        当前为版式预览，完整视频正在整理，后续将开放播放。
+      </p>
     </div>
   </section>
 </template>
@@ -305,27 +136,35 @@ onBeforeUnmount(() => {
 }
 
 .video-showcase__head {
-  display: flex;
+  position: relative;
+  display: grid;
   width: min(960px, 100%);
-  align-items: end;
-  justify-content: space-between;
-  gap: 32px;
+  justify-items: center;
+  gap: 0;
   margin: 0 auto;
+  text-align: center;
 }
 
-.video-showcase__head > div { max-width: 720px; }
+.video-showcase__eyebrow {
+  margin: 0 0 12px;
+  color: var(--brand-main);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .16em;
+}
 
 .video-showcase__head h3 {
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(28px, 3vw, 36px);
+  font-size: clamp(24px, 2.5vw, 30px);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.35;
   letter-spacing: -.025em;
 }
 
 .video-showcase__desc {
+  max-width: 640px;
   margin: 13px 0 0;
   color: var(--text-sub);
   font-size: 15px;
@@ -333,8 +172,9 @@ onBeforeUnmount(() => {
 }
 
 .video-showcase__index {
-  flex: 0 0 auto;
-  padding-bottom: 5px;
+  position: absolute;
+  right: 0;
+  bottom: 5px;
   color: var(--brand-main);
   font: 700 11px/1 var(--font-mono);
   letter-spacing: .12em;
@@ -355,16 +195,13 @@ onBeforeUnmount(() => {
   box-shadow: 0 24px 64px color-mix(in srgb, var(--text-main) 11%, transparent);
 }
 
-.video-stage > img,
-.video-stage > iframe {
+.video-stage > img {
   display: block;
   width: 100%;
   height: 100%;
   border: 0;
+  object-fit: cover;
 }
-
-.video-stage > img { object-fit: cover; }
-.video-stage--playing { background: #000; }
 
 .video-stage__shade {
   position: absolute;
@@ -399,10 +236,13 @@ onBeforeUnmount(() => {
   line-height: 1.75;
 }
 
-.video-stage__play,
-.video-stage__stop {
+.video-stage__play {
   position: absolute;
   z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
   min-height: 44px;
   padding: 0 17px;
   border: 1px solid rgb(255 255 255 / 42%);
@@ -410,6 +250,7 @@ onBeforeUnmount(() => {
   color: white;
   background: rgb(20 17 14 / 76%);
   font: 700 13px/1 var(--font-sans);
+  text-decoration: none;
   backdrop-filter: blur(12px);
   cursor: pointer;
 }
@@ -417,20 +258,25 @@ onBeforeUnmount(() => {
 .video-stage__play {
   right: clamp(24px, 4vw, 52px);
   bottom: clamp(30px, 4vw, 52px);
+  transition: border-color var(--transition-smooth), background-color var(--transition-smooth), transform var(--transition-smooth);
 }
 
-.video-stage__stop {
-  top: 14px;
-  left: 14px;
-  min-height: 38px;
-  padding: 0 14px;
-  font-size: 12px;
+.video-stage__play:hover {
+  border-color: rgb(255 255 255 / 74%);
+  background: rgb(20 17 14 / 90%);
+  transform: translateY(-2px);
 }
 
-.video-stage__play:disabled {
-  cursor: not-allowed;
+.video-stage__play-icon {
+  font-size: 11px;
+}
+
+.video-stage__play--disabled {
+  cursor: default;
   opacity: .72;
 }
+
+.video-stage__play--disabled:hover { transform: none; }
 
 .video-stage__duration {
   position: absolute;
@@ -523,34 +369,22 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.video-showcase__foot {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 14px;
-}
-
-.video-showcase__foot a {
-  color: var(--brand-main);
-  font-size: 12px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
 .video-showcase__preview-note {
-  margin: 0;
+  margin: 14px 0 0;
   color: var(--text-muted);
   font-size: 12px;
   line-height: 1.6;
+  text-align: center;
 }
 
 @media (max-width: 899px) {
   .video-showcase { margin-top: 64px; }
 
   .video-showcase__head {
-    align-items: start;
-    flex-direction: column;
-    gap: 12px;
+    padding-inline: 24px;
   }
+
+  .video-showcase__index { position: static; margin-top: 14px; }
 
   .video-list {
     display: flex;
@@ -592,11 +426,6 @@ onBeforeUnmount(() => {
     font-size: 12px;
   }
 
-  .video-stage__stop {
-    top: 10px;
-    left: 10px;
-    min-height: 34px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

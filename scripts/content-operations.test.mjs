@@ -259,6 +259,42 @@ test('作品图片拖动后的数组顺序在归一化过程中保持不变', ()
   )
 })
 
+test('作品图片组启用兼容现有数据结构的批量上传', async () => {
+  const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
+  const cases = config.content.find((entry) => entry.name === 'cases')
+  const contentField = cases.fields.find((field) => field.name === 'contentBlocks')
+  const blocks = config.components[contentField.component]
+  const gallery = blocks.blocks.find((block) => block.name === 'gallery')
+  const items = gallery.fields.find((field) => field.name === 'items')
+
+  assert.equal(items.type, 'object')
+  assert.equal(items.list.batch, true)
+  assert.deepEqual(
+    items.fields.map((field) => field.name),
+    ['id', 'src', 'alt', 'caption']
+  )
+})
+
+test('索引页只移除指定页面的顶部介绍与页内搜索', async () => {
+  const [overview, portfolio, workflows, blog, resources, knowledge, header] = await Promise.all([
+    readFile(path.join(repoRoot, 'components/OverviewPage.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'portfolio/PortfolioList.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'aigc/AigcList.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'blog/BlogList.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'resources/ResourcesList.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'components/KnowledgeHub.vue'), 'utf8'),
+    readFile(path.join(repoRoot, 'components/SiteHeader.vue'), 'utf8')
+  ])
+
+  assert.match(overview, /v-if="showHero"/)
+  assert.match(portfolio, /:show-hero="false"/)
+  assert.match(workflows, /:show-hero="false"/)
+  assert.doesNotMatch(blog, /show-hero/)
+  assert.doesNotMatch(resources, /show-hero/)
+  assert.doesNotMatch(knowledge, /PageHero|PageSearch/)
+  assert.match(header, /<SiteSearch/)
+})
+
 test('重命名历史可以串联到最终地址', () => {
   const renames = parseRenameLog([
     'R100\taigc/old-name.md\taigc/middle-name.md',

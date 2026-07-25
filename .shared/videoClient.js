@@ -20,21 +20,6 @@ export const extractBilibiliId = (value = '') => {
   return match ? match[1].replace(/^bv/i, 'BV') : ''
 }
 
-export const buildBilibiliEmbedUrl = (value = '', options = {}) => {
-  const bvid = extractBilibiliId(value)
-  if (!bvid) return ''
-  const { autoplay = true, muted = false } = options
-  const params = new URLSearchParams({
-    bvid,
-    page: '1',
-    high_quality: '1',
-    danmaku: '0',
-    autoplay: autoplay ? '1' : '0',
-    muted: muted ? '1' : '0'
-  })
-  return `https://player.bilibili.com/player.html?${params.toString()}`
-}
-
 export const normalizeHomeVideoCases = (items = []) => {
   if (!Array.isArray(items)) return []
   return items
