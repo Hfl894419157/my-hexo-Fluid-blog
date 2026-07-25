@@ -13,17 +13,22 @@ const videoContent = JSON.parse(
   readFileSync(new URL('../.shared/content/videos.json', import.meta.url), 'utf8')
 )
 
-test('首页视频配置使用后台可编辑的数据结构', () => {
+test('首页视频配置使用后台可编辑的数据结构并允许省略未配置的链接', () => {
   assert.ok(Array.isArray(videoContent.items))
   assert.ok(videoContent.items.length <= 4)
   assert.equal(new Set(videoContent.items.map((item) => item.id)).size, videoContent.items.length)
 
+  const requiredFields = ['id', 'published', 'title', 'category', 'description', 'poster', 'duration']
+  const allowedFields = new Set([...requiredFields, 'url'])
+
   for (const item of videoContent.items) {
     assert.deepEqual(
-      Object.keys(item),
-      ['id', 'published', 'title', 'category', 'description', 'poster', 'url', 'duration']
+      Object.keys(item).filter((key) => key !== 'url'),
+      requiredFields
     )
+    assert.ok(Object.keys(item).every((key) => allowedFields.has(key)))
     assert.equal(typeof item.published, 'boolean')
+    if (Object.hasOwn(item, 'url')) assert.equal(typeof item.url, 'string')
     assert.match(item.poster, /^\//)
     assert.equal(Object.hasOwn(item, 'featuredOrder'), false)
     assert.equal(Object.hasOwn(item, 'videoUrl'), false)
