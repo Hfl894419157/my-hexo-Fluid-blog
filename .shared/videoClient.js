@@ -57,3 +57,26 @@ export const normalizeHomeVideoCases = (items = []) => {
       bvid: extractBilibiliId(item.url)
     }))
 }
+
+export const normalizeHomeVideoPlaceholderCases = (items = []) => {
+  if (!Array.isArray(items)) return []
+  return items
+    .filter((item) => {
+      if (!String(item?.id || '').trim()) return false
+      if (!String(item?.title || '').trim()) return false
+      if (!String(item?.category || '').trim()) return false
+      if (!String(item?.description || '').trim()) return false
+      return Boolean(String(item?.poster || '').trim())
+    })
+    .slice(0, 4)
+    .map((item) => ({
+      id: String(item.id),
+      title: String(item.title).trim(),
+      category: String(item.category).trim(),
+      description: String(item.description).trim(),
+      poster: String(item.poster).trim(),
+      url: '',
+      duration: String(item.duration || '').trim(),
+      bvid: ''
+    }))
+}

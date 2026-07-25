@@ -4,25 +4,18 @@ import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import videoContent from '../../.shared/content/videos.json'
-import { buildBilibiliEmbedUrl, normalizeHomeVideoCases } from '../../.shared/videoClient.js'
+import {
+  buildBilibiliEmbedUrl,
+  normalizeHomeVideoCases,
+  normalizeHomeVideoPlaceholderCases
+} from '../../.shared/videoClient.js'
 
 const publishedCases = normalizeHomeVideoCases(videoContent.items)
-const draftPreviewCases = import.meta.env.DEV && publishedCases.length === 0
-  ? videoContent.items
-      .filter((item) => item?.title && item?.category && item?.description && item?.poster)
-      .slice(0, 4)
-      .map((item) => ({
-        id: item.id,
-        title: item.title.trim(),
-        category: item.category.trim(),
-        description: item.description.trim(),
-        poster: item.poster.trim(),
-        url: item.url?.trim() || '',
-        duration: item.duration?.trim() || ''
-      }))
+const placeholderCases = publishedCases.length === 0
+  ? normalizeHomeVideoPlaceholderCases(videoContent.items)
   : []
-const cases = publishedCases.length ? publishedCases : draftPreviewCases
-const isDraftPreview = draftPreviewCases.length > 0
+const cases = publishedCases.length ? publishedCases : placeholderCases
+const isPlaceholder = placeholderCases.length > 0
 const activeIndex = ref(0)
 const dialog = ref(null)
 const playButton = ref(null)
@@ -46,7 +39,7 @@ const moveSelection = (offset) => {
 }
 
 const openDialog = async () => {
-  if (!activeCase.value || !dialog.value) return
+  if (isPlaceholder || !activeCase.value || !dialog.value) return
   const embedUrl = buildBilibiliEmbedUrl(activeCase.value.url)
   if (!embedUrl) return
   iframeSrc.value = embedUrl
@@ -103,11 +96,11 @@ onBeforeUnmount(() => {
           ref="playButton"
           class="video-stage__play"
           type="button"
-          :disabled="isDraftPreview && !activeCase.url"
-          :aria-label="isDraftPreview && !activeCase.url ? `${activeCase.title}的视频链接待配置` : `播放${activeCase.title}`"
+          :disabled="isPlaceholder"
+          :aria-label="isPlaceholder ? `${activeCase.title}的视频内容准备中` : `播放${activeCase.title}`"
           @click="openDialog"
         >
-          {{ isDraftPreview && !activeCase.url ? '视频链接待配置' : '播放完整案例' }}
+          {{ isPlaceholder ? '视频内容准备中' : '播放完整案例' }}
         </button>
         <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
       </article>
@@ -145,12 +138,18 @@ onBeforeUnmount(() => {
           </span>
         </button>
       </div>
-      <p v-if="isDraftPreview" class="video-showcase__preview-note">
-        本地草稿预览：封面与版式已生效，填入有效的 B 站 BV 链接并开启显示后即可正式播放。
+      <p v-if="isPlaceholder" class="video-showcase__preview-note">
+        当前为案例版式预览，完整视频正在整理，后续将开放播放。
       </p>
     </div>
 
-    <dialog ref="dialog" class="video-dialog" @click="handleDialogClick" @cancel.prevent="closeDialog">
+    <dialog
+      v-if="!isPlaceholder"
+      ref="dialog"
+      class="video-dialog"
+      @click="handleDialogClick"
+      @cancel.prevent="closeDialog"
+    >
       <div class="video-dialog__panel">
         <button class="video-dialog__close" type="button" aria-label="关闭视频" @click="closeDialog">×</button>
         <div class="video-dialog__player">
