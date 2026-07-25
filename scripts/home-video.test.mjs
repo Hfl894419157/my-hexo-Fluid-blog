@@ -12,6 +12,10 @@ import {
 const videoContent = JSON.parse(
   readFileSync(new URL('../.shared/content/videos.json', import.meta.url), 'utf8')
 )
+const showcaseSource = readFileSync(
+  new URL('../components/home/HomeVideoShowcase.vue', import.meta.url),
+  'utf8'
+)
 
 test('首页视频配置使用后台可编辑的数据结构并允许省略未配置的链接', () => {
   assert.ok(Array.isArray(videoContent.items))
@@ -44,14 +48,49 @@ test('B 站链接只提取可信域名中的 BV 编号', () => {
   assert.equal(extractBilibiliId('https://b23.tv/short-code'), '')
 })
 
-test('播放器地址关闭弹幕后可以安全销毁并且不泄露原始参数', () => {
-  const embed = buildBilibiliEmbedUrl('https://www.bilibili.com/video/BV1xx411c7mD?spm_id_from=333')
+test('播放器地址支持静音自动播放并且不泄露原始参数', () => {
+  const embed = buildBilibiliEmbedUrl(
+    'https://www.bilibili.com/video/BV1xx411c7mD?spm_id_from=333',
+    { autoplay: true, muted: true }
+  )
   const url = new URL(embed)
   assert.equal(url.origin, 'https://player.bilibili.com')
   assert.equal(url.searchParams.get('bvid'), 'BV1xx411c7mD')
   assert.equal(url.searchParams.get('danmaku'), '0')
   assert.equal(url.searchParams.get('autoplay'), '1')
+  assert.equal(url.searchParams.get('muted'), '1')
   assert.equal(url.searchParams.has('spm_id_from'), false)
+})
+
+test('用户点击播放时可以生成非静音的本页播放器地址', () => {
+  const embed = buildBilibiliEmbedUrl(
+    'https://www.bilibili.com/video/BV1xx411c7mD',
+    { autoplay: true, muted: false }
+  )
+  const url = new URL(embed)
+  assert.equal(url.searchParams.get('autoplay'), '1')
+  assert.equal(url.searchParams.get('muted'), '0')
+})
+
+test('首页播放器原位加载并按视口、设备与用户偏好控制自动播放', () => {
+  assert.match(showcaseSource, /ref="stage"/)
+  assert.match(showcaseSource, /v-if="iframeSrc"/)
+  assert.match(showcaseSource, /new IntersectionObserver/)
+  assert.match(showcaseSource, /intersectionRatio >= 0\.5/)
+  assert.match(showcaseSource, /intersectionRatio < 0\.25/)
+  assert.match(showcaseSource, /stageVisibilityRatio < 0\.5/)
+  assert.match(showcaseSource, /startPlayback\(\{ muted: true, mode: 'auto' \}\)/)
+  assert.match(showcaseSource, /desktopQuery\?\.matches/)
+  assert.match(showcaseSource, /!reducedMotionQuery\?\.matches/)
+  assert.match(showcaseSource, /!connection\?\.saveData/)
+  assert.doesNotMatch(showcaseSource, /<dialog/)
+  assert.doesNotMatch(showcaseSource, /前往哔哩哔哩观看/)
+})
+
+test('单条视频使用紧凑入口，多条视频继续使用动态列数', () => {
+  assert.match(showcaseSource, /'video-list--single': cases\.length === 1/)
+  assert.match(showcaseSource, /--video-card-columns/)
+  assert.match(showcaseSource, /\.video-list--single\s*\{[\s\S]*?minmax\(0, 320px\)/)
 })
 
 test('首页只保留已发布、完整且有效的前四条视频', () => {

@@ -1,6 +1,5 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import BaseButton from '../BaseButton.vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import videoContent from '../../.shared/content/videos.json'
@@ -17,14 +16,73 @@ const placeholderCases = publishedCases.length === 0
 const cases = publishedCases.length ? publishedCases : placeholderCases
 const isPlaceholder = placeholderCases.length > 0
 const activeIndex = ref(0)
-const dialog = ref(null)
-const playButton = ref(null)
+const stage = ref(null)
 const videoList = ref(null)
 const iframeSrc = ref('')
+const playbackMode = ref('idle')
+const isStageInView = ref(false)
 const activeCase = computed(() => cases[activeIndex.value])
 const cardColumns = computed(() => Math.max(1, cases.length))
+let observer
+let autoPlayTimer
+let desktopQuery
+let reducedMotionQuery
+let connection
+let stageVisibilityRatio = 0
+
+const clearAutoPlayTimer = () => {
+  if (!autoPlayTimer) return
+  window.clearTimeout(autoPlayTimer)
+  autoPlayTimer = undefined
+}
+
+const stopPlayback = () => {
+  iframeSrc.value = ''
+  playbackMode.value = 'idle'
+}
+
+const canAutoPlay = () => (
+  !isPlaceholder
+  && desktopQuery?.matches
+  && !reducedMotionQuery?.matches
+  && !connection?.saveData
+)
+
+const startPlayback = ({ muted, mode }) => {
+  if (isPlaceholder || !activeCase.value) return
+  const embedUrl = buildBilibiliEmbedUrl(activeCase.value.url, {
+    autoplay: true,
+    muted
+  })
+  if (!embedUrl) return
+  iframeSrc.value = embedUrl
+  playbackMode.value = mode
+}
+
+const scheduleAutoPlayback = () => {
+  clearAutoPlayTimer()
+  if (
+    !isStageInView.value
+    || stageVisibilityRatio < 0.5
+    || !canAutoPlay()
+    || iframeSrc.value
+    || document.hidden
+  ) return
+  autoPlayTimer = window.setTimeout(() => {
+    autoPlayTimer = undefined
+    if (
+      !isStageInView.value
+      || stageVisibilityRatio < 0.5
+      || !canAutoPlay()
+      || iframeSrc.value
+      || document.hidden
+    ) return
+    startPlayback({ muted: true, mode: 'auto' })
+  }, 500)
+}
 
 const selectCase = (index) => {
+  if (index === activeIndex.value) return
   activeIndex.value = index
 }
 
@@ -38,32 +96,70 @@ const moveSelection = (offset) => {
   focusSelection((activeIndex.value + offset + cases.length) % cases.length)
 }
 
-const openDialog = async () => {
-  if (isPlaceholder || !activeCase.value || !dialog.value) return
-  const embedUrl = buildBilibiliEmbedUrl(activeCase.value.url)
-  if (!embedUrl) return
-  iframeSrc.value = embedUrl
-  dialog.value.showModal()
+const playInline = () => {
+  clearAutoPlayTimer()
+  startPlayback({ muted: false, mode: 'manual' })
+}
+
+const handleVisibilityChange = () => {
+  if (document.hidden) {
+    clearAutoPlayTimer()
+    stopPlayback()
+    return
+  }
+  scheduleAutoPlayback()
+}
+
+const handlePlaybackPreferenceChange = () => {
+  if (!canAutoPlay() && playbackMode.value === 'auto') stopPlayback()
+  scheduleAutoPlayback()
+}
+
+watch(activeIndex, async () => {
+  clearAutoPlayTimer()
+  stopPlayback()
   await nextTick()
-  dialog.value.querySelector('.video-dialog__close')?.focus()
-}
+  scheduleAutoPlayback()
+})
 
-const closeDialog = () => {
-  dialog.value?.close()
-  iframeSrc.value = ''
-  nextTick(() => playButton.value?.focus())
-}
+onMounted(() => {
+  desktopQuery = window.matchMedia('(min-width: 900px)')
+  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  connection = navigator.connection
 
-const handleDialogClick = (event) => {
-  if (event.target === dialog.value) closeDialog()
-}
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver((entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      stageVisibilityRatio = entry.intersectionRatio
+      if (entry.intersectionRatio >= 0.5) {
+        isStageInView.value = true
+        scheduleAutoPlayback()
+      } else if (entry.intersectionRatio < 0.25) {
+        isStageInView.value = false
+        clearAutoPlayTimer()
+        stopPlayback()
+      } else {
+        clearAutoPlayTimer()
+      }
+    }, { threshold: [0, 0.25, 0.5] })
 
-watch(activeIndex, () => {
-  if (dialog.value?.open) closeDialog()
+    if (stage.value) observer.observe(stage.value)
+  }
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  desktopQuery.addEventListener?.('change', handlePlaybackPreferenceChange)
+  reducedMotionQuery.addEventListener?.('change', handlePlaybackPreferenceChange)
+  connection?.addEventListener?.('change', handlePlaybackPreferenceChange)
 })
 
 onBeforeUnmount(() => {
-  iframeSrc.value = ''
+  clearAutoPlayTimer()
+  stopPlayback()
+  observer?.disconnect()
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
+  desktopQuery?.removeEventListener?.('change', handlePlaybackPreferenceChange)
+  reducedMotionQuery?.removeEventListener?.('change', handlePlaybackPreferenceChange)
+  connection?.removeEventListener?.('change', handlePlaybackPreferenceChange)
 })
 </script>
 
@@ -77,37 +173,48 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="video-showcase__layout">
-      <article class="video-stage" v-reveal="{ y: 24, repeat: true }">
-        <img
-          :src="activeCase.poster"
-          :alt="`${activeCase.title}视频封面`"
-          width="1600"
-          height="900"
-          loading="lazy"
-          decoding="async"
-        >
-        <div class="video-stage__shade" aria-hidden="true"></div>
-        <div class="video-stage__copy">
-          <span>{{ activeCase.category }}</span>
-          <h3>{{ activeCase.title }}</h3>
-          <p>{{ activeCase.description }}</p>
-        </div>
-        <button
-          ref="playButton"
-          class="video-stage__play"
-          type="button"
-          :disabled="isPlaceholder"
-          :aria-label="isPlaceholder ? `${activeCase.title}的视频内容准备中` : `播放${activeCase.title}`"
-          @click="openDialog"
-        >
-          {{ isPlaceholder ? '视频内容准备中' : '播放完整案例' }}
-        </button>
-        <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
+      <article ref="stage" class="video-stage" v-reveal="{ y: 24, repeat: true }">
+        <iframe
+          v-if="iframeSrc"
+          :src="iframeSrc"
+          :title="`${activeCase.title}哔哩哔哩播放器`"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          scrolling="no"
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+        <template v-else>
+          <img
+            :src="activeCase.poster"
+            :alt="`${activeCase.title}视频封面`"
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          >
+          <div class="video-stage__shade" aria-hidden="true"></div>
+          <div class="video-stage__copy">
+            <span>{{ activeCase.category }}</span>
+            <h3>{{ activeCase.title }}</h3>
+            <p>{{ activeCase.description }}</p>
+          </div>
+          <button
+            class="video-stage__play"
+            type="button"
+            :disabled="isPlaceholder"
+            :aria-label="isPlaceholder ? `${activeCase.title}的视频内容准备中` : `在本页播放${activeCase.title}`"
+            @click="playInline"
+          >
+            {{ isPlaceholder ? '视频内容准备中' : '在本页播放' }}
+          </button>
+          <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
+        </template>
       </article>
 
       <div
         ref="videoList"
         class="video-list"
+        :class="{ 'video-list--single': cases.length === 1 }"
         role="tablist"
         aria-label="视频作品案例"
         :style="{ '--video-card-columns': cardColumns }"
@@ -142,38 +249,6 @@ onBeforeUnmount(() => {
         当前为案例版式预览，完整视频正在整理，后续将开放播放。
       </p>
     </div>
-
-    <dialog
-      v-if="!isPlaceholder"
-      ref="dialog"
-      class="video-dialog"
-      @click="handleDialogClick"
-      @cancel.prevent="closeDialog"
-    >
-      <div class="video-dialog__panel">
-        <button class="video-dialog__close" type="button" aria-label="关闭视频" @click="closeDialog">×</button>
-        <div class="video-dialog__player">
-          <iframe
-            v-if="iframeSrc"
-            :src="iframeSrc"
-            :title="`${activeCase.title}哔哩哔哩播放器`"
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
-        </div>
-        <div class="video-dialog__footer">
-          <div>
-            <span>{{ activeCase.category }}</span>
-            <h3>{{ activeCase.title }}</h3>
-          </div>
-          <div class="video-dialog__actions">
-            <BaseButton :href="activeCase.url" variant="secondary">前往哔哩哔哩观看</BaseButton>
-            <BaseButton href="mailto:1442855983@qq.com?subject=咨询动态视觉项目">咨询类似项目</BaseButton>
-          </div>
-        </div>
-      </div>
-    </dialog>
   </SectionShell>
 </template>
 
@@ -209,6 +284,13 @@ onBeforeUnmount(() => {
   object-fit: cover;
 }
 
+.video-stage iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .video-stage__shade {
   position: absolute;
   inset: 32% 0 0;
@@ -226,16 +308,14 @@ onBeforeUnmount(() => {
   color: white;
 }
 
-.video-stage__copy > span,
-.video-dialog__footer span {
+.video-stage__copy > span {
   color: color-mix(in srgb, var(--brand-second) 54%, white);
   font-size: var(--text-micro);
   font-weight: 700;
   letter-spacing: .1em;
 }
 
-.video-stage__copy h3,
-.video-dialog__footer h3 {
+.video-stage__copy h3 {
   margin: 10px 0 0;
   font-family: var(--font-display);
   font-size: clamp(26px, 3vw, 40px);
@@ -296,6 +376,11 @@ onBeforeUnmount(() => {
   grid-template-columns: repeat(var(--video-card-columns), minmax(0, 1fr));
   gap: 16px;
   margin-top: 18px;
+}
+
+.video-list--single {
+  grid-template-columns: minmax(0, 320px);
+  justify-content: center;
 }
 
 .video-card {
@@ -376,78 +461,6 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.video-dialog {
-  width: min(1060px, calc(100vw - 32px));
-  max-width: none;
-  padding: 0;
-  border: 0;
-  border-radius: 18px;
-  background: transparent;
-}
-
-.video-dialog::backdrop {
-  background: rgb(17 14 12 / 78%);
-  backdrop-filter: blur(10px);
-}
-
-.video-dialog__panel {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border-soft);
-  border-radius: 18px;
-  background: var(--bg-card);
-  box-shadow: 0 36px 120px rgb(0 0 0 / 32%);
-}
-
-.video-dialog__player {
-  aspect-ratio: 16 / 9;
-  background: #000;
-}
-
-.video-dialog iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.video-dialog__close {
-  position: absolute;
-  z-index: 3;
-  top: 14px;
-  right: 14px;
-  display: grid;
-  width: 40px;
-  height: 40px;
-  place-items: center;
-  border: 1px solid rgb(255 255 255 / 28%);
-  border-radius: 50%;
-  color: white;
-  background: rgb(20 17 14 / 68%);
-  font-size: 26px;
-  cursor: pointer;
-}
-
-.video-dialog__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 28px;
-}
-
-.video-dialog__footer h3 {
-  color: var(--text-main);
-  font-size: clamp(22px, 1.8vw, 26px);
-}
-
-.video-dialog__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
 @media (max-width: 899px) {
   .video-showcase__head :deep(.section-header__line) {
     white-space: normal;
@@ -459,6 +472,10 @@ onBeforeUnmount(() => {
     gap: 12px;
     padding: 2px 2px 10px;
     scroll-snap-type: x mandatory;
+  }
+
+  .video-list--single {
+    justify-content: flex-start;
   }
 
   .video-card {
@@ -496,14 +513,6 @@ onBeforeUnmount(() => {
     font-size: 12px;
   }
 
-  .video-dialog__footer {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .video-dialog__actions {
-    display: grid;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
