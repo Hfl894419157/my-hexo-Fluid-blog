@@ -55,7 +55,7 @@ test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、关于页
   assert.ok((config.media || []).some((entry) => entry.name === 'documents' && entry.extensions.includes('pdf')))
 })
 
-test('关于我页面的首页摘要、首屏、能力和交付流程均由后台数据驱动', async () => {
+test('关于我页面的首页摘要、首屏、能力、交付流程和职业履历均由后台数据驱动', async () => {
   const aboutPage = JSON.parse(await readFile(path.join(repoRoot, '.shared/content/aboutPage.json'), 'utf8'))
   const source = await readFile(path.join(repoRoot, 'components/AboutPage.vue'), 'utf8')
   const homeSource = await readFile(path.join(repoRoot, 'components/home/HomeAboutSection.vue'), 'utf8')
@@ -63,8 +63,13 @@ test('关于我页面的首页摘要、首屏、能力和交付流程均由后�
   assert.equal(aboutPage.home.highlights.length, 3)
   assert.ok(aboutPage.workbench.capabilities.length > 0)
   assert.ok(aboutPage.delivery.stages.length > 0)
+  assert.ok(aboutPage.resume.experience.length > 0)
+  assert.ok(aboutPage.resume.skills.length > 0)
   assert.match(source, /aboutPage\.workbench\?\.capabilities/)
   assert.match(source, /aboutPage\.delivery\?\.stages/)
+  assert.match(source, /aboutPage\.resume/)
+  assert.match(source, /data-testid="resume-section"/)
+  assert.match(source, /v-if="profile\.resumePdf"/)
   assert.match(homeSource, /aboutPage\.home/)
 })
 

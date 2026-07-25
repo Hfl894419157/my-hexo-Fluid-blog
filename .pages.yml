@@ -763,6 +763,83 @@ content:
                       - { name: title, label: 能力名称, type: string, required: true }
                       - { name: detail, label: 产出说明, type: text, required: true }
                       - { name: icon, component: about_icon }
+          - name: resume
+            label: 职业履历
+            type: object
+            required: true
+            fields:
+              - { name: eyebrow, label: 英文眉题, type: string, required: true }
+              - { name: title, label: 板块标题, type: string, required: true }
+              - { name: description, label: 板块说明, type: text, required: true }
+              - name: metrics
+                label: 履历摘要指标
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {value} · {label}" }
+                fields:
+                  - { name: value, label: 数字或关键词, type: string, required: true }
+                  - { name: label, label: 指标说明, type: string, required: true }
+              - name: experience
+                label: 近期工作经历
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {period} · {company}" }
+                fields:
+                  - { name: period, label: 时间, type: string, required: true }
+                  - { name: company, label: 公司, type: string, required: true }
+                  - { name: role, label: 职位, type: string, required: true }
+                  - { name: summary, label: 职责摘要, type: text, required: true }
+                  - { name: achievements, label: 关键成果, type: text, list: true, required: true }
+              - name: project
+                label: 代表项目
+                type: object
+                required: true
+                fields:
+                  - { name: year, label: 项目年份, type: string, required: true }
+                  - { name: title, label: 项目名称, type: string, required: true }
+                  - { name: role, label: 项目角色, type: string, required: true }
+                  - { name: summary, label: 项目摘要, type: text, required: true }
+                  - { name: outcomes, label: 项目成果, type: text, list: true, required: true }
+              - { name: skillsTitle, label: 能力组合标题, type: string, required: true }
+              - name: skills
+                label: 能力组合
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {title}" }
+                fields:
+                  - { name: title, label: 能力分类, type: string, required: true }
+                  - { name: items, label: 能力标签, type: string, list: true, required: true }
+              - name: education
+                label: 教育背景
+                type: object
+                required: true
+                fields:
+                  - { name: school, label: 学校, type: string, required: true }
+                  - { name: major, label: 专业, type: string, required: true }
+              - name: recognition
+                label: 近期荣誉
+                type: object
+                required: true
+                fields:
+                  - { name: title, label: 荣誉名称, type: string, required: true }
+                  - { name: year, label: 时间与来源, type: string, required: true }
+              - name: cta
+                label: 求职联系行动区
+                type: object
+                required: true
+                fields:
+                  - { name: eyebrow, label: 英文眉题, type: string, required: true }
+                  - { name: title, label: 标题, type: string, required: true }
+                  - { name: description, label: 说明, type: text, required: true }
 
       - name: profile
         label: 个人资料与联系方式

@@ -3,11 +3,17 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import {
   PhArrowDown,
   PhArrowRight,
+  PhArrowUpRight,
   PhBrowser,
+  PhBriefcase,
   PhCamera,
   PhCube,
+  PhDownloadSimple,
+  PhEnvelopeSimple,
   PhFilmSlate,
   PhFlowArrow,
+  PhGraduationCap,
+  PhMedal,
   PhPalette
 } from '@phosphor-icons/vue'
 import profile from '../.shared/content/profile.json'
@@ -44,6 +50,12 @@ const deliveryStages = (aboutPage.delivery?.stages || []).map((stage) => ({
     icon: iconComponents[item.icon] || PhPalette
   }))
 }))
+
+const resume = aboutPage.resume || {}
+const resumeMetrics = Array.isArray(resume.metrics) ? resume.metrics : []
+const resumeExperience = Array.isArray(resume.experience) ? resume.experience : []
+const resumeSkills = Array.isArray(resume.skills) ? resume.skills : []
+const contactHref = computed(() => `mailto:${profile.email}`)
 
 const activeKey = ref(capabilities[0].key)
 const activeCapability = computed(() => (
@@ -299,6 +311,137 @@ onBeforeUnmount(() => {
           </div>
         </template>
       </div>
+    </section>
+
+    <section
+      v-if="resume.title"
+      class="resume-section"
+      aria-labelledby="resume-title"
+      data-testid="resume-section"
+    >
+      <header class="resume-heading" v-reveal="reveal()">
+        <p class="resume-eyebrow">{{ resume.eyebrow }}</p>
+        <div>
+          <h2 id="resume-title">{{ resume.title }}</h2>
+          <p>{{ resume.description }}</p>
+        </div>
+      </header>
+
+      <dl class="resume-metrics" aria-label="职业履历摘要">
+        <div
+          v-for="(metric, index) in resumeMetrics"
+          :key="metric.label"
+          v-reveal="reveal(index * 70)"
+        >
+          <dt>{{ metric.value }}</dt>
+          <dd>{{ metric.label }}</dd>
+        </div>
+      </dl>
+
+      <div class="resume-feature-grid">
+        <article class="resume-career" v-reveal="reveal(70)">
+          <header class="resume-card-kicker">
+            <PhBriefcase :size="24" weight="regular" aria-hidden="true" />
+            <span>RECENT EXPERIENCE</span>
+          </header>
+
+          <ol class="resume-timeline">
+            <li v-for="item in resumeExperience" :key="`${item.period}-${item.company}`">
+              <div class="resume-timeline__marker" aria-hidden="true"></div>
+              <div class="resume-timeline__period">{{ item.period }}</div>
+              <div class="resume-timeline__content">
+                <p class="resume-timeline__role">{{ item.role }}</p>
+                <h3>{{ item.company }}</h3>
+                <p class="resume-timeline__summary">{{ item.summary }}</p>
+                <ul>
+                  <li v-for="achievement in item.achievements" :key="achievement">
+                    {{ achievement }}
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="resume-project" v-reveal="reveal(130)">
+          <div class="resume-project__topline">
+            <span>SELECTED PROJECT</span>
+            <strong>{{ resume.project.year }}</strong>
+          </div>
+          <p class="resume-project__role">{{ resume.project.role }}</p>
+          <h3>{{ resume.project.title }}</h3>
+          <p class="resume-project__summary">{{ resume.project.summary }}</p>
+          <ul>
+            <li v-for="outcome in resume.project.outcomes" :key="outcome">
+              <PhArrowUpRight :size="19" weight="bold" aria-hidden="true" />
+              <span>{{ outcome }}</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="resume-detail-grid">
+        <article class="resume-skills" v-reveal="reveal(90)">
+          <header>
+            <span>CAPABILITY MAP</span>
+            <h3>{{ resume.skillsTitle }}</h3>
+          </header>
+          <div class="resume-skill-groups">
+            <section v-for="group in resumeSkills" :key="group.title">
+              <h4>{{ group.title }}</h4>
+              <ul>
+                <li v-for="item in group.items" :key="item">{{ item }}</li>
+              </ul>
+            </section>
+          </div>
+        </article>
+
+        <div class="resume-credentials">
+          <article v-reveal="reveal(130)">
+            <PhGraduationCap :size="30" weight="regular" aria-hidden="true" />
+            <div>
+              <span>EDUCATION</span>
+              <h3>{{ resume.education.school }}</h3>
+              <p>{{ resume.education.major }}</p>
+            </div>
+          </article>
+          <article v-reveal="reveal(170)">
+            <PhMedal :size="30" weight="regular" aria-hidden="true" />
+            <div>
+              <span>RECOGNITION</span>
+              <h3>{{ resume.recognition.title }}</h3>
+              <p>{{ resume.recognition.year }}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <footer class="resume-cta" v-reveal="reveal(100)">
+        <div>
+          <p class="resume-eyebrow">{{ resume.cta.eyebrow }}</p>
+          <h3>{{ resume.cta.title }}</h3>
+          <p>{{ resume.cta.description }}</p>
+        </div>
+        <nav aria-label="职业联系">
+          <a class="resume-button resume-button--primary" :href="contactHref">
+            <PhEnvelopeSimple :size="20" weight="bold" aria-hidden="true" />
+            联系我
+          </a>
+          <a class="resume-button" href="/portfolio/">
+            查看代表作品
+            <PhArrowUpRight :size="19" weight="bold" aria-hidden="true" />
+          </a>
+          <a
+            v-if="profile.resumePdf"
+            class="resume-button"
+            :href="profile.resumePdf"
+            download
+          >
+            <PhDownloadSimple :size="20" weight="bold" aria-hidden="true" />
+            下载完整简历
+          </a>
+        </nav>
+      </footer>
     </section>
   </main>
 </template>
@@ -739,6 +882,432 @@ onBeforeUnmount(() => {
   display: none;
 }
 
+.resume-section {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-4xl);
+  padding: var(--space-3xl) var(--space-2xl);
+  border: 1px solid color-mix(in srgb, var(--brand-main) 22%, var(--border-soft));
+  border-radius: calc(var(--radius-card) + 8px);
+  background:
+    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--brand-main) 16%, transparent) 0, transparent 34%),
+    linear-gradient(145deg, color-mix(in srgb, var(--bg-card) 96%, var(--brand-main)) 0%, var(--bg-card) 52%, var(--bg-soft) 100%);
+  box-shadow: 0 28px 80px rgba(20, 18, 14, .08);
+}
+
+.resume-section::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--border-soft) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border-soft) 55%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  content: "";
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .42), transparent 48%);
+  pointer-events: none;
+}
+
+.resume-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.resume-heading {
+  display: grid;
+  grid-template-columns: minmax(180px, .45fr) minmax(0, 1.55fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.resume-eyebrow,
+.resume-card-kicker,
+.resume-project__topline,
+.resume-skills > header > span,
+.resume-credentials article span {
+  color: var(--brand-main);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.resume-heading h2 {
+  font-size: var(--text-section-title);
+  line-height: 1.14;
+}
+
+.resume-heading > div > p {
+  max-width: 720px;
+  margin-top: var(--space-sm);
+  color: var(--text-sub);
+  font-size: var(--text-lead);
+}
+
+.resume-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: var(--space-2xl) 0 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.resume-metrics > div {
+  padding: var(--space-lg) 0;
+}
+
+.resume-metrics > div + div {
+  padding-left: var(--space-xl);
+  border-left: 1px solid var(--border-soft);
+}
+
+.resume-metrics dt {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.resume-metrics dd {
+  margin: var(--space-xs) 0 0;
+  color: var(--text-sub);
+  font-size: var(--text-body);
+}
+
+.resume-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(300px, .72fr);
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.resume-career,
+.resume-project,
+.resume-skills,
+.resume-credentials article {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--bg-card) 92%, transparent);
+}
+
+.resume-career {
+  padding: var(--space-xl);
+}
+
+.resume-card-kicker {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.resume-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume-timeline > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 114px minmax(0, 1fr);
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
+}
+
+.resume-timeline__marker {
+  position: absolute;
+  top: calc(var(--space-lg) + 7px);
+  left: 110px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--bg-card);
+  border-radius: 50%;
+  background: var(--brand-main);
+  box-shadow: 0 0 0 1px var(--brand-main);
+}
+
+.resume-timeline__period {
+  color: var(--text-sub);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.resume-timeline__content {
+  padding-left: var(--space-lg);
+  border-left: 1px solid var(--border-soft);
+}
+
+.resume-timeline__role,
+.resume-project__role {
+  color: var(--brand-main);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.resume-timeline h3,
+.resume-project h3,
+.resume-skills h3,
+.resume-credentials h3,
+.resume-cta h3 {
+  color: var(--text-main);
+  font-size: var(--text-card-large);
+  line-height: 1.3;
+}
+
+.resume-timeline h3 {
+  margin-top: 4px;
+}
+
+.resume-timeline__summary {
+  margin-top: var(--space-xs);
+  color: var(--text-sub);
+}
+
+.resume-timeline ul {
+  display: grid;
+  gap: 9px;
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume-timeline ul li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--text-main);
+  font-size: var(--text-body);
+  line-height: 1.7;
+}
+
+.resume-timeline ul li::before {
+  position: absolute;
+  top: .72em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand-main);
+  content: "";
+}
+
+.resume-project {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--space-xl);
+  color: #fff8ed;
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 255, 255, .14), transparent 42%),
+    linear-gradient(155deg, color-mix(in srgb, var(--brand-main) 86%, #2b2117), color-mix(in srgb, var(--brand-main) 56%, #17130f));
+}
+
+.resume-project__topline {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  align-items: center;
+  color: rgba(255, 248, 237, .74);
+}
+
+.resume-project__topline strong {
+  color: #fff8ed;
+  font-family: var(--font-display);
+  font-size: 34px;
+  letter-spacing: -.04em;
+}
+
+.resume-project__role {
+  margin-top: auto;
+  padding-top: var(--space-2xl);
+  color: rgba(255, 248, 237, .74);
+}
+
+.resume-project h3 {
+  max-width: 440px;
+  margin-top: var(--space-xs);
+  color: #fff8ed;
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.resume-project__summary {
+  margin-top: var(--space-md);
+  color: rgba(255, 248, 237, .8);
+}
+
+.resume-project ul {
+  display: grid;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 0;
+  padding: var(--space-lg) 0 0;
+  border-top: 1px solid rgba(255, 248, 237, .2);
+  list-style: none;
+}
+
+.resume-project li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: #fff8ed;
+  font-size: var(--text-body);
+  line-height: 1.65;
+}
+
+.resume-project li svg {
+  margin-top: 4px;
+}
+
+.resume-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.resume-skills {
+  padding: var(--space-xl);
+}
+
+.resume-skills > header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  align-items: baseline;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.resume-skill-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.resume-skill-groups section {
+  min-width: 0;
+}
+
+.resume-skill-groups h4 {
+  margin: 0 0 var(--space-sm);
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: var(--text-card-title);
+}
+
+.resume-skill-groups ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume-skill-groups li {
+  padding: 7px 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.resume-credentials {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.resume-credentials article {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: start;
+  padding: var(--space-lg);
+}
+
+.resume-credentials article > svg {
+  color: var(--brand-main);
+}
+
+.resume-credentials h3 {
+  margin-top: var(--space-xs);
+  font-size: var(--text-card-title);
+}
+
+.resume-credentials p {
+  margin-top: 4px;
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+.resume-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-xl);
+  align-items: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--border-soft);
+}
+
+.resume-cta h3 {
+  margin-top: var(--space-xs);
+}
+
+.resume-cta > div > p:last-child {
+  max-width: 660px;
+  margin-top: var(--space-xs);
+  color: var(--text-sub);
+}
+
+.resume-cta nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  justify-content: flex-end;
+}
+
+.resume-button {
+  display: inline-flex;
+  gap: 8px;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-md);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-control);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.resume-button:hover {
+  border-color: var(--brand-main);
+  color: var(--brand-main);
+  transform: translateY(-2px);
+}
+
+.resume-button--primary {
+  border-color: var(--brand-main);
+  background: var(--brand-main);
+  color: #fffaf2;
+}
+
+.resume-button--primary:hover {
+  color: #fffaf2;
+}
+
 @media (max-width: 980px) {
   .about-hero {
     grid-template-columns: minmax(300px, .82fr) minmax(0, 1.18fr);
@@ -805,6 +1374,33 @@ onBeforeUnmount(() => {
 
   .delivery-arrow__mobile {
     display: block;
+  }
+
+  .resume-heading {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
+
+  .resume-feature-grid,
+  .resume-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-project__role {
+    padding-top: var(--space-xl);
+  }
+
+  .resume-credentials {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .resume-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-cta nav {
+    justify-content: flex-start;
   }
 }
 
@@ -959,6 +1555,83 @@ onBeforeUnmount(() => {
     padding: 0 0 var(--space-md);
     border-right: 0;
     border-bottom: 1px solid var(--border-soft);
+  }
+
+  .resume-section {
+    margin-bottom: var(--space-3xl);
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .resume-heading {
+    text-align: left;
+  }
+
+  .resume-heading > div > p {
+    font-size: var(--text-body);
+  }
+
+  .resume-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-metrics > div {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: var(--space-sm);
+    align-items: baseline;
+    padding: var(--space-md) 0;
+  }
+
+  .resume-metrics > div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--border-soft);
+    border-left: 0;
+  }
+
+  .resume-metrics dt {
+    font-size: 30px;
+  }
+
+  .resume-career,
+  .resume-project,
+  .resume-skills {
+    padding: var(--space-lg);
+  }
+
+  .resume-timeline > li {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+  }
+
+  .resume-timeline__marker {
+    display: none;
+  }
+
+  .resume-timeline__content {
+    padding: 0;
+    border: 0;
+  }
+
+  .resume-skill-groups {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .resume-skills > header {
+    display: block;
+  }
+
+  .resume-skills > header h3 {
+    margin-top: var(--space-xs);
+  }
+
+  .resume-credentials {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-cta nav,
+  .resume-button {
+    width: 100%;
   }
 }
 
