@@ -8,34 +8,29 @@ const capabilities = [
   {
     variant: 1,
     index: '01',
-    title: '商业视觉生成',
-    desc: '从产品事实和商业目标出发，定义可控的视觉变量，让生成结果从一开始就服务于转化。',
-    evidence: '作品、主图、详情页、视频和设计结果',
-    href: '/portfolio/'
+    title: '视觉与内容系统',
+    desc: '把品牌定位、产品信息和传播目标整理为统一的视觉语言，让每次输出服务于清晰表达与商业转化。',
+    deliverables: '品牌视觉、产品内容、主视觉与系列传播',
+    href: '/portfolio/',
+    cta: '查看相关作品'
   },
   {
     variant: 2,
     index: '02',
-    title: '流程系统化',
-    desc: '把需求、生成、精修和交付连接成可以复盘的路径，每次执行都为下一次积累判断依据。',
-    evidence: '工作流、步骤、判断点和执行模板',
-    href: '/aigc/'
-  },
-  {
-    variant: 3,
-    index: '03',
-    title: '知识资产化',
-    desc: '把有效模板、判断标准与复盘结论送回下一次项目，让经验形成真正可复用的知识资产。',
-    evidence: '文章、方法卡、Prompt、清单和资源',
-    href: '/knowledge/'
+    title: '三维与动态影像',
+    desc: '结合三维渲染、镜头设计和 AI 生成，让产品、概念与技术信息在时间维度中更容易被理解。',
+    deliverables: '三维渲染、产品动画、AI 视频与动态视觉',
+    href: '#video-showcase',
+    cta: '查看动态案例'
   },
   {
     variant: 4,
-    index: '04',
-    title: '网站与工具搭建',
-    desc: '以实践驱动为原则，完成个人实验室网站的完全自主前端开发，并探索流程自动化效率。',
-    evidence: '网站页面、前端项目和自动化实践',
-    href: '/portfolio/'
+    index: '03',
+    title: '数字体验与效率系统',
+    desc: '把内容、页面和工作方式组织成可持续使用的数字系统，兼顾体验、维护与交付效率。',
+    deliverables: '作品与品牌网站、内容架构、设计系统与 AI 工作流',
+    href: '/aigc/',
+    cta: '了解系统实践'
   }
 ]
 </script>
@@ -44,10 +39,10 @@ const capabilities = [
   <SectionShell id="capabilities">
     <div class="cap-head" v-reveal="{ y: 24, repeat: true }">
       <SectionHeader
-        :title-lines="['能力必须对应证据', '也必须产生结果']"
-        desc="不使用毫无意义的软件熟练度进度条，而是让每个专业方向连接真实内容与可复用产出。"
+        :title-lines="['三类能力，一套完整交付路径']"
+        desc="从视觉表达、动态内容到数字化落地，根据项目目标组合所需能力。"
       />
-      <BaseButton href="/knowledge/" variant="ghost">查看知识系统</BaseButton>
+      <BaseButton href="/portfolio/" variant="ghost">查看完整作品集</BaseButton>
     </div>
 
     <div class="cap-grid">
@@ -72,12 +67,12 @@ const capabilities = [
         <!-- Metrics -->
         <dl class="cap-card__metrics">
           <div>
-            <dt>证据</dt>
-            <dd>{{ item.evidence }}</dd>
+            <dt>可交付</dt>
+            <dd>{{ item.deliverables }}</dd>
           </div>
         </dl>
 
-        <span class="cap-card__cta">深入了解 →</span>
+        <span class="cap-card__cta">{{ item.cta }} →</span>
       </a>
 
     </div>
@@ -93,10 +88,10 @@ const capabilities = [
   text-align: center;
 }
 
-/* ─── 4列网格 ───────────────────────────────────────── */
+/* ─── 3列网格 ───────────────────────────────────────── */
 .cap-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-top: 44px;
 }
@@ -226,10 +221,6 @@ p {
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .cap-grid { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .cap-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

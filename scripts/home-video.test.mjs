@@ -5,7 +5,8 @@ import yaml from 'js-yaml'
 import {
   buildBilibiliEmbedUrl,
   extractBilibiliId,
-  normalizeHomeVideoCases
+  normalizeHomeVideoCases,
+  normalizeHomeVideoPlaceholderCases
 } from '../.shared/videoClient.js'
 
 const videoContent = JSON.parse(
@@ -70,6 +71,35 @@ test('首页只保留已发布、完整且有效的前四条视频', () => {
     { ...valid, id: 'invalid', url: 'https://example.com/video/BV1xx411c7mD' }
   ])
   assert.deepEqual(cases.map((item) => item.id), ['video-2', 'video-3', 'video-4', 'video-5'])
+})
+
+test('没有正式视频时可以使用资料完整的草稿生成公开占位案例', () => {
+  const placeholders = normalizeHomeVideoPlaceholderCases([
+    {
+      id: 'draft-1',
+      published: false,
+      title: '占位案例',
+      category: '三维渲染视频',
+      description: '用于展示首页视频版式。',
+      poster: '/images/uploads/video.jpg',
+      url: '',
+      duration: '00:36'
+    },
+    {
+      id: 'draft-2',
+      published: false,
+      title: '',
+      category: 'AI 制作视频',
+      description: '标题缺失时不展示。',
+      poster: '/images/uploads/video-2.jpg',
+      url: '',
+      duration: ''
+    }
+  ])
+
+  assert.deepEqual(placeholders.map((item) => item.id), ['draft-1'])
+  assert.equal(placeholders[0].url, '')
+  assert.equal(placeholders[0].bvid, '')
 })
 
 test('Pages CMS 提供首页视频案例管理入口和完整字段', () => {

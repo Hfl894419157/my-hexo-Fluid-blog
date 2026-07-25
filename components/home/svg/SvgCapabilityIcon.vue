@@ -29,23 +29,20 @@ const props = defineProps({
     <line x1="8"  y1="20" x2="14" y2="23" stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
   </svg>
 
-  <!-- Variant 2: Network / Workflow System -->
+  <!-- Variant 2: Motion / Dynamic Visual -->
   <svg v-else-if="variant === 2" class="cap-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-    <!-- Node circles -->
-    <circle cx="32" cy="12" r="7" fill="var(--brand-main)" fill-opacity="0.75"/>
-    <circle cx="12" cy="48" r="7" fill="var(--brand-main)" fill-opacity="0.5"/>
-    <circle cx="52" cy="48" r="7" fill="var(--brand-main)" fill-opacity="0.5"/>
-    <!-- Connecting lines -->
-    <line x1="32" y1="19" x2="17" y2="42" stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.45"/>
-    <line x1="32" y1="19" x2="47" y2="42" stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.45"/>
-    <line x1="19" y1="48" x2="45" y2="48" stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.35"/>
-    <!-- Mid dots on lines -->
-    <circle cx="24" cy="30" r="2.5" fill="var(--brand-main)" opacity="0.55"/>
-    <circle cx="40" cy="30" r="2.5" fill="var(--brand-main)" opacity="0.55"/>
-    <circle cx="32" cy="48" r="2.5" fill="var(--brand-main)" opacity="0.55"/>
-    <!-- Outer frame -->
-    <rect x="4" y="4" width="56" height="56" rx="8"
-      stroke="var(--brand-main)" stroke-width="1" stroke-opacity="0.15" fill="none" stroke-dasharray="4 4"/>
+    <rect x="7" y="13" width="50" height="38" rx="7"
+      fill="var(--brand-main)" fill-opacity="0.08"
+      stroke="var(--brand-main)" stroke-width="1.5" stroke-opacity="0.45"/>
+    <path d="M27 24.5 L42 32 L27 39.5 Z"
+      fill="var(--brand-main)" fill-opacity="0.72"/>
+    <path d="M13 9 C23 3 41 3 51 9"
+      stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.45"/>
+    <path d="M47 5 L52 9 L47 12"
+      stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.55"/>
+    <line x1="14" y1="56" x2="50" y2="56"
+      stroke="var(--brand-main)" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.35"/>
+    <circle cx="24" cy="56" r="3" fill="var(--brand-main)" fill-opacity="0.7"/>
   </svg>
 
   <!-- Variant 3: Knowledge / Stacked Library -->
