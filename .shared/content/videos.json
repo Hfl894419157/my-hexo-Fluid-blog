@@ -7,11 +7,12 @@
       "category": "三维渲染视频",
       "description": "以产品建模、材质、光影与镜头节奏建立工业品的结构感和质感。",
       "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/101.png",
+      "url": "https://www.bilibili.com/video/BV1zj411s7di/?vd_source=d4c29e058d2afb3559cd15df92266be1",
       "duration": "00:30–01:00"
     },
     {
       "id": "c8a1ecb4-1c14-48e5-bdb8-965582e4e90b",
-      "published": true,
+      "published": false,
       "title": "产品材质与细节演示",
       "category": "三维渲染视频",
       "description": "用近景运镜和材质变化呈现产品细节，适合品牌展示与电商传播。",
@@ -20,7 +21,7 @@
     },
     {
       "id": "135a0fb4-a72e-45e9-92c4-41b531004af7",
-      "published": true,
+      "published": false,
       "title": "AI 工业场景视觉短片",
       "category": "AI 制作视频",
       "description": "将产品事实与 AI 场景生成结合，快速探索更具传播力的动态方向。",
