@@ -1,11 +1,12 @@
 <script setup>
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
-import { formatCardNumber, normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
+import { normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
 import homeSelectionsRaw from '../../.shared/content/home.json'
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import ImagePlaceholder from '../ImagePlaceholder.vue'
+import HomeVideoShowcase from './HomeVideoShowcase.vue'
 import { getStackCardStyle, useStackWall } from './useStackWall.js'
 
 const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
@@ -18,9 +19,9 @@ const caseWall = useStackWall('.case-wall__card')
     <div class="case-wall__head" v-reveal="{ y: 24, repeat: true }">
       <SectionHeader
         :title-lines="['先看结果', '再理解它为什么成立']"
-        desc="每个作品把结果、判断和上下文放在同一条证据链上。向下滚动，项目会依次进入视野。"
+        desc="从品牌视觉到三维渲染，代表作品先呈现最终成果，动态内容继续补充画面在时间维度中的表达。"
       />
-      <BaseButton href="/portfolio/" variant="ghost">全部作品</BaseButton>
+      <BaseButton href="/portfolio/" variant="ghost">查看完整作品集</BaseButton>
     </div>
 
     <div
@@ -48,7 +49,6 @@ const caseWall = useStackWall('.case-wall__card')
             />
           </a>
           <div class="case-wall__copy">
-            <span class="case-wall__number">{{ formatCardNumber(index + 1) }} / {{ formatCardNumber(cases.length) }}</span>
             <h3>{{ item.title }}</h3>
             <p>{{ item.desc }}</p>
             <div class="case-wall__tags">
@@ -65,6 +65,8 @@ const caseWall = useStackWall('.case-wall__card')
       </template>
       <div v-if="!cases.length" class="case-wall__empty" role="status">内容整理中</div>
     </div>
+
+    <HomeVideoShowcase />
   </SectionShell>
 </template>
 
@@ -98,8 +100,8 @@ const caseWall = useStackWall('.case-wall__card')
   transform-origin: center top;
   will-change: transform, filter;
 }
-.case-wall__spacer { height: clamp(300px, 52vh, 480px); }
-.case-wall__spacer--last { height: clamp(240px, 34vh, 340px); }
+.case-wall__spacer { height: clamp(180px, 30vh, 280px); }
+.case-wall__spacer--last { height: clamp(120px, 18vh, 180px); }
 .case-wall--static { display: grid; gap: 20px; }
 .case-wall__empty { display: grid; min-height: 220px; place-content: center; border: 1px dashed var(--border-soft); border-radius: 18px; background: var(--bg-soft); color: var(--text-muted); font-size: 15px; letter-spacing: .08em; }
 .case-wall--static .case-wall__card {
@@ -120,8 +122,7 @@ const caseWall = useStackWall('.case-wall__card')
 .case-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 4 / 3; border: 0; border-right: 1px solid var(--border-soft); }
 .case-wall__media :deep(.image-slot .image-slot__image) { object-fit: cover; }
 .case-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
-.case-wall__number { color: var(--brand-main); font: 700 11px/1 var(--font-mono); letter-spacing: .14em; }
-.case-wall h3 { margin: 20px 0 0; font-size: 34px; line-height: 1.3; }
+.case-wall h3 { margin: 0; font-size: 34px; line-height: 1.3; }
 .case-wall p { margin: 18px 0 0; color: var(--text-sub); font-size: 14px; line-height: 1.85; }
 .case-wall__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
 .case-wall__tags span { padding: 7px 9px; border: 1px solid var(--border-soft); border-radius: 7px; background: var(--bg-soft); color: var(--text-sub); font-size: 11px; font-weight: 600; }

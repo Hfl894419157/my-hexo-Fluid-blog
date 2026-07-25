@@ -5,19 +5,16 @@ import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
 import SvgWorkflowStep from './svg/SvgWorkflowStep.vue'
 import { data as contentCatalog } from '../../.shared/content.data.mjs'
-import { formatCardNumber, normalizeHomeSelections, resolveSelections } from '../../.shared/contentClient.js'
+import { normalizeHomeSelections, resolveVisibleSelections } from '../../.shared/contentClient.js'
 import homeSelectionsRaw from '../../.shared/content/home.json'
-import { getStackCardStyle, useStackWall } from './useStackWall.js'
 
 const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
-const featuredWorkflows = resolveSelections(
+const featuredWorkflows = resolveVisibleSelections(
   contentCatalog.workflows,
   homeSelections.featuredWorkflows,
   3
 )
-const workflowWall = useStackWall('.wf-wall__card')
 
-// 统一的五阶段 AI 视觉工作流底座
 const paradigms = [
   {
     id: 'input',
@@ -37,107 +34,126 @@ const paradigms = [
     id: 'generation',
     iconNum: 3,
     title: '方向生成与迭代',
-    desc: '多模型协同组合，围绕已锁定的核心变量展开大量高品质创意探索，拓宽方案空间。',
-    proof: '高效率扩充方案方案池'
+    desc: '多模型协同组合，围绕已锁定的核心变量展开高品质创意探索，拓宽方案空间。',
+    proof: '高效率扩充方案池'
   },
   {
     id: 'judgment',
     iconNum: 4,
     title: '人工判断与精修',
-    desc: '人脑审美与逻辑把关。进行局部图层重绘、多轨拼接与后期像素级精细打磨，保障高质量交付。',
-    proof: '人机审美与算力的高精咬合'
+    desc: '由人工审美与逻辑把关，进行局部重绘、多轨拼接与后期精细打磨，保障高质量交付。',
+    proof: '人机审美与算力协同'
   },
   {
     id: 'compounding',
     iconNum: 5,
     title: '资产沉淀与复利',
-    desc: '将交付项目中被验证的 Prompt、参数模板和检查清单送回工具与资源，让每次交付产生资产复利。',
-    proof: '构建越用越聪明的专有生产库'
+    desc: '将项目中被验证的 Prompt、参数模板和检查清单送回资源库，让每次交付产生资产复利。',
+    proof: '构建可持续生产资产'
   }
 ]
 </script>
 
 <template>
   <SectionShell id="workflow" tone="soft">
-    <!-- ① 标题区：重塑对 AI 工作流程的从容发散 -->
-    <div class="wf-head" v-reveal="{ delay: 0, y: 24, repeat: true }">
+    <div class="wf-head" v-reveal="{ y: 24, repeat: true }">
       <SectionHeader
         :title-lines="['由实践驱动的五阶段工作流', '让 AI 生产进入确定性轨道']"
-        desc="从需求输入、变量拆解、方向生成，到人工介入判断与最终的资产化沉淀。我不相信单次随机生成的“奇迹”，而是将每次任务整理为可重复的交付流程。"
+        desc="从需求输入、变量拆解、方向生成，到人工判断与资产化沉淀，把每次任务整理为可以重复执行的交付流程。"
       />
-      <BaseButton href="/aigc/" variant="ghost">探索协同工作流</BaseButton>
+      <BaseButton href="/aigc/" variant="ghost">探索完整工作流</BaseButton>
     </div>
 
-    <!-- ② 原版 5 列卡片网格 (100% 完美恢复，仅引入 v-reveal 滚动渐显) -->
-    <div class="wf-grid">
-      <article 
-        v-for="(item, idx) in paradigms" 
-        :key="item.id" 
+    <div class="wf-grid" aria-label="五阶段工作流">
+      <article
+        v-for="(item, idx) in paradigms"
+        :key="item.id"
         class="wf-card"
-        v-reveal="{ delay: idx * 70, y: 24, repeat: true }"
+        v-reveal="{ delay: idx * 60, y: 22, repeat: true }"
       >
-        <!-- SVG 图标概念性图示 -->
         <div class="wf-card__icon">
+          <span class="wf-card__step">{{ String(idx + 1).padStart(2, '0') }}</span>
           <SvgWorkflowStep :step="item.iconNum" />
         </div>
-
-        <!-- 文本内容 -->
         <div class="wf-card__copy">
           <h3>{{ item.title }}</h3>
           <p class="wf-card__desc">{{ item.desc }}</p>
           <div class="wf-card__proof">
             <span class="wf-dot"></span>
-            <strong>核心：{{ item.proof }}</strong>
+            <strong>{{ item.proof }}</strong>
           </div>
         </div>
       </article>
     </div>
 
     <section v-if="featuredWorkflows.length" class="wf-featured" aria-labelledby="featured-workflows-title">
-      <div class="wf-featured__head">
-        <div>
-          <h3 id="featured-workflows-title">精选工作流</h3>
-        </div>
+      <header class="wf-featured__head">
+        <h3 id="featured-workflows-title">从真实项目查看完整拆解</h3>
         <BaseButton href="/aigc/" variant="text">查看全部工作流 →</BaseButton>
-      </div>
-      <div
-        ref="workflowWall"
-        class="wf-wall"
-        :class="{ 'wf-wall--static': featuredWorkflows.length < 2 }"
-      >
-        <template v-for="(item, index) in featuredWorkflows" :key="item.sourcePath">
-          <article class="wf-wall__card" :style="getStackCardStyle(index)">
-            <a class="wf-wall__media" :href="item.link" :aria-label="`进入工作流：${item.title}`">
-              <ImagePlaceholder
-                :src="item.homeCover"
-                :alt="item.coverAlt"
-                :subject="item.imageSubject"
-                :filename="item.imageFilename"
-                aspect="16 / 10"
-                profile="homeMobile"
-                desktop-profile="homeWorkflowDesktop"
-                :focal-point="item.coverFocalPoint"
-                sizes="(max-width: 899px) calc(100vw - 48px), 748px"
-              />
-            </a>
-            <div class="wf-wall__copy">
-              <span class="wf-wall__number">
-                {{ formatCardNumber(index + 1) }} / {{ formatCardNumber(featuredWorkflows.length) }}
-              </span>
-              <h4>{{ item.title }}</h4>
-              <p>{{ item.desc }}</p>
-              <div class="wf-wall__tags">
-                <span v-for="tag in item.tags" :key="tag">{{ tag }}</span>
-              </div>
-              <a class="wf-wall__link" :href="item.link">进入工作流 <span aria-hidden="true">→</span></a>
+      </header>
+
+      <div class="wf-examples">
+        <article
+          v-for="(item, index) in featuredWorkflows"
+          :key="item.sourcePath"
+          class="wf-example"
+          :class="{ 'wf-example--planned': item.status === 'planned' }"
+          v-reveal="{ delay: index * 70, y: 22, repeat: true }"
+        >
+          <a
+            v-if="item.link"
+            class="wf-example__media"
+            :href="item.link"
+            :aria-label="`进入工作流：${item.title}`"
+          >
+            <ImagePlaceholder
+              :src="item.homeCover"
+              :alt="item.coverAlt"
+              :subject="item.imageSubject"
+              :filename="item.imageFilename"
+              aspect="16 / 9"
+              profile="homeMobile"
+              desktop-profile="homeWorkflowDesktop"
+              :focal-point="item.coverFocalPoint"
+              sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 46vw, 380px"
+            />
+          </a>
+          <div v-else class="wf-example__media" aria-hidden="true">
+            <ImagePlaceholder
+              v-if="item.homeCover"
+              :src="item.homeCover"
+              alt=""
+              :subject="item.imageSubject"
+              :filename="item.imageFilename"
+              aspect="16 / 9"
+              profile="homeMobile"
+              desktop-profile="homeWorkflowDesktop"
+              :focal-point="item.coverFocalPoint"
+              sizes="(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 46vw, 380px"
+            />
+            <div v-else class="wf-example__placeholder">
+              <svg viewBox="0 0 180 100" fill="none">
+                <path d="M24 50h32m68 0h32M56 50l20-24m-20 24 20 24m48-24-20-24m20 24-20 24" />
+                <circle cx="24" cy="50" r="8" />
+                <circle cx="90" cy="18" r="8" />
+                <circle cx="90" cy="82" r="8" />
+                <circle cx="156" cy="50" r="8" />
+              </svg>
             </div>
-          </article>
-          <div
-            class="wf-wall__spacer"
-            :class="{ 'wf-wall__spacer--last': index === featuredWorkflows.length - 1 }"
-            aria-hidden="true"
-          />
-        </template>
+          </div>
+
+          <div class="wf-example__copy">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.desc }}</p>
+            <div v-if="item.tags.length" class="wf-example__tags">
+              <span v-for="tag in item.tags.slice(0, 4)" :key="tag">{{ tag }}</span>
+            </div>
+            <a v-if="item.link" class="wf-example__link" :href="item.link">
+              进入工作流 <span aria-hidden="true">→</span>
+            </a>
+            <span v-else class="wf-example__status">内容筹备中</span>
+          </div>
+        </article>
       </div>
     </section>
   </SectionShell>
@@ -152,17 +168,30 @@ const paradigms = [
   text-align: center;
 }
 
-/* ─── 原版 5 列卡片平铺网格 ───────────────────────────────── */
 .wf-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
   margin-top: 48px;
 }
 
-/* ─── 卡片样式 ───────────────────────────────────────── */
+.wf-grid::before {
+  position: absolute;
+  z-index: 0;
+  top: 55px;
+  right: 9%;
+  left: 9%;
+  height: 1px;
+  background: color-mix(in srgb, var(--brand-main) 28%, var(--border-soft));
+  content: '';
+}
+
 .wf-card {
+  position: relative;
+  z-index: 1;
   display: flex;
+  min-width: 0;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--border-soft);
@@ -183,71 +212,76 @@ const paradigms = [
   transform: translateY(-4px);
 }
 
-/* 图标区域 */
 .wf-card__icon {
+  position: relative;
   display: flex;
+  min-height: 110px;
   align-items: center;
   justify-content: center;
-  padding: 28px 20px 20px;
-  min-height: 120px;
+  padding: 22px 18px 16px;
+  border-bottom: 1px solid var(--border-soft);
   background: linear-gradient(160deg,
     color-mix(in srgb, var(--brand-main) 4%, var(--bg-soft)),
     var(--bg-card));
-  border-bottom: 1px solid var(--border-soft);
 }
 
-.wf-card__icon :deep(svg) {
-  width: 68px;
-  height: 68px;
+.wf-card__step {
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  color: var(--brand-main);
+  font: 700 10px/1 var(--font-mono);
+  letter-spacing: .1em;
 }
 
-/* 内容区域 */
+.wf-card__icon :deep(svg) { width: 62px; height: 62px; }
+
 .wf-card__copy {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  flex-grow: 1;
-  padding: 24px;
+  padding: 22px 20px;
 }
 
-h3 {
+.wf-card h3 {
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(20px, 1.8vw, 26px);
+  font-size: clamp(19px, 1.65vw, 24px);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .wf-card__desc {
-  margin: 14px 0 0;
+  flex: 1;
+  margin: 13px 0 0;
   color: var(--text-sub);
-  font-size: var(--text-small);
-  line-height: 1.85;
-  flex-grow: 1;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .wf-card__proof {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 18px;
+  padding-top: 14px;
   border-top: 1px dashed var(--border-soft);
 }
 
 .wf-dot {
   width: 5px;
   height: 5px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--brand-main);
-  flex-shrink: 0;
-  opacity: 0.8;
 }
 
 .wf-card__proof strong {
   color: var(--text-main);
-  font-size: var(--text-label);
+  font-size: 11px;
   font-weight: 500;
+  line-height: 1.5;
 }
 
 .wf-featured {
@@ -259,130 +293,182 @@ h3 {
 
 .wf-featured__head {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
 }
 
 .wf-featured__head h3 {
-  margin-top: 0;
-  font-size: 26px;
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: clamp(25px, 2.4vw, 32px);
+  line-height: 1.3;
 }
 
-.wf-wall {
-  width: 100%;
-  margin-top: 24px;
-}
-
-.wf-wall__card {
-  --stack-scale: 1;
-  --stack-lift: 0px;
-  --stack-brightness: 1;
-  --stack-blur: 0px;
-  position: sticky;
-  top: var(--sticky-offset);
-  z-index: calc(10 + var(--stack-index));
+.wf-examples {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, min(432px, 40%));
-  width: 100%;
-  height: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.wf-example {
+  display: flex;
   min-width: 0;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--border-soft);
-  border-radius: 18px;
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  transition:
+    opacity var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.wf-example:not(.wf-example--planned):hover {
+  border-color: color-mix(in srgb, var(--brand-main) 34%, var(--border-soft));
+  box-shadow: var(--shadow-card);
+  transform: translateY(-3px);
+}
+
+.wf-example--planned {
+  border-style: dashed;
+  background: color-mix(in srgb, var(--bg-soft) 58%, var(--bg-card));
+}
+
+.wf-example__media {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-soft);
+}
+
+.wf-example__media :deep(.image-slot) {
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.wf-example__media :deep(.image-slot__image) { object-fit: cover; }
+
+.wf-example__placeholder {
+  display: grid;
+  height: 100%;
+  place-items: center;
   background:
-    linear-gradient(var(--bg-card), var(--bg-card)),
-    var(--bg-page);
-  box-shadow: 0 28px 80px color-mix(in srgb, var(--text-main) 12%, transparent);
-  filter: brightness(var(--stack-brightness)) blur(var(--stack-blur, 0px));
-  transform: translateY(var(--stack-lift)) scale(var(--stack-scale));
-  transform-origin: center top;
-  will-change: transform, filter;
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--brand-main) 9%, transparent), transparent 34%),
+    linear-gradient(145deg, var(--bg-soft), var(--bg-card));
 }
 
-.wf-wall__spacer { height: clamp(300px, 52vh, 480px); }
-.wf-wall__spacer--last { height: clamp(240px, 34vh, 340px); }
-.wf-wall--static { display: grid; gap: 20px; }
-.wf-wall--static .wf-wall__card {
-  position: static;
-  filter: none;
-  transform: none;
-  will-change: auto;
+.wf-example__placeholder svg {
+  width: min(54%, 190px);
+  color: var(--brand-main);
+  opacity: .46;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
 }
-.wf-wall--static .wf-wall__spacer { display: none; }
-.wf-wall__media { display: block; min-width: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg-soft); }
-.wf-wall__media :deep(.image-slot) { height: 100%; aspect-ratio: 4 / 3; border: 0; border-right: 1px solid var(--border-soft); }
-.wf-wall__media :deep(.image-slot__image) { object-fit: cover; }
-.wf-wall__copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 46px 42px; }
-.wf-wall__number { color: var(--brand-main); font: 700 11px/1 var(--font-mono); letter-spacing: .14em; }
-.wf-wall h4 { margin: 20px 0 0; color: var(--text-main); font-family: var(--font-display); font-size: 34px; line-height: 1.3; }
-.wf-wall p { margin: 18px 0 0; color: var(--text-sub); font-size: 14px; line-height: 1.85; }
-.wf-wall__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.wf-wall__tags span { padding: 7px 9px; border: 1px solid var(--border-soft); border-radius: 7px; background: var(--bg-soft); color: var(--text-sub); font-size: 11px; font-weight: 600; }
-.wf-wall__link { width: fit-content; margin-top: 34px; color: var(--brand-main); font-size: 14px; font-weight: 700; text-decoration: none; }
-.wf-wall__link span { display: inline-block; margin-left: 5px; transition: transform 180ms ease; }
-.wf-wall__link:hover span { transform: translateX(4px); }
 
-/* ─── 响应式自适应 ─────────────────────────────────────── */
+.wf-example__copy {
+  display: flex;
+  min-height: 300px;
+  flex: 1;
+  flex-direction: column;
+  padding: 28px 26px 30px;
+}
+
+.wf-example h4 {
+  margin: 0;
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: clamp(21px, 1.8vw, 26px);
+  line-height: 1.42;
+}
+
+.wf-example p {
+  display: -webkit-box;
+  margin: 14px 0 0;
+  overflow: hidden;
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.75;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.wf-example__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.wf-example__tags span {
+  padding: 6px 8px;
+  border: 1px solid var(--border-soft);
+  border-radius: 7px;
+  background: var(--bg-soft);
+  color: var(--text-sub);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.wf-example__link,
+.wf-example__status {
+  width: fit-content;
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.wf-example__link {
+  color: var(--brand-main);
+  text-decoration: none;
+}
+
+.wf-example__link span { display: inline-block; transition: transform 180ms ease; }
+.wf-example__link:hover span { transform: translateX(4px); }
+.wf-example__status { color: var(--text-muted); }
+
 @media (max-width: 1024px) {
-  .wf-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
+  .wf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .wf-grid::before { display: none; }
+  .wf-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 899px) {
-  .wf-wall { display: grid; gap: 20px; }
-  .wf-wall__card {
-    position: static;
-    height: auto;
-    grid-template-columns: 1fr;
-    filter: none;
-    transform: none;
-    will-change: auto;
-  }
-  .wf-wall__spacer { display: none; }
-  .wf-wall__media { aspect-ratio: 16 / 10; }
-  .wf-wall__media :deep(.image-slot) { height: auto; aspect-ratio: 16 / 10; border-right: 0; border-bottom: 1px solid var(--border-soft); }
-  .wf-wall__copy { padding: 30px 26px 34px; }
-  .wf-wall h4 { font-size: 27px; }
+@media (max-width: 700px) {
+  .wf-featured__head { align-items: start; flex-direction: column; }
+  .wf-examples { grid-template-columns: 1fr; }
+  .wf-example__copy { min-height: 0; }
 }
 
 @media (max-width: 560px) {
   .wf-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    display: flex;
+    overflow-x: auto;
+    gap: 14px;
+    padding: 2px 2px 10px;
+    scroll-snap-type: x mandatory;
   }
-  .wf-featured__head { align-items: start; flex-direction: column; }
+
+  .wf-card {
+    min-width: min(286px, 80vw);
+    scroll-snap-align: start;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wf-card {
-    transition: none;
-  }
-  .wf-card:hover {
-    transform: none;
-  }
-  .wf-wall { display: grid; gap: 20px; }
-  .wf-wall__card {
-    position: static;
-    height: auto;
-    filter: none;
-    transform: none;
-    will-change: auto;
-  }
-  .wf-wall__spacer { display: none; }
-}
-
-@supports not (position: sticky) {
-  .wf-wall { display: grid; gap: 20px; }
-  .wf-wall__card {
-    position: static;
-    height: auto;
-    filter: none;
-    transform: none;
-    will-change: auto;
-  }
-  .wf-wall__spacer { display: none; }
+  .wf-card,
+  .wf-example { transition: none; }
+  .wf-card:hover,
+  .wf-example:hover { transform: none; }
 }
 </style>

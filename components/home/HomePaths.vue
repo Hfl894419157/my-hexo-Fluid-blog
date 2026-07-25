@@ -4,24 +4,24 @@ import SectionShell from '../SectionShell.vue'
 const paths = [
   {
     key: 'outcomes',
-    title: '看成果',
-    desc: '查看真实项目、个人角色、关键判断和最终交付。',
+    title: '视觉与内容系统',
+    desc: '查看品牌、产品与商业视觉的最终成果，以及它们服务的传播目标。',
     href: '/portfolio/',
-    label: '查看实践作品 →',
+    label: '查看代表作品 →',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>`
   },
   {
     key: 'process',
-    title: '看过程',
-    desc: '查看需求如何拆解、变量如何控制、结果如何筛选。',
+    title: 'AI 与动态生产',
+    desc: '查看需求如何拆解、变量如何控制，以及静态与动态内容如何稳定交付。',
     href: '/aigc/',
     label: '探索生产流程 →',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`
   },
   {
     key: 'accumulation',
-    title: '看积累',
-    desc: '查看研究笔记、方法指南、软件、模板和验证资源。',
+    title: '知识与效率资产',
+    desc: '查看研究笔记、方法指南、工具、模板和进入下一次项目的验证资源。',
     href: '/knowledge/',
     label: '进入知识系统 →',
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path></svg>`
@@ -134,10 +134,24 @@ p {
 @media (max-width: 900px) {
   .paths-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
   .path-card {
-    padding: 28px;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 20px;
+    padding: 24px;
   }
+  .path-card__icon { margin-bottom: 0; }
+  .path-card__cta { margin-top: 16px; }
+}
+
+@media (max-width: 480px) {
+  .path-card {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 16px;
+    padding: 22px 20px;
+  }
+  .path-card__icon { width: 44px; height: 44px; }
 }
 </style>

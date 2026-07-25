@@ -1,9 +1,9 @@
 <script setup>
 import OverviewPage from '../components/OverviewPage.vue'
 import { data as contentCatalog } from '../.shared/content.data.mjs'
-import { visibleContent } from '../.shared/contentClient.js'
+import { publishedContent } from '../.shared/contentClient.js'
 
-const items = visibleContent(contentCatalog.cases)
+const items = publishedContent(contentCatalog.cases)
   .slice()
   .sort((left, right) => String(right.createdAt || '').localeCompare(String(left.createdAt || '')))
   .map((item) => ({

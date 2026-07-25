@@ -1,5 +1,6 @@
 <script setup>
 import ContentCard from './ContentCard.vue'
+import PageHero from './PageHero.vue'
 
 defineProps({
   titleLines: { type: Array, required: true },
@@ -14,6 +15,12 @@ defineProps({
 
 <template>
   <div class="overview-page">
+    <PageHero
+      :title-lines="titleLines"
+      :description="description"
+      :visual="visual"
+      :topics="topics"
+    />
     <slot name="before-list" />
     <section class="overview-content">
       <header class="overview-content__head">

@@ -37,7 +37,7 @@ export const useStackWall = (cardSelector) => {
       return
     }
 
-    const approachStart = window.innerHeight * 0.88
+    const approachStart = window.innerHeight * 0.84
 
     cards.forEach((card, index) => {
       const nextCard = cards[index + 1]
@@ -55,10 +55,10 @@ export const useStackWall = (cardSelector) => {
       const distance = Math.max(approachStart - nextStickyTop, 1)
       const progress = Math.min(Math.max((approachStart - nextTop) / distance, 0), 1)
 
-      card.style.setProperty('--stack-scale', String(1 - progress * 0.025))
-      card.style.setProperty('--stack-lift', `${progress * -8}px`)
-      card.style.setProperty('--stack-brightness', String(1 - progress * 0.12))
-      card.style.setProperty('--stack-blur', `${(progress * 12).toFixed(1)}px`)
+      card.style.setProperty('--stack-scale', String(1 - progress * 0.015))
+      card.style.setProperty('--stack-lift', `${progress * -5}px`)
+      card.style.setProperty('--stack-brightness', String(1 - progress * 0.07))
+      card.style.setProperty('--stack-blur', `${(progress * 2.5).toFixed(1)}px`)
     })
   }
 

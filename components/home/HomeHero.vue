@@ -27,7 +27,7 @@ import DotField from './DotField.vue'
         </h1>
 
         <p class="home-hero__lead hero-fade-in-item" style="--hero-delay: 100ms">
-          这里记录真实作品、方法判断、生产流程及经验证的资源。
+          商业视觉设计师与 AI 全流程创作者，覆盖品牌、电商、三维、动态影像与数字化落地。
         </p>
 
         <div class="home-hero__actions hero-fade-in-item" style="--hero-delay: 200ms">

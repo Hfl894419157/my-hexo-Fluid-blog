@@ -62,7 +62,7 @@ test('播放器地址支持静音自动播放并且不泄露原始参数', () =>
   assert.equal(url.searchParams.has('spm_id_from'), false)
 })
 
-test('用户点击播放时可以生成非静音的本页播放器地址', () => {
+test('用户点击播放时生成非静音的本页播放器地址', () => {
   const embed = buildBilibiliEmbedUrl(
     'https://www.bilibili.com/video/BV1xx411c7mD',
     { autoplay: true, muted: false }
@@ -83,14 +83,17 @@ test('首页播放器原位加载并按视口、设备与用户偏好控制自�
   assert.match(showcaseSource, /desktopQuery\?\.matches/)
   assert.match(showcaseSource, /!reducedMotionQuery\?\.matches/)
   assert.match(showcaseSource, /!connection\?\.saveData/)
+  assert.match(showcaseSource, /class="video-stage__stop"/)
   assert.doesNotMatch(showcaseSource, /<dialog/)
-  assert.doesNotMatch(showcaseSource, /前往哔哩哔哩观看/)
+  assert.doesNotMatch(showcaseSource, /动态作品选集/)
 })
 
-test('单条视频使用紧凑入口，多条视频继续使用动态列数', () => {
-  assert.match(showcaseSource, /'video-list--single': cases\.length === 1/)
+test('单条视频仍显示缩略卡，多条视频使用动态列数', () => {
+  assert.match(showcaseSource, /ref="videoList"/)
+  assert.match(showcaseSource, /const listMaxWidth = computed/)
   assert.match(showcaseSource, /--video-card-columns/)
-  assert.match(showcaseSource, /\.video-list--single\s*\{[\s\S]*?minmax\(0, 320px\)/)
+  assert.match(showcaseSource, /--video-list-max-width/)
+  assert.match(showcaseSource, /width: min\(var\(--video-list-max-width\), 100%\)/)
 })
 
 test('首页只保留已发布、完整且有效的前四条视频', () => {

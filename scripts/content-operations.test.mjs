@@ -6,7 +6,7 @@ import path from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
-import { latestPublished, normalizeHomeSelections, resolveSelections } from '../.shared/contentClient.js'
+import { latestPublished, normalizeHomeSelections, resolveSelections, resolveVisibleSelections } from '../.shared/contentClient.js'
 import { getPageClass, isManagedContentPath, normalizeContentData, normalizePortfolioGalleryLayout } from '../.shared/contentSchema.mjs'
 import { collectContentRedirects, parseRenameLog, resolveRenameChains } from './lib/content-history.mjs'
 
@@ -42,7 +42,7 @@ test('五个内容集合开放文件名、重命名和删除，并使用稳定 c
   assert.ok(referenceFields.every((field) => field.options.value === '{fields.contentId}'))
 })
 
-test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、个人资料和 PDF 媒体', async () => {
+test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、关于页、个人资料和 PDF 媒体', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const groups = (config.content || []).filter((entry) => entry.type === 'group')
   assert.ok(groups.some((entry) => entry.name === 'knowledge_content'))
@@ -50,7 +50,22 @@ test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、个人资
   const entries = flattenContent(config.content || [])
   assert.ok(entries.some((entry) => entry.name === 'faq' && entry.path === '.shared/content/faq.json'))
   assert.ok(entries.some((entry) => entry.name === 'profile' && entry.path === '.shared/content/profile.json'))
+  assert.ok(entries.some((entry) => entry.name === 'about_page' && entry.path === '.shared/content/aboutPage.json'))
+  assert.ok(!entries.some((entry) => entry.name === 'about_cards'))
   assert.ok((config.media || []).some((entry) => entry.name === 'documents' && entry.extensions.includes('pdf')))
+})
+
+test('关于我页面的首页摘要、首屏、能力和交付流程均由后台数据驱动', async () => {
+  const aboutPage = JSON.parse(await readFile(path.join(repoRoot, '.shared/content/aboutPage.json'), 'utf8'))
+  const source = await readFile(path.join(repoRoot, 'components/AboutPage.vue'), 'utf8')
+  const homeSource = await readFile(path.join(repoRoot, 'components/home/HomeAboutSection.vue'), 'utf8')
+
+  assert.equal(aboutPage.home.highlights.length, 3)
+  assert.ok(aboutPage.workbench.capabilities.length > 0)
+  assert.ok(aboutPage.delivery.stages.length > 0)
+  assert.match(source, /aboutPage\.workbench\?\.capabilities/)
+  assert.match(source, /aboutPage\.delivery\?\.stages/)
+  assert.match(homeSource, /aboutPage\.home/)
 })
 
 test('首页配置缺少空字段时自动补齐', () => {
@@ -61,14 +76,21 @@ test('首页配置缺少空字段时自动补齐', () => {
   })
 })
 
-test('首页选择同时兼容 contentId 和旧 sourcePath', () => {
+test('首页选择同时兼容 contentId、旧 sourcePath 和工作流筹备卡', () => {
   const item = {
     contentId: '3b346090-470d-48a6-aba6-c9b910769816',
     sourcePath: 'aigc/example.md',
     status: 'published'
   }
+  const planned = {
+    contentId: '9a9cf592-d2e1-4b31-ac10-91008cf9565e',
+    sourcePath: 'aigc/workflow-placeholder.md',
+    status: 'planned'
+  }
   assert.deepEqual(resolveSelections([item], [item.contentId]), [item])
   assert.deepEqual(resolveSelections([item], [item.sourcePath]), [item])
+  assert.deepEqual(resolveSelections([planned], [planned.contentId]), [])
+  assert.deepEqual(resolveVisibleSelections([item, planned], [item.contentId, planned.contentId]), [item, planned])
 })
 
 test('封面、SEO 和标签留空时使用安全回退', () => {

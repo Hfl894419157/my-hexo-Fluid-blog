@@ -2,24 +2,14 @@
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
+import aboutPage from '../../.shared/content/aboutPage.json'
 
-const manifestos = [
-  {
-    metric: '8 年',
-    title: '商业视觉实战',
-    desc: '覆盖电商设计、工业品视觉与跨媒介交付。'
-  },
-  {
-    metric: '全链路',
-    title: 'AI 协同制作',
-    desc: '从意图转译、变量控制到精修与最终交付。'
-  },
-  {
-    metric: '可复用',
-    title: '流程资产沉淀',
-    desc: '把验证过的方法、模板与判断标准留在系统中。'
-  }
-]
+const homeAbout = aboutPage.home
+const manifestos = (homeAbout.highlights || []).map((item) => ({
+  metric: item.metric,
+  title: item.title,
+  desc: item.description
+}))
 </script>
 
 <template>
@@ -28,8 +18,8 @@ const manifestos = [
       <div class="ab-copy">
         <SectionHeader
           align="left"
-          title="由实践驱动的 AI 视觉实验室"
-          desc="把成熟设计经验、商业目标与 AI 生产力组织成稳定、可控、可交付的视觉流程。"
+          :title="homeAbout.title"
+          :desc="homeAbout.description"
         />
         <div class="ab-actions">
           <BaseButton href="/resume" variant="ghost">了解关于我</BaseButton>

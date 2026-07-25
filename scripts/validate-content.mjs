@@ -176,7 +176,7 @@ for (const item of catalog.all) {
   bySelectionValue.set(item.sourcePath, item)
 }
 
-const checkSelected = (label, values, max = Infinity, accepts = () => true) => {
+const checkSelected = (label, values, max = Infinity, accepts = () => true, statuses = ['published']) => {
   if (values.length > max) errors.push(`${label}: 最多选择 ${max} 条，当前 ${values.length} 条`)
   const seenValues = new Set()
   for (const selectedValue of values) {
@@ -187,13 +187,13 @@ const checkSelected = (label, values, max = Infinity, accepts = () => true) => {
     seenValues.add(selectedValue)
     const item = bySelectionValue.get(selectedValue)
     if (!item) warnings.push(`${label}: 已忽略不存在或已删除的引用 ${selectedValue}`)
-    else if (item.status !== 'published') errors.push(`${label}: ${item.sourcePath} 尚未发布`)
+    else if (!statuses.includes(item.status)) errors.push(`${label}: ${item.sourcePath} 当前状态不可用于首页精选`)
     else if (!accepts(item)) errors.push(`${label}: ${item.sourcePath} 不属于该栏目`)
   }
 }
 
-checkSelected('首页作品精选', selections.featuredCases || [], Infinity, (item) => item.kind === 'case')
-checkSelected('首页工作流精选', selections.featuredWorkflows || [], 3, (item) => item.kind === 'workflow')
+checkSelected('首页作品精选', selections.featuredCases || [], 2, (item) => item.kind === 'case')
+checkSelected('首页工作流精选', selections.featuredWorkflows || [], 3, (item) => item.kind === 'workflow', ['published', 'planned'])
 checkSelected('首页研究笔记', selections.knowledge?.learning || [], 3, (item) => item.sections.includes('learning-observation'))
 checkSelected('首页方法指南', selections.knowledge?.methods || [], 3, (item) => item.sections.includes('methods'))
 checkSelected('首页工具与资源', selections.knowledge?.resources || [], 3, (item) => item.kind === 'resource')
@@ -220,9 +220,40 @@ for (const [index, item] of (homeVideos.items || []).entries()) {
   }
 }
 
-for (const file of ['aboutCards.json', 'knowledgeHubCards.json']) {
-  const source = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', file), 'utf8'))
-  requireValue(Array.isArray(source.items), `${file}: items 必须是数组`)
+const knowledgeHubCards = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'knowledgeHubCards.json'), 'utf8'))
+requireValue(Array.isArray(knowledgeHubCards.items), 'knowledgeHubCards.json: items 必须是数组')
+
+const aboutPage = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'aboutPage.json'), 'utf8'))
+const aboutIconNames = new Set(['palette', 'cube', 'camera', 'flow', 'video', 'web'])
+requireValue(String(aboutPage.home?.title || '').trim(), 'aboutPage.json: home.title 不能为空')
+requireValue(String(aboutPage.home?.description || '').trim(), 'aboutPage.json: home.description 不能为空')
+requireValue(Array.isArray(aboutPage.home?.highlights) && aboutPage.home.highlights.length === 3, 'aboutPage.json: home.highlights 必须正好 3 条')
+requireValue(String(aboutPage.hero?.greeting || '').trim(), 'aboutPage.json: hero.greeting 不能为空')
+requireValue(String(aboutPage.hero?.title || '').trim(), 'aboutPage.json: hero.title 不能为空')
+requireValue(String(aboutPage.hero?.description || '').trim(), 'aboutPage.json: hero.description 不能为空')
+requireValue(String(aboutPage.hero?.portrait || '').trim(), 'aboutPage.json: hero.portrait 不能为空')
+checkImage('aboutPage.json', 'hero.portrait', aboutPage.hero?.portrait)
+const aboutCapabilities = aboutPage.workbench?.capabilities || []
+requireValue(Array.isArray(aboutCapabilities) && aboutCapabilities.length > 0, 'aboutPage.json: workbench.capabilities 不能为空')
+const aboutCapabilityIds = new Set()
+for (const [index, item] of aboutCapabilities.entries()) {
+  const label = `aboutPage.json: workbench.capabilities[${index}]`
+  requireValue(String(item.id || '').trim(), `${label}.id 不能为空`)
+  requireValue(!aboutCapabilityIds.has(item.id), `${label}.id 重复`)
+  aboutCapabilityIds.add(item.id)
+  requireValue(String(item.title || '').trim(), `${label}.title 不能为空`)
+  requireValue(aboutIconNames.has(item.icon), `${label}.icon 无效`)
+  requireValue(Array.isArray(item.process) && item.process.length > 0, `${label}.process 不能为空`)
+}
+const aboutDeliveryStages = aboutPage.delivery?.stages || []
+requireValue(Array.isArray(aboutDeliveryStages) && aboutDeliveryStages.length > 0, 'aboutPage.json: delivery.stages 不能为空')
+for (const [stageIndex, stage] of aboutDeliveryStages.entries()) {
+  const label = `aboutPage.json: delivery.stages[${stageIndex}]`
+  requireValue(String(stage.title || '').trim(), `${label}.title 不能为空`)
+  requireValue(Array.isArray(stage.items) && stage.items.length > 0, `${label}.items 不能为空`)
+  for (const [itemIndex, item] of (stage.items || []).entries()) {
+    requireValue(aboutIconNames.has(item.icon), `${label}.items[${itemIndex}].icon 无效`)
+  }
 }
 
 const faq = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'faq.json'), 'utf8'))
@@ -282,6 +313,7 @@ try {
   }
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
   const homeVideosEntry = contentEntries.find((entry) => entry.name === 'home_videos')
+  const aboutPageEntry = contentEntries.find((entry) => entry.name === 'about_page')
   const cases = contentEntries.find((entry) => entry.name === 'cases')
   requireValue(
     cases?.fields?.some((field) => (field.name === 'content' && field.type === 'rich-text') || field.name === 'contentBlocks'),
@@ -299,6 +331,7 @@ try {
   requireValue(existsSync(path.join(repoRoot, '.github', 'workflows', 'duplicate-content.yml')), '缺少复制工作流 duplicate-content.yml')
   requireValue(contentEntries.some((entry) => entry.name === 'faq'), '.pages.yml: 缺少 FAQ 管理文件')
   requireValue(contentEntries.some((entry) => entry.name === 'profile'), '.pages.yml: 缺少个人资料管理文件')
+  requireValue(aboutPageEntry?.path === '.shared/content/aboutPage.json', '.pages.yml: 缺少关于我页面管理文件')
   requireValue(homeVideosEntry?.path === '.shared/content/videos.json', '.pages.yml: 缺少首页视频案例管理文件')
   const homeVideoItemsField = homeVideosEntry?.fields?.find((field) => field.name === 'items')
   requireValue(homeVideoItemsField?.list?.max === 4, '.pages.yml: 首页视频案例最多必须限制为 4 条')

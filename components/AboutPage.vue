@@ -11,6 +11,7 @@ import {
   PhPalette
 } from '@phosphor-icons/vue'
 import profile from '../.shared/content/profile.json'
+import aboutPage from '../.shared/content/aboutPage.json'
 
 const reveal = (delay = 0, y = 18) => ({
   repeat: true,
@@ -20,89 +21,29 @@ const reveal = (delay = 0, y = 18) => ({
   duration: 820
 })
 
-const capabilities = [
-  {
-    key: 'graphic',
-    title: '平面视觉设计',
-    icon: PhPalette,
-    statement: '把产品信息整理成清楚、有重点、能够服务商业目标的视觉表达。',
-    tools: 'Photoshop、CorelDRAW',
-    process: ['信息整理', '版式设计', '商业视觉', '后期处理'],
-    output: '品牌内容、电商视觉、宣传物料'
-  },
-  {
-    key: 'three-d',
-    title: '3D 产品表现',
-    icon: PhCube,
-    statement: '通过结构、材质、灯光与空间关系，建立更完整的产品表现。',
-    tools: 'C4D、KeyShot、Redshift',
-    process: ['模型搭建', '材质设定', '灯光构建', '渲染输出'],
-    output: '产品模型、场景表现、渲染素材'
-  },
-  {
-    key: 'photography',
-    title: '产品摄影',
-    icon: PhCamera,
-    statement: '从真实产品出发，完成构图、布光、拍摄与后期精修。',
-    tools: '拍摄设备、布光系统、Photoshop 后期',
-    process: ['画面构图', '灯光布置', '产品拍摄', '后期精修'],
-    output: '产品原片、商业成片、后期素材'
-  },
-  {
-    key: 'aigc',
-    title: 'AIGC 工作流搭建',
-    icon: PhFlowArrow,
-    statement: '让生成不再依赖偶然结果，把需求、变量、判断与交付连接起来。',
-    tools: '节点式工作流、在线生成平台、参数与素材管理',
-    process: ['需求拆解', '生成控制', '批量输出', '人工筛选'],
-    output: '可复用工作流、生成资产、执行规范'
-  },
-  {
-    key: 'video',
-    title: '视频剪辑与输出',
-    icon: PhFilmSlate,
-    statement: '把素材组织成完整叙事，控制节奏、声音、字幕与最终成片质量。',
-    tools: 'Premiere Pro',
-    process: ['结构编排', '节奏控制', '配音字幕', '成片输出'],
-    output: '宣传视频、产品视频、AI 视频成片'
-  },
-  {
-    key: 'web',
-    title: '网站与落地页',
-    icon: PhBrowser,
-    statement: '从内容结构和视觉设计开始，完成响应式页面与前端落地。',
-    tools: 'Vue、VitePress、HTML、CSS',
-    process: ['信息架构', '视觉设计', '响应式适配', '前端实现'],
-    output: '品牌网站、专题页、产品落地页'
-  }
-]
+const iconComponents = {
+  palette: PhPalette,
+  cube: PhCube,
+  camera: PhCamera,
+  flow: PhFlowArrow,
+  video: PhFilmSlate,
+  web: PhBrowser
+}
 
-const deliveryStages = [
-  {
-    title: '素材建立',
-    description: '先获得准确、可控制的产品素材。',
-    items: [
-      { title: '产品摄影', detail: '真实画面与商业成片', icon: PhCamera },
-      { title: '3D 产品表现', detail: '模型、材质与渲染资产', icon: PhCube }
-    ]
-  },
-  {
-    title: '视觉生产',
-    description: '把信息与素材组织成清楚的表达。',
-    items: [
-      { title: '平面视觉', detail: '版式、品牌与电商内容', icon: PhPalette },
-      { title: 'AIGC 工作流', detail: '可控生成与批量资产', icon: PhFlowArrow }
-    ]
-  },
-  {
-    title: '交付落地',
-    description: '根据传播场景完成动态和页面交付。',
-    items: [
-      { title: '视频剪辑', detail: '节奏、声音、字幕与成片', icon: PhFilmSlate },
-      { title: '网站与落地页', detail: '响应式页面与前端实现', icon: PhBrowser }
-    ]
-  }
-]
+const capabilities = (aboutPage.workbench?.capabilities || []).map((item, index) => ({
+  ...item,
+  key: item.id || `capability-${index + 1}`,
+  icon: iconComponents[item.icon] || PhPalette,
+  process: Array.isArray(item.process) ? item.process : []
+}))
+
+const deliveryStages = (aboutPage.delivery?.stages || []).map((stage) => ({
+  ...stage,
+  items: (stage.items || []).map((item) => ({
+    ...item,
+    icon: iconComponents[item.icon] || PhPalette
+  }))
+}))
 
 const activeKey = ref(capabilities[0].key)
 const activeCapability = computed(() => (
@@ -224,19 +165,17 @@ onBeforeUnmount(() => {
     <section class="about-hero" aria-labelledby="about-title">
       <div class="about-hero__copy">
         <h1 id="about-title" v-reveal="reveal()">
-          <span>你好，我是<strong>{{ profile.name }}</strong></span>
-          <span>商业视觉设计师与 AI 全流程创作者</span>
+          <span>{{ aboutPage.hero.greeting }}<strong>{{ profile.name }}</strong></span>
+          <span>{{ aboutPage.hero.title }}</span>
         </h1>
-        <p v-reveal="reveal(90)">
-          从产品理解出发，把平面、摄影、3D、AIGC、视频与页面落地连接成完整交付。
-        </p>
+        <p v-reveal="reveal(90)">{{ aboutPage.hero.description }}</p>
       </div>
 
       <figure class="about-hero__portrait" v-reveal="reveal(150, 22)">
         <span class="about-hero__portrait-bg" aria-hidden="true"></span>
         <img
-          src="/images/uploads/关于我/portrait-cutout-cropped.png"
-          :alt="`${profile.name}的个人形象`"
+          :src="aboutPage.hero.portrait"
+          :alt="aboutPage.hero.portraitAlt || `${profile.name}的个人形象`"
           width="504"
           height="1430"
           loading="eager"
@@ -253,8 +192,8 @@ onBeforeUnmount(() => {
       :data-active-capability="activeKey"
     >
       <header class="workbench-heading" v-reveal="reveal()">
-        <h2 id="capability-title">我的工作台</h2>
-        <p>选择一项能力，查看我使用的真实工具、负责环节与最终产出。</p>
+        <h2 id="capability-title">{{ aboutPage.workbench.title }}</h2>
+        <p>{{ aboutPage.workbench.description }}</p>
       </header>
 
       <div class="workbench-layout">
@@ -326,8 +265,8 @@ onBeforeUnmount(() => {
 
     <section class="delivery-flow" aria-labelledby="delivery-title">
       <header class="delivery-heading" v-reveal="reveal()">
-        <h2 id="delivery-title">我如何把能力连成一次完整交付</h2>
-        <p>从素材建立、视觉生产到最终落地，每一项能力都对应明确的工作位置。</p>
+        <h2 id="delivery-title">{{ aboutPage.delivery.title }}</h2>
+        <p>{{ aboutPage.delivery.description }}</p>
       </header>
 
       <div class="delivery-map">

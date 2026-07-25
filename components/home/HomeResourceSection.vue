@@ -28,10 +28,12 @@ const items = [
     href: '/knowledge/resources'
   }
 ]
+
+const hasContent = items.some((item) => item.featured.length > 0)
 </script>
 
 <template>
-  <SectionShell id="home-knowledge">
+  <SectionShell v-if="hasContent" id="home-knowledge">
     <div class="kr-head">
       <SectionHeader
         :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"

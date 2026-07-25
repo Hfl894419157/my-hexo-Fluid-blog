@@ -25,6 +25,19 @@ settings:
       rename: "调整内容地址：{oldPath} -> {newPath}"
 
 components:
+  about_icon:
+    label: 图标
+    type: select
+    required: true
+    options:
+      values:
+        - { label: 调色板 / 平面设计, value: palette }
+        - { label: 立方体 / 三维, value: cube }
+        - { label: 相机 / 摄影, value: camera }
+        - { label: 流程 / AIGC, value: flow }
+        - { label: 影片 / 视频, value: video }
+        - { label: 浏览器 / 网站, value: web }
+
   content_id:
     label: 内容唯一编号
     type: uuid
@@ -589,6 +602,7 @@ content:
             options:
               collection: cases
               multiple: true
+              max: 2
               search: "meta.title,meta.description,meta.tags,publishing.status"
               value: "{fields.contentId}"
               label: "{fields.meta.title} · {fields.publishing.status}"
@@ -647,12 +661,110 @@ content:
                     - { label: 品牌视觉视频, value: 品牌视觉视频 }
                     - { label: 其他动态视觉, value: 其他动态视觉 }
               - { name: description, label: 案例说明, type: text, required: true }
-              - { name: poster, label: 首页封面（建议 1600×900）, type: image, required: true, options: { media: images } }
-              - { name: url, label: B 站视频链接（必须包含 BV 编号）, type: string }
+              - name: poster
+                label: 播放前封面与缩略图（建议 1600×900）
+                description: 同时用于主画面播放前封面和下方视频切换缩略卡。
+                type: image
+                required: true
+                options: { media: images }
+              - name: url
+                label: B 站视频链接（必须包含 BV 编号）
+                description: 点击首页播放后会在原画面内加载，并尝试静音自动播放。
+                type: string
               - { name: duration, label: 时长（例如 00:36）, type: string }
 
+      - name: about_page
+        label: 关于我页面
+        type: file
+        path: .shared/content/aboutPage.json
+        format: json
+        operations: { delete: false }
+        fields:
+          - name: home
+            label: 首页关于我摘要
+            type: object
+            required: true
+            fields:
+              - { name: title, label: 标题, type: string, required: true }
+              - { name: description, label: 说明, type: text, required: true }
+              - name: highlights
+                label: 三项能力摘要
+                type: object
+                required: true
+                list:
+                  min: 3
+                  max: 3
+                  collapsible: { collapsed: true, summary: "{index}. {title}" }
+                fields:
+                  - { name: metric, label: 关键词 / 数字, type: string, required: true }
+                  - { name: title, label: 标题, type: string, required: true }
+                  - { name: description, label: 说明, type: text, required: true }
+          - name: hero
+            label: 关于页首屏
+            type: object
+            required: true
+            fields:
+              - { name: greeting, label: 姓名前引导语, type: string, required: true }
+              - { name: title, label: 主定位, type: string, required: true }
+              - { name: description, label: 简介, type: text, required: true }
+              - { name: portrait, label: 人物主图, type: image, required: true, options: { media: images } }
+              - { name: portraitAlt, label: 人物图片替代文字, type: string, required: true }
+          - name: workbench
+            label: 我的工作台
+            type: object
+            required: true
+            fields:
+              - { name: title, label: 板块标题, type: string, required: true }
+              - { name: description, label: 板块说明, type: text, required: true }
+              - name: capabilities
+                label: 能力选项（可拖动排序）
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 8
+                  collapsible: { collapsed: true, summary: "{index}. {title}" }
+                fields:
+                  - { name: id, label: 英文标识, type: string, required: true }
+                  - { name: title, label: 能力名称, type: string, required: true }
+                  - { name: icon, component: about_icon }
+                  - { name: statement, label: 能力说明, type: text, required: true }
+                  - { name: tools, label: 实际工具, type: text, required: true }
+                  - { name: process, label: 负责环节, type: string, list: true, required: true }
+                  - { name: output, label: 交付结果, type: text, required: true }
+          - name: delivery
+            label: 完整交付流程
+            type: object
+            required: true
+            fields:
+              - { name: title, label: 板块标题, type: string, required: true }
+              - { name: description, label: 板块说明, type: text, required: true }
+              - name: stages
+                label: 交付阶段（可拖动排序）
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {title}" }
+                fields:
+                  - { name: title, label: 阶段标题, type: string, required: true }
+                  - { name: description, label: 阶段说明, type: text, required: true }
+                  - name: items
+                    label: 阶段能力
+                    type: object
+                    required: true
+                    list:
+                      min: 1
+                      max: 4
+                      collapsible: { collapsed: true, summary: "{index}. {title}" }
+                    fields:
+                      - { name: title, label: 能力名称, type: string, required: true }
+                      - { name: detail, label: 产出说明, type: text, required: true }
+                      - { name: icon, component: about_icon }
+
       - name: profile
-        label: 个人资料与简历
+        label: 个人资料与联系方式
         type: file
         path: .shared/content/profile.json
         format: json
@@ -664,23 +776,6 @@ content:
           - { name: intro, label: 个人简介, type: text, required: true }
           - { name: yearsValue, label: 实践年数, type: number, required: true }
           - { name: yearsLabel, label: 年限说明, type: string, required: true }
-          - name: capabilities
-            label: 核心能力
-            type: object
-            list: { collapsible: { collapsed: true, summary: "{index}. {title}" } }
-            fields:
-              - { name: title, label: 能力名称, type: string, required: true }
-              - { name: description, label: 能力说明, type: text, required: true }
-          - { name: services, label: 合作方向, type: string, list: true }
-          - name: experience
-            label: 工作经历（无内容时前台隐藏）
-            type: object
-            list: { collapsible: { collapsed: true, summary: "{index}. {role}" } }
-            fields:
-              - { name: period, label: 时间, type: string, required: true }
-              - { name: company, label: 公司 / 组织, type: string, required: true }
-              - { name: role, label: 职位 / 角色, type: string, required: true }
-              - { name: description, label: 经历说明, type: text }
           - { name: email, label: 合作邮箱, type: string, required: true }
           - { name: resumePdf, label: 个人简历 PDF（可选）, type: file, options: { media: documents, extensions: [pdf] } }
 
@@ -732,21 +827,3 @@ content:
               - { name: link, label: 可选链接, type: string }
               - { name: linkLabel, label: 链接文字, type: string }
               - { name: published, label: 前台显示, type: boolean, default: true }
-
-      - name: about_cards
-        label: 旧版关于页卡片（兼容）
-        type: file
-        path: .shared/content/aboutCards.json
-        format: json
-        operations: { delete: false }
-        fields:
-          - name: items
-            label: 旧版卡片列表
-            type: object
-            list: { collapsible: { collapsed: true, summary: "{index}. {title}" } }
-            fields:
-              - { name: title, label: 标题, type: string, required: true }
-              - { name: description, label: 说明, type: text, required: true }
-              - { name: tags, label: 标签, type: string, list: true }
-              - { name: link, label: 可选链接, type: string }
-              - { name: linkLabel, label: 链接按钮文字, type: string }
