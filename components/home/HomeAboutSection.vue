@@ -2,53 +2,45 @@
 import BaseButton from '../BaseButton.vue'
 import SectionHeader from '../SectionHeader.vue'
 import SectionShell from '../SectionShell.vue'
-import SvgHomeAboutIllustration from './svg/SvgHomeAboutIllustration.vue'
 
-// 升级实验室的理念宣誓，抛弃原本行政化、表格化的简历感，改用极具专业力量的“宣言式”陈列
 const manifestos = [
   {
-    title: '8 年商业实战底蕴',
-    desc: '深耕商业视觉、电商设计与跨媒介交付。这让我理解 AI 只是工具，而真实的商业转化、审美沉淀与交付标准才是底线。'
+    metric: '8 年',
+    title: '商业视觉实战',
+    desc: '覆盖电商设计、工业品视觉与跨媒介交付。'
   },
   {
-    title: '全链路 AI 协同开发',
-    desc: '不相信单次随机生成的“奇迹”，我专注于将意图转译、变量控制、局部精修到最终交付，沉淀为高复用性的系统资产。'
+    metric: '全链路',
+    title: 'AI 协同制作',
+    desc: '从意图转译、变量控制到精修与最终交付。'
   },
   {
-    title: '可持续的资产沉淀',
-    desc: '为品牌量身定制专有的 Prompt 架构、LoRA 模型与项目 Checklist，让设计经验不再流失，随项目推进产生指数级资产复利。'
+    metric: '可复用',
+    title: '流程资产沉淀',
+    desc: '把验证过的方法、模板与判断标准留在系统中。'
   }
 ]
 </script>
 
 <template>
   <SectionShell id="about" tone="soft">
-    <div class="ab-layout">
-      <div class="ab-visual" v-reveal="{ delay: 0, y: 32 }">
-        <SvgHomeAboutIllustration />
-      </div>
-
-      <!-- 右侧：大字号的画册风宣言排版 -->
-      <div class="ab-copy" v-reveal="{ delay: 100, y: 24 }">
+    <div class="ab-layout" v-reveal="{ y: 24, repeat: true }">
+      <div class="ab-copy">
         <SectionHeader
           align="left"
           title="由实践驱动的 AI 视觉实验室"
-          desc="我关注的不是单次偶然的生成效果，而是如何把成熟的设计经验、严苛的商业目标与 AI 生产力组织成稳定、可控的流程。"
+          desc="把成熟设计经验、商业目标与 AI 生产力组织成稳定、可控、可交付的视觉流程。"
         />
-
-        <div class="ab-manifestos">
-          <div v-for="(item, idx) in manifestos" :key="idx" class="ab-manifestos__card">
-            <span class="ab-manifestos__num">0{{ idx + 1 }}</span>
-            <div class="ab-manifestos__text">
-              <h4>{{ item.title }}</h4>
-              <p>{{ item.desc }}</p>
-            </div>
-          </div>
-        </div>
-
         <div class="ab-actions">
-          <BaseButton href="/resume" variant="ghost">了解我的实践背书</BaseButton>
+          <BaseButton href="/resume" variant="ghost">了解关于我</BaseButton>
         </div>
+      </div>
+      <div class="ab-manifestos">
+        <article v-for="item in manifestos" :key="item.title" class="ab-manifestos__card">
+          <strong>{{ item.metric }}</strong>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.desc }}</p>
+        </article>
       </div>
     </div>
   </SectionShell>
@@ -57,28 +49,15 @@ const manifestos = [
 <style scoped>
 .ab-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.75fr) minmax(0, 1.25fr);
-  gap: clamp(48px, 6vw, 96px);
+  grid-template-columns: minmax(280px, .82fr) minmax(0, 1.5fr);
+  gap: clamp(36px, 5vw, 72px);
   align-items: center;
 }
 
-/* ─── 左侧：用户提供的主题插画 ────────────────────────── */
-.ab-visual {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.ab-visual :deep(.home-about-illustration) {
-  width: min(440px, 100%);
-  filter: drop-shadow(0 22px 36px color-mix(in srgb, var(--text-main), transparent 90%));
-}
-
-/* ─── 右侧：高端画册风宣言列表 ────────────────────────── */
 .ab-copy {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 26px;
 }
 
 .ab-copy :deep(.section-header) {
@@ -87,40 +66,38 @@ const manifestos = [
 
 .ab-manifestos {
   display: grid;
-  gap: 24px;
-  border-top: 1px solid var(--border-soft);
-  padding-top: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .ab-manifestos__card {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
+  min-height: 190px;
+  padding: 26px 24px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
 }
 
-.ab-manifestos__num {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 500;
+.ab-manifestos__card strong {
   color: var(--brand-main);
-  opacity: 0.8;
-  line-height: 1;
-  padding-top: 2px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.2;
 }
 
-.ab-manifestos__text h4 {
-  margin: 0 0 8px;
+.ab-manifestos__card h3 {
+  margin: 22px 0 0;
   color: var(--text-main);
   font-size: var(--text-body);
   font-weight: 600;
   line-height: 1.4;
 }
 
-.ab-manifestos__text p {
-  margin: 0;
+.ab-manifestos__card p {
+  margin: 8px 0 0;
   color: var(--text-sub);
-  font-size: var(--text-small);
-  line-height: 1.75;
+  font-size: var(--text-label);
+  line-height: 1.7;
 }
 
 .ab-actions {
@@ -132,17 +109,16 @@ const manifestos = [
 @media (max-width: 900px) {
   .ab-layout {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
-  
-  .ab-visual {
-    order: 2;
+
+  .ab-manifestos {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
   }
-  
-  .ab-copy {
-    order: 1;
-  }
-  
-  .ab-visual :deep(.home-about-illustration) { width: min(380px, 86vw); }
+
+  .ab-manifestos__card { scroll-snap-align: start; }
 }
 </style>

@@ -5,6 +5,7 @@ import yaml from 'js-yaml'
 import { loadContentCatalog, loadHomeSelections, repoRoot } from '../.shared/contentCatalog.mjs'
 import { portfolioGalleryLayouts } from '../.shared/contentSchema.mjs'
 import { richHtmlImages, sanitizeRichHtml } from '../.shared/richHtml.mjs'
+import { extractBilibiliId } from '../.shared/videoClient.js'
 
 const allowedStatuses = new Set(['draft', 'planned', 'published', 'archived'])
 const allowedBlockTypes = new Set(['richText', 'image', 'gallery', 'video', 'download', 'externalLink'])
@@ -16,6 +17,7 @@ const filenamePattern = /^[a-z0-9-]+\.md$/
 const legacyKeys = ['title', 'description', 'slug', 'createdAt', 'status', 'verificationStatus', 'showInRecentUpdates', 'tags', 'coverAlt', 'pageClass']
 const catalog = loadContentCatalog()
 const selections = loadHomeSelections()
+const homeVideos = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'videos.json'), 'utf8'))
 const errors = []
 const warnings = []
 const seenContentIds = new Map()
@@ -196,6 +198,28 @@ checkSelected('首页研究笔记', selections.knowledge?.learning || [], 3, (it
 checkSelected('首页方法指南', selections.knowledge?.methods || [], 3, (item) => item.sections.includes('methods'))
 checkSelected('首页工具与资源', selections.knowledge?.resources || [], 3, (item) => item.kind === 'resource')
 
+requireValue(Array.isArray(homeVideos.items), 'videos.json: items 必须是数组')
+requireValue((homeVideos.items || []).length <= 4, 'videos.json: 首页视频最多 4 条')
+const homeVideoIds = new Set()
+const allowedHomeVideoCategories = new Set(['三维渲染视频', 'AI 制作视频', '品牌视觉视频', '其他动态视觉'])
+for (const [index, item] of (homeVideos.items || []).entries()) {
+  const label = `videos.json: items[${index}]`
+  requireValue(uuidPattern.test(String(item.id || '')), `${label}.id 必须是 UUID v4`)
+  requireValue(!homeVideoIds.has(item.id), `${label}.id 重复`)
+  homeVideoIds.add(item.id)
+  requireValue(typeof item.published === 'boolean', `${label}.published 必须是布尔值`)
+  requireValue(String(item.title || '').trim(), `${label}.title 不能为空`)
+  requireValue(allowedHomeVideoCategories.has(String(item.category || '')), `${label}.category 无效`)
+  requireValue(String(item.description || '').trim(), `${label}.description 不能为空`)
+  requireValue(String(item.poster || '').trim(), `${label}.poster 不能为空`)
+  checkImage('videos.json', `${label}.poster`, item.poster)
+  if (item.published) {
+    requireValue(Boolean(extractBilibiliId(item.url)), `${label}.url 必须是包含 BV 编号的 B 站视频链接`)
+  } else if (item.url && !extractBilibiliId(item.url)) {
+    warnings.push(`${label}.url 暂无法识别，发布前请替换为包含 BV 编号的完整链接`)
+  }
+}
+
 for (const file of ['aboutCards.json', 'knowledgeHubCards.json']) {
   const source = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', file), 'utf8'))
   requireValue(Array.isArray(source.items), `${file}: items 必须是数组`)
@@ -257,6 +281,7 @@ try {
     requireValue(duplicateAction?.scope === 'entry' && duplicateAction?.workflow === 'duplicate-content.yml' && duplicateAction?.ref === 'current', `.pages.yml: ${name} 缺少复制为新草稿 Action`)
   }
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
+  const homeVideosEntry = contentEntries.find((entry) => entry.name === 'home_videos')
   const cases = contentEntries.find((entry) => entry.name === 'cases')
   requireValue(
     cases?.fields?.some((field) => (field.name === 'content' && field.type === 'rich-text') || field.name === 'contentBlocks'),
@@ -274,6 +299,12 @@ try {
   requireValue(existsSync(path.join(repoRoot, '.github', 'workflows', 'duplicate-content.yml')), '缺少复制工作流 duplicate-content.yml')
   requireValue(contentEntries.some((entry) => entry.name === 'faq'), '.pages.yml: 缺少 FAQ 管理文件')
   requireValue(contentEntries.some((entry) => entry.name === 'profile'), '.pages.yml: 缺少个人资料管理文件')
+  requireValue(homeVideosEntry?.path === '.shared/content/videos.json', '.pages.yml: 缺少首页视频案例管理文件')
+  const homeVideoItemsField = homeVideosEntry?.fields?.find((field) => field.name === 'items')
+  requireValue(homeVideoItemsField?.list?.max === 4, '.pages.yml: 首页视频案例最多必须限制为 4 条')
+  for (const name of ['id', 'published', 'title', 'category', 'description', 'poster', 'url', 'duration']) {
+    requireValue(homeVideoItemsField?.fields?.some((field) => field.name === name), `.pages.yml: 首页视频案例缺少字段 ${name}`)
+  }
 } catch (error) {
   errors.push(`.pages.yml 无法解析：${error.message}`)
 }

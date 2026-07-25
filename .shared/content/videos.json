@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "94b98f9b-fd79-40a7-8c9c-4a5095b31bb9",
+      "published": false,
+      "title": "工业产品三维动态展示",
+      "category": "三维渲染视频",
+      "description": "以产品建模、材质、光影与镜头节奏建立工业品的结构感和质感。",
+      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/101.png",
+      "url": "",
+      "duration": "00:30–01:00"
+    },
+    {
+      "id": "c8a1ecb4-1c14-48e5-bdb8-965582e4e90b",
+      "published": false,
+      "title": "产品材质与细节演示",
+      "category": "三维渲染视频",
+      "description": "用近景运镜和材质变化呈现产品细节，适合品牌展示与电商传播。",
+      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/8.jpg",
+      "url": "",
+      "duration": "00:15–00:45"
+    },
+    {
+      "id": "135a0fb4-a72e-45e9-92c4-41b531004af7",
+      "published": false,
+      "title": "AI 工业场景视觉短片",
+      "category": "AI 制作视频",
+      "description": "将产品事实与 AI 场景生成结合，快速探索更具传播力的动态方向。",
+      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/16.jpg",
+      "url": "",
+      "duration": "00:15–00:45"
+    }
+  ]
+}

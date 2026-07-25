@@ -619,6 +619,38 @@ content:
                 type: reference
                 options: { collection: resource_entries, multiple: true, max: 3, value: "{fields.contentId}", label: "{fields.meta.title} · {fields.publishing.status}" }
 
+      - name: home_videos
+        label: 首页视频案例
+        type: file
+        path: .shared/content/videos.json
+        format: json
+        operations: { delete: false }
+        fields:
+          - name: items
+            label: 视频案例（最多 4 条，拖动即可调整首页顺序）
+            type: object
+            list:
+              max: 4
+              collapsible: { collapsed: true, summary: "{index}. {title}" }
+            fields:
+              - { name: id, label: 案例编号, type: uuid, hidden: true }
+              - { name: published, label: 在首页显示, type: boolean, default: false }
+              - { name: title, label: 标题, type: string, required: true }
+              - name: category
+                label: 类型
+                type: select
+                required: true
+                options:
+                  values:
+                    - { label: 三维渲染视频, value: 三维渲染视频 }
+                    - { label: AI 制作视频, value: AI 制作视频 }
+                    - { label: 品牌视觉视频, value: 品牌视觉视频 }
+                    - { label: 其他动态视觉, value: 其他动态视觉 }
+              - { name: description, label: 案例说明, type: text, required: true }
+              - { name: poster, label: 首页封面（建议 1600×900）, type: image, required: true, options: { media: images } }
+              - { name: url, label: B 站视频链接（必须包含 BV 编号）, type: string }
+              - { name: duration, label: 时长（例如 00:36）, type: string }
+
       - name: profile
         label: 个人资料与简历
         type: file

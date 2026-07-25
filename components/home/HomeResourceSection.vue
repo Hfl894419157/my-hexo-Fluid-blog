@@ -44,6 +44,7 @@ const items = [
         v-for="(item, idx) in items"
         :key="idx"
         class="kr-card"
+        v-reveal="{ delay: idx * 70, y: 24, repeat: true }"
       >
         <div class="kr-card__body">
           <h3 class="kr-card__title">{{ item.title }}</h3>
@@ -99,7 +100,13 @@ const items = [
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-card);
   background: var(--bg-card);
-  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
+  transition:
+    opacity var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color var(--transition-smooth),
+    box-shadow var(--transition-smooth);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .kr-card:hover {
@@ -111,24 +118,24 @@ const items = [
 .kr-card__body {
   display: flex;
   flex-direction: column;
-  padding: 32px;
+  padding: clamp(28px, 2.5vw, 34px);
   flex: 1;
 }
 
 .kr-card__title {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: clamp(22px, 1.8vw, 26px);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .kr-card__desc {
-  margin: 0 0 24px;
+  margin: 0 0 26px;
   color: var(--text-sub);
   font-size: var(--text-small);
-  line-height: 1.7;
+  line-height: 1.8;
   flex: 1;
 }
 

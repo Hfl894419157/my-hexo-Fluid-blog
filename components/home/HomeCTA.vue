@@ -5,7 +5,7 @@ import SectionShell from '../SectionShell.vue'
 
 <template>
   <SectionShell compact class="home-cta-shell">
-    <section class="home-cta">
+    <section class="home-cta" v-reveal="{ y: 24, repeat: true }">
       <!-- Decorative background mesh -->
       <div class="cta-mesh" aria-hidden="true">
         <svg viewBox="0 0 800 320" fill="none" preserveAspectRatio="xMidYMid slice">
@@ -36,12 +36,11 @@ import SectionShell from '../SectionShell.vue'
 
       <!-- Content -->
       <div class="cta-content">
-        <h2>从一个高频视觉任务开始<br>把经验沉淀成系统</h2>
-        <p class="cta-desc">适合从产品图、详情页、品牌内容、短视频脚本或工具资源整理开始，先建立流程，再持续迭代资产。</p>
+        <h2>从一个清晰的需求开始<br>把想法推进到可交付成果</h2>
+        <p class="cta-desc">无论是品牌视觉、产品内容、三维渲染、AI 视频，还是工作流与网站搭建，都可以从目标和使用场景开始讨论。</p>
         <div class="cta-actions">
-          <BaseButton href="mailto:1442855983@qq.com">讨论合作方向</BaseButton>
-          <BaseButton href="/knowledge/" variant="secondary">继续探索知识库</BaseButton>
-          <BaseButton href="/faq" variant="ghost">查看常见问题</BaseButton>
+          <BaseButton href="mailto:1442855983@qq.com?subject=项目合作方向沟通">讨论合作方向</BaseButton>
+          <BaseButton href="/portfolio/" variant="secondary">查看完整作品集</BaseButton>
         </div>
       </div>
     </section>
