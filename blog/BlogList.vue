@@ -36,8 +36,9 @@ const items = computed(() => source.value.map((item) => ({
     :description="description"
     visual="knowledge"
     :topics="variant === 'industry' ? ['AI 趋势', '行业观察', '学习记录', '工具实验'] : ['教程步骤', '分析框架', 'Prompt 方法', '实战经验']"
+    :show-hero="false"
     :items="items"
     :section-title="variant === 'industry' ? '全部研究笔记' : '全部方法指南'"
-    section-description="标题、正文和标签都可以通过上方搜索栏参与全站匹配。"
+    :section-description="description"
   />
 </template>
