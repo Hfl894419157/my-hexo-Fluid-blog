@@ -255,6 +255,36 @@ for (const [stageIndex, stage] of aboutDeliveryStages.entries()) {
     requireValue(aboutIconNames.has(item.icon), `${label}.items[${itemIndex}].icon 无效`)
   }
 }
+const aboutResume = aboutPage.resume || {}
+const aboutResumeMetricIcons = new Set(['experience', 'content', 'delivery'])
+requireValue(String(aboutResume.title || '').trim(), 'aboutPage.json: resume.title 不能为空')
+requireValue(String(aboutResume.description || '').trim(), 'aboutPage.json: resume.description 不能为空')
+requireValue(Array.isArray(aboutResume.metrics) && aboutResume.metrics.length > 0, 'aboutPage.json: resume.metrics 不能为空')
+for (const [index, metric] of (aboutResume.metrics || []).entries()) {
+  const label = `aboutPage.json: resume.metrics[${index}]`
+  requireValue(aboutResumeMetricIcons.has(metric.icon), `${label}.icon 无效`)
+  requireValue(String(metric.value || '').trim(), `${label}.value 不能为空`)
+  requireValue(String(metric.label || '').trim(), `${label}.label 不能为空`)
+}
+requireValue(Array.isArray(aboutResume.experience) && aboutResume.experience.length > 0, 'aboutPage.json: resume.experience 不能为空')
+for (const [index, experience] of (aboutResume.experience || []).entries()) {
+  const label = `aboutPage.json: resume.experience[${index}]`
+  requireValue(String(experience.period || '').trim(), `${label}.period 不能为空`)
+  requireValue(String(experience.company || '').trim(), `${label}.company 不能为空`)
+  requireValue(String(experience.role || '').trim(), `${label}.role 不能为空`)
+  requireValue(Array.isArray(experience.achievements) && experience.achievements.length > 0, `${label}.achievements 不能为空`)
+}
+requireValue(String(aboutResume.project?.title || '').trim(), 'aboutPage.json: resume.project.title 不能为空')
+requireValue(Array.isArray(aboutResume.project?.outcomes) && aboutResume.project.outcomes.length > 0, 'aboutPage.json: resume.project.outcomes 不能为空')
+requireValue(Array.isArray(aboutResume.skills) && aboutResume.skills.length > 0, 'aboutPage.json: resume.skills 不能为空')
+for (const [index, skill] of (aboutResume.skills || []).entries()) {
+  const label = `aboutPage.json: resume.skills[${index}]`
+  requireValue(String(skill.title || '').trim(), `${label}.title 不能为空`)
+  requireValue(Array.isArray(skill.items) && skill.items.length > 0, `${label}.items 不能为空`)
+}
+requireValue(String(aboutResume.education?.school || '').trim(), 'aboutPage.json: resume.education.school 不能为空')
+requireValue(String(aboutResume.recognition?.title || '').trim(), 'aboutPage.json: resume.recognition.title 不能为空')
+requireValue(String(aboutResume.cta?.title || '').trim(), 'aboutPage.json: resume.cta.title 不能为空')
 
 const faq = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'faq.json'), 'utf8'))
 requireValue(Array.isArray(faq.items) && faq.items.length > 0, 'faq.json: items 必须是非空数组')
@@ -270,11 +300,7 @@ for (const [index, item] of (faq.items || []).entries()) {
 
 const profile = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'profile.json'), 'utf8'))
 requireValue(String(profile.name || '').trim(), 'profile.json: name 不能为空')
-requireValue(String(profile.role || '').trim(), 'profile.json: role 不能为空')
-requireValue(String(profile.intro || '').trim(), 'profile.json: intro 不能为空')
-requireValue(Number.isFinite(profile.yearsValue) && profile.yearsValue >= 0, 'profile.json: yearsValue 必须是非负数字')
-requireValue(String(profile.yearsLabel || '').trim(), 'profile.json: yearsLabel 不能为空')
-if (profile.avatar) checkImage('profile.json', 'avatar', profile.avatar)
+requireValue(String(profile.email || '').trim(), 'profile.json: email 不能为空')
 if (profile.resumePdf) {
   const pdfPath = path.join(repoRoot, 'public', String(profile.resumePdf).replace(/^\//, ''))
   if (!existsSync(pdfPath)) {

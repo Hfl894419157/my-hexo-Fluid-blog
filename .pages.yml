@@ -38,6 +38,16 @@ components:
         - { label: 影片 / 视频, value: video }
         - { label: 浏览器 / 网站, value: web }
 
+  resume_metric_icon:
+    label: 履历指标图标
+    type: select
+    required: true
+    options:
+      values:
+        - { label: 时间 / 从业经验, value: experience }
+        - { label: 影片 / 内容产出, value: content }
+        - { label: 流程 / 全链路, value: delivery }
+
   content_id:
     label: 内容唯一编号
     type: uuid
@@ -763,20 +773,91 @@ content:
                       - { name: title, label: 能力名称, type: string, required: true }
                       - { name: detail, label: 产出说明, type: text, required: true }
                       - { name: icon, component: about_icon }
+          - name: resume
+            label: 职业履历
+            type: object
+            required: true
+            fields:
+              - { name: title, label: 板块标题, type: string, required: true }
+              - { name: description, label: 板块说明, type: text, required: true }
+              - name: metrics
+                label: 履历摘要指标
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {value} · {label}" }
+                fields:
+                  - { name: icon, component: resume_metric_icon }
+                  - { name: value, label: 数字或关键词, type: string, required: true }
+                  - { name: label, label: 指标说明, type: string, required: true }
+              - name: experience
+                label: 近期工作经历
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {period} · {company}" }
+                fields:
+                  - { name: period, label: 时间, type: string, required: true }
+                  - { name: company, label: 公司, type: string, required: true }
+                  - { name: role, label: 职位, type: string, required: true }
+                  - { name: summary, label: 职责摘要, type: text, required: true }
+                  - { name: achievements, label: 关键成果, type: text, list: true, required: true }
+              - name: project
+                label: 代表项目
+                type: object
+                required: true
+                fields:
+                  - { name: year, label: 项目年份, type: string, required: true }
+                  - { name: title, label: 项目名称, type: string, required: true }
+                  - { name: role, label: 项目角色, type: string, required: true }
+                  - { name: summary, label: 项目摘要, type: text, required: true }
+                  - { name: outcomes, label: 项目成果, type: text, list: true, required: true }
+              - { name: skillsTitle, label: 能力组合标题, type: string, required: true }
+              - name: skills
+                label: 能力组合
+                type: object
+                required: true
+                list:
+                  min: 1
+                  max: 4
+                  collapsible: { collapsed: true, summary: "{index}. {title}" }
+                fields:
+                  - { name: title, label: 能力分类, type: string, required: true }
+                  - { name: items, label: 能力标签, type: string, list: true, required: true }
+              - name: education
+                label: 教育背景
+                type: object
+                required: true
+                fields:
+                  - { name: school, label: 学校, type: string, required: true }
+                  - { name: major, label: 专业, type: string, required: true }
+              - name: recognition
+                label: 近期荣誉
+                type: object
+                required: true
+                fields:
+                  - { name: title, label: 荣誉名称, type: string, required: true }
+                  - { name: year, label: 时间与来源, type: string, required: true }
+              - name: cta
+                label: 求职联系行动区
+                type: object
+                required: true
+                fields:
+                  - { name: title, label: 标题, type: string, required: true }
+                  - { name: description, label: 说明, type: text, required: true }
 
       - name: profile
-        label: 个人资料与联系方式
+        label: 基础资料与联系
         type: file
         path: .shared/content/profile.json
         format: json
         operations: { delete: false }
         fields:
           - { name: name, label: 姓名, type: string, required: true }
-          - { name: role, label: 职业定位, type: string, required: true }
-          - { name: avatar, label: 头像, type: image, options: { media: images } }
-          - { name: intro, label: 个人简介, type: text, required: true }
-          - { name: yearsValue, label: 实践年数, type: number, required: true }
-          - { name: yearsLabel, label: 年限说明, type: string, required: true }
           - { name: email, label: 合作邮箱, type: string, required: true }
           - { name: resumePdf, label: 个人简历 PDF（可选）, type: file, options: { media: documents, extensions: [pdf] } }
 
