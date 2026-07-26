@@ -94,7 +94,7 @@ const caseWall = useStackWall('.case-wall__card')
   background:
     linear-gradient(var(--bg-card), var(--bg-card)),
     var(--bg-page);
-  box-shadow: 0 28px 80px color-mix(in srgb, var(--text-main) 12%, transparent);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--text-main) 7%, transparent);
   filter: brightness(var(--stack-brightness)) blur(var(--stack-blur, 0px));
   transform: translateY(var(--stack-lift)) scale(var(--stack-scale));
   transform-origin: center top;

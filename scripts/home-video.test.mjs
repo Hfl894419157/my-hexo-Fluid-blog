@@ -75,6 +75,11 @@ test('视频模块使用居中的次级标题层级和动态视觉眉题', () =>
   assert.match(showcaseSource, /font-size: clamp\(24px, 2\.5vw, 30px\)/)
 })
 
+test('视频舞台使用克制的轻量外投影', () => {
+  assert.match(showcaseSource, /box-shadow: 0 16px 44px color-mix\(in srgb, var\(--text-main\) 7%, transparent\)/)
+  assert.doesNotMatch(showcaseSource, /0 24px 64px/)
+})
+
 test('首页只保留已发布、完整且有效的前四条视频', () => {
   const valid = {
     id: 'video-1',

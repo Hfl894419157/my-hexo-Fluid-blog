@@ -94,6 +94,92 @@ final result: passed
 
 ---
 
+# 内容图片灯箱与首页投影精简 QA
+
+## Evidence
+
+- source visual truth paths：
+  - `C:\Users\ADMINI~1\AppData\Local\Temp\codex-clipboard-b20c79a8-96a3-482d-bcb8-1f8e339d2eb5.png`
+  - `C:\Users\ADMINI~1\AppData\Local\Temp\codex-clipboard-6c3fb48c-78e4-4095-956e-d40ff72f0d71.png`
+- implementation screenshot paths：
+  - `.audit/image-lightbox-shadow-polish/home-featured-dark-desktop.png`
+  - `.audit/image-lightbox-shadow-polish/home-video-dark-desktop.png`
+  - `.audit/image-lightbox-shadow-polish/portfolio-lightbox-desktop.png`
+  - `.audit/image-lightbox-shadow-polish/article-lightbox-mobile.png`
+- full-view comparison evidence：
+  - `.audit/image-lightbox-shadow-polish/featured-shadow-comparison.png`
+  - `.audit/image-lightbox-shadow-polish/video-shadow-comparison.png`
+- desktop viewport / implementation pixels：1397 × 693，deviceScaleFactor 1
+- portfolio lightbox viewport / pixels：1280 × 900，deviceScaleFactor 1
+- mobile viewport / pixels：390 × 844，deviceScaleFactor 1
+- source pixels：精选作品 1397 × 693；视频 1100 × 614
+- density normalization：精选作品按 1397 × 693 原始像素对照；视频参考图使用 `contain` 等比置入 1397 × 693 画布后对照，没有拉伸。
+- state：深色首页；精选作品堆叠滚动状态；单条视频状态；北食刻 17 图作品图库；AI 产品海报 14 图富文本文章。
+
+## Findings
+
+- 没有 P0、P1 或 P2 问题。
+- 首页精选作品卡片与视频舞台的外投影已由大范围灰黑光晕改为低透明度、短扩散的轻量投影；卡片尺寸、圆角、封面裁切、堆叠和滚动效果未改变。
+- 作品图库、普通图片组、独立图片和富文本正文图片均可点击或用 Enter / Space 打开同一灯箱。
+- 灯箱保留原图比例、不裁切；多图可用按钮或左右方向键切换，Escape 关闭后焦点回到触发图片。
+- 390px 手机灯箱为单图居中，前后按钮固定在底部，没有横向溢出；打开时锁定正文滚动，关闭后恢复。
+- 浏览器控制台无 error。
+
+## Required Fidelity Surfaces
+
+- Fonts and typography：没有修改首页和文章字体；灯箱只新增 12px 计数与 13px 图注，沿用现有等宽/正文变量。
+- Spacing and layout rhythm：首页卡片布局、间距与圆角保持不变，只降低投影；灯箱在桌面保留两侧控制区，手机使用 16px 安全边距。
+- Colors and visual tokens：首页继续使用现有背景、边框和文字变量；灯箱采用中性深色遮罩与白色控制图标，不引入新的品牌色。
+- Image quality and asset fidelity：灯箱读取内容图片原始 `src`，使用 `object-fit: contain`，不裁切、不替换、不生成近似素材。
+- Copy and content：现有标题、说明、标签、视频文案和文章内容均未改动；只增加无障碍“放大查看”标签与灯箱控制文案。
+
+## Full-view Comparison
+
+- 精选作品对照图中，参考图卡片下方存在大面积灰黑光晕；实现图的卡片边界仍有层级，但光晕明显收敛。
+- 视频对照图中，参考图舞台下方投影宽且重；实现图保留轻微悬浮感，背景更干净。
+- 精选作品左右截图处于不同的堆叠滚动帧，因此只比较用户指定的卡片外投影；组件比例、内容和交互由同一现有实现保持。
+
+## Focused Region Comparison
+
+- `portfolio-lightbox-desktop.png` 验证竖版原图在 1280 × 900 下完整显示、17 图计数与两侧切换按钮。
+- `article-lightbox-mobile.png` 验证富文本横图在 390 × 844 下完整显示、14 图计数与底部切换按钮。
+- 这两个局部状态在首页参考图中不存在，因此按本轮功能规范和现有设计系统检查，而不是做像素级参考图匹配。
+
+## Interaction And Runtime Checks
+
+- 北食刻作品页识别 17 张可预览图片，打开首图显示 `1 / 17`。
+- 右方向键后切换为 `2 / 17`；Escape 后灯箱卸载、页面解锁，焦点恢复到首图。
+- 最终生产构建中打开灯箱后焦点自动进入关闭按钮；从首个控件反向 Tab 会循环到最后一个“下一张”按钮。
+- AI 产品海报富文本文章识别 14 张可预览图片，首图打开显示 `1 / 14`。
+- 390px 手机端 `scrollWidth` 未超过可视内容宽度，灯箱打开时正文滚动锁定。
+- 内容测试 50 / 50 通过；内容校验通过；VitePress 生产构建、图片检查和重定向构建通过。
+
+## Comparison History
+
+- 初始参考：用户截图显示精选作品和视频舞台外投影扩散范围过大、暗色背景显得笨重。
+- 修复：两处外投影统一调整为 `0 16px 44px`、7% 文字色混合；没有修改卡片结构或动效。
+- 首次复核：深色桌面完整视图中未发现可操作的 P0 / P1 / P2 差异，无需第二轮视觉修复。
+- 灯箱首次复核：桌面作品图库、富文本文章和 390px 手机状态均通过，无需第二轮视觉修复。
+
+## Implementation Checklist
+
+- [x] 作品图片组自动灯箱
+- [x] 富文本正文图片自动灯箱
+- [x] 独立图片与普通图片组自动灯箱
+- [x] 键盘打开、切换、关闭与焦点恢复
+- [x] 手机单图预览和滚动锁定
+- [x] 精选作品轻量投影
+- [x] 视频舞台轻量投影
+- [x] 控制台、内容测试、内容校验与生产构建
+
+## Follow-up Polish
+
+- 当前没有阻塞或需要继续调整的 P3 项。
+
+final result: passed
+
+---
+
 # 知识库三个子页面顶部精简 QA
 
 ## Evidence
