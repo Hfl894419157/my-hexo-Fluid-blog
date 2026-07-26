@@ -38,6 +38,16 @@ components:
         - { label: 影片 / 视频, value: video }
         - { label: 浏览器 / 网站, value: web }
 
+  resume_metric_icon:
+    label: 履历指标图标
+    type: select
+    required: true
+    options:
+      values:
+        - { label: 时间 / 从业经验, value: experience }
+        - { label: 影片 / 内容产出, value: content }
+        - { label: 流程 / 全链路, value: delivery }
+
   content_id:
     label: 内容唯一编号
     type: uuid
@@ -768,7 +778,6 @@ content:
             type: object
             required: true
             fields:
-              - { name: eyebrow, label: 英文眉题, type: string, required: true }
               - { name: title, label: 板块标题, type: string, required: true }
               - { name: description, label: 板块说明, type: text, required: true }
               - name: metrics
@@ -780,6 +789,7 @@ content:
                   max: 4
                   collapsible: { collapsed: true, summary: "{index}. {value} · {label}" }
                 fields:
+                  - { name: icon, component: resume_metric_icon }
                   - { name: value, label: 数字或关键词, type: string, required: true }
                   - { name: label, label: 指标说明, type: string, required: true }
               - name: experience
@@ -837,7 +847,6 @@ content:
                 type: object
                 required: true
                 fields:
-                  - { name: eyebrow, label: 英文眉题, type: string, required: true }
                   - { name: title, label: 标题, type: string, required: true }
                   - { name: description, label: 说明, type: text, required: true }
 

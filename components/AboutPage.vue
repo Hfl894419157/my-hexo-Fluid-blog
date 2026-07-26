@@ -7,6 +7,7 @@ import {
   PhBrowser,
   PhBriefcase,
   PhCamera,
+  PhClockCounterClockwise,
   PhCube,
   PhDownloadSimple,
   PhEnvelopeSimple,
@@ -52,7 +53,15 @@ const deliveryStages = (aboutPage.delivery?.stages || []).map((stage) => ({
 }))
 
 const resume = aboutPage.resume || {}
-const resumeMetrics = Array.isArray(resume.metrics) ? resume.metrics : []
+const resumeMetricIcons = {
+  experience: PhClockCounterClockwise,
+  content: PhFilmSlate,
+  delivery: PhFlowArrow
+}
+const resumeMetrics = (Array.isArray(resume.metrics) ? resume.metrics : []).map((metric) => ({
+  ...metric,
+  icon: resumeMetricIcons[metric.icon] || PhClockCounterClockwise
+}))
 const resumeExperience = Array.isArray(resume.experience) ? resume.experience : []
 const resumeSkills = Array.isArray(resume.skills) ? resume.skills : []
 const contactHref = computed(() => `mailto:${profile.email}`)
@@ -320,7 +329,6 @@ onBeforeUnmount(() => {
       data-testid="resume-section"
     >
       <header class="resume-heading" v-reveal="reveal()">
-        <p class="resume-eyebrow">{{ resume.eyebrow }}</p>
         <div>
           <h2 id="resume-title">{{ resume.title }}</h2>
           <p>{{ resume.description }}</p>
@@ -333,6 +341,9 @@ onBeforeUnmount(() => {
           :key="metric.label"
           v-reveal="reveal(index * 70)"
         >
+          <span class="resume-metric__icon" aria-hidden="true">
+            <component :is="metric.icon" :size="34" weight="regular" />
+          </span>
           <dt>{{ metric.value }}</dt>
           <dd>{{ metric.label }}</dd>
         </div>
@@ -342,7 +353,7 @@ onBeforeUnmount(() => {
         <article class="resume-career" v-reveal="reveal(70)">
           <header class="resume-card-kicker">
             <PhBriefcase :size="24" weight="regular" aria-hidden="true" />
-            <span>RECENT EXPERIENCE</span>
+            <span>近期工作经历</span>
           </header>
 
           <ol class="resume-timeline">
@@ -365,7 +376,7 @@ onBeforeUnmount(() => {
 
         <article class="resume-project" v-reveal="reveal(130)">
           <div class="resume-project__topline">
-            <span>SELECTED PROJECT</span>
+            <span>代表项目</span>
             <strong>{{ resume.project.year }}</strong>
           </div>
           <p class="resume-project__role">{{ resume.project.role }}</p>
@@ -383,7 +394,6 @@ onBeforeUnmount(() => {
       <div class="resume-detail-grid">
         <article class="resume-skills" v-reveal="reveal(90)">
           <header>
-            <span>CAPABILITY MAP</span>
             <h3>{{ resume.skillsTitle }}</h3>
           </header>
           <div class="resume-skill-groups">
@@ -400,7 +410,7 @@ onBeforeUnmount(() => {
           <article v-reveal="reveal(130)">
             <PhGraduationCap :size="30" weight="regular" aria-hidden="true" />
             <div>
-              <span>EDUCATION</span>
+              <span>教育背景</span>
               <h3>{{ resume.education.school }}</h3>
               <p>{{ resume.education.major }}</p>
             </div>
@@ -408,7 +418,7 @@ onBeforeUnmount(() => {
           <article v-reveal="reveal(170)">
             <PhMedal :size="30" weight="regular" aria-hidden="true" />
             <div>
-              <span>RECOGNITION</span>
+              <span>近期荣誉</span>
               <h3>{{ resume.recognition.title }}</h3>
               <p>{{ resume.recognition.year }}</p>
             </div>
@@ -418,7 +428,6 @@ onBeforeUnmount(() => {
 
       <footer class="resume-cta" v-reveal="reveal(100)">
         <div>
-          <p class="resume-eyebrow">{{ resume.cta.eyebrow }}</p>
           <h3>{{ resume.cta.title }}</h3>
           <p>{{ resume.cta.description }}</p>
         </div>
@@ -913,16 +922,13 @@ onBeforeUnmount(() => {
 }
 
 .resume-heading {
-  display: grid;
-  grid-template-columns: minmax(180px, .45fr) minmax(0, 1.55fr);
-  gap: var(--space-xl);
-  align-items: start;
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
 }
 
-.resume-eyebrow,
 .resume-card-kicker,
 .resume-project__topline,
-.resume-skills > header > span,
 .resume-credentials article span {
   color: var(--brand-main);
   font-size: 12px;
@@ -939,7 +945,7 @@ onBeforeUnmount(() => {
 
 .resume-heading > div > p {
   max-width: 720px;
-  margin-top: var(--space-sm);
+  margin: var(--space-sm) auto 0;
   color: var(--text-sub);
   font-size: var(--text-lead);
 }
@@ -947,18 +953,48 @@ onBeforeUnmount(() => {
 .resume-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
   margin: var(--space-2xl) 0 0;
-  border-top: 1px solid var(--border-soft);
-  border-bottom: 1px solid var(--border-soft);
 }
 
 .resume-metrics > div {
-  padding: var(--space-lg) 0;
+  position: relative;
+  display: flex;
+  min-height: 210px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-lg);
+  border: 1px solid color-mix(in srgb, var(--brand-main) 18%, var(--border-soft));
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(circle at 50% 0, color-mix(in srgb, var(--brand-main) 10%, transparent), transparent 56%),
+    color-mix(in srgb, var(--bg-card) 94%, transparent);
+  text-align: center;
 }
 
-.resume-metrics > div + div {
-  padding-left: var(--space-xl);
-  border-left: 1px solid var(--border-soft);
+.resume-metrics > div::after {
+  position: absolute;
+  right: -42px;
+  bottom: -58px;
+  width: 138px;
+  height: 138px;
+  border: 1px solid color-mix(in srgb, var(--brand-main) 16%, transparent);
+  border-radius: 50%;
+  content: "";
+}
+
+.resume-metric__icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  margin-bottom: var(--space-md);
+  border: 1px solid color-mix(in srgb, var(--brand-main) 36%, var(--border-soft));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--brand-main) 8%, var(--bg-card));
+  color: var(--brand-main);
 }
 
 .resume-metrics dt {
@@ -974,6 +1010,7 @@ onBeforeUnmount(() => {
   margin: var(--space-xs) 0 0;
   color: var(--text-sub);
   font-size: var(--text-body);
+  line-height: 1.55;
 }
 
 .resume-feature-grid {
@@ -1377,8 +1414,7 @@ onBeforeUnmount(() => {
   }
 
   .resume-heading {
-    grid-template-columns: 1fr;
-    gap: var(--space-xs);
+    max-width: 720px;
   }
 
   .resume-feature-grid,
@@ -1563,7 +1599,7 @@ onBeforeUnmount(() => {
   }
 
   .resume-heading {
-    text-align: left;
+    text-align: center;
   }
 
   .resume-heading > div > p {
@@ -1575,17 +1611,8 @@ onBeforeUnmount(() => {
   }
 
   .resume-metrics > div {
-    display: grid;
-    grid-template-columns: 100px minmax(0, 1fr);
-    gap: var(--space-sm);
-    align-items: baseline;
-    padding: var(--space-md) 0;
-  }
-
-  .resume-metrics > div + div {
-    padding-left: 0;
-    border-top: 1px solid var(--border-soft);
-    border-left: 0;
+    min-height: 190px;
+    padding: var(--space-lg);
   }
 
   .resume-metrics dt {
