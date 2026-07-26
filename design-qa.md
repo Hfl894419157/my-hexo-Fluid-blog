@@ -91,3 +91,73 @@
 - [x] 控制台、内容测试与生产构建
 
 final result: passed
+
+---
+
+# 知识库三个子页面顶部精简 QA
+
+## Evidence
+
+- source visual truth path：`C:\Users\ADMINI~1\AppData\Local\Temp\codex-clipboard-4f5bbf18-3225-44b2-8ab0-da53e9b5cb1a.png`
+- implementation screenshot path：`.audit/knowledge-subpages/resources-desktop.png`
+- mobile implementation screenshot path：`.audit/knowledge-subpages/resources-mobile.png`
+- full-view comparison evidence：`.audit/knowledge-subpages/resources-reference-comparison.png`
+- desktop viewport：1349 × 706 CSS px，deviceScaleFactor 1
+- source pixels：1349 × 706
+- implementation pixels：1349 × 706
+- mobile viewport / pixels：390 × 844，deviceScaleFactor 1
+- state：亮色主题；研究笔记、方法指南、工具与资源三个公开子页面
+
+## Findings
+
+- 没有 P0、P1 或 P2 问题。
+- 三个页面均已移除页面内顶部介绍、装饰图和 `PageSearch`，直接从各自的内容标题开始。
+- 研究笔记和方法指南已在内容标题下补充栏目说明，字号、行高和 12px 间距与工具与资源页一致。
+- 工具与资源页同时移除了分类按钮和“下载与版权说明”，与用户截图圈选范围一致。
+- 桌面端内容区距全局导航底部约 70px，手机端内容顶部为 112px，没有异常大块留白。
+- 三页在 1280px 桌面和 390px 手机宽度下均无横向溢出。
+- 全局导航搜索仍保留；手机端实测可打开和关闭，浏览器控制台无错误。
+
+## Required Fidelity Surfaces
+
+- Fonts and typography：沿用现有展示字体、28px 手机标题层级和全站字重，没有引入新字体或错位换行。
+- Spacing and layout rhythm：删除目标区域后，内容标题与导航保持稳定间距，卡片/空状态宽度和圆角未改变。
+- Colors and visual tokens：继续使用现有背景、正文、品牌色、边框和空状态变量。
+- Image quality and asset fidelity：本次目标是删除顶部装饰图，没有新增、替换或裁切内容图片。
+- Copy and content：保留内容列表标题；三个子页面均显示与各自栏目对应的简短说明，只删除失效的搜索说明及圈选辅助控件。
+
+## Full-view Comparison
+
+- 左侧参考图显示需要删除的顶部标题说明、装饰图、页内搜索、热门主题、资源筛选和下载说明。
+- 右侧实现图直接显示“全部工具与资源”及内容区域；上述目标元素均不存在。
+- 主要差异全部来自用户要求的删除，没有出现额外布局、颜色或内容改动。
+
+## Focused Region Comparison
+
+- 不需要额外局部裁切：目标元素和内容首屏在 1349 × 706 全视图对照中均清晰可辨。
+
+## Comparison History
+
+- 初始检查：现有三个子页面仍通过 `OverviewPage` 显示 `PageHero + PageSearch`，工具页还显示筛选与下载说明。
+- 修复：三个子页面传入 `showHero=false`；移除工具页筛选状态、按钮、下载入口和相关样式；删除失效搜索说明。
+- 复核：桌面与手机实测均无顶部/页内搜索，内容标题位置稳定，全局搜索功能正常。
+- 用户复核：研究笔记和方法指南的内容标题下缺少与工具页一致的小字说明。
+- 修复：复用两页既有的栏目 `description` 作为内容区说明，不增加新的配置入口。
+- 复核：桌面端说明为 15px、标题间距 12px；390px 手机端正常换行、无横向溢出，控制台无错误。
+
+## Implementation Checklist
+
+- [x] 研究笔记移除顶部与页内搜索
+- [x] 方法指南移除顶部与页内搜索
+- [x] 研究笔记与方法指南补充栏目说明
+- [x] 工具与资源移除顶部、页内搜索、筛选与下载说明
+- [x] 保留全局导航和全局搜索
+- [x] 桌面与手机响应式检查
+- [x] 浏览器控制台检查
+- [x] 内容测试与生产构建
+
+## Follow-up Polish
+
+- 当前没有阻塞或需要继续调整的 P3 项。
+
+final result: passed
