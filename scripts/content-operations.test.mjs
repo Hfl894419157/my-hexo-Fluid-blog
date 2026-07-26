@@ -65,10 +65,21 @@ test('关于我页面的首页摘要、首屏、能力、交付流程和职业�
   assert.ok(aboutPage.delivery.stages.length > 0)
   assert.equal(aboutPage.resume.experience.length, 2)
   assert.ok(aboutPage.resume.skills.length > 0)
+  assert.deepEqual(Object.keys(aboutPage.resume.labels), [
+    'experience',
+    'project',
+    'education',
+    'recognition',
+    'contact',
+    'portfolio',
+    'download'
+  ])
   assert.deepEqual(aboutPage.resume.metrics.map((item) => item.icon), ['experience', 'content', 'delivery'])
   assert.match(source, /aboutPage\.workbench\?\.capabilities/)
   assert.match(source, /aboutPage\.delivery\?\.stages/)
   assert.match(source, /aboutPage\.resume/)
+  assert.match(source, /resume\.labels\.experience/)
+  assert.match(source, /resume\.labels\.download/)
   assert.match(source, /data-testid="resume-section"/)
   assert.match(source, /v-if="profile\.resumePdf"/)
   assert.doesNotMatch(source, /CAREER PROFILE|RECENT EXPERIENCE|SELECTED PROJECT|CAPABILITY MAP/)

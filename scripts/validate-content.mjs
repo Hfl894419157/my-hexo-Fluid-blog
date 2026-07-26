@@ -259,6 +259,9 @@ const aboutResume = aboutPage.resume || {}
 const aboutResumeMetricIcons = new Set(['experience', 'content', 'delivery'])
 requireValue(String(aboutResume.title || '').trim(), 'aboutPage.json: resume.title 不能为空')
 requireValue(String(aboutResume.description || '').trim(), 'aboutPage.json: resume.description 不能为空')
+for (const key of ['experience', 'project', 'education', 'recognition', 'contact', 'portfolio', 'download']) {
+  requireValue(String(aboutResume.labels?.[key] || '').trim(), `aboutPage.json: resume.labels.${key} 不能为空`)
+}
 requireValue(Array.isArray(aboutResume.metrics) && aboutResume.metrics.length > 0, 'aboutPage.json: resume.metrics 不能为空')
 for (const [index, metric] of (aboutResume.metrics || []).entries()) {
   const label = `aboutPage.json: resume.metrics[${index}]`

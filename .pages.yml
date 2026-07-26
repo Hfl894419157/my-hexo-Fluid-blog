@@ -780,6 +780,18 @@ content:
             fields:
               - { name: title, label: 板块标题, type: string, required: true }
               - { name: description, label: 板块说明, type: text, required: true }
+              - name: labels
+                label: 界面标签与按钮文案
+                type: object
+                required: true
+                fields:
+                  - { name: experience, label: 工作经历标签, type: string, required: true }
+                  - { name: project, label: 代表项目标签, type: string, required: true }
+                  - { name: education, label: 教育背景标签, type: string, required: true }
+                  - { name: recognition, label: 近期荣誉标签, type: string, required: true }
+                  - { name: contact, label: 联系按钮文案, type: string, required: true }
+                  - { name: portfolio, label: 作品按钮文案, type: string, required: true }
+                  - { name: download, label: 简历下载按钮文案, type: string, required: true }
               - name: metrics
                 label: 履历摘要指标
                 type: object
