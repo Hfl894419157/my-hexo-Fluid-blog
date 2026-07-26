@@ -53,6 +53,12 @@ test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、关于页
   assert.ok(entries.some((entry) => entry.name === 'about_page' && entry.path === '.shared/content/aboutPage.json'))
   assert.ok(!entries.some((entry) => entry.name === 'about_cards'))
   assert.ok((config.media || []).some((entry) => entry.name === 'documents' && entry.extensions.includes('pdf')))
+
+  const aboutEntry = entries.find((entry) => entry.name === 'about_page')
+  const profileEntry = entries.find((entry) => entry.name === 'profile')
+  const heroField = aboutEntry.fields.find((field) => field.name === 'hero')
+  assert.equal(heroField.fields.find((field) => field.name === 'portrait').type, 'image')
+  assert.equal(profileEntry.fields.find((field) => field.name === 'avatar').type, 'image')
 })
 
 test('关于我页面的首页摘要、首屏、能力、交付流程和职业履历均由后台数据驱动', async () => {
@@ -62,6 +68,14 @@ test('关于我页面的首页摘要、首屏、能力、交付流程和职业�
 
   assert.equal(aboutPage.home.highlights.length, 3)
   assert.ok(aboutPage.workbench.capabilities.length > 0)
+  assert.deepEqual(aboutPage.workbench.capabilities.map((item) => item.id), [
+    'aigc',
+    'video',
+    'web',
+    'graphic',
+    'three-d',
+    'photography'
+  ])
   assert.ok(aboutPage.delivery.stages.length > 0)
   assert.equal(aboutPage.resume.experience.length, 2)
   assert.ok(aboutPage.resume.skills.length > 0)

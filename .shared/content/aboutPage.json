@@ -32,33 +32,6 @@
     "description": "选择一项能力，查看我使用的真实工具、负责环节与最终产出。",
     "capabilities": [
       {
-        "id": "graphic",
-        "title": "平面视觉设计",
-        "icon": "palette",
-        "statement": "把产品信息整理成清楚、有重点、能够服务商业目标的视觉表达。",
-        "tools": "Photoshop、CorelDRAW",
-        "process": ["信息整理", "版式设计", "商业视觉", "后期处理"],
-        "output": "品牌内容、电商视觉、宣传物料"
-      },
-      {
-        "id": "three-d",
-        "title": "3D 产品表现",
-        "icon": "cube",
-        "statement": "通过结构、材质、灯光与空间关系，建立更完整的产品表现。",
-        "tools": "C4D、KeyShot、Redshift",
-        "process": ["模型搭建", "材质设定", "灯光构建", "渲染输出"],
-        "output": "产品模型、场景表现、渲染素材"
-      },
-      {
-        "id": "photography",
-        "title": "产品摄影",
-        "icon": "camera",
-        "statement": "从真实产品出发，完成构图、布光、拍摄与后期精修。",
-        "tools": "拍摄设备、布光系统、Photoshop 后期",
-        "process": ["画面构图", "灯光布置", "产品拍摄", "后期精修"],
-        "output": "产品原片、商业成片、后期素材"
-      },
-      {
         "id": "aigc",
         "title": "AIGC 工作流搭建",
         "icon": "flow",
@@ -84,6 +57,33 @@
         "tools": "Vue、VitePress、HTML、CSS",
         "process": ["信息架构", "视觉设计", "响应式适配", "前端实现"],
         "output": "品牌网站、专题页、产品落地页"
+      },
+      {
+        "id": "graphic",
+        "title": "平面视觉设计",
+        "icon": "palette",
+        "statement": "把产品信息整理成清楚、有重点、能够服务商业目标的视觉表达。",
+        "tools": "Photoshop、CorelDRAW",
+        "process": ["信息整理", "版式设计", "商业视觉", "后期处理"],
+        "output": "品牌内容、电商视觉、宣传物料"
+      },
+      {
+        "id": "three-d",
+        "title": "3D 产品表现",
+        "icon": "cube",
+        "statement": "通过结构、材质、灯光与空间关系，建立更完整的产品表现。",
+        "tools": "C4D、KeyShot、Redshift",
+        "process": ["模型搭建", "材质设定", "灯光构建", "渲染输出"],
+        "output": "产品模型、场景表现、渲染素材"
+      },
+      {
+        "id": "photography",
+        "title": "产品摄影",
+        "icon": "camera",
+        "statement": "从真实产品出发，完成构图、布光、拍摄与后期精修。",
+        "tools": "拍摄设备、布光系统、Photoshop 后期",
+        "process": ["画面构图", "灯光布置", "产品拍摄", "后期精修"],
+        "output": "产品原片、商业成片、后期素材"
       }
     ]
   },
