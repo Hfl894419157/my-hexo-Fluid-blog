@@ -1,7 +1,9 @@
 <script setup>
+import { nextTick, onMounted, onUpdated, ref } from 'vue'
 import ResponsiveImage from './ResponsiveImage.vue'
 import ContentVideo from './ContentVideo.vue'
 import PortfolioGallery from './PortfolioGallery.vue'
+import ContentLightbox from './ContentLightbox.vue'
 
 defineProps({
   blocks: { type: Array, default: () => [] },
@@ -10,10 +12,92 @@ defineProps({
 
 const cardCover = (block) => block.customCover || block.platformCover || block.cover || ''
 const cardLabel = (block) => block.buttonLabel || (block.type === 'download' ? '打开资源' : '访问链接')
+
+const previewSelector = [
+  '.content-block--rich img',
+  '.content-block--image img',
+  '.content-block--gallery img',
+  '.pf-gallery img'
+].join(', ')
+
+const contentRoot = ref(null)
+const previewOpen = ref(false)
+const previewItems = ref([])
+const previewIndex = ref(0)
+let previewTrigger = null
+
+const previewImages = () => contentRoot.value
+  ? [...contentRoot.value.querySelectorAll(previewSelector)]
+  : []
+
+const imageCaption = (image) => {
+  const figureCaption = image.closest('figure')?.querySelector('figcaption')
+  return figureCaption?.textContent?.trim() || ''
+}
+
+const decoratePreviewImages = () => {
+  for (const image of previewImages()) {
+    image.classList.add('content-previewable-image')
+    image.setAttribute('tabindex', '0')
+    image.setAttribute('role', 'button')
+    image.setAttribute('aria-label', image.alt?.trim()
+      ? `放大查看：${image.alt.trim()}`
+      : '放大查看图片')
+  }
+}
+
+const openPreview = (image) => {
+  const images = previewImages()
+  const index = images.indexOf(image)
+  if (index < 0) return
+
+  previewTrigger = image
+  previewItems.value = images.map((item) => ({
+    src: item.getAttribute('src') || item.currentSrc || item.src,
+    alt: item.alt?.trim() || '',
+    caption: imageCaption(item)
+  }))
+  previewIndex.value = index
+  previewOpen.value = true
+}
+
+const eligibleImageFromEvent = (event) => {
+  const image = event.target instanceof HTMLImageElement ? event.target : null
+  return image?.matches(previewSelector) ? image : null
+}
+
+const handleContentClick = (event) => {
+  const image = eligibleImageFromEvent(event)
+  if (!image) return
+  event.preventDefault()
+  openPreview(image)
+}
+
+const handleContentKeydown = (event) => {
+  if (event.key !== 'Enter' && event.key !== ' ') return
+  const image = eligibleImageFromEvent(event)
+  if (!image) return
+  event.preventDefault()
+  openPreview(image)
+}
+
+const closePreview = async () => {
+  previewOpen.value = false
+  await nextTick()
+  previewTrigger?.focus()
+}
+
+onMounted(decoratePreviewImages)
+onUpdated(() => nextTick(decoratePreviewImages))
 </script>
 
 <template>
-  <div class="content-blocks">
+  <div
+    ref="contentRoot"
+    class="content-blocks"
+    @click="handleContentClick"
+    @keydown="handleContentKeydown"
+  >
     <template v-for="block in blocks" :key="block.id">
       <section v-if="block.type === 'richText' && block.html" class="content-block content-block--rich" v-html="block.html" />
 
@@ -50,4 +134,12 @@ const cardLabel = (block) => block.buttonLabel || (block.type === 'download' ? '
       </article>
     </template>
   </div>
+
+  <ContentLightbox
+    :open="previewOpen"
+    :items="previewItems"
+    :active-index="previewIndex"
+    @close="closePreview"
+    @select="previewIndex = $event"
+  />
 </template>

@@ -192,7 +192,7 @@ const moveSelection = (offset) => {
   border: 1px solid var(--border-soft);
   border-radius: 18px;
   background: #0f0d0b;
-  box-shadow: 0 24px 64px color-mix(in srgb, var(--text-main) 11%, transparent);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--text-main) 7%, transparent);
 }
 
 .video-stage > img {

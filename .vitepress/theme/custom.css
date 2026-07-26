@@ -573,6 +573,14 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 .content-block--image img,
 .content-block--gallery .responsive-picture,
 .content-block--gallery img { display: block; width: 100%; height: auto; }
+.content-previewable-image {
+  cursor: zoom-in;
+  outline: none;
+}
+.content-previewable-image:focus-visible {
+  outline: 2px solid var(--brand-main);
+  outline-offset: 4px;
+}
 .content-block--image figcaption,
 .content-block--gallery figcaption { margin-top: 10px; color: var(--text-muted); font-size: 13px; line-height: 1.65; text-align: center; }
 .content-block--image + .content-block--rich { margin-top: 10px; }
