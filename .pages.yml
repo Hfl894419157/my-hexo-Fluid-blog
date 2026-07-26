@@ -780,18 +780,6 @@ content:
             fields:
               - { name: title, label: 板块标题, type: string, required: true }
               - { name: description, label: 板块说明, type: text, required: true }
-              - name: labels
-                label: 界面标签与按钮文案
-                type: object
-                required: true
-                fields:
-                  - { name: experience, label: 工作经历标签, type: string, required: true }
-                  - { name: project, label: 代表项目标签, type: string, required: true }
-                  - { name: education, label: 教育背景标签, type: string, required: true }
-                  - { name: recognition, label: 近期荣誉标签, type: string, required: true }
-                  - { name: contact, label: 联系按钮文案, type: string, required: true }
-                  - { name: portfolio, label: 作品按钮文案, type: string, required: true }
-                  - { name: download, label: 简历下载按钮文案, type: string, required: true }
               - name: metrics
                 label: 履历摘要指标
                 type: object
@@ -863,18 +851,13 @@ content:
                   - { name: description, label: 说明, type: text, required: true }
 
       - name: profile
-        label: 个人资料与联系方式
+        label: 基础资料与联系
         type: file
         path: .shared/content/profile.json
         format: json
         operations: { delete: false }
         fields:
           - { name: name, label: 姓名, type: string, required: true }
-          - { name: role, label: 职业定位, type: string, required: true }
-          - { name: avatar, label: 头像, type: image, options: { media: images } }
-          - { name: intro, label: 个人简介, type: text, required: true }
-          - { name: yearsValue, label: 实践年数, type: number, required: true }
-          - { name: yearsLabel, label: 年限说明, type: string, required: true }
           - { name: email, label: 合作邮箱, type: string, required: true }
           - { name: resumePdf, label: 个人简历 PDF（可选）, type: file, options: { media: documents, extensions: [pdf] } }
 

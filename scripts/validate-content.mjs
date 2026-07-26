@@ -259,9 +259,6 @@ const aboutResume = aboutPage.resume || {}
 const aboutResumeMetricIcons = new Set(['experience', 'content', 'delivery'])
 requireValue(String(aboutResume.title || '').trim(), 'aboutPage.json: resume.title 不能为空')
 requireValue(String(aboutResume.description || '').trim(), 'aboutPage.json: resume.description 不能为空')
-for (const key of ['experience', 'project', 'education', 'recognition', 'contact', 'portfolio', 'download']) {
-  requireValue(String(aboutResume.labels?.[key] || '').trim(), `aboutPage.json: resume.labels.${key} 不能为空`)
-}
 requireValue(Array.isArray(aboutResume.metrics) && aboutResume.metrics.length > 0, 'aboutPage.json: resume.metrics 不能为空')
 for (const [index, metric] of (aboutResume.metrics || []).entries()) {
   const label = `aboutPage.json: resume.metrics[${index}]`
@@ -303,11 +300,7 @@ for (const [index, item] of (faq.items || []).entries()) {
 
 const profile = JSON.parse(readFileSync(path.join(repoRoot, '.shared', 'content', 'profile.json'), 'utf8'))
 requireValue(String(profile.name || '').trim(), 'profile.json: name 不能为空')
-requireValue(String(profile.role || '').trim(), 'profile.json: role 不能为空')
-requireValue(String(profile.intro || '').trim(), 'profile.json: intro 不能为空')
-requireValue(Number.isFinite(profile.yearsValue) && profile.yearsValue >= 0, 'profile.json: yearsValue 必须是非负数字')
-requireValue(String(profile.yearsLabel || '').trim(), 'profile.json: yearsLabel 不能为空')
-if (profile.avatar) checkImage('profile.json', 'avatar', profile.avatar)
+requireValue(String(profile.email || '').trim(), 'profile.json: email 不能为空')
 if (profile.resumePdf) {
   const pdfPath = path.join(repoRoot, 'public', String(profile.resumePdf).replace(/^\//, ''))
   if (!existsSync(pdfPath)) {

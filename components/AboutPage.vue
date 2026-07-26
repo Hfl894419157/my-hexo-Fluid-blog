@@ -353,7 +353,7 @@ onBeforeUnmount(() => {
         <article class="resume-career" v-reveal="reveal(70)">
           <header class="resume-card-kicker">
             <PhBriefcase :size="24" weight="regular" aria-hidden="true" />
-            <span>{{ resume.labels.experience }}</span>
+            <span>近期工作经历</span>
           </header>
 
           <ol class="resume-timeline">
@@ -376,7 +376,7 @@ onBeforeUnmount(() => {
 
         <article class="resume-project" v-reveal="reveal(130)">
           <div class="resume-project__topline">
-            <span>{{ resume.labels.project }}</span>
+            <span>代表项目</span>
             <strong>{{ resume.project.year }}</strong>
           </div>
           <p class="resume-project__role">{{ resume.project.role }}</p>
@@ -410,7 +410,7 @@ onBeforeUnmount(() => {
           <article v-reveal="reveal(130)">
             <PhGraduationCap :size="30" weight="regular" aria-hidden="true" />
             <div>
-              <span>{{ resume.labels.education }}</span>
+              <span>教育背景</span>
               <h3>{{ resume.education.school }}</h3>
               <p>{{ resume.education.major }}</p>
             </div>
@@ -418,7 +418,7 @@ onBeforeUnmount(() => {
           <article v-reveal="reveal(170)">
             <PhMedal :size="30" weight="regular" aria-hidden="true" />
             <div>
-              <span>{{ resume.labels.recognition }}</span>
+              <span>近期荣誉</span>
               <h3>{{ resume.recognition.title }}</h3>
               <p>{{ resume.recognition.year }}</p>
             </div>
@@ -434,10 +434,10 @@ onBeforeUnmount(() => {
         <nav aria-label="职业联系">
           <a class="resume-button resume-button--primary" :href="contactHref">
             <PhEnvelopeSimple :size="20" weight="bold" aria-hidden="true" />
-            {{ resume.labels.contact }}
+            联系我
           </a>
           <a class="resume-button" href="/portfolio/">
-            {{ resume.labels.portfolio }}
+            查看代表作品
             <PhArrowUpRight :size="19" weight="bold" aria-hidden="true" />
           </a>
           <a
@@ -447,7 +447,7 @@ onBeforeUnmount(() => {
             download
           >
             <PhDownloadSimple :size="20" weight="bold" aria-hidden="true" />
-            {{ resume.labels.download }}
+            下载完整简历
           </a>
         </nav>
       </footer>

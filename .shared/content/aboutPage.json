@@ -120,15 +120,6 @@
   "resume": {
     "title": "职业履历",
     "description": "不罗列过时经历，只保留与当前能力最相关的工作、项目和可验证成果。",
-    "labels": {
-      "experience": "近期工作经历",
-      "project": "代表项目",
-      "education": "教育背景",
-      "recognition": "近期荣誉",
-      "contact": "联系我",
-      "portfolio": "查看代表作品",
-      "download": "下载完整简历"
-    },
     "metrics": [
       {
         "icon": "experience",

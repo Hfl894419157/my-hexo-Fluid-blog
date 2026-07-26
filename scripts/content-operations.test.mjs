@@ -58,7 +58,11 @@ test('Pages CMS 使用知识库与站点管理分组，并提供 FAQ、关于页
   const profileEntry = entries.find((entry) => entry.name === 'profile')
   const heroField = aboutEntry.fields.find((field) => field.name === 'hero')
   assert.equal(heroField.fields.find((field) => field.name === 'portrait').type, 'image')
-  assert.equal(profileEntry.fields.find((field) => field.name === 'avatar').type, 'image')
+  assert.equal(profileEntry.label, '基础资料与联系')
+  assert.deepEqual(profileEntry.fields.map((field) => field.name), ['name', 'email', 'resumePdf'])
+
+  const profile = JSON.parse(await readFile(path.join(repoRoot, '.shared/content/profile.json'), 'utf8'))
+  assert.deepEqual(Object.keys(profile), ['name', 'email'])
 })
 
 test('关于我页面的首页摘要、首屏、能力、交付流程和职业履历均由后台数据驱动', async () => {
@@ -79,21 +83,11 @@ test('关于我页面的首页摘要、首屏、能力、交付流程和职业�
   assert.ok(aboutPage.delivery.stages.length > 0)
   assert.equal(aboutPage.resume.experience.length, 2)
   assert.ok(aboutPage.resume.skills.length > 0)
-  assert.deepEqual(Object.keys(aboutPage.resume.labels), [
-    'experience',
-    'project',
-    'education',
-    'recognition',
-    'contact',
-    'portfolio',
-    'download'
-  ])
+  assert.equal(aboutPage.resume.labels, undefined)
   assert.deepEqual(aboutPage.resume.metrics.map((item) => item.icon), ['experience', 'content', 'delivery'])
   assert.match(source, /aboutPage\.workbench\?\.capabilities/)
   assert.match(source, /aboutPage\.delivery\?\.stages/)
   assert.match(source, /aboutPage\.resume/)
-  assert.match(source, /resume\.labels\.experience/)
-  assert.match(source, /resume\.labels\.download/)
   assert.match(source, /data-testid="resume-section"/)
   assert.match(source, /v-if="profile\.resumePdf"/)
   assert.doesNotMatch(source, /CAREER PROFILE|RECENT EXPERIENCE|SELECTED PROJECT|CAPABILITY MAP/)
