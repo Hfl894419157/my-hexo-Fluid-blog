@@ -14,7 +14,7 @@
     "build": "npm run images:prepare && vitepress build && npm run images:check && npm run redirects:build",
     "content:check": "node scripts/validate-content.mjs",
     "content:migrate-html": "node scripts/migrate-rich-text-html.mjs",
-    "content:test": "node --test scripts/content-operations.test.mjs scripts/duplicate-content.test.mjs scripts/hero-visual.test.mjs scripts/home-video.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs scripts/portfolio-gallery.test.mjs",
+    "content:test": "node --test scripts/comment-security.test.mjs scripts/content-operations.test.mjs scripts/duplicate-content.test.mjs scripts/hero-visual.test.mjs scripts/home-video.test.mjs scripts/image-profiles.test.mjs scripts/markdown-rendering.test.mjs scripts/portfolio-gallery.test.mjs",
     "enrichment:test": "node --test scripts/enrichment.test.mjs",
     "redirects:build": "node scripts/generate-content-redirects.mjs"
   },
