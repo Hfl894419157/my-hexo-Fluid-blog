@@ -69,7 +69,7 @@ test('灯箱提供关闭、前后切换、焦点恢复和移动端适配', () =>
   assert.match(contentBlocksSource, /previewTrigger\?\.focus\(\)/)
 })
 
-test('首页精选作品与视频舞台只保留轻量外投影', () => {
+test('首页精选作品只保留轻量外投影', () => {
   assert.match(featuredCasesSource, /box-shadow: 0 16px 44px color-mix\(in srgb, var\(--text-main\) 7%, transparent\)/)
   assert.doesNotMatch(featuredCasesSource, /0 28px 80px/)
 })

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, ref } from 'vue'
 import videoContent from '../../.shared/content/videos.json'
+import ResponsiveImage from '../ResponsiveImage.vue'
 import {
   normalizeHomeVideoCases,
   normalizeHomeVideoPlaceholderCases
@@ -39,12 +40,8 @@ const moveSelection = (offset) => {
 <template>
   <section v-if="cases.length" id="video-showcase" class="video-showcase" aria-labelledby="video-showcase-title">
     <header class="video-showcase__head" v-reveal="{ y: 20, repeat: true }">
-      <p class="video-showcase__eyebrow">动态视觉</p>
       <h3 id="video-showcase-title">让画面在时间里建立信息与情绪</h3>
       <p class="video-showcase__desc">三维动画与 AI 视频实践，围绕产品、场景与传播目标组织镜头、材质和节奏。</p>
-      <span v-if="cases.length > 1" class="video-showcase__index">
-        {{ String(activeIndex + 1).padStart(2, '0') }} / {{ String(cases.length).padStart(2, '0') }}
-      </span>
     </header>
 
     <div class="video-showcase__layout">
@@ -54,14 +51,13 @@ const moveSelection = (offset) => {
         role="tabpanel"
         v-reveal="{ y: 20, repeat: true }"
       >
-        <img
+        <ResponsiveImage
+          :key="activeCase.id"
           :src="activeCase.poster"
           :alt="`${activeCase.title}视频封面`"
-          width="1600"
-          height="900"
-          loading="lazy"
-          decoding="async"
-        >
+          profile="homeCase"
+          sizes="(max-width: 899px) 100vw, 960px"
+        />
         <div class="video-stage__shade" aria-hidden="true"></div>
         <div class="video-stage__copy">
           <h4>{{ activeCase.title }}</h4>
@@ -111,7 +107,12 @@ const moveSelection = (offset) => {
           @keydown.end.prevent="focusSelection(cases.length - 1)"
         >
           <span class="video-card__thumb">
-            <img :src="item.poster" alt="" width="560" height="315" loading="lazy" decoding="async">
+            <ResponsiveImage
+              :src="item.poster"
+              alt=""
+              profile="card"
+              sizes="(max-width: 899px) 76vw, 300px"
+            />
             <span v-if="item.duration">{{ item.duration }}</span>
           </span>
           <span class="video-card__copy">
@@ -136,7 +137,6 @@ const moveSelection = (offset) => {
 }
 
 .video-showcase__head {
-  position: relative;
   display: grid;
   width: min(960px, 100%);
   justify-items: center;
@@ -145,19 +145,11 @@ const moveSelection = (offset) => {
   text-align: center;
 }
 
-.video-showcase__eyebrow {
-  margin: 0 0 12px;
-  color: var(--brand-main);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: .16em;
-}
-
 .video-showcase__head h3 {
   margin: 0;
   color: var(--text-main);
   font-family: var(--font-display);
-  font-size: clamp(24px, 2.5vw, 30px);
+  font-size: clamp(30px, 3vw, 36px);
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -.025em;
@@ -171,15 +163,6 @@ const moveSelection = (offset) => {
   line-height: 1.8;
 }
 
-.video-showcase__index {
-  position: absolute;
-  right: 0;
-  bottom: 5px;
-  color: var(--brand-main);
-  font: 700 11px/1 var(--font-mono);
-  letter-spacing: .12em;
-}
-
 .video-showcase__layout {
   width: min(960px, 100%);
   margin: 28px auto 0;
@@ -190,12 +173,18 @@ const moveSelection = (offset) => {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--border-soft);
-  border-radius: 18px;
-  background: #0f0d0b;
-  box-shadow: 0 16px 44px color-mix(in srgb, var(--text-main) 7%, transparent);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
 }
 
-.video-stage > img {
+.video-stage > :deep(.responsive-picture) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.video-stage > :deep(.responsive-picture img),
+.video-stage > :deep(img) {
   display: block;
   width: 100%;
   height: 100%;
@@ -224,7 +213,7 @@ const moveSelection = (offset) => {
   margin: 0;
   color: white;
   font-family: var(--font-display);
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: clamp(24px, 2.4vw, 30px);
   font-weight: 600;
   line-height: 1.2;
 }
@@ -336,7 +325,14 @@ const moveSelection = (offset) => {
   background: var(--bg-soft);
 }
 
-.video-card__thumb img {
+.video-card__thumb :deep(.responsive-picture) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.video-card__thumb :deep(img) {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -384,8 +380,6 @@ const moveSelection = (offset) => {
     padding-inline: 24px;
   }
 
-  .video-showcase__index { position: static; margin-top: 14px; }
-
   .video-list {
     display: flex;
     width: 100%;
@@ -414,7 +408,7 @@ const moveSelection = (offset) => {
     width: calc(100% - 40px);
   }
 
-  .video-stage__copy h4 { font-size: 23px; }
+  .video-stage__copy h4 { font-size: 22px; }
   .video-stage__copy p { display: none; }
 
   .video-stage__play {
