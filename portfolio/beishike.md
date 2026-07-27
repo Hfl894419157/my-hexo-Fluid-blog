@@ -1,11 +1,13 @@
 ---
 contentId: 4ad30ecb-deac-4526-8c62-313946621468
 meta:
-  title: 北食刻品牌设计
-  description: 北食刻品牌设计.
+  title: 北食刻品牌设计全案展示
+  description: 北食刻品牌设计！一个品牌从无到有，现在只需一句话，全部帮你搞定
   tags:
     - 品牌设计
     - logo设计
+    - VI系统设计
+    - 包装设计
 publishing:
   createdAt: 2026-07-18
   status: published
