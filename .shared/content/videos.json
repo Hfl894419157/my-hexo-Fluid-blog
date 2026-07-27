@@ -3,29 +3,31 @@
     {
       "id": "94b98f9b-fd79-40a7-8c9c-4a5095b31bb9",
       "published": true,
-      "title": "工业产品三维动态展示",
-      "category": "三维渲染视频",
-      "description": "以产品建模、材质、光影与镜头节奏建立工业品的结构感和质感。",
-      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/101.png",
-      "url": "https://www.bilibili.com/video/BV1zj411s7di/?vd_source=d4c29e058d2afb3559cd15df92266be1",
+      "title": "实测：用AI制作工业产品视频，效果居然这么真实",
+      "category": "AI 制作视频",
+      "description": "由前期的脚本策划，分镜拆分再到后期的画面输出，全部采用AI，整体效果还算超乎预期，就是有点烧钱。",
+      "poster": "/images/uploads/首页视频/guf120a-w.jpg",
+      "url": "【设计师实测：用AI制作工业产品视频，效果居然这么真实】 https://www.bilibili.com/video/BV1D7gZ6GEU8/?share_source=copy_web&vd_source=5376c4ef42d09c5b838b821e6fc0b6fd",
       "duration": "00:30–01:00"
     },
     {
       "id": "c8a1ecb4-1c14-48e5-bdb8-965582e4e90b",
-      "published": false,
-      "title": "产品材质与细节演示",
+      "published": true,
+      "title": "当传统三维动画遇上AI，工业产品短片最终效果超出预期",
       "category": "三维渲染视频",
-      "description": "用近景运镜和材质变化呈现产品细节，适合品牌展示与电商传播。",
-      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/8.jpg",
+      "description": "传统三位结合AI，快速出图，效果直接爆炸",
+      "poster": "/images/uploads/首页视频/gts138.jpg",
+      "url": "【当传统三维动画遇上AI，工业产品短片最终效果超出预期】 https://www.bilibili.com/video/BV1Vo3F6sErp/?share_source=copy_web&vd_source=5376c4ef42d09c5b838b821e6fc0b6fd",
       "duration": "00:15–00:45"
     },
     {
       "id": "135a0fb4-a72e-45e9-92c4-41b531004af7",
-      "published": false,
-      "title": "AI 工业场景视觉短片",
+      "published": true,
+      "title": "从AI策划到后期的成品出片，已经有可以闭环的工作流",
       "category": "AI 制作视频",
-      "description": "将产品事实与 AI 场景生成结合，快速探索更具传播力的动态方向。",
-      "poster": "/images/uploads/案例板块图片/3D模搭建型渲染/16.jpg",
+      "description": "将产品事实与 AI 场景生成结合，从AI策划到后期的成品出片，已经有可以闭环的工作流",
+      "poster": "/images/uploads/首页视频/ph100.jpg",
+      "url": "【不用实拍也能做出工业大片感，C4D＋AI打造工业产品视觉短片】 https://www.bilibili.com/video/BV1eo3F6WEKt/?share_source=copy_web&vd_source=5376c4ef42d09c5b838b821e6fc0b6fd",
       "duration": "00:15–00:45"
     }
   ]
