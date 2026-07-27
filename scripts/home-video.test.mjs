@@ -69,15 +69,28 @@ test('单条视频隐藏缩略列表，多条视频按数组顺序提供完整�
   assert.match(showcaseSource, /width: min\(var\(--video-list-max-width\), 100%\)/)
 })
 
-test('视频模块使用居中的次级标题层级和动态视觉眉题', () => {
-  assert.match(showcaseSource, /class="video-showcase__eyebrow">动态视觉/)
+test('视频模块使用明确的次级标题层级且不显示装饰眉题和数字索引', () => {
+  assert.doesNotMatch(showcaseSource, /video-showcase__eyebrow/)
+  assert.doesNotMatch(showcaseSource, /video-showcase__index/)
   assert.match(showcaseSource, /\.video-showcase__head[\s\S]*?text-align: center/)
-  assert.match(showcaseSource, /font-size: clamp\(24px, 2\.5vw, 30px\)/)
+  assert.match(showcaseSource, /font-size: clamp\(30px, 3vw, 36px\)/)
+  assert.match(showcaseSource, /\.video-stage__copy h4[\s\S]*?font-size: clamp\(24px, 2\.4vw, 30px\)/)
 })
 
-test('视频舞台使用克制的轻量外投影', () => {
-  assert.match(showcaseSource, /box-shadow: 0 16px 44px color-mix\(in srgb, var\(--text-main\) 7%, transparent\)/)
-  assert.doesNotMatch(showcaseSource, /0 24px 64px/)
+test('视频舞台使用全站统一边框且不使用深色外投影', () => {
+  assert.match(showcaseSource, /border: 1px solid var\(--border-soft\)/)
+  assert.match(showcaseSource, /border-radius: var\(--radius-card\)/)
+  assert.match(showcaseSource, /background: var\(--bg-card\)/)
+  assert.doesNotMatch(showcaseSource, /box-shadow: 0 16px 44px/)
+  assert.doesNotMatch(showcaseSource, /background: #0f0d0b/)
+})
+
+test('视频主封面和缩略图使用响应式图片并继续懒加载', () => {
+  assert.match(showcaseSource, /import ResponsiveImage from '\.\.\/ResponsiveImage\.vue'/)
+  assert.match(showcaseSource, /profile="homeCase"/)
+  assert.match(showcaseSource, /sizes="\(max-width: 899px\) 100vw, 960px"/)
+  assert.match(showcaseSource, /profile="card"/)
+  assert.match(showcaseSource, /sizes="\(max-width: 899px\) 76vw, 300px"/)
 })
 
 test('首页只保留已发布、完整且有效的前四条视频', () => {
