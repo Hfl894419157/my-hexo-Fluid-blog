@@ -16,6 +16,8 @@ test('OSS upload keeps hashed images immutable and never deletes remote objects'
   assert.match(uploadAction, /--include "\*\.webp"/)
   assert.match(uploadAction, /--ignore-existing/)
   assert.match(uploadAction, /max-age=31536000, immutable/)
+  assert.match(uploadAction, /default: cn-hongkong/)
+  assert.match(uploadAction, /region = %s/)
   assert.doesNotMatch(uploadAction, /OSSUTIL_BINARY[^\n]*(?:\brm\b|\bsync\b)/)
   assert.doesNotMatch(uploadAction, /--delete/)
 })
