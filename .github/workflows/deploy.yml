@@ -38,8 +38,17 @@ jobs:
         run: npm run build
         env:
           SITE_VERSION: ${{ github.sha }}
+          IMAGE_ASSET_BASE_URL: ${{ vars.IMAGE_ASSET_BASE_URL }}
       - name: 生成 Cloudflare 精确清理清单
         run: node scripts/build-cloudflare-purge-list.mjs
+      - name: 上传哈希图片到香港 OSS
+        if: github.event_name != 'pull_request' && vars.IMAGE_ASSET_BASE_URL != ''
+        uses: ./.github/actions/upload-oss-images
+        with:
+          bucket: ${{ vars.ALIYUN_OSS_BUCKET }}
+          endpoint: ${{ vars.ALIYUN_OSS_ENDPOINT || 'https://oss-cn-hongkong.aliyuncs.com' }}
+          access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
       - name: 上传产物
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3

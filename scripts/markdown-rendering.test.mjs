@@ -10,8 +10,8 @@ const imageManifest = {
     '/images/uploads/test.jpg': {
       width: 1600,
       height: 900,
-      variants: [{ src: '/generated/test-760.webp', width: 760, height: 428 }],
-      avifVariants: [{ src: '/generated/test-760.avif', width: 760, height: 428 }]
+      variants: [{ src: '/_generated/images/test/760.webp', width: 760, height: 428 }],
+      avifVariants: [{ src: '/_generated/images/test/760.avif', width: 760, height: 428 }]
     }
   }
 }
@@ -82,6 +82,22 @@ test('正文首图高优先级，其余图片懒加载，并输出 AVIF 与 WebP
   assert.equal((html.match(/type="image\/webp"/g) || []).length, 2)
 })
 
+test('generated variants use the OSS origin while the original fallback stays local', async () => {
+  disposeMdItInstance()
+  const md = await createMarkdownRenderer(process.cwd(), {
+    config(renderer) {
+      configureResponsiveMarkdownImages(renderer, imageManifest, {
+        assetBaseUrl: 'https://img.liulicc.cn'
+      })
+    }
+  })
+  const html = md.render('![测试](/images/uploads/test.jpg)', { contentImageIndex: 0 })
+
+  assert.match(html, /https:\/\/img\.liulicc\.cn\/_generated\/images\/test\/760\.avif/)
+  assert.match(html, /https:\/\/img\.liulicc\.cn\/_generated\/images\/test\/760\.webp/)
+  assert.match(html, /src="\/images\/uploads\/test\.jpg"/)
+})
+
 test('managed heading anchors keep the VitePress zero-width symbol invisible', async () => {
   disposeMdItInstance()
   const md = await createMarkdownRenderer(process.cwd(), {
@@ -130,6 +146,19 @@ test('高保真 HTML 图片复用响应式产物并标记独立图文间距', ()
   assert.match(html, /loading="eager"/)
   assert.match(html, /width="1600"/)
   assert.match(html, /height="900"/)
+})
+
+test('rich HTML uses the OSS origin only for generated variants', () => {
+  const html = renderRichHtml(
+    '<p><img src="/images/uploads/test.jpg" alt="测试图片"></p>',
+    imageManifest,
+    { headingCounts: new Map(), contentImageIndex: 0 },
+    { assetBaseUrl: 'https://img.liulicc.cn' }
+  )
+
+  assert.match(html, /https:\/\/img\.liulicc\.cn\/_generated\/images\/test\/760\.avif/)
+  assert.match(html, /https:\/\/img\.liulicc\.cn\/_generated\/images\/test\/760\.webp/)
+  assert.match(html, /src="\/images\/uploads\/test\.jpg"/)
 })
 
 test('rich HTML strips data image URLs at the rendering boundary', () => {

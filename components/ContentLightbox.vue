@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { PhCaretLeft, PhCaretRight, PhX } from '@phosphor-icons/vue'
+import { resolveResponsiveImage } from './responsiveImage.js'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -13,7 +14,11 @@ const emit = defineEmits(['close', 'select'])
 const dialog = ref(null)
 const closeButton = ref(null)
 const activeItem = computed(() => props.items[props.activeIndex] || null)
+const activeImage = computed(() => activeItem.value?.src
+  ? resolveResponsiveImage(activeItem.value.src)
+  : null)
 const hasMultiple = computed(() => props.items.length > 1)
+const imageFallbackActive = ref(false)
 
 const selectRelative = (offset) => {
   if (!hasMultiple.value) return
@@ -57,6 +62,13 @@ watch(
   { immediate: true }
 )
 
+watch(
+  () => [props.activeIndex, activeItem.value?.src],
+  () => {
+    imageFallbackActive.value = false
+  }
+)
+
 if (typeof window !== 'undefined') window.addEventListener('keydown', handleKeydown)
 
 onBeforeUnmount(() => {
@@ -97,7 +109,12 @@ onBeforeUnmount(() => {
         </button>
 
         <figure class="content-lightbox__figure">
-          <img :src="activeItem.src" :alt="activeItem.alt || ''">
+          <picture v-if="!imageFallbackActive && (activeImage?.avifSrcset || activeImage?.webpSrcset)">
+            <source v-if="activeImage.avifSrcset" type="image/avif" :srcset="activeImage.avifSrcset" sizes="min(86vw, 1440px)">
+            <source v-if="activeImage.webpSrcset" type="image/webp" :srcset="activeImage.webpSrcset" sizes="min(86vw, 1440px)">
+            <img :src="activeItem.src" :alt="activeItem.alt || ''" @error="imageFallbackActive = true">
+          </picture>
+          <img v-else :src="activeItem.src" :alt="activeItem.alt || ''">
           <figcaption v-if="activeItem.caption">{{ activeItem.caption }}</figcaption>
         </figure>
 
@@ -215,6 +232,10 @@ onBeforeUnmount(() => {
   justify-items: center;
   gap: 12px;
   margin: 0;
+}
+
+.content-lightbox__figure picture {
+  display: contents;
 }
 
 .content-lightbox__figure img {

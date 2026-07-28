@@ -8,6 +8,7 @@ import { renderRichHtml } from '../.shared/richHtml.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
+const imageAssetBaseUrl = String(process.env.IMAGE_ASSET_BASE_URL || '').trim().replace(/\/+$/, '')
 const imageManifest = JSON.parse(readFileSync(new URL('./cache/image-manifest.json', import.meta.url), 'utf8'))
 const faqData = JSON.parse(readFileSync(new URL('../.shared/content/faq.json', import.meta.url), 'utf8'))
 const contentCatalog = loadContentCatalog()
@@ -26,7 +27,7 @@ const contentMarkdown = await createMarkdownRenderer(process.cwd(), {
   config(md) {
     configureManagedHtmlPolicy(md)
     configureInlineFormatting(md)
-    configureResponsiveMarkdownImages(md, imageManifest)
+    configureResponsiveMarkdownImages(md, imageManifest, { assetBaseUrl: imageAssetBaseUrl })
   }
 })
 
@@ -56,7 +57,7 @@ const renderContentBlocks = (blocks) => {
   return blocks.map((block) => {
     if (block.type === 'richText') {
       const html = block.html
-        ? renderRichHtml(block.html, imageManifest, env)
+        ? renderRichHtml(block.html, imageManifest, env, { assetBaseUrl: imageAssetBaseUrl })
         : contentMarkdown.render(String(block.legacyMarkdown || block.markdown || ''), env)
       return { ...block, html }
     }
@@ -89,6 +90,7 @@ export default defineConfig({
   srcExclude: [
     'design-qa.md',
     'CONTENT-MANAGEMENT.md',
+    'OSS-IMAGE-SETUP.md',
     'public/images/uploads/README.md',
     ...unpublishedContentPaths
   ],
@@ -100,7 +102,12 @@ export default defineConfig({
     config(md) {
       configureManagedHtmlPolicy(md)
       configureInlineFormatting(md)
-      configureResponsiveMarkdownImages(md, imageManifest)
+      configureResponsiveMarkdownImages(md, imageManifest, { assetBaseUrl: imageAssetBaseUrl })
+    }
+  },
+  vite: {
+    define: {
+      __IMAGE_ASSET_BASE_URL__: JSON.stringify(imageAssetBaseUrl)
     }
   },
   lastUpdated: true,

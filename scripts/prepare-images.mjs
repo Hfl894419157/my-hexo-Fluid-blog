@@ -15,6 +15,13 @@ const generatedRoot = path.join(publicRoot, '_generated', 'images')
 const manifestPath = path.join(projectRoot, '.vitepress', 'cache', 'image-manifest.json')
 const rasterExtensions = new Set(['.png', '.jpg', '.jpeg', '.webp'])
 const targetWidths = [320, 480, 760, 1080]
+const imagePipelineCacheKey = JSON.stringify({
+  version: 1,
+  targetWidths,
+  imageProfileDefinitions,
+  avif: { pngQuality: 68, rasterQuality: 58, effort: 4 },
+  webp: { pngNearLossless: true, pngQuality: 88, rasterQuality: 82, effort: 6 }
+})
 const losslessUrls = new Set([
   '/wechat.png',
   '/qq.png',
@@ -193,7 +200,11 @@ for (const absolutePath of imageFiles) {
     }
 
     const sourceInfo = await stat(absolutePath)
-    const hash = createHash('sha256').update(buffer).digest('hex').slice(0, 16)
+    const hash = createHash('sha256')
+      .update(buffer)
+      .update(imagePipelineCacheKey)
+      .digest('hex')
+      .slice(0, 16)
     const entry = {
       src: sourceUrl,
       width: sourceWidth,
