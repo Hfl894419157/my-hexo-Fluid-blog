@@ -67,10 +67,10 @@ runs:
           --include "*.avif" \
           --cache-control "$cache_control" \
           --content-type "image/avif" \
-          --ignore-existing --disable-dir-object --force --no-progress
+          --ignore-existing --force --no-progress
         "$OSSUTIL_BINARY" -c "$config_file" cp -r \
           .vitepress/dist/_generated/images/ "$destination" \
           --include "*.webp" \
           --cache-control "$cache_control" \
           --content-type "image/webp" \
-          --ignore-existing --disable-dir-object --force --no-progress
+          --ignore-existing --force --no-progress
