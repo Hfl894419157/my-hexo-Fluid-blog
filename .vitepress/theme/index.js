@@ -63,6 +63,22 @@ const installManagedCodeCopy = () => {
   }, { capture: true })
 }
 
+const installGeneratedImageFallback = () => {
+  if (window.__generatedImageFallbackInstalled) return
+  window.__generatedImageFallbackInstalled = true
+
+  document.addEventListener('error', (event) => {
+    const image = event.target instanceof HTMLImageElement ? event.target : null
+    const picture = image?.closest('picture.responsive-image--content')
+    const fallbackSrc = image?.getAttribute('src') || ''
+    if (!picture || !fallbackSrc || image.dataset.originFallbackApplied === 'true') return
+
+    image.dataset.originFallbackApplied = 'true'
+    picture.querySelectorAll('source').forEach((source) => source.remove())
+    image.src = fallbackSrc
+  }, true)
+}
+
 const prefetchDocument = (href) => {
   if (!href || document.head.querySelector(`link[data-site-prefetch="${CSS.escape(href)}"]`)) return
   const url = new URL(href, window.location.href)
@@ -116,6 +132,7 @@ const scheduleDeferredEnhancements = () => {
   }
   installIntentPrefetch()
   installManagedCodeCopy()
+  installGeneratedImageFallback()
 }
 
 export default {

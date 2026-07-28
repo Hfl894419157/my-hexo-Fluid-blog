@@ -14,6 +14,14 @@ const lightboxSource = readFileSync(
   new URL('../components/ContentLightbox.vue', import.meta.url),
   'utf8'
 )
+const responsiveImageSource = readFileSync(
+  new URL('../components/ResponsiveImage.vue', import.meta.url),
+  'utf8'
+)
+const themeSource = readFileSync(
+  new URL('../.vitepress/theme/index.js', import.meta.url),
+  'utf8'
+)
 const featuredCasesSource = readFileSync(
   new URL('../components/home/HomeFeaturedCases.vue', import.meta.url),
   'utf8'
@@ -66,6 +74,11 @@ test('灯箱提供关闭、前后切换、焦点恢复和移动端适配', () =>
   assert.match(lightboxSource, /closeButton\.value\?\.focus\(\)/)
   assert.match(lightboxSource, /body\.classList\.toggle\('content-lightbox-open'/)
   assert.match(lightboxSource, /@media \(max-width: 640px\)/)
+  assert.match(lightboxSource, /resolveResponsiveImage\(activeItem\.value\.src\)/)
+  assert.match(lightboxSource, /imageFallbackActive\.value = false/)
+  assert.match(responsiveImageSource, /:src="resolved\.fallbackSrc"/)
+  assert.match(themeSource, /picture\.responsive-image--content/)
+  assert.match(themeSource, /originFallbackApplied/)
   assert.match(contentBlocksSource, /previewTrigger\?\.focus\(\)/)
 })
 

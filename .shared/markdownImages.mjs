@@ -1,3 +1,5 @@
+import { resolveGeneratedImageAssetUrl } from './imageAssetUrls.mjs'
+
 export const articleImageSizes = '(max-width: 640px) calc(100vw - 32px), 760px'
 
 const escapeAttribute = (value) => String(value)
@@ -16,7 +18,11 @@ const normalizeImageKey = (src) => {
   }
 }
 
-export const configureResponsiveMarkdownImages = (md, imageManifest) => {
+export const configureResponsiveMarkdownImages = (
+  md,
+  imageManifest,
+  { assetBaseUrl = process.env.IMAGE_ASSET_BASE_URL || '' } = {}
+) => {
   const defaultImageRenderer = md.renderer.rules.image
     || ((tokens, index, options, env, renderer) => renderer.renderToken(tokens, index, options))
 
@@ -40,8 +46,12 @@ export const configureResponsiveMarkdownImages = (md, imageManifest) => {
     const imageHtml = defaultImageRenderer(tokens, index, options, env, renderer)
     if (!entry?.variants?.length && !entry?.avifVariants?.length) return imageHtml
 
-    const avifSrcset = entry.avifVariants?.map((variant) => `${variant.src} ${variant.width}w`).join(', ') || ''
-    const webpSrcset = entry.variants?.map((variant) => `${variant.src} ${variant.width}w`).join(', ') || ''
+    const avifSrcset = entry.avifVariants
+      ?.map((variant) => `${resolveGeneratedImageAssetUrl(variant.src, assetBaseUrl)} ${variant.width}w`)
+      .join(', ') || ''
+    const webpSrcset = entry.variants
+      ?.map((variant) => `${resolveGeneratedImageAssetUrl(variant.src, assetBaseUrl)} ${variant.width}w`)
+      .join(', ') || ''
     const sources = [
       avifSrcset ? `<source type="image/avif" srcset="${escapeAttribute(avifSrcset)}" sizes="${escapeAttribute(articleImageSizes)}">` : '',
       webpSrcset ? `<source type="image/webp" srcset="${escapeAttribute(webpSrcset)}" sizes="${escapeAttribute(articleImageSizes)}">` : ''

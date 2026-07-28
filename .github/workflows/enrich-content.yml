@@ -90,6 +90,7 @@ jobs:
           npm run build
         env:
           SITE_VERSION: ${{ steps.payload.outputs.sha }}
+          IMAGE_ASSET_BASE_URL: ${{ vars.IMAGE_ASSET_BASE_URL }}
 
       - name: 提交并安全推送
         id: commit
@@ -116,6 +117,14 @@ jobs:
       - name: 生成 Cloudflare 精确清理清单
         if: steps.payload.outputs.ref == 'main' && steps.commit.outputs.changed == 'true'
         run: node scripts/build-cloudflare-purge-list.mjs
+      - name: 上传哈希图片到香港 OSS
+        if: steps.payload.outputs.ref == 'main' && steps.commit.outputs.changed == 'true' && vars.IMAGE_ASSET_BASE_URL != ''
+        uses: ./.github/actions/upload-oss-images
+        with:
+          bucket: ${{ vars.ALIYUN_OSS_BUCKET }}
+          endpoint: ${{ vars.ALIYUN_OSS_ENDPOINT || 'https://oss-cn-hongkong.aliyuncs.com' }}
+          access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
 
       - name: 上传 Pages 产物
         if: steps.payload.outputs.ref == 'main' && steps.commit.outputs.changed == 'true'

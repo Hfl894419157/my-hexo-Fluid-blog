@@ -2,6 +2,7 @@ import { load } from 'cheerio'
 import sanitizeHtml from 'sanitize-html'
 import { articleImageSizes } from './markdownImages.mjs'
 import { partitionJustifiedRows } from './justifiedGallery.mjs'
+import { resolveGeneratedImageAssetUrl } from './imageAssetUrls.mjs'
 
 const safeLength = /^(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))$/i
 const safeSpacing = /^(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))(?:\s+(?:0|[1-9]\d{0,2}(?:\.\d+)?(?:px|rem|em|%))){0,3}$/i
@@ -99,11 +100,13 @@ const slugifyHeading = (value) => String(value || '')
   .replace(/[^\p{L}\p{N}\s-]/gu, '')
   .replace(/\s+/g, '-') || 'section'
 
-const addSource = ($, picture, type, variants) => {
+const addSource = ($, picture, type, variants, assetBaseUrl) => {
   if (!variants?.length) return
   const source = $('<source>')
     .attr('type', type)
-    .attr('srcset', variants.map((variant) => `${variant.src} ${variant.width}w`).join(', '))
+    .attr('srcset', variants
+      .map((variant) => `${resolveGeneratedImageAssetUrl(variant.src, assetBaseUrl)} ${variant.width}w`)
+      .join(', '))
     .attr('sizes', articleImageSizes)
   picture.prepend(source)
 }
@@ -176,7 +179,12 @@ const parseNetdiskInfo = (text, href) => {
   }
 }
 
-export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
+export const renderRichHtml = (
+  value,
+  imageManifest = {},
+  env = {},
+  { assetBaseUrl = process.env.IMAGE_ASSET_BASE_URL || '' } = {}
+) => {
   const safe = sanitizeRichHtml(value)
   const $ = load(safe, null, false)
   env.headingCounts ||= new Map()
@@ -260,8 +268,8 @@ export const renderRichHtml = (value, imageManifest = {}, env = {}) => {
     if (!entry || originalParent.is('picture')) return
     image.wrap('<picture class="responsive-image responsive-image--content"></picture>')
     const picture = image.parent()
-    addSource($, picture, 'image/webp', entry.variants)
-    addSource($, picture, 'image/avif', entry.avifVariants)
+    addSource($, picture, 'image/webp', entry.variants, assetBaseUrl)
+    addSource($, picture, 'image/avif', entry.avifVariants, assetBaseUrl)
   })
 
   // Group adjacent single-image containers into justified gallery rows

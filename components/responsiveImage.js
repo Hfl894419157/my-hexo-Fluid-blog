@@ -1,8 +1,12 @@
 import { withBase } from 'vitepress'
 import imageManifest from '../.vitepress/cache/image-manifest.json'
 import { normalizeFocalPoint } from '../.shared/imageProfiles.mjs'
+import { resolveGeneratedImageAssetUrl } from '../.shared/imageAssetUrls.mjs'
 
 const externalPattern = /^(?:https?:)?\/\//
+const imageAssetBaseUrl = typeof __IMAGE_ASSET_BASE_URL__ === 'string'
+  ? __IMAGE_ASSET_BASE_URL__
+  : ''
 
 const resolveLocalKey = (src) => {
   if (!src || externalPattern.test(src) || /^(?:data|blob):/.test(src)) return null
@@ -15,9 +19,12 @@ const resolveLocalKey = (src) => {
   }
 }
 
-const resolveUrl = (src) => {
+const resolveUrl = (src, useImageAssetBase = false) => {
   if (!src || externalPattern.test(src) || /^(?:data|blob):/.test(src)) return src
-  return withBase(src)
+  const resolved = withBase(src)
+  return useImageAssetBase
+    ? resolveGeneratedImageAssetUrl(resolved, imageAssetBaseUrl)
+    : resolved
 }
 
 const resolveProfile = (entry, profile, focalPoint) => {
@@ -28,7 +35,7 @@ const resolveProfile = (entry, profile, focalPoint) => {
 }
 
 const toSrcset = (variants) => variants?.length
-  ? variants.map((variant) => `${resolveUrl(variant.src)} ${variant.width}w`).join(', ')
+  ? variants.map((variant) => `${resolveUrl(variant.src, true)} ${variant.width}w`).join(', ')
   : ''
 
 export const resolveResponsiveImage = (src, { profile = 'original', focalPoint = 'center' } = {}) => {
@@ -38,7 +45,8 @@ export const resolveResponsiveImage = (src, { profile = 'original', focalPoint =
   const croppedFallback = profile !== 'original' ? selected?.variants?.at(-1)?.src : ''
 
   return {
-    src: resolveUrl(croppedFallback || src),
+    src: resolveUrl(croppedFallback || src, Boolean(croppedFallback)),
+    fallbackSrc: resolveUrl(src),
     width: selected?.width || entry?.width,
     height: selected?.height || entry?.height,
     avifSrcset: toSrcset(selected?.avifVariants),
