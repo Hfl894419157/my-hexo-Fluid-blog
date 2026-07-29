@@ -6,7 +6,7 @@ import { visibleContent } from '../.shared/contentClient.js'
 
 const props = defineProps({
   title: { type: String, default: '方法指南' },
-  description: { type: String, default: '把经过实践验证的设计判断、生产方法与复盘经验整理成可以反复使用的知识。' },
+  description: { type: String, default: '把经过验证的判断标准、操作步骤、工作流程、Prompt 方法与检查表整理成可重复使用的指南。' },
   variant: { type: String, default: 'methods' }
 })
 
@@ -35,7 +35,7 @@ const items = computed(() => source.value.map((item) => ({
     :title-lines="[title]"
     :description="description"
     visual="knowledge"
-    :topics="variant === 'industry' ? ['AI 趋势', '行业观察', '学习记录', '工具实验'] : ['教程步骤', '分析框架', 'Prompt 方法', '实战经验']"
+    :topics="variant === 'industry' ? ['趋势观察', '工具测试', '对比分析', '阶段结论'] : ['判断标准', '操作步骤', '工作流程', '检查表']"
     :show-hero="false"
     :items="items"
     :section-title="variant === 'industry' ? '全部研究笔记' : '全部方法指南'"

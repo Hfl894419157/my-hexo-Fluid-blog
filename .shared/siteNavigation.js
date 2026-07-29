@@ -6,9 +6,9 @@ export const navItems = [
     text: '知识库',
     link: '/knowledge/',
     children: [
-      { text: '研究笔记', description: '趋势、观察、学习与实验', link: '/knowledge/learning-observation' },
-      { text: '方法指南', description: '教程、框架、Prompt 与实战', link: '/knowledge/methods' },
-      { text: '工具与资源', description: '软件、插件、模板与文件', link: '/knowledge/resources' }
+      { text: '研究笔记', description: '观察、测试与结论', link: '/knowledge/learning-observation' },
+      { text: '方法指南', description: '标准、步骤与检查表', link: '/knowledge/methods' },
+      { text: '工具与资源', description: '软件、模板与下载', link: '/knowledge/resources' }
     ]
   },
   { text: '关于我', link: '/resume' }

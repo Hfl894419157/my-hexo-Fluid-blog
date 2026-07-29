@@ -3,6 +3,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import matter from 'gray-matter'
+import { createContentFilename } from './lib/content-filename.mjs'
 
 const filenamePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const allowedSourcePattern = /^(?:portfolio|aigc|knowledge\/(?:learning-observation|methods|resources))\/[a-z0-9-]+\.md$/
@@ -10,7 +11,7 @@ const allowedSourcePattern = /^(?:portfolio|aigc|knowledge\/(?:learning-observat
 export const validateDuplicateInput = ({ source, title, filename }) => {
   if (!allowedSourcePattern.test(String(source || ''))) throw new Error('源文章路径不在允许范围')
   if (!String(title || '').trim()) throw new Error('新标题不能为空')
-  if (!filenamePattern.test(String(filename || ''))) throw new Error('新文件名只能包含小写英文、数字和短横线')
+  if (filename && !filenamePattern.test(String(filename))) throw new Error('新文件名只能包含小写英文、数字和短横线')
 }
 
 export const duplicateContentData = (data, { title, date = new Date().toISOString().slice(0, 10) }) => {
@@ -39,8 +40,17 @@ export const duplicateContentData = (data, { title, date = new Date().toISOStrin
 export const duplicateContentFile = ({ root, source, title, filename, date }) => {
   validateDuplicateInput({ source, title, filename })
   const sourcePath = path.join(root, source)
-  const destination = path.join(path.dirname(sourcePath), `${filename}.md`)
   if (!existsSync(sourcePath)) throw new Error(`找不到源文章：${source}`)
+
+  const requestedFilename = filename || createContentFilename(title, date ? new Date(`${date}T00:00:00.000Z`) : new Date())
+  let availableFilename = requestedFilename
+  let destination = path.join(path.dirname(sourcePath), `${availableFilename}.md`)
+  let suffix = 2
+  while (!filename && existsSync(destination)) {
+    availableFilename = `${requestedFilename}-${suffix}`
+    destination = path.join(path.dirname(sourcePath), `${availableFilename}.md`)
+    suffix += 1
+  }
   if (existsSync(destination)) throw new Error(`目标文件已存在：${path.relative(root, destination).replace(/\\/g, '/')}`)
 
   const parsed = matter(readFileSync(sourcePath, 'utf8'))
@@ -60,7 +70,7 @@ if (isDirectRun) {
     root,
     source: String(args.source || ''),
     title: String(args.title || ''),
-    filename: String(args.filename || '')
+    filename: String(args.filename || '') || undefined
   })
   process.stdout.write(destination)
 }

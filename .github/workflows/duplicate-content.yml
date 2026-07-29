@@ -31,7 +31,6 @@ jobs:
             const allowedCollections = new Set(['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries'])
             const pathPattern = /^(?:portfolio|aigc|knowledge\/(?:learning-observation|methods|resources))\/[a-z0-9-]+\.md$/
             const title = String(payload.inputs?.title || '').trim()
-            const filename = String(payload.inputs?.filename || '').trim()
             const ref = String(payload.repository?.ref || '').replace(/^refs\/heads\//, '')
             const sha = String(payload.repository?.sha || '')
             const failures = []
@@ -40,7 +39,6 @@ jobs:
             if (payload.context?.type !== 'entry' || !allowedCollections.has(payload.context?.name)) failures.push('Action 只能用于受管详情条目')
             if (!pathPattern.test(payload.context?.path || '')) failures.push('源文章路径不在允许范围')
             if (!title) failures.push('新标题不能为空')
-            if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(filename)) failures.push('新文件名只能包含小写英文、数字和短横线')
             if (!/^[A-Za-z0-9._/-]+$/.test(ref) || ref.includes('..') || ref.startsWith('/') || ref.endsWith('/')) failures.push('分支名称无效')
             if (!/^[0-9a-f]{40}$/i.test(sha)) failures.push('提交号无效')
             if (failures.length) throw new Error(failures.join('；'))
@@ -48,7 +46,6 @@ jobs:
             core.setOutput('ref', ref)
             core.setOutput('sha', sha)
             core.setOutput('title', title)
-            core.setOutput('filename', filename)
 
       - name: 拉取触发时的精确提交
         uses: actions/checkout@v4
@@ -78,9 +75,8 @@ jobs:
         env:
           SOURCE_PATH: ${{ steps.payload.outputs.source }}
           NEW_TITLE: ${{ steps.payload.outputs.title }}
-          NEW_FILENAME: ${{ steps.payload.outputs.filename }}
         run: |
-          TARGET_PATH="$(node scripts/duplicate-content.mjs --source "$SOURCE_PATH" --title "$NEW_TITLE" --filename "$NEW_FILENAME")"
+          TARGET_PATH="$(node scripts/duplicate-content.mjs --source "$SOURCE_PATH" --title "$NEW_TITLE")"
           echo "path=$TARGET_PATH" >> "$GITHUB_OUTPUT"
 
       - name: 运行内容检查

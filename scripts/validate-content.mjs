@@ -325,17 +325,23 @@ try {
   for (const name of ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']) {
     requireValue(collectionNames.has(name), `.pages.yml: 缺少集合 ${name}`)
     const collection = collections.find((entry) => entry.name === name)
-    if (name !== 'cases') {
-      requireValue(collection?.filename?.field === true, `.pages.yml: ${name} 必须在编辑页显示文件名`)
-    }
+    requireValue(collection?.filename?.field === false, `.pages.yml: ${name} 必须隐藏文件名`)
+    requireValue(
+      /\{primary\}.*\{millisecond\}\.md$/.test(String(collection?.filename?.template || '')),
+      `.pages.yml: ${name} 必须使用可读且唯一的自动文件名模板`
+    )
     requireValue(collection?.operations?.create === true, `.pages.yml: ${name} 必须允许新建`)
-    requireValue(collection?.operations?.rename === true, `.pages.yml: ${name} 必须允许重命名`)
+    requireValue(collection?.operations?.rename === false, `.pages.yml: ${name} 必须关闭手工重命名`)
     requireValue(collection?.operations?.delete === true, `.pages.yml: ${name} 必须允许删除`)
     requireValue(collection?.fields?.some((field) => field?.name === 'contentId' && field?.component === 'content_id'), `.pages.yml: ${name} 缺少隐藏 contentId`)
     const action = collection?.actions?.find((entry) => entry.name === 'enrich-content')
     requireValue(action?.scope === 'entry' && action?.workflow === 'enrich-content.yml' && action?.ref === 'current', `.pages.yml: ${name} 缺少条目级识别 Action`)
     const duplicateAction = collection?.actions?.find((entry) => entry.name === 'duplicate-content')
     requireValue(duplicateAction?.scope === 'entry' && duplicateAction?.workflow === 'duplicate-content.yml' && duplicateAction?.ref === 'current', `.pages.yml: ${name} 缺少复制为新草稿 Action`)
+    requireValue(
+      duplicateAction?.fields?.length === 1 && duplicateAction.fields[0]?.name === 'title',
+      `.pages.yml: ${name} 复制时只能要求填写新标题`
+    )
   }
   const homepage = contentEntries.find((entry) => entry.name === 'homepage')
   const homeVideosEntry = contentEntries.find((entry) => entry.name === 'home_videos')

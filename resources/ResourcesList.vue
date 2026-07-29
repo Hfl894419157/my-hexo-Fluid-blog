@@ -23,12 +23,12 @@ const items = source.map((item) => ({
 <template>
   <OverviewPage
     :title-lines="['工具与资源']"
-    description="整理能够直接进入学习或项目的软件、平台、插件、Prompt、模板、素材和文件。"
+    description="汇总可以直接用于学习或项目的软件、平台、插件、Prompt、模板、素材和下载文件。"
     visual="knowledge"
-    :topics="['AI 工具', '设计软件', '插件', 'Prompt', '模板', '素材']"
+    :topics="['软件', 'AI 工具', '插件', 'Prompt', '模板', '下载']"
     :show-hero="false"
     :items="items"
     section-title="全部工具与资源"
-    section-description="正版软件跳转官方网站，自制模板可通过网盘获取，受限资料会明确标注联系获取。"
+    section-description="每项资源都会说明用途、适用对象、获取方式、使用限制与验证情况；正版软件跳转官网，自制模板与文件提供合规下载。"
   />
 </template>
