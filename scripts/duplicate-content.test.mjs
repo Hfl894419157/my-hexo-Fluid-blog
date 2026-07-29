@@ -29,7 +29,7 @@ test('复制内容会重建编号并强制生成安全草稿', () => {
   assert.equal(copy.contentBlocks[0]._enrichment, undefined)
 })
 
-test('复制文件拒绝非法文件名和已存在目标', () => {
+test('复制文件自动生成可读且唯一的文件名，并兼容旧的手工文件名', () => {
   assert.throws(() => validateDuplicateInput({ source: 'aigc/source.md', title: '标题', filename: 'Bad Name' }), /新文件名/)
   const root = mkdtempSync(path.join(os.tmpdir(), 'duplicate-content-'))
   try {
@@ -40,9 +40,13 @@ test('复制文件拒绝非法文件名和已存在目标', () => {
       publishing: { status: 'published' },
       contentBlocks: []
     }))
-    const destination = duplicateContentFile({ root, source: 'aigc/source.md', title: '副本', filename: 'safe-copy', date: '2026-07-16' })
-    assert.equal(destination, 'aigc/safe-copy.md')
+    const destination = duplicateContentFile({ root, source: 'aigc/source.md', title: 'AI 副本', date: '2026-07-16' })
+    assert.equal(destination, 'aigc/ai-fu-ben-20260716-000000000.md')
     assert.equal(matter(readFileSync(path.join(root, destination), 'utf8')).data.publishing.status, 'draft')
+    const secondDestination = duplicateContentFile({ root, source: 'aigc/source.md', title: 'AI 副本', date: '2026-07-16' })
+    assert.equal(secondDestination, 'aigc/ai-fu-ben-20260716-000000000-2.md')
+    const legacyDestination = duplicateContentFile({ root, source: 'aigc/source.md', title: '副本', filename: 'safe-copy' })
+    assert.equal(legacyDestination, 'aigc/safe-copy.md')
     assert.throws(() => duplicateContentFile({ root, source: 'aigc/source.md', title: '副本', filename: 'safe-copy' }), /已存在/)
   } finally {
     rmSync(root, { recursive: true, force: true })

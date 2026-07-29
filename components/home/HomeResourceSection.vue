@@ -11,19 +11,19 @@ const homeSelections = normalizeHomeSelections(homeSelectionsRaw)
 const items = [
   {
     title: '研究笔记',
-    desc: '记录 AI、设计、产品与商业领域的新变化，以及学习过程、工具实验和阶段性判断。',
+    desc: '记录趋势观察、工具测试、对比分析与阶段结论，说明发生了什么、为什么重要。',
     featured: resolveSelections(contentCatalog.learning, homeSelections.knowledge.learning, 3),
     href: '/knowledge/learning-observation'
   },
   {
     title: '方法指南',
-    desc: '围绕具体问题整理教程步骤、分析框架、Prompt 方法与经过验证的实战经验。',
+    desc: '整理经过验证的判断标准、操作步骤、工作流程、Prompt 方法与检查表。',
     featured: resolveSelections(contentCatalog.methods, homeSelections.knowledge.methods, 3),
     href: '/knowledge/methods'
   },
   {
     title: '工具与资源',
-    desc: '整理软件、平台、插件、Prompt、模板、素材与可以直接进入项目的文件。',
+    desc: '汇总软件、平台、插件、Prompt、模板、素材与可直接获取的下载文件。',
     featured: resolveSelections(contentCatalog.resources, homeSelections.knowledge.resources, 3),
     href: '/knowledge/resources'
   }
@@ -37,7 +37,7 @@ const hasContent = items.some((item) => item.featured.length > 0)
     <div class="kr-head">
       <SectionHeader
         :title-lines="['知识不是链接仓库', '而是下一次项目的起点']"
-        desc="方法解释为什么这样做，资源预览让你先判断它是否值得进入真实项目。"
+        desc="研究提供结论，指南沉淀做法，资源让经过验证的工具与模板直接进入下一次项目。"
       />
     </div>
 

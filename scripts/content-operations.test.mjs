@@ -14,23 +14,21 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 const collectionNames = ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']
 const flattenContent = (entries = []) => entries.flatMap((entry) => entry.type === 'group' ? flattenContent(entry.items || []) : [entry])
 
-test('五个内容集合开放文件名、重命名和删除，并使用稳定 contentId', async () => {
+test('五个内容集合自动生成文件名、关闭手工重命名，并使用稳定 contentId', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const entries = flattenContent(config.content || [])
   const collections = entries.filter((entry) => collectionNames.includes(entry.name))
   assert.equal(collections.length, collectionNames.length)
 
   for (const collection of collections) {
-    if (collection.name !== 'cases') {
-      assert.equal(collection.filename.field, true, `${collection.name} 应显示文件名`)
-    } else {
-      assert.ok(typeof collection.filename === 'string' || collection.filename.field === true, `${collection.name} 应配置文件名模板`)
-    }
-    assert.deepEqual(collection.operations, { create: true, rename: true, delete: true })
+    assert.equal(collection.filename.field, false, `${collection.name} 应隐藏文件名`)
+    assert.match(collection.filename.template, /\{primary\}.*\{millisecond\}\.md$/)
+    assert.deepEqual(collection.operations, { create: true, rename: false, delete: true })
     assert.ok(collection.fields.some((field) => field.name === 'contentId' && field.component === 'content_id'))
     const duplicateAction = collection.actions.find((action) => action.name === 'duplicate-content')
     assert.equal(duplicateAction.workflow, 'duplicate-content.yml')
     assert.equal(duplicateAction.scope, 'entry')
+    assert.deepEqual(duplicateAction.fields.map((field) => field.name), ['title'])
   }
 
   const homepage = entries.find((entry) => entry.name === 'homepage')
@@ -181,6 +179,21 @@ test('客服二维码预先挂载并使用 eager 响应式图片', async () => {
   assert.match(source, /v-show="contactOpen"/)
   assert.equal((source.match(/\s+eager\s*\n/g) || []).length, 2)
   assert.doesNotMatch(source, /v-if="contactOpen"/)
+})
+
+test('页脚 Telegram 与 WhatsApp 使用 SVG 图标并按需加载各自二维码', async () => {
+  const source = await readFile(path.join(repoRoot, 'components/SiteFooter.vue'), 'utf8')
+  assert.match(source, /PhTelegramLogo/)
+  assert.match(source, /PhWhatsappLogo/)
+  assert.match(source, /@media \(hover: hover\) and \(pointer: fine\)/)
+  assert.match(source, /\.site-footer__qr-social:hover > \.site-footer__qr-popover/)
+  assert.match(source, /const onQrClick = \(name\) => \{\s+if \(supportsHover\(\)\) return/)
+  assert.match(source, /:class="\{ 'is-open': activeQr === item\.name \}"/)
+  assert.doesNotMatch(source, /v-if="activeQr === item\.name"/)
+  assert.match(source, /\/telegram-qr\.png/)
+  assert.match(source, /\/whatsapp-qr\.png/)
+  assert.doesNotMatch(source, /wa\.me|api\.whatsapp\.com|https?:\/\/t\.me/)
+  assert.doesNotMatch(source, /<ResponsiveImage[\s\S]*?\seager/)
 })
 
 test('作品资料和资源获取方式按新结构归一化', () => {

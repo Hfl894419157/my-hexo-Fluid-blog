@@ -1,9 +1,88 @@
 <script setup>
+import { onMounted, onUnmounted, ref } from 'vue'
 import { withBase } from 'vitepress'
+import { PhTelegramLogo, PhWhatsappLogo } from '@phosphor-icons/vue'
 import { siteFooterGroups as groups, socialLinks } from '../.shared/siteNavigation.js'
 import BrandMark from './BrandMark.vue'
+import ResponsiveImage from './ResponsiveImage.vue'
 
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
+const qrSocialsRef = ref(null)
+const activeQr = ref('')
+let isKeyboardNavigation = false
+const qrSocials = [
+  {
+    name: 'Telegram',
+    id: 'footer-telegram-qr',
+    src: '/telegram-qr.png',
+    alt: 'Telegram 联系二维码',
+    icon: PhTelegramLogo
+  },
+  {
+    name: 'WhatsApp',
+    id: 'footer-whatsapp-qr',
+    src: '/whatsapp-qr.png',
+    alt: 'WhatsApp 联系二维码',
+    icon: PhWhatsappLogo
+  }
+]
+
+const supportsHover = () => (
+  typeof window !== 'undefined'
+  && window.matchMedia('(hover: hover) and (pointer: fine)').matches
+)
+
+const toggleQr = (name) => {
+  activeQr.value = activeQr.value === name ? '' : name
+}
+
+const closeQr = () => {
+  activeQr.value = ''
+}
+
+const onQrClick = (name) => {
+  if (supportsHover()) return
+  toggleQr(name)
+}
+
+const onQrFocusIn = (name, event) => {
+  if (supportsHover() && isKeyboardNavigation && event.target) {
+    activeQr.value = name
+  }
+}
+
+const onQrFocusOut = (name, event) => {
+  if (!supportsHover() || event.currentTarget?.contains(event.relatedTarget)) return
+  if (activeQr.value === name) closeQr()
+}
+
+const onDocumentPointerDown = (event) => {
+  isKeyboardNavigation = false
+  if (supportsHover() || !qrSocialsRef.value?.contains(event.target)) closeQr()
+}
+
+const onKeydown = (event) => {
+  if (event.key === 'Tab') {
+    isKeyboardNavigation = true
+    return
+  }
+  if (event.key !== 'Escape' || !activeQr.value) return
+  const openName = activeQr.value
+  closeQr()
+  qrSocialsRef.value
+    ?.querySelector(`[data-qr-social="${openName}"]`)
+    ?.focus()
+}
+
+onMounted(() => {
+  document.addEventListener('pointerdown', onDocumentPointerDown)
+  window.addEventListener('keydown', onKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('pointerdown', onDocumentPointerDown)
+  window.removeEventListener('keydown', onKeydown)
+})
 </script>
 
 <template>
@@ -16,7 +95,7 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
             <span>Liuli AI Lab</span>
           </a>
           <p>记录 AI 商业视觉作品、可复用工作流、研究方法与经过验证的工具资源。</p>
-          <div class="site-footer__socials" aria-label="社交平台">
+          <div ref="qrSocialsRef" class="site-footer__socials" aria-label="社交平台">
             <a
               v-for="item in socialLinks"
               :key="item.name"
@@ -27,6 +106,49 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
               rel="noreferrer"
               v-html="item.svg"
             />
+            <div
+              v-for="item in qrSocials"
+              :key="item.name"
+              class="site-footer__qr-social"
+              @focusin="onQrFocusIn(item.name, $event)"
+              @focusout="onQrFocusOut(item.name, $event)"
+            >
+              <button
+                class="site-footer__qr-button"
+                type="button"
+                :data-qr-social="item.name"
+                :aria-label="`显示 ${item.name} 二维码`"
+                :title="item.name"
+                :aria-expanded="activeQr === item.name"
+                :aria-controls="item.id"
+                @click="onQrClick(item.name)"
+              >
+                <component :is="item.icon" weight="fill" aria-hidden="true" />
+              </button>
+
+              <div
+                :id="item.id"
+                class="site-footer__qr-popover"
+                :class="{ 'is-open': activeQr === item.name }"
+                role="dialog"
+                :aria-label="`${item.name} 联系二维码`"
+              >
+                <a
+                  class="site-footer__qr-image"
+                  :href="item.src"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :title="`打开 ${item.name} 二维码大图`"
+                >
+                  <ResponsiveImage
+                    :src="item.src"
+                    :alt="item.alt"
+                    sizes="260px"
+                  />
+                </a>
+                <span>扫码添加 {{ item.name }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -148,14 +270,31 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   margin-top: 20px;
 }
 
-.site-footer__socials a {
+.site-footer__socials > a,
+.site-footer__qr-button {
   display: grid;
   width: 36px;
   height: 36px;
+  padding: 0;
   place-items: center;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-control);
+  background: transparent;
   color: var(--text-sub);
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.site-footer__socials > a:hover,
+.site-footer__qr-button:hover,
+.site-footer__qr-button[aria-expanded="true"] {
+  border-color: var(--border-strong);
+  color: var(--brand-main);
+}
+
+.site-footer__qr-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-main), transparent 58%);
+  outline-offset: 3px;
 }
 
 .site-footer__socials :deep(svg) {
@@ -163,8 +302,88 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
   height: 18px;
 }
 
-.site-footer__socials a[aria-label="小红书"] :deep(svg) {
+.site-footer__socials > a[aria-label="小红书"] :deep(svg) {
   width: 27px;
+}
+
+.site-footer__qr-social {
+  position: relative;
+}
+
+.site-footer__qr-popover {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  z-index: 20;
+  display: grid;
+  width: min(260px, calc(100vw - 40px));
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  visibility: hidden;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    visibility 160ms ease;
+}
+
+.site-footer__qr-popover.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-footer__qr-social:hover > .site-footer__qr-popover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
+.site-footer__qr-popover::after {
+  position: absolute;
+  top: 100%;
+  right: 11px;
+  width: 12px;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  content: '';
+}
+
+.site-footer__qr-image {
+  display: block;
+  overflow: hidden;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--text-main), transparent 88%);
+  border-radius: calc(var(--radius-card) - 4px);
+  background: #fff;
+}
+
+.site-footer__qr-image :deep(img) {
+  display: block;
+  width: 100%;
+  max-height: 330px;
+  border-radius: calc(var(--radius-card) - 10px);
+  object-fit: contain;
+}
+
+.site-footer__qr-popover span {
+  color: var(--text-sub);
+  font-size: var(--text-micro);
+  font-weight: 700;
 }
 
 .site-footer__meta {
@@ -231,6 +450,23 @@ const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase
 @media (max-width: 480px) {
   .site-footer__container {
     width: calc(100% - 40px);
+  }
+
+  .site-footer__qr-popover {
+    position: fixed;
+    right: 20px;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    left: 20px;
+    width: auto;
+    max-height: calc(100dvh - 116px);
+  }
+
+  .site-footer__qr-popover::after {
+    display: none;
+  }
+
+  .site-footer__qr-image :deep(img) {
+    max-height: calc(100dvh - 166px);
   }
 
   .site-footer__meta {

@@ -3,14 +3,14 @@
     {
       "id": "Research-Notes",
       "title": "研究笔记",
-      "description": "关注 AI、设计、产品与商业领域的新变化，记录学习过程、工具实验和阶段性判断。这里不只是整理资讯，更关注这些变化为什么重要，以及是否值得进入真实工作。",
+      "description": "记录 AI、设计、产品与商业领域的观察、测试与结论。这里放趋势研究、工具对比、实验过程和阶段性判断，重点回答发生了什么、为什么重要、结论是否经得起验证。",
       "link": "/knowledge/learning-observation",
       "linkLabel": "进入栏目",
       "tags": [
-        "AI 趋势",
-        "AI 学习",
-        "设计观察",
-        "设计观察 · 工具实验"
+        "趋势观察",
+        "工具测试",
+        "对比分析",
+        "阶段结论"
       ],
       "imageSubject": "学习笔记、观察线索与实验记录的知识地图",
       "imageFilename": "knowledge-learning-observation-cover.jpg"
@@ -18,13 +18,13 @@
     {
       "id": "Methodological-Guide",
       "title": "方法指南",
-      "description": "围绕设计、Prompt、内容、网站和 AI 协作中的具体问题，整理经过实践验证的判断原则、分析框架、操作步骤与常见错误。",
+      "description": "把已经验证有效的做法整理成可复用指南。这里放判断标准、操作步骤、工作流程、Prompt 方法、检查表和常见错误，重点回答具体应该怎么做。",
       "link": "/knowledge/methods",
       "linkLabel": "进入栏目",
       "tags": [
-        "方法论",
         "判断标准",
-        "工作流"
+        "操作步骤",
+        "检查表"
       ],
       "imageSubject": "方法结构、判断节点与复用关系图",
       "imageFilename": "knowledge-methods-cover.jpg"
@@ -32,13 +32,13 @@
     {
       "id": "Tools-and-Resources",
       "title": "工具与资源",
-      "description": "工具与资源用于整理能够直接进入学习或项目中的软件、平台、插件、Prompt、模板、素材和文件。每项内容尽量说明它能够解决什么问题、适合什么人、如何使用、有哪些限制，以及是否经过真实项目验证。",
+      "description": "汇总可以直接用于学习或项目的软件、平台、插件、Prompt、模板、素材和下载文件。每项资源说明用途、适用对象、获取方式、使用限制与验证情况。",
       "link": "/knowledge/resources",
       "linkLabel": "进入栏目",
       "tags": [
-        "Prompt",
+        "软件",
         "模板",
-        "工具"
+        "下载"
       ],
       "imageSubject": "Prompt、模板和清单的资源索引图",
       "imageFilename": "knowledge-resources-cover.jpg"

@@ -10,6 +10,6 @@ import BlogList from '../blog/BlogList.vue'
 
 <BlogList
   title="研究笔记"
-  description="记录 AI、设计、产品与商业领域的新变化，以及学习过程、工具实验和阶段性判断。"
+  description="记录 AI、设计、产品与商业领域的趋势观察、工具测试、对比分析与阶段结论。"
   variant="industry"
 />

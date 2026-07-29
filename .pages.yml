@@ -313,8 +313,10 @@ content:
     path: portfolio
     exclude: [index.md]
     format: yaml-frontmatter
-    filename: "work-{yyyy}{MM}{dd}-{hh}{mm}{ss}.md"
-    operations: { create: true, rename: true, delete: true }
+    filename:
+      template: "{primary}-{year}{month}{day}-{hour}{minute}{second}{millisecond}.md"
+      field: false
+    operations: { create: true, rename: false, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -348,7 +350,6 @@ content:
           button: 创建副本
         fields:
           - { name: title, label: 新标题, type: text, required: true }
-          - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
 
     view:
       primary: meta.title
@@ -377,9 +378,9 @@ content:
     exclude: [index.md]
     format: yaml-frontmatter
     filename:
-      template: "{primary}.md"
-      field: true
-    operations: { create: true, rename: true, delete: true }
+      template: "{primary}-{year}{month}{day}-{hour}{minute}{second}{millisecond}.md"
+      field: false
+    operations: { create: true, rename: false, delete: true }
     actions:
       - name: enrich-content
         label: 识别内容模块
@@ -413,7 +414,6 @@ content:
           button: 创建副本
         fields:
           - { name: title, label: 新标题, type: text, required: true }
-          - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
 
     view:
       primary: meta.title
@@ -439,9 +439,9 @@ content:
         path: knowledge/learning-observation
         format: yaml-frontmatter
         filename:
-          template: "{primary}.md"
-          field: true
-        operations: { create: true, rename: true, delete: true }
+          template: "{primary}-{year}{month}{day}-{hour}{minute}{second}{millisecond}.md"
+          field: false
+        operations: { create: true, rename: false, delete: true }
         actions:
           - name: enrich-content
             label: 识别内容模块
@@ -472,7 +472,6 @@ content:
             confirm: { title: 复制当前研究笔记？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
             fields:
               - { name: title, label: 新标题, type: text, required: true }
-              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
         view:
           primary: meta.title
           fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -493,9 +492,9 @@ content:
         path: knowledge/methods
         format: yaml-frontmatter
         filename:
-          template: "{primary}.md"
-          field: true
-        operations: { create: true, rename: true, delete: true }
+          template: "{primary}-{year}{month}{day}-{hour}{minute}{second}{millisecond}.md"
+          field: false
+        operations: { create: true, rename: false, delete: true }
         actions:
           - name: enrich-content
             label: 识别内容模块
@@ -526,7 +525,6 @@ content:
             confirm: { title: 复制当前方法指南？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
             fields:
               - { name: title, label: 新标题, type: text, required: true }
-              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
         view:
           primary: meta.title
           fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
@@ -547,9 +545,9 @@ content:
         path: knowledge/resources
         format: yaml-frontmatter
         filename:
-          template: "{primary}.md"
-          field: true
-        operations: { create: true, rename: true, delete: true }
+          template: "{primary}-{year}{month}{day}-{hour}{minute}{second}{millisecond}.md"
+          field: false
+        operations: { create: true, rename: false, delete: true }
         actions:
           - name: enrich-content
             label: 识别内容模块
@@ -580,7 +578,6 @@ content:
             confirm: { title: 复制当前资源？, message: 新副本会自动设为草稿并重新生成编号。, button: 创建副本 }
             fields:
               - { name: title, label: 新标题, type: text, required: true }
-              - { name: filename, label: 新文件名（小写英文、数字、短横线）, type: text, required: true }
         view:
           primary: meta.title
           fields: [meta.title, publishing.status, publishing.createdAt, publishing.verificationStatus]
