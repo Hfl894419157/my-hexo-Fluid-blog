@@ -4,8 +4,10 @@ import test from 'node:test'
 import yaml from 'js-yaml'
 import {
   extractBilibiliId,
+  extractOssVideoUrl,
   normalizeHomeVideoCases,
-  normalizeHomeVideoPlaceholderCases
+  normalizeHomeVideoPlaceholderCases,
+  resolveHomeVideoSource
 } from '../.shared/videoClient.js'
 
 const videoContent = JSON.parse(
@@ -47,10 +49,30 @@ test('B 站链接只提取可信域名中的 BV 编号', () => {
   assert.equal(extractBilibiliId('https://b23.tv/short-code'), '')
 })
 
-test('首页视频统一使用海报与 B 站外链，不嵌入受限播放器', () => {
+test('OSS 视频只接受固定 HTTPS 域名和哈希路径', () => {
+  const digest = 'a'.repeat(64)
+  const valid = `https://video.liulicc.cn/videos/aa/${digest}.mp4`
+  assert.equal(extractOssVideoUrl(valid), valid)
+  assert.equal(extractOssVideoUrl(valid.replace('https:', 'http:')), '')
+  assert.equal(extractOssVideoUrl(valid.replace('video.liulicc.cn', 'example.com')), '')
+  assert.equal(extractOssVideoUrl(`${valid}?download=1`), '')
+  assert.deepEqual(resolveHomeVideoSource(valid), {
+    sourceType: 'oss',
+    url: valid,
+    bvid: ''
+  })
+})
+
+test('首页同时保留 B 站外链并为 OSS 视频提供按需内联播放', () => {
   assert.match(showcaseSource, /:href="activeCase\.url"/)
   assert.match(showcaseSource, /target="_blank"/)
   assert.match(showcaseSource, /rel="noopener noreferrer"/)
+  assert.match(showcaseSource, /<video/)
+  assert.match(showcaseSource, /controls/)
+  assert.match(showcaseSource, /playsinline/)
+  assert.match(showcaseSource, /preload="metadata"/)
+  assert.match(showcaseSource, /activeCase\.sourceType === 'oss'/)
+  assert.match(showcaseSource, /videoElement\.value\?\.pause\(\)/)
   assert.doesNotMatch(showcaseSource, /<iframe/)
   assert.doesNotMatch(showcaseSource, /buildBilibiliEmbedUrl/)
   assert.doesNotMatch(showcaseSource, /IntersectionObserver/)
@@ -117,6 +139,25 @@ test('首页只保留已发布、完整且有效的前四条视频', () => {
   assert.deepEqual(cases.map((item) => item.id), ['video-2', 'video-3', 'video-4', 'video-5'])
 })
 
+test('B 站和 OSS 视频可以混合排序且旧数据无需迁移', () => {
+  const digest = 'b'.repeat(64)
+  const base = {
+    published: true,
+    title: '视频案例',
+    category: '动态视觉',
+    description: '完整说明',
+    poster: '/images/uploads/video.jpg',
+    duration: '00:36'
+  }
+  const cases = normalizeHomeVideoCases([
+    { ...base, id: 'bilibili', url: 'https://www.bilibili.com/video/BV1xx411c7mD' },
+    { ...base, id: 'oss', url: `https://video.liulicc.cn/videos/bb/${digest}.mp4` }
+  ])
+  assert.deepEqual(cases.map((item) => item.sourceType), ['bilibili', 'oss'])
+  assert.equal(cases[0].bvid, 'BV1xx411c7mD')
+  assert.equal(cases[1].bvid, '')
+})
+
 test('没有正式视频时可以使用资料完整的草稿生成公开占位案例', () => {
   const placeholders = normalizeHomeVideoPlaceholderCases([
     {
@@ -143,6 +184,7 @@ test('没有正式视频时可以使用资料完整的草稿生成公开占位�
 
   assert.deepEqual(placeholders.map((item) => item.id), ['draft-1'])
   assert.equal(placeholders[0].url, '')
+  assert.equal(placeholders[0].sourceType, '')
   assert.equal(placeholders[0].bvid, '')
 })
 
@@ -155,6 +197,7 @@ test('Pages CMS 提供首页视频案例管理入口和完整字段', () => {
 
   assert.equal(videos.path, '.shared/content/videos.json')
   assert.equal(items.list.max, 4)
+  assert.equal(items.fields.find((field) => field.name === 'url').type, 'oss-video')
   assert.deepEqual(
     fieldNames,
     ['id', 'published', 'title', 'category', 'description', 'poster', 'url', 'duration']

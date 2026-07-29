@@ -15,6 +15,9 @@ const cases = publishedCases.length ? publishedCases : placeholderCases
 const isPlaceholder = placeholderCases.length > 0
 const activeIndex = ref(0)
 const videoList = ref(null)
+const videoElement = ref(null)
+const isPlaying = ref(false)
+const playbackError = ref('')
 const activeCase = computed(() => cases[activeIndex.value])
 const cardColumns = computed(() => Math.max(1, cases.length))
 const listMaxWidth = computed(() => cases.length < 3
@@ -23,7 +26,28 @@ const listMaxWidth = computed(() => cases.length < 3
 
 const selectCase = (index) => {
   if (index === activeIndex.value) return
+  videoElement.value?.pause()
+  isPlaying.value = false
+  playbackError.value = ''
   activeIndex.value = index
+}
+
+const playOssVideo = async () => {
+  playbackError.value = ''
+  isPlaying.value = true
+  await nextTick()
+  try {
+    await videoElement.value?.play()
+  } catch {
+    isPlaying.value = false
+    playbackError.value = '视频暂时无法播放，请重试'
+  }
+}
+
+const handlePlaybackError = () => {
+  videoElement.value?.pause()
+  isPlaying.value = false
+  playbackError.value = '视频加载失败，请稍后重试'
 }
 
 const focusSelection = async (index) => {
@@ -51,20 +75,33 @@ const moveSelection = (offset) => {
         role="tabpanel"
         v-reveal="{ y: 20, repeat: true }"
       >
+        <video
+          v-if="isPlaying && activeCase.sourceType === 'oss'"
+          ref="videoElement"
+          class="video-stage__player"
+          :src="activeCase.url"
+          :poster="activeCase.poster"
+          controls
+          playsinline
+          preload="metadata"
+          autoplay
+          @error="handlePlaybackError"
+        ></video>
         <ResponsiveImage
+          v-else
           :key="activeCase.id"
           :src="activeCase.poster"
           :alt="`${activeCase.title}视频封面`"
           profile="homeCase"
           sizes="(max-width: 899px) 100vw, 960px"
         />
-        <div class="video-stage__shade" aria-hidden="true"></div>
-        <div class="video-stage__copy">
+        <div v-if="!isPlaying" class="video-stage__shade" aria-hidden="true"></div>
+        <div v-if="!isPlaying" class="video-stage__copy">
           <h4>{{ activeCase.title }}</h4>
           <p v-if="activeCase.description">{{ activeCase.description }}</p>
         </div>
         <a
-          v-if="!isPlaceholder"
+          v-if="!isPlaceholder && activeCase.sourceType === 'bilibili'"
           class="video-stage__play"
           :href="activeCase.url"
           target="_blank"
@@ -74,8 +111,19 @@ const moveSelection = (offset) => {
           <span class="video-stage__play-icon" aria-hidden="true">▶</span>
           播放视频
         </a>
-        <span v-else class="video-stage__play video-stage__play--disabled">视频内容准备中</span>
-        <span v-if="activeCase.duration" class="video-stage__duration">{{ activeCase.duration }}</span>
+        <button
+          v-else-if="!isPlaceholder && activeCase.sourceType === 'oss' && !isPlaying"
+          class="video-stage__play"
+          type="button"
+          :aria-label="`播放 ${activeCase.title}`"
+          @click="playOssVideo"
+        >
+          <span class="video-stage__play-icon" aria-hidden="true">▶</span>
+          播放视频
+        </button>
+        <span v-else-if="isPlaceholder" class="video-stage__play video-stage__play--disabled">视频内容准备中</span>
+        <span v-if="playbackError && !isPlaying" class="video-stage__error" role="status">{{ playbackError }}</span>
+        <span v-if="activeCase.duration && !isPlaying" class="video-stage__duration">{{ activeCase.duration }}</span>
       </article>
 
       <div
@@ -183,6 +231,15 @@ const moveSelection = (offset) => {
   height: 100%;
 }
 
+.video-stage__player {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--bg-card);
+  object-fit: contain;
+}
+
 .video-stage > :deep(.responsive-picture img),
 .video-stage > :deep(img) {
   display: block;
@@ -277,6 +334,19 @@ const moveSelection = (offset) => {
   color: white;
   background: rgb(20 17 14 / 68%);
   font: 700 11px/1 var(--font-mono);
+}
+
+.video-stage__error {
+  position: absolute;
+  z-index: 3;
+  top: 18px;
+  left: 18px;
+  max-width: calc(100% - 120px);
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: white;
+  background: rgb(142 35 35 / 86%);
+  font: 600 12px/1.4 var(--font-sans);
 }
 
 .video-list {
