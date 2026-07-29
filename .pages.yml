@@ -679,9 +679,9 @@ content:
                 required: true
                 options: { media: images }
               - name: url
-                label: B 站视频链接（必须包含 BV 编号）
-                description: 点击首页播放按钮后会在新标签页打开该视频。
-                type: string
+                label: 视频来源
+                description: 可保留哔哩哔哩链接，或把兼容的 MP4 直接上传到香港 OSS。
+                type: oss-video
               - { name: duration, label: 时长（例如 00:36）, type: string }
 
       - name: about_page
