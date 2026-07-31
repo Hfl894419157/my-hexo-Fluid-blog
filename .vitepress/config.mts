@@ -92,6 +92,8 @@ export default defineConfig({
     'CONTENT-MANAGEMENT.md',
     'OSS-IMAGE-SETUP.md',
     'public/images/uploads/README.md',
+    'blog/**',
+    'resources/**',
     ...unpublishedContentPaths
   ],
   markdown: {
@@ -129,6 +131,7 @@ export default defineConfig({
   ],
   transformPageData(pageData) {
     const normalizedPath = pageData.relativePath.replace(/\\/g, '/')
+    pageData.frontmatter.navbar = false
     if (isManagedContentPath(normalizedPath)) {
       const normalized = normalizeContentData(pageData.frontmatter, normalizedPath)
       Object.assign(pageData.frontmatter, normalized)

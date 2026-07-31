@@ -6,7 +6,8 @@ import { resolveResponsiveImage } from './responsiveImage.js'
 const props = defineProps({
   open: { type: Boolean, default: false },
   items: { type: Array, default: () => [] },
-  activeIndex: { type: Number, default: 0 }
+  activeIndex: { type: Number, default: 0 },
+  assetOrigin: { type: String, default: 'configured' }
 })
 
 const emit = defineEmits(['close', 'select'])
@@ -15,7 +16,7 @@ const dialog = ref(null)
 const closeButton = ref(null)
 const activeItem = computed(() => props.items[props.activeIndex] || null)
 const activeImage = computed(() => activeItem.value?.src
-  ? resolveResponsiveImage(activeItem.value.src)
+  ? resolveResponsiveImage(activeItem.value.src, { assetOrigin: props.assetOrigin })
   : null)
 const hasMultiple = computed(() => props.items.length > 1)
 const imageFallbackActive = ref(false)

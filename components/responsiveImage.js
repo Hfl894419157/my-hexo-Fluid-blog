@@ -34,22 +34,27 @@ const resolveProfile = (entry, profile, focalPoint) => {
   return profiles?.[normalizeFocalPoint(focalPoint)] || profiles?.center || entry.profiles?.original || entry
 }
 
-const toSrcset = (variants) => variants?.length
-  ? variants.map((variant) => `${resolveUrl(variant.src, true)} ${variant.width}w`).join(', ')
+const toSrcset = (variants, useImageAssetBase) => variants?.length
+  ? variants.map((variant) => `${resolveUrl(variant.src, useImageAssetBase)} ${variant.width}w`).join(', ')
   : ''
 
-export const resolveResponsiveImage = (src, { profile = 'original', focalPoint = 'center' } = {}) => {
+export const resolveResponsiveImage = (src, {
+  profile = 'original',
+  focalPoint = 'center',
+  assetOrigin = 'configured'
+} = {}) => {
   const key = resolveLocalKey(src)
   const entry = key ? imageManifest.images?.[key] : null
   const selected = resolveProfile(entry, profile, focalPoint)
   const croppedFallback = profile !== 'original' ? selected?.variants?.at(-1)?.src : ''
+  const useImageAssetBase = assetOrigin !== 'site'
 
   return {
-    src: resolveUrl(croppedFallback || src, Boolean(croppedFallback)),
+    src: resolveUrl(croppedFallback || src, Boolean(croppedFallback) && useImageAssetBase),
     fallbackSrc: resolveUrl(src),
     width: selected?.width || entry?.width,
     height: selected?.height || entry?.height,
-    avifSrcset: toSrcset(selected?.avifVariants),
-    webpSrcset: toSrcset(selected?.variants)
+    avifSrcset: toSrcset(selected?.avifVariants, useImageAssetBase),
+    webpSrcset: toSrcset(selected?.variants, useImageAssetBase)
   }
 }

@@ -139,6 +139,7 @@ onUpdated(() => nextTick(decoratePreviewImages))
     :open="previewOpen"
     :items="previewItems"
     :active-index="previewIndex"
+    :asset-origin="variant === 'portfolio' ? 'site' : 'configured'"
     @close="closePreview"
     @select="previewIndex = $event"
   />
