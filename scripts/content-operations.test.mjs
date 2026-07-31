@@ -9,6 +9,7 @@ import yaml from 'js-yaml'
 import { latestPublished, normalizeHomeSelections, resolveSelections, resolveVisibleSelections } from '../.shared/contentClient.js'
 import { getPageClass, isManagedContentPath, normalizeContentData, normalizePortfolioGalleryLayout } from '../.shared/contentSchema.mjs'
 import { collectContentRedirects, parseRenameLog, resolveRenameChains } from './lib/content-history.mjs'
+import { legacyRedirects, redirectOutputPath } from './lib/legacy-redirects.mjs'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const collectionNames = ['cases', 'workflows', 'learning_entries', 'method_entries', 'resource_entries']
@@ -174,10 +175,13 @@ test('全局页面标题使用 Liuli AI Lab 且公开页面元数据不包含真
   assert.doesNotMatch(resumeSource, /关于韩福利/)
 })
 
-test('客服二维码预先挂载并使用 eager 响应式图片', async () => {
+test('客服二维码预先挂载并使用同源原图', async () => {
   const source = await readFile(path.join(repoRoot, 'components/FloatingActions.vue'), 'utf8')
   assert.match(source, /v-show="contactOpen"/)
-  assert.equal((source.match(/\s+eager\s*\n/g) || []).length, 2)
+  assert.equal((source.match(/loading="eager"/g) || []).length, 2)
+  assert.match(source, /:src="withBase\(wechatQr\)"/)
+  assert.match(source, /:src="withBase\(qqQr\)"/)
+  assert.doesNotMatch(source, /ResponsiveImage/)
   assert.doesNotMatch(source, /v-if="contactOpen"/)
 })
 
@@ -192,6 +196,8 @@ test('页脚 Telegram 与 WhatsApp 使用 SVG 图标并按需加载各自二维�
   assert.doesNotMatch(source, /v-if="activeQr === item\.name"/)
   assert.match(source, /\/telegram-qr\.png/)
   assert.match(source, /\/whatsapp-qr\.png/)
+  assert.match(source, /:src="withBase\(item\.src\)"/)
+  assert.doesNotMatch(source, /ResponsiveImage/)
   assert.doesNotMatch(source, /wa\.me|api\.whatsapp\.com|https?:\/\/t\.me/)
   assert.doesNotMatch(source, /<ResponsiveImage[\s\S]*?\seager/)
 })
@@ -249,9 +255,11 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
     format: 'html',
     switcher: true,
     media: 'images',
-    path: 'public/images/uploads/imported',
-    rename: 'random'
+    path: 'public/images/uploads/content/{contentId}',
+    rename: 'safe'
   })
+  assert.equal(cover.fields.find((field) => field.name === 'src').options.path, 'public/images/uploads/content/{contentId}')
+  assert.equal(homeOverride.options.path, 'public/images/uploads/content/{contentId}')
 })
 
 test('作品集后台统一使用单一富文本编辑器', async () => {
@@ -312,6 +320,14 @@ test('作品图片组启用兼容现有数据结构的批量上传', async () =>
     items.fields.map((field) => field.name),
     ['id', 'src', 'alt', 'caption']
   )
+  const galleryImage = items.fields.find((field) => field.name === 'src')
+  const portfolioRichText = blocks.blocks
+    .find((block) => block.name === 'richText')
+    .fields.find((field) => field.name === 'html')
+  assert.equal(galleryImage.options.path, 'public/images/uploads/content/{contentId}')
+  assert.equal(galleryImage.options.rename, 'safe')
+  assert.equal(portfolioRichText.options.path, 'public/images/uploads/content/{contentId}')
+  assert.equal(portfolioRichText.options.rename, 'safe')
 })
 
 test('索引页只移除指定页面的顶部介绍与页内搜索', async () => {
@@ -343,6 +359,28 @@ test('重命名历史可以串联到最终地址', () => {
     'R100\taigc/middle-name.md\taigc/final-name.md'
   ].join('\n'))
   assert.equal(resolveRenameChains(renames).get('aigc/old-name.md'), 'aigc/final-name.md')
+})
+
+test('七个旧地址由独立 noindex 兼容页跳转且目录首页使用 index.html', async () => {
+  assert.deepEqual(legacyRedirects, [
+    { fromUrl: '/blog/', toUrl: '/knowledge/methods' },
+    { fromUrl: '/blog/aigc-workflow-system', toUrl: '/knowledge/methods' },
+    { fromUrl: '/blog/ai-designer-positioning', toUrl: '/knowledge/learning-observation' },
+    { fromUrl: '/blog/personal-resource-library', toUrl: '/knowledge/learning-observation' },
+    { fromUrl: '/resources/', toUrl: '/knowledge/resources' },
+    { fromUrl: '/resources/mj-prompt', toUrl: '/knowledge/resources' },
+    { fromUrl: '/resources/notion', toUrl: '/knowledge/resources' }
+  ])
+  assert.equal(redirectOutputPath('/blog/'), 'blog/index.html')
+  assert.equal(redirectOutputPath('/blog/example'), 'blog/example.html')
+
+  const configSource = await readFile(path.join(repoRoot, '.vitepress/config.mts'), 'utf8')
+  const redirectSource = await readFile(path.join(repoRoot, 'scripts/generate-content-redirects.mjs'), 'utf8')
+  assert.match(configSource, /'blog\/\*\*'/)
+  assert.match(configSource, /'resources\/\*\*'/)
+  assert.match(configSource, /frontmatter\.navbar = false/)
+  assert.match(redirectSource, /noindex,follow/)
+  assert.match(redirectSource, /location\.search \+ location\.hash/)
 })
 
 test('删除目标停止跳转，旧文件名被重新占用时不覆盖新页面', () => {

@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import ResponsiveImage from './ResponsiveImage.vue'
+import { useRoute, withBase } from 'vitepress'
 
 const route = useRoute()
 const showBackToTop = ref(false)
@@ -122,20 +121,24 @@ onUnmounted(() => {
         :aria-hidden="!contactOpen"
       >
         <figure class="floating-service__qr-item">
-          <ResponsiveImage
-            :src="wechatQr"
+          <img
+            :src="withBase(wechatQr)"
             alt="微信客服二维码"
-            sizes="164px"
-            eager
+            width="1008"
+            height="975"
+            loading="eager"
+            decoding="async"
           />
           <figcaption>微信</figcaption>
         </figure>
         <figure class="floating-service__qr-item">
-          <ResponsiveImage
-            :src="qqQr"
+          <img
+            :src="withBase(qqQr)"
             alt="QQ 客服二维码"
-            sizes="164px"
-            eager
+            width="721"
+            height="694"
+            loading="eager"
+            decoding="async"
           />
           <figcaption>QQ</figcaption>
         </figure>

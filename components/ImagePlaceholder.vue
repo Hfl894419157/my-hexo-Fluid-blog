@@ -47,6 +47,10 @@ const props = defineProps({
   focalPoint: {
     type: String,
     default: 'center'
+  },
+  assetOrigin: {
+    type: String,
+    default: 'configured'
   }
 })
 
@@ -68,6 +72,7 @@ const objectPosition = computed(() => props.position !== 'center'
       :profile="profile"
       :desktop-profile="desktopProfile"
       :focal-point="focalPoint"
+      :asset-origin="assetOrigin"
       :style="{ objectPosition }"
     />
     <div v-else class="image-slot__placeholder" role="img" :aria-label="`图片占位：${subject}`">

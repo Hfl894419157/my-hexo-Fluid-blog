@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { collectContentRedirects } from './lib/content-history.mjs'
+import { legacyRedirects, redirectOutputPath } from './lib/legacy-redirects.mjs'
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(scriptDir, '..')
@@ -41,9 +42,14 @@ if (!existsSync(distDir)) throw new Error('未找到 .vitepress/dist，请先运
 
 let written = 0
 let skipped = 0
-for (const redirect of collectContentRedirects({ root: repoRoot })) {
-  const outputFile = path.join(distDir, `${redirect.fromUrl.replace(/^\//, '')}.html`)
-  const targetFile = path.join(distDir, `${redirect.toUrl.replace(/^\//, '')}.html`)
+const redirectMap = new Map()
+for (const redirect of [...legacyRedirects, ...collectContentRedirects({ root: repoRoot })]) {
+  if (!redirectMap.has(redirect.fromUrl)) redirectMap.set(redirect.fromUrl, redirect)
+}
+
+for (const redirect of redirectMap.values()) {
+  const outputFile = path.join(distDir, redirectOutputPath(redirect.fromUrl))
+  const targetFile = path.join(distDir, redirectOutputPath(redirect.toUrl))
   if (existsSync(outputFile) || !existsSync(targetFile)) {
     skipped += 1
     continue

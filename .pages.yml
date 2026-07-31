@@ -121,6 +121,8 @@ components:
         type: image
         options:
           media: images
+          path: public/images/uploads/content/{contentId}
+          rename: safe
       - name: alt
         label: 封面替代文字
         type: string
@@ -146,6 +148,8 @@ components:
         type: image
         options:
           media: images
+          path: public/images/uploads/content/{contentId}
+          rename: safe
 
   content_seo:
     label: 高级设置
@@ -256,8 +260,8 @@ components:
               format: html
               switcher: true
               media: images
-              path: public/images/uploads/imported
-              rename: random
+              path: public/images/uploads/content/{contentId}
+              rename: safe
           - name: legacyMarkdown
             label: 旧版 Markdown（回退）
             type: text
@@ -284,7 +288,7 @@ components:
             type: rich-text
             required: true
             description: 支持文字、图片粘贴、视频链接和网盘链接。
-            options: { format: html, switcher: true, media: images, path: public/images/uploads/imported, rename: random }
+            options: { format: html, switcher: true, media: images, path: "public/images/uploads/content/{contentId}", rename: safe }
           - { name: legacyMarkdown, label: 旧版 Markdown（回退）, type: text, hidden: true, readonly: true }
       - name: gallery
         label: 作品图片组
@@ -302,7 +306,7 @@ components:
                 summary: "{index}. {alt}"
             fields:
               - { name: id, label: 图片标识, type: uuid, hidden: true }
-              - { name: src, label: 图片, type: image, required: true, options: { media: images } }
+              - { name: src, label: 图片, type: image, required: true, options: { media: images, path: "public/images/uploads/content/{contentId}", rename: safe } }
               - { name: alt, label: 替代文字, type: string, required: true }
               - { name: caption, label: 图片说明（可选）, type: text }
 

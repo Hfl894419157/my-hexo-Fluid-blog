@@ -4,7 +4,6 @@ import { withBase } from 'vitepress'
 import { PhTelegramLogo, PhWhatsappLogo } from '@phosphor-icons/vue'
 import { siteFooterGroups as groups, socialLinks } from '../.shared/siteNavigation.js'
 import BrandMark from './BrandMark.vue'
-import ResponsiveImage from './ResponsiveImage.vue'
 
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
 const qrSocialsRef = ref(null)
@@ -140,10 +139,13 @@ onUnmounted(() => {
                   rel="noopener noreferrer"
                   :title="`打开 ${item.name} 二维码大图`"
                 >
-                  <ResponsiveImage
-                    :src="item.src"
+                  <img
+                    :src="withBase(item.src)"
                     :alt="item.alt"
-                    sizes="260px"
+                    :width="item.name === 'Telegram' ? 776 : 747"
+                    :height="item.name === 'Telegram' ? 1000 : 930"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </a>
                 <span>扫码添加 {{ item.name }}</span>
