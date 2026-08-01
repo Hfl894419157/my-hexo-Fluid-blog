@@ -8,6 +8,7 @@ import BrandMark from './BrandMark.vue'
 const navLink = (path) => /^(https?:|mailto:|tel:)/.test(path) ? path : withBase(path)
 const qrSocialsRef = ref(null)
 const activeQr = ref('')
+const loadedQrs = ref(new Set())
 let isKeyboardNavigation = false
 const qrSocials = [
   {
@@ -31,6 +32,10 @@ const supportsHover = () => (
   && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 )
 
+const ensureQrLoaded = (name) => {
+  loadedQrs.value.add(name)
+}
+
 const toggleQr = (name) => {
   activeQr.value = activeQr.value === name ? '' : name
 }
@@ -40,11 +45,13 @@ const closeQr = () => {
 }
 
 const onQrClick = (name) => {
+  ensureQrLoaded(name)
   if (supportsHover()) return
   toggleQr(name)
 }
 
 const onQrFocusIn = (name, event) => {
+  ensureQrLoaded(name)
   if (supportsHover() && isKeyboardNavigation && event.target) {
     activeQr.value = name
   }
@@ -109,6 +116,7 @@ onUnmounted(() => {
               v-for="item in qrSocials"
               :key="item.name"
               class="site-footer__qr-social"
+              @mouseenter="ensureQrLoaded(item.name)"
               @focusin="onQrFocusIn(item.name, $event)"
               @focusout="onQrFocusOut(item.name, $event)"
             >
@@ -140,6 +148,7 @@ onUnmounted(() => {
                   :title="`打开 ${item.name} 二维码大图`"
                 >
                   <img
+                    v-if="loadedQrs.has(item.name)"
                     :src="withBase(item.src)"
                     :alt="item.alt"
                     :width="item.name === 'Telegram' ? 776 : 747"

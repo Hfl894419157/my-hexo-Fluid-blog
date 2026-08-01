@@ -34,8 +34,8 @@ const featuredCasesSource = readFileSync(
 test('作品详情图库从图片固有尺寸自动识别方向', () => {
   assert.match(gallerySource, /naturalWidth/)
   assert.match(gallerySource, /naturalHeight/)
-  assert.match(gallerySource, /resolveResponsiveImage\(item\.src, \{ assetOrigin: 'site' \}\)/)
-  assert.match(gallerySource, /asset-origin="site"/)
+  assert.match(gallerySource, /resolveResponsiveImage\(item\.src, \{ assetOrigin: 'configured' \}\)/)
+  assert.match(gallerySource, /asset-origin="configured"/)
   assert.doesNotMatch(gallerySource, /item\.layout/)
 })
 
@@ -87,7 +87,7 @@ test('灯箱提供关闭、前后切换、焦点恢复和移动端适配', () =>
   assert.match(lightboxSource, /body\.classList\.toggle\('content-lightbox-open'/)
   assert.match(lightboxSource, /@media \(max-width: 640px\)/)
   assert.match(lightboxSource, /resolveResponsiveImage\(activeItem\.value\.src, \{ assetOrigin: props\.assetOrigin \}\)/)
-  assert.match(contentBlocksSource, /:asset-origin="variant === 'portfolio' \? 'site' : 'configured'"/)
+  assert.match(contentBlocksSource, /asset-origin="configured"/)
   assert.match(lightboxSource, /imageFallbackActive\.value = false/)
   assert.match(responsiveImageSource, /:src="resolved\.fallbackSrc"/)
   assert.match(themeSource, /picture\.responsive-image--content/)
@@ -96,7 +96,7 @@ test('灯箱提供关闭、前后切换、焦点恢复和移动端适配', () =>
 })
 
 test('首页精选作品只保留轻量外投影', () => {
-  assert.match(featuredCasesSource, /asset-origin="site"/)
+  assert.match(featuredCasesSource, /asset-origin="configured"/)
   assert.match(featuredCasesSource, /box-shadow: 0 16px 44px color-mix\(in srgb, var\(--text-main\) 7%, transparent\)/)
   assert.doesNotMatch(featuredCasesSource, /0 28px 80px/)
 })

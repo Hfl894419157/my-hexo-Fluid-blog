@@ -15,7 +15,7 @@ const orientationFor = (item, index) => {
   const key = itemKey(item, index)
   if (loadedOrientations[key]) return loadedOrientations[key]
 
-  const resolved = item.src ? resolveResponsiveImage(item.src, { assetOrigin: 'site' }) : {}
+  const resolved = item.src ? resolveResponsiveImage(item.src, { assetOrigin: 'configured' }) : {}
   const width = Number(resolved.width || item.width || 0)
   const height = Number(resolved.height || item.height || 0)
   return width && height && width < height ? 'portrait' : 'landscape'
@@ -73,7 +73,7 @@ const groupedRows = computed(() => {
           :src="entry.item.src"
           :alt="entry.item.alt || ''"
           :eager="entry.item.eager"
-          asset-origin="site"
+          asset-origin="configured"
           :sizes="row.class === 'row-portrait-pair'
             ? '(max-width: 640px) calc(100vw - 32px), 371px'
             : row.class === 'row-portrait-single'

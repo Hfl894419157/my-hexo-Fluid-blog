@@ -45,7 +45,7 @@ const caseWall = useStackWall('.case-wall__card')
               profile="homeCase"
               desktop-profile="homeCaseDesktop"
               :focal-point="item.coverFocalPoint"
-              asset-origin="site"
+              asset-origin="configured"
               sizes="(max-width: 899px) calc(100vw - 48px), 748px"
             />
           </a>

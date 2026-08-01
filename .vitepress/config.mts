@@ -9,6 +9,7 @@ import { renderRichHtml } from '../.shared/richHtml.mjs'
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
 const imageAssetBaseUrl = String(process.env.IMAGE_ASSET_BASE_URL || '').trim().replace(/\/+$/, '')
+const imageAssetOrigin = imageAssetBaseUrl ? new URL(imageAssetBaseUrl).origin : ''
 const imageManifest = JSON.parse(readFileSync(new URL('./cache/image-manifest.json', import.meta.url), 'utf8'))
 const faqData = JSON.parse(readFileSync(new URL('../.shared/content/faq.json', import.meta.url), 'utf8'))
 const contentCatalog = loadContentCatalog()
@@ -117,6 +118,10 @@ export default defineConfig({
     hostname: siteOrigin
   },
   head: [
+    ...(imageAssetOrigin ? [
+      ['link', { rel: 'preconnect', href: imageAssetOrigin, crossorigin: '' }],
+      ['link', { rel: 'dns-prefetch', href: imageAssetOrigin }]
+    ] : []),
     ['link', {
       rel: 'icon',
       type: 'image/png',
