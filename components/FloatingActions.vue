@@ -6,6 +6,7 @@ const route = useRoute()
 const showBackToTop = ref(false)
 const contactOpen = ref(false)
 const contactPinned = ref(false)
+const contactQrMounted = ref(false)
 const contactGroupRef = ref(null)
 
 const wechatQr = '/wechat.png'
@@ -31,6 +32,7 @@ const scrollToTop = () => {
 }
 
 const showContactPreview = () => {
+  contactQrMounted.value = true
   contactOpen.value = true
 }
 
@@ -40,6 +42,7 @@ const hideContactPreview = () => {
 
 const toggleContactPreview = () => {
   contactPinned.value = !contactPinned.value
+  if (contactPinned.value) contactQrMounted.value = true
   contactOpen.value = contactPinned.value
 }
 
@@ -120,7 +123,7 @@ onUnmounted(() => {
         aria-label="客服二维码"
         :aria-hidden="!contactOpen"
       >
-        <figure class="floating-service__qr-item">
+        <figure v-if="contactQrMounted" class="floating-service__qr-item">
           <img
             :src="withBase(wechatQr)"
             alt="微信客服二维码"
@@ -131,7 +134,7 @@ onUnmounted(() => {
           />
           <figcaption>微信</figcaption>
         </figure>
-        <figure class="floating-service__qr-item">
+        <figure v-if="contactQrMounted" class="floating-service__qr-item">
           <img
             :src="withBase(qqQr)"
             alt="QQ 客服二维码"

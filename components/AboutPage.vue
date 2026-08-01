@@ -19,6 +19,7 @@ import {
 } from '@phosphor-icons/vue'
 import profile from '../.shared/content/profile.json'
 import aboutPage from '../.shared/content/aboutPage.json'
+import ResponsiveImage from './ResponsiveImage.vue'
 
 const reveal = (delay = 0, y = 18) => ({
   repeat: true,
@@ -194,14 +195,13 @@ onBeforeUnmount(() => {
 
       <figure class="about-hero__portrait" v-reveal="reveal(150, 22)">
         <span class="about-hero__portrait-bg" aria-hidden="true"></span>
-        <img
+        <ResponsiveImage
+          class="about-hero__portrait-image"
           :src="aboutPage.hero.portrait"
           :alt="aboutPage.hero.portraitAlt || `${profile.name}的个人形象`"
-          width="504"
-          height="1430"
-          loading="eager"
-          decoding="async"
-        >
+          eager
+          sizes="(max-width: 760px) min(calc(100vw - 56px), 340px), 440px"
+        />
       </figure>
     </section>
 
@@ -508,6 +508,7 @@ onBeforeUnmount(() => {
 
 .about-hero__copy {
   grid-area: copy;
+  min-width: 0;
   align-self: center;
   padding-bottom: var(--space-xl);
 }
@@ -542,6 +543,7 @@ onBeforeUnmount(() => {
 .about-hero__portrait {
   position: relative;
   grid-area: portrait;
+  min-width: 0;
   align-self: end;
   width: min(440px, 100%);
   height: 640px;
@@ -556,7 +558,7 @@ onBeforeUnmount(() => {
   background: var(--brand-main);
 }
 
-.about-hero__portrait img {
+.about-hero__portrait :deep(.about-hero__portrait-image) {
   position: absolute;
   z-index: 1;
   right: 50%;
@@ -1472,7 +1474,8 @@ onBeforeUnmount(() => {
   }
 
   .about-hero__portrait {
-    width: min(340px, 92vw);
+    justify-self: center;
+    width: min(100%, 340px);
     height: 490px;
   }
 
@@ -1480,7 +1483,7 @@ onBeforeUnmount(() => {
     height: 378px;
   }
 
-  .about-hero__portrait img {
+  .about-hero__portrait :deep(.about-hero__portrait-image) {
     height: 516px;
   }
 

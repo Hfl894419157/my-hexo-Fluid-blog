@@ -18,24 +18,32 @@ defineProps({
   topics: {
     type: Array,
     default: () => []
+  },
+  showVisual: {
+    type: Boolean,
+    default: true
+  },
+  showSearch: {
+    type: Boolean,
+    default: true
   }
 })
 </script>
 
 <template>
   <header class="page-hero">
-    <div class="page-hero__top">
+    <div class="page-hero__top" :class="{ 'page-hero__top--single': !showVisual }">
       <div class="page-hero__copy">
         <h1>
           <span v-for="line in titleLines" :key="line">{{ line }}</span>
         </h1>
         <p>{{ description }}</p>
       </div>
-      <div class="page-hero__visual">
+      <div v-if="showVisual" class="page-hero__visual">
         <PageHeroVisual :variant="visual" />
       </div>
     </div>
-    <PageSearch :topics="topics" />
+    <PageSearch v-if="showSearch" :topics="topics" />
   </header>
 </template>
 
@@ -56,6 +64,7 @@ defineProps({
   padding-bottom: 38px;
   border-bottom: 1px solid var(--border-soft);
 }
+.page-hero__top--single { grid-template-columns: minmax(0, 1fr); }
 
 .page-hero__copy h1 {
   margin: 0;

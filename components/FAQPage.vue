@@ -19,6 +19,8 @@ const questionsFor = (category) => items.filter((item) => item.category === cate
       description="集中回答合作、资源获取和网站使用中的常见疑问；没有找到答案时，可以通过邮件联系。"
       visual="knowledge"
       :topics="['合作流程', '报价周期', '网盘下载', '版权说明', '网站使用']"
+      :show-visual="false"
+      :show-search="false"
     />
 
     <div class="faq-page__groups">

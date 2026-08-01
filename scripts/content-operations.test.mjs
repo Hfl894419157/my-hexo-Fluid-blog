@@ -89,6 +89,10 @@ test('关于我页面的首页摘要、首屏、能力、交付流程和职业�
   assert.match(source, /aboutPage\.resume/)
   assert.match(source, /data-testid="resume-section"/)
   assert.match(source, /v-if="profile\.resumePdf"/)
+  assert.match(source, /import ResponsiveImage/)
+  assert.match(source, /<ResponsiveImage[\s\S]*?about-hero__portrait-image/)
+  assert.match(source, /width: min\(100%, 340px\)/)
+  assert.match(source, /justify-self: center/)
   assert.doesNotMatch(source, /CAREER PROFILE|RECENT EXPERIENCE|SELECTED PROJECT|CAPABILITY MAP/)
   assert.match(homeSource, /aboutPage\.home/)
 })
@@ -157,12 +161,18 @@ test('FAQ 首版包含三组各四题，并接入搜索锚点与 FAQPage 结构�
   const searchSource = await readFile(path.join(repoRoot, '.vitepress/search.data.mjs'), 'utf8')
   const pageSearchSource = await readFile(path.join(repoRoot, 'components/PageSearch.vue'), 'utf8')
   const configSource = await readFile(path.join(repoRoot, '.vitepress/config.mts'), 'utf8')
+  const faqPageSource = await readFile(path.join(repoRoot, 'components/FAQPage.vue'), 'utf8')
+  const pageHeroSource = await readFile(path.join(repoRoot, 'components/PageHero.vue'), 'utf8')
   assert.match(searchSource, /normalizeSearchUrl\(page\.url\) === '\/faq'/)
   assert.match(searchSource, /frontmatter\?\.publishing\?\.status \|\| frontmatter\?\.status \|\| 'published'/)
   assert.match(searchSource, /anchor: item\.id/)
   assert.match(pageSearchSource, /target: heading && !titleMatches/)
   assert.match(pageSearchSource, /:href="withBase\(result\.target \|\| result\.url\)"/)
   assert.match(configSource, /'@type': 'FAQPage'/)
+  assert.match(faqPageSource, /:show-visual="false"/)
+  assert.match(faqPageSource, /:show-search="false"/)
+  assert.match(pageHeroSource, /v-if="showVisual"/)
+  assert.match(pageHeroSource, /v-if="showSearch"/)
 })
 
 test('全局页面标题使用 Liuli AI Lab 且公开页面元数据不包含真实姓名', async () => {
@@ -175,14 +185,24 @@ test('全局页面标题使用 Liuli AI Lab 且公开页面元数据不包含真
   assert.doesNotMatch(resumeSource, /关于韩福利/)
 })
 
-test('客服二维码预先挂载并使用同源原图', async () => {
+test('OSS 图片域名在构建 HTML 中预连接，知识库桌面下拉保持主菜单居中', async () => {
+  const configSource = await readFile(path.join(repoRoot, '.vitepress/config.mts'), 'utf8')
+  const headerSource = await readFile(path.join(repoRoot, 'components/SiteHeader.vue'), 'utf8')
+  assert.match(configSource, /rel: 'preconnect'/)
+  assert.match(configSource, /rel: 'dns-prefetch'/)
+  assert.match(headerSource, /\.site-header__submenu-shell[\s\S]*?left: 50%[\s\S]*?width: 200px[\s\S]*?transform: translateX\(-50%\)/)
+  assert.match(headerSource, /@media \(max-width: 900px\)[\s\S]*?\.site-header__submenu-shell[\s\S]*?width: auto/)
+})
+
+test('客服二维码首次打开后挂载并使用同源原图', async () => {
   const source = await readFile(path.join(repoRoot, 'components/FloatingActions.vue'), 'utf8')
   assert.match(source, /v-show="contactOpen"/)
   assert.equal((source.match(/loading="eager"/g) || []).length, 2)
   assert.match(source, /:src="withBase\(wechatQr\)"/)
   assert.match(source, /:src="withBase\(qqQr\)"/)
   assert.doesNotMatch(source, /ResponsiveImage/)
-  assert.doesNotMatch(source, /v-if="contactOpen"/)
+  assert.match(source, /const contactQrMounted = ref\(false\)/)
+  assert.equal((source.match(/v-if="contactQrMounted"/g) || []).length, 2)
 })
 
 test('页脚 Telegram 与 WhatsApp 使用 SVG 图标并按需加载各自二维码', async () => {
@@ -191,7 +211,9 @@ test('页脚 Telegram 与 WhatsApp 使用 SVG 图标并按需加载各自二维�
   assert.match(source, /PhWhatsappLogo/)
   assert.match(source, /@media \(hover: hover\) and \(pointer: fine\)/)
   assert.match(source, /\.site-footer__qr-social:hover > \.site-footer__qr-popover/)
-  assert.match(source, /const onQrClick = \(name\) => \{\s+if \(supportsHover\(\)\) return/)
+  assert.match(source, /const onQrClick = \(name\) => \{\s+ensureQrLoaded\(name\)/)
+  assert.match(source, /@mouseenter="ensureQrLoaded\(item\.name\)"/)
+  assert.match(source, /v-if="loadedQrs\.has\(item\.name\)"/)
   assert.match(source, /:class="\{ 'is-open': activeQr === item\.name \}"/)
   assert.doesNotMatch(source, /v-if="activeQr === item\.name"/)
   assert.match(source, /\/telegram-qr\.png/)

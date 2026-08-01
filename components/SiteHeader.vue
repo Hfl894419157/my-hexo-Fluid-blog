@@ -356,7 +356,7 @@ onUnmounted(() => {
   top: 100%;
   left: 50%;
   z-index: 1;
-  width: 232px;
+  width: 200px;
   padding-top: 10px;
   pointer-events: none;
   transform: translateX(-50%);
