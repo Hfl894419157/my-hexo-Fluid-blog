@@ -276,12 +276,36 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
   assert.deepEqual(richText.options, {
     format: 'html',
     switcher: true,
+    articleStyles: true,
+    articlePreviewBaseUrl: 'https://liulicc.cn/',
+    articlePreviewStylesheetUrl: 'https://liulicc.cn/_generated/fonts/fonts.css',
     media: 'images',
     path: 'public/images/uploads/content/{contentId}',
     rename: 'safe'
   })
   assert.equal(cover.fields.find((field) => field.name === 'src').options.path, 'public/images/uploads/content/{contentId}')
   assert.equal(homeOverride.options.path, 'public/images/uploads/content/{contentId}')
+  const renderMode = config.components.content_render_mode
+  assert.equal(renderMode.default, 'standard')
+  assert.deepEqual(renderMode.options.values.map((option) => option.value), ['standard', 'self-contained'])
+  for (const entry of flattenContent(config.content || []).filter((item) => item.format === 'yaml-frontmatter' && item.path !== undefined && item.fields?.some((field) => field.name === 'contentBlocks'))) {
+    assert.ok(entry.fields.some((field) => field.name === 'renderMode' && field.component === 'content_render_mode'))
+  }
+})
+
+test('文章级渲染模式默认保持现有 HTML，仅显式选择时传递给当前文章正文', () => {
+  const standard = normalizeContentData({
+    contentBlocks: [{ type: 'richText', html: '<p>现有正文</p>' }]
+  }, 'aigc/standard.md')
+  const selfContained = normalizeContentData({
+    renderMode: 'self-contained',
+    contentBlocks: [{ type: 'richText', html: '<article data-article-root>独立正文</article>' }]
+  }, 'aigc/custom.md')
+
+  assert.equal(standard.renderMode, 'standard')
+  assert.equal(standard.contentBlocks[0].renderMode, 'standard')
+  assert.equal(selfContained.renderMode, 'self-contained')
+  assert.equal(selfContained.contentBlocks[0].renderMode, 'self-contained')
 })
 
 test('作品集后台统一使用单一富文本编辑器', async () => {

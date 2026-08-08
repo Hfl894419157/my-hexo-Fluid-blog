@@ -5,6 +5,7 @@ import { contentBlocksMarkdown, isManagedContentPath, normalizeContentData } fro
 import { configureInlineFormatting, configureManagedHtmlPolicy } from '../.shared/markdownFormatting.mjs'
 import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
 import { renderRichHtml } from '../.shared/richHtml.mjs'
+import { renderSelfContainedHtml } from '../.shared/selfContainedHtml.mjs'
 
 const siteVersion = process.env.SITE_VERSION || process.env.GITHUB_SHA || 'local'
 const siteOrigin = 'https://liulicc.cn'
@@ -57,6 +58,20 @@ const renderContentBlocks = (blocks) => {
   const env = { headingCounts: new Map(), contentImageIndex: 0, managedContent: true }
   return blocks.map((block) => {
     if (block.type === 'richText') {
+      if (block.renderMode === 'self-contained' && block.html) {
+        const rendered = renderSelfContainedHtml(block.html, imageManifest, env, {
+          assetBaseUrl: imageAssetBaseUrl
+        })
+        return {
+          ...block,
+          html: rendered.html,
+          articleCss: rendered.css,
+          renderMode: rendered.fallback ? 'standard' : 'self-contained',
+          requestedRenderMode: 'self-contained',
+          selfContainedFallback: rendered.fallback,
+          selfContainedError: rendered.error
+        }
+      }
       const html = block.html
         ? renderRichHtml(block.html, imageManifest, env, { assetBaseUrl: imageAssetBaseUrl })
         : contentMarkdown.render(String(block.legacyMarkdown || block.markdown || ''), env)

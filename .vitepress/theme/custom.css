@@ -490,6 +490,8 @@ body.ai-lab-home .VPHome { margin-bottom: 0 !important; }
 }
 .content-blocks { display: grid; gap: 36px; }
 .content-block { min-width: 0; }
+.content-block--self-contained,
+.self-contained-article { width: 100%; min-width: 0; }
 .content-block--rich { width: 100%; max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 .content-block--rich > :first-child { margin-top: 0 !important; }
 .content-block--rich > :last-child { margin-bottom: 0 !important; }

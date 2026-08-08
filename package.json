@@ -31,6 +31,9 @@
     "@phosphor-icons/vue": "^2.2.1",
     "cheerio": "^1.2.0",
     "pinyin-pro": "^3.28.2",
+    "postcss": "^8.5.26",
+    "postcss-selector-parser": "^7.1.5",
+    "postcss-value-parser": "^4.2.0",
     "sanitize-html": "^2.17.6"
   }
 }

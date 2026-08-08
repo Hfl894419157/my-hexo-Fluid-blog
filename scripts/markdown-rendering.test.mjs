@@ -4,6 +4,7 @@ import { createMarkdownRenderer, disposeMdItInstance } from 'vitepress'
 import { configureInlineFormatting, configureManagedHtmlPolicy } from '../.shared/markdownFormatting.mjs'
 import { configureResponsiveMarkdownImages } from '../.shared/markdownImages.mjs'
 import { renderRichHtml, richHtmlSearchText, sanitizeRichHtml } from '../.shared/richHtml.mjs'
+import { compileArticleCss, prepareSelfContainedHtml, renderSelfContainedHtml } from '../.shared/selfContainedHtml.mjs'
 
 const imageManifest = {
   images: {
@@ -164,4 +165,52 @@ test('rich HTML uses the OSS origin only for generated variants', () => {
 test('rich HTML strips data image URLs at the rendering boundary', () => {
   const html = sanitizeRichHtml('<p><img src="data:image/png;base64,AAAA" alt="inline"></p>')
   assert.doesNotMatch(html, /data:image\//i)
+})
+
+test('自包含 HTML 由 CSS AST 校验并原生支持媒体查询、伪类、变量和动画', () => {
+  const css = compileArticleCss(`
+    :root { --accent: #765432; }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .card:hover::before { color: var(--accent); animation: rise 300ms ease; }
+    @media (max-width: 640px) { .cards { display: flex; flex-direction: column; } }
+    @keyframes rise { from { opacity: 0; } to { opacity: 1; } }
+  `)
+
+  assert.match(css, /\[data-article-root\]\s*\{\s*--accent:/)
+  assert.match(css, /\.card:hover::before/)
+  assert.match(css, /@media \(max-width: 640px\)/)
+  assert.match(css, /@keyframes rise/)
+})
+
+test('自包含 HTML 移除可执行内容、保留响应式图片并在 CSS 失败时安全回退', () => {
+  const source = [
+    '<style data-article-style>.cards { display: grid; } @media (max-width: 640px) { .cards { display: flex; } }</style>',
+    '<article data-article-root class="cards" onclick="alert(1)">',
+    '<img src="/images/uploads/test.jpg" alt="测试图片">',
+    '<iframe src="https://example.com"></iframe><script>alert(1)</script>',
+    '</article>'
+  ].join('')
+  const rendered = renderSelfContainedHtml(source, imageManifest, { headingCounts: new Map(), contentImageIndex: 0 })
+
+  assert.equal(rendered.fallback, false)
+  assert.match(rendered.css, /\.cards/)
+  assert.match(rendered.html, /data-article-root/)
+  assert.match(rendered.html, /type="image\/avif"/)
+  assert.doesNotMatch(rendered.html, /onclick|iframe|script/i)
+
+  const fallback = prepareSelfContainedHtml(
+    '<style data-article-style>@import "https://example.com/remote.css";</style><p>仍可阅读</p>'
+  )
+  assert.equal(fallback.fallback, true)
+  assert.equal(fallback.css, '')
+  assert.match(fallback.html, /仍可阅读/)
+})
+
+test('自包含文章组件使用 Shadow DOM 且页面更新会替换旧样式', async () => {
+  const source = await import('node:fs/promises').then(({ readFile }) =>
+    readFile(new URL('../components/SelfContainedArticle.vue', import.meta.url), 'utf8'))
+  assert.match(source, /attachShadow\(\{ mode: 'open' \}\)/)
+  assert.match(source, /shadow\.replaceChildren\(style, body\)/)
+  assert.match(source, /watch\(\(\) => \[props\.html, props\.css\], mountShadowContent\)/)
+  assert.match(source, /style\.textContent = `\$\{safetyCss\}\\n\$\{props\.css\}`/)
 })
