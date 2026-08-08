@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "fonts:prepare": "node scripts/prepare-fonts.mjs",
-    "images:prepare": "npm run fonts:prepare && node scripts/prepare-images.mjs",
+    "images:prepare": "npm run fonts:prepare && node scripts/prepare-article-preview-css.mjs && node scripts/prepare-images.mjs",
     "images:check": "node scripts/check-images.mjs",
     "dev": "npm run images:prepare && vitepress dev",
     "docs:dev": "npm run images:prepare && vitepress dev",
@@ -31,6 +31,9 @@
     "@phosphor-icons/vue": "^2.2.1",
     "cheerio": "^1.2.0",
     "pinyin-pro": "^3.28.2",
+    "postcss": "^8.5.26",
+    "postcss-selector-parser": "^7.1.5",
+    "postcss-value-parser": "^4.2.0",
     "sanitize-html": "^2.17.6"
   }
 }

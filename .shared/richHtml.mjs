@@ -18,20 +18,31 @@ export const richHtmlAllowedTags = [
   'figure', 'figcaption', 'picture', 'source', 'img', 'a', 'iframe'
 ]
 
-export const sanitizeRichHtml = (value = '') => sanitizeHtml(String(value || ''), {
-  allowedTags: richHtmlAllowedTags,
+export const sanitizeRichHtml = (value = '', {
+  allowIframes = true,
+  allowArticleRoot = false
+} = {}) => sanitizeHtml(String(value || ''), {
+  allowedTags: allowIframes
+    ? richHtmlAllowedTags
+    : richHtmlAllowedTags.filter((tag) => tag !== 'iframe'),
   allowedAttributes: {
-    '*': ['style', 'title', 'class'],
+    '*': [
+      'style', 'title', 'class',
+      ...(allowArticleRoot ? ['id', 'role', 'data-article-root', 'aria-label', 'aria-hidden'] : [])
+    ],
     a: ['href', 'target', 'rel', 'title'],
     img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding', 'fetchpriority'],
     source: ['srcset', 'sizes', 'type'],
-    iframe: ['src', 'title', 'loading', 'allow', 'allowfullscreen', 'style', 'width', 'height', 'frameborder'],
+    ...(allowIframes ? { iframe: ['src', 'title', 'loading', 'allow', 'allowfullscreen', 'style', 'width', 'height', 'frameborder'] } : {}),
     code: ['class'],
     th: ['colspan', 'rowspan', 'scope'],
     td: ['colspan', 'rowspan']
   },
   allowedSchemes: ['http', 'https', 'mailto'],
-  allowedSchemesByTag: { img: ['http', 'https'], iframe: ['https'] },
+  allowedSchemesByTag: {
+    img: ['http', 'https'],
+    ...(allowIframes ? { iframe: ['https'] } : {})
+  },
   allowProtocolRelative: false,
   allowedStyles: {
     '*': {
@@ -183,9 +194,17 @@ export const renderRichHtml = (
   value,
   imageManifest = {},
   env = {},
-  { assetBaseUrl = process.env.IMAGE_ASSET_BASE_URL || '' } = {}
+  {
+    assetBaseUrl = process.env.IMAGE_ASSET_BASE_URL || '',
+    allowEmbeds = true,
+    allowArticleRoot = false,
+    layoutEnhancements = true
+  } = {}
 ) => {
-  const safe = sanitizeRichHtml(value)
+  const safe = sanitizeRichHtml(value, {
+    allowIframes: allowEmbeds,
+    allowArticleRoot
+  })
   const $ = load(safe, null, false)
   env.headingCounts ||= new Map()
   env.contentImageIndex ||= 0
@@ -199,14 +218,14 @@ export const renderRichHtml = (
   })
 
   // Smart Video and Netdisk Link transformation
-  $('p, a').each((_, element) => {
+  if (layoutEnhancements) $('p, a').each((_, element) => {
     const $el = $(element)
     if ($el.children().length > 1 && !$el.is('a')) return
     const text = $el.text().trim()
     const href = $el.attr('href') || ''
     
     // Check video
-    const video = parseVideoInfo(text, href)
+    const video = allowEmbeds ? parseVideoInfo(text, href) : null
     if (video && !$el.closest('.content-video').length) {
       const container = $(`
         <article class="content-video" style="margin: 28px 0;">
@@ -261,7 +280,7 @@ export const renderRichHtml = (
     const originalParent = image.parent()
     const substantiveSiblings = originalParent.contents().filter((_, node) =>
       node.type === 'tag' || (node.type === 'text' && Boolean(node.data?.trim())))
-    if (['p', 'figure', 'div', 'section'].includes(originalParent.get(0)?.tagName) && substantiveSiblings.length === 1) {
+    if (layoutEnhancements && ['p', 'figure', 'div', 'section'].includes(originalParent.get(0)?.tagName) && substantiveSiblings.length === 1) {
       originalParent.addClass('content-rich-media-row')
     }
 
@@ -273,7 +292,7 @@ export const renderRichHtml = (
   })
 
   // Group adjacent single-image containers into justified gallery rows
-  const imageContainers = $('.content-rich-media-row').toArray()
+  const imageContainers = layoutEnhancements ? $('.content-rich-media-row').toArray() : []
   let currentGroup = []
 
   const flushGroup = () => {
@@ -318,7 +337,7 @@ export const renderRichHtml = (
   flushGroup()
 
   // Wrap standalone <pre> blocks with language container and inject copy button
-  $('pre').each((_, element) => {
+  if (layoutEnhancements) $('pre').each((_, element) => {
     const pre = $(element)
     if (pre.parent().is('div[class*="language-"]')) return
     const lang = pre.find('code').attr('class')?.match(/language-(\S+)/)?.[1] || 'text'

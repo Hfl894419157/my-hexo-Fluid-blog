@@ -5,6 +5,7 @@ import yaml from 'js-yaml'
 import { loadContentCatalog, loadHomeSelections, repoRoot } from '../.shared/contentCatalog.mjs'
 import { portfolioGalleryLayouts } from '../.shared/contentSchema.mjs'
 import { richHtmlImages, sanitizeRichHtml } from '../.shared/richHtml.mjs'
+import { prepareSelfContainedHtml } from '../.shared/selfContainedHtml.mjs'
 import { extractBilibiliId } from '../.shared/videoClient.js'
 
 const allowedStatuses = new Set(['draft', 'planned', 'published', 'archived'])
@@ -58,6 +59,7 @@ for (const item of catalog.all) {
   requireValue(data.publishing && typeof data.publishing === 'object', `${prefix}: 缺少 publishing`)
   requireValue(!data.cover || typeof data.cover === 'object', `${prefix}: cover 必须是对象`)
   requireValue(!data.seo || typeof data.seo === 'object', `${prefix}: seo 必须是对象`)
+  requireValue(!data.renderMode || ['standard', 'self-contained'].includes(data.renderMode), `${prefix}: renderMode 必须为 standard / self-contained`)
   requireValue(Boolean(data.content) || Array.isArray(data.contentBlocks), `${prefix}: 必须包含 content 正文或 contentBlocks 数组`)
   requireValue(uuidPattern.test(String(data.contentId || '')), `${prefix}: 缺少有效 contentId UUID v4`)
   if (uuidPattern.test(String(data.contentId || ''))) {
@@ -106,14 +108,26 @@ for (const item of catalog.all) {
     if (block?.type === 'richText') {
       const html = String(block.html || '')
       const legacyMarkdown = String(block.legacyMarkdown || block.markdown || '')
+      const renderMode = data.renderMode === 'self-contained' ? 'self-contained' : 'standard'
       requireValue(html.trim() || legacyMarkdown.trim(), `${label} richText 正文不能为空`)
       if (html.trim()) {
         requireValue(block.format === 'html', `${label} 使用 html 时 format 必须为 html`)
-        requireValue(!/<(?:script|style|iframe)\b/i.test(html), `${label} 不允许 script / style / iframe`)
+        requireValue(!/<(?:script|iframe)\b/i.test(html), `${label} 不允许 script / iframe`)
+        if (renderMode === 'standard') {
+          requireValue(!/<style\b/i.test(html), `${label} 现有 HTML 模式不允许 style`)
+        } else {
+          const styleTags = [...html.matchAll(/<style\b([^>]*)>/gi)]
+          requireValue(styleTags.every((match) => /\bdata-article-style\b/i.test(match[1] || '')), `${label} 自包含样式必须使用 <style data-article-style>`)
+          const prepared = prepareSelfContainedHtml(html)
+          requireValue(prepared.html.trim().length > 0, `${label} HTML 清洗后不能为空`)
+          if (prepared.fallback) warnings.push(`${label} ${prepared.error}；发布时将安全回退为普通 HTML`)
+        }
         requireValue(!/\son[a-z]+\s*=/i.test(html), `${label} 不允许 HTML 事件属性`)
         requireValue(!/javascript\s*:/i.test(html), `${label} 不允许 javascript: 链接`)
-        requireValue(!/(?:position\s*:\s*(?:fixed|absolute)|margin(?:-[a-z]+)?\s*:\s*-)/i.test(html), `${label} 不允许固定定位或负边距`)
-        requireValue(sanitizeRichHtml(html).trim().length > 0, `${label} HTML 清洗后不能为空`)
+        if (renderMode === 'standard') {
+          requireValue(!/(?:position\s*:\s*(?:fixed|absolute)|margin(?:-[a-z]+)?\s*:\s*-)/i.test(html), `${label} 不允许固定定位或负边距`)
+          requireValue(sanitizeRichHtml(html).trim().length > 0, `${label} HTML 清洗后不能为空`)
+        }
         for (const [imageIndex, image] of richHtmlImages(html).entries()) {
           const imageLabel = `${label} HTML 图片[${imageIndex}]`
           requireValue(image.src.startsWith('/images/uploads/'), `${imageLabel} 必须归档到 /images/uploads/`)

@@ -7,13 +7,14 @@ const portfolioGalleryLayoutSet = new Set(portfolioGalleryLayouts)
 export const normalizePortfolioGalleryLayout = (value = 'auto') =>
   portfolioGalleryLayoutSet.has(String(value)) ? String(value) : 'auto'
 
-const normalizeContentBlocks = (blocks = []) => blocks.map((block) => {
+const normalizeContentBlocks = (blocks = [], renderMode = 'standard') => blocks.map((block) => {
   if (block?.type === 'richText') {
     const html = String(block.html || '')
     const legacyMarkdown = String(block.legacyMarkdown || block.markdown || '')
     return {
       ...block,
       format: html || block.format === 'html' ? 'html' : 'markdown',
+      renderMode,
       html,
       legacyMarkdown
     }
@@ -93,8 +94,9 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
   const seo = frontmatter.seo || {}
   const project = frontmatter.project && typeof frontmatter.project === 'object' ? frontmatter.project : {}
   const resourceMeta = frontmatter.resourceMeta && typeof frontmatter.resourceMeta === 'object' ? frontmatter.resourceMeta : {}
+  const renderMode = frontmatter.renderMode === 'self-contained' ? 'self-contained' : 'standard'
   const rawBlocks = Array.isArray(frontmatter.contentBlocks) ? frontmatter.contentBlocks : []
-  let blocks = normalizeContentBlocks(rawBlocks)
+  let blocks = normalizeContentBlocks(rawBlocks, renderMode)
   
   let unifiedHtml = String(frontmatter.content || '')
   if (!unifiedHtml && rawBlocks.length > 0) {
@@ -106,6 +108,7 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
       id: 'unified-content-block',
       type: 'richText',
       format: 'html',
+      renderMode,
       html: unifiedHtml
     }]
   }
@@ -117,6 +120,7 @@ export const normalizeContentData = (frontmatter = {}, sourcePath = '') => {
 
   return {
     contentId: String(frontmatter.contentId || ''),
+    renderMode,
     title: String(meta.title || frontmatter.title || ''),
     description: String(meta.description || frontmatter.description || ''),
     tags: Array.isArray(meta.tags) ? meta.tags.map(String) : Array.isArray(frontmatter.tags) ? frontmatter.tags.map(String) : [],

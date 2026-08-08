@@ -4,6 +4,7 @@ import ResponsiveImage from './ResponsiveImage.vue'
 import ContentVideo from './ContentVideo.vue'
 import PortfolioGallery from './PortfolioGallery.vue'
 import ContentLightbox from './ContentLightbox.vue'
+import SelfContainedArticle from './SelfContainedArticle.vue'
 
 defineProps({
   blocks: { type: Array, default: () => [] },
@@ -99,7 +100,13 @@ onUpdated(() => nextTick(decoratePreviewImages))
     @keydown="handleContentKeydown"
   >
     <template v-for="block in blocks" :key="block.id">
-      <section v-if="block.type === 'richText' && block.html" class="content-block content-block--rich" v-html="block.html" />
+      <SelfContainedArticle
+        v-if="block.type === 'richText' && block.html && block.renderMode === 'self-contained'"
+        :html="block.html"
+        :css="block.articleCss || ''"
+      />
+
+      <section v-else-if="block.type === 'richText' && block.html" class="content-block content-block--rich" v-html="block.html" />
 
       <figure v-else-if="block.type === 'image' && block.src" class="content-block content-block--image">
         <ResponsiveImage :src="block.src" :alt="block.alt || ''" :eager="block.eager" sizes="(max-width: 640px) calc(100vw - 32px), 760px" />

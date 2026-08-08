@@ -284,6 +284,21 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
   assert.equal(homeOverride.options.path, 'public/images/uploads/content/{contentId}')
 })
 
+test('文章级渲染模式默认保持现有 HTML，仅显式选择时传递给当前文章正文', () => {
+  const standard = normalizeContentData({
+    contentBlocks: [{ type: 'richText', html: '<p>现有正文</p>' }]
+  }, 'aigc/standard.md')
+  const selfContained = normalizeContentData({
+    renderMode: 'self-contained',
+    contentBlocks: [{ type: 'richText', html: '<article data-article-root>独立正文</article>' }]
+  }, 'aigc/custom.md')
+
+  assert.equal(standard.renderMode, 'standard')
+  assert.equal(standard.contentBlocks[0].renderMode, 'standard')
+  assert.equal(selfContained.renderMode, 'self-contained')
+  assert.equal(selfContained.contentBlocks[0].renderMode, 'self-contained')
+})
+
 test('作品集后台统一使用单一富文本编辑器', async () => {
   const config = yaml.load(await readFile(path.join(repoRoot, '.pages.yml'), 'utf8'))
   const entries = flattenContent(config.content || [])
