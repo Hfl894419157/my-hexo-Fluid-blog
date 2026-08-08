@@ -229,18 +229,6 @@ components:
           - { name: format, type: string }
           - { name: size, type: string }
 
-  content_render_mode:
-    label: 文章呈现方式（每篇单独设置）
-    description: 选择“自包含 HTML”后，正文编辑区会同时显示源码和实时效果；默认保持现有文章排版。
-    type: select
-    hidden: true
-    required: true
-    default: standard
-    options:
-      values:
-        - { label: 普通文章（现有排版，默认）, value: standard }
-        - { label: 自包含 HTML（启用实时预览）, value: self-contained }
-
   content_blocks:
     label: 正文内容
     description: 支持文字排版、图片粘贴、视频链接和网盘链接；外部图片会由增强后台自动归档。
@@ -271,10 +259,6 @@ components:
             options:
               format: html
               switcher: true
-              articleStyles: true
-              articlePreviewBaseUrl: https://liulicc.cn/
-              articlePreviewStylesheetUrl: https://liulicc.cn/_generated/fonts/fonts.css
-              standardPreviewStylesheetUrl: https://liulicc.cn/_generated/article-preview.css
               media: images
               path: public/images/uploads/content/{contentId}
               rename: safe
@@ -304,7 +288,7 @@ components:
             type: rich-text
             required: true
             description: 支持文字、图片粘贴、视频链接和网盘链接。
-            options: { format: html, switcher: true, articleStyles: true, articlePreviewBaseUrl: "https://liulicc.cn/", articlePreviewStylesheetUrl: "https://liulicc.cn/_generated/fonts/fonts.css", standardPreviewStylesheetUrl: "https://liulicc.cn/_generated/article-preview.css", media: images, path: "public/images/uploads/content/{contentId}", rename: safe }
+            options: { format: html, switcher: true, media: images, path: "public/images/uploads/content/{contentId}", rename: safe }
           - { name: legacyMarkdown, label: 旧版 Markdown（回退）, type: text, hidden: true, readonly: true }
       - name: gallery
         label: 作品图片组
@@ -379,7 +363,6 @@ content:
       default: { sort: publishing.createdAt, order: desc }
     fields:
       - { name: contentId, component: content_id }
-      - { name: renderMode, component: content_render_mode }
       - { name: meta, component: content_meta }
       - { name: cover, component: content_cover }
       - { name: contentBlocks, component: portfolio_content_blocks }
@@ -444,7 +427,6 @@ content:
       default: { sort: publishing.createdAt, order: desc }
     fields:
       - { name: contentId, component: content_id }
-      - { name: renderMode, component: content_render_mode }
       - { name: meta, component: content_meta }
       - { name: publishing, component: content_publishing }
       - { name: cover, component: content_cover }
@@ -502,7 +484,6 @@ content:
           default: { sort: publishing.createdAt, order: desc }
         fields:
           - { name: contentId, component: content_id }
-          - { name: renderMode, component: content_render_mode }
           - { name: meta, component: content_meta }
           - { name: publishing, component: content_publishing }
           - { name: cover, component: content_cover }
@@ -556,7 +537,6 @@ content:
           default: { sort: publishing.createdAt, order: desc }
         fields:
           - { name: contentId, component: content_id }
-          - { name: renderMode, component: content_render_mode }
           - { name: meta, component: content_meta }
           - { name: publishing, component: content_publishing }
           - { name: cover, component: content_cover }
@@ -610,7 +590,6 @@ content:
           default: { sort: publishing.createdAt, order: desc }
         fields:
           - { name: contentId, component: content_id }
-          - { name: renderMode, component: content_render_mode }
           - { name: meta, component: content_meta }
           - { name: publishing, component: content_publishing }
           - { name: cover, component: content_cover }

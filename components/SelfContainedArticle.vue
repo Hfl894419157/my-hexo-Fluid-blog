@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import ContentLightbox from './ContentLightbox.vue'
 
 const props = defineProps({
@@ -45,7 +45,10 @@ const decorateImages = () => {
 
 const mountShadowContent = async () => {
   const element = host.value
-  if (!element || typeof element.attachShadow !== 'function') return
+  if (!element || typeof element.attachShadow !== 'function') {
+    showFallback.value = true
+    return
+  }
   try {
     const shadow = element.shadowRoot || element.attachShadow({ mode: 'open' })
     const style = document.createElement('style')
@@ -58,7 +61,16 @@ const mountShadowContent = async () => {
     await nextTick()
     decorateImages()
   } catch {
-    showFallback.value = true
+    const shadow = element.shadowRoot
+    if (!shadow) {
+      showFallback.value = true
+      return
+    }
+    const body = document.createElement('div')
+    body.className = 'self-contained-article__document'
+    body.innerHTML = props.html
+    shadow.replaceChildren(body)
+    showFallback.value = false
   }
 }
 
@@ -102,6 +114,7 @@ const closePreview = async () => {
 
 onMounted(mountShadowContent)
 watch(() => [props.html, props.css], mountShadowContent)
+onBeforeUnmount(() => host.value?.shadowRoot?.replaceChildren())
 </script>
 
 <template>

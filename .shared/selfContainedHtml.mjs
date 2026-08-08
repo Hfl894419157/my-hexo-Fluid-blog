@@ -61,6 +61,9 @@ const validateDeclaration = (declaration) => {
   if (forbiddenProperties.has(property)) {
     throw cssError(`不允许使用 ${declaration.prop}`)
   }
+  if (property === 'position' && decodeCssEscapes(declaration.value).trim().toLowerCase() === 'fixed') {
+    throw cssError('不允许使用 position: fixed 覆盖文章区域之外的页面')
+  }
 
   const parsed = valueParser(declaration.value)
   parsed.walk((node) => {

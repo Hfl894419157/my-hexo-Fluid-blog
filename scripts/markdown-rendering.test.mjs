@@ -206,6 +206,19 @@ test('自包含 HTML 移除可执行内容、保留响应式图片并在 CSS 失
   assert.match(fallback.html, /仍可阅读/)
 })
 
+test('自包含 CSS 拒绝跨越 Shadow Root 或覆盖页面的规则', () => {
+  for (const css of [
+    'html body { color: red; }',
+    ':host { display: none; }',
+    ':host-context(.dark) .card { color: white; }',
+    '::slotted(*) { color: red; }',
+    '.overlay { position: fixed; inset: 0; }',
+    '@font-face { font-family: attack; src: url(https://example.com/font.woff2); }'
+  ]) {
+    assert.throws(() => compileArticleCss(css), /文章 CSS 无法安全处理/)
+  }
+})
+
 test('自包含文章组件使用 Shadow DOM 且页面更新会替换旧样式', async () => {
   const source = await import('node:fs/promises').then(({ readFile }) =>
     readFile(new URL('../components/SelfContainedArticle.vue', import.meta.url), 'utf8'))
@@ -213,4 +226,6 @@ test('自包含文章组件使用 Shadow DOM 且页面更新会替换旧样式',
   assert.match(source, /shadow\.replaceChildren\(style, body\)/)
   assert.match(source, /watch\(\(\) => \[props\.html, props\.css\], mountShadowContent\)/)
   assert.match(source, /style\.textContent = `\$\{safetyCss\}\\n\$\{props\.css\}`/)
+  assert.match(source, /onBeforeUnmount\(\(\) => host\.value\?\.shadowRoot\?\.replaceChildren\(\)\)/)
+  assert.match(source, /shadow\.replaceChildren\(body\)/)
 })
