@@ -279,6 +279,7 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
     articleStyles: true,
     articlePreviewBaseUrl: 'https://liulicc.cn/',
     articlePreviewStylesheetUrl: 'https://liulicc.cn/_generated/fonts/fonts.css',
+    standardPreviewStylesheetUrl: 'https://liulicc.cn/_generated/article-preview.css',
     media: 'images',
     path: 'public/images/uploads/content/{contentId}',
     rename: 'safe'
