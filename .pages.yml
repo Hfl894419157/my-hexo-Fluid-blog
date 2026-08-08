@@ -233,6 +233,7 @@ components:
     label: 文章呈现方式（每篇单独设置）
     description: 选择“自包含 HTML”后，正文编辑区会同时显示源码和实时效果；默认保持现有文章排版。
     type: select
+    hidden: true
     required: true
     default: standard
     options:

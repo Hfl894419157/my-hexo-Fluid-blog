@@ -287,6 +287,7 @@ test('Pages CMS 提供九宫格焦点、首页覆盖图和高保真 HTML Source 
   assert.equal(homeOverride.options.path, 'public/images/uploads/content/{contentId}')
   const renderMode = config.components.content_render_mode
   assert.equal(renderMode.default, 'standard')
+  assert.equal(renderMode.hidden, true)
   assert.deepEqual(renderMode.options.values.map((option) => option.value), ['standard', 'self-contained'])
   for (const entry of flattenContent(config.content || []).filter((item) => item.format === 'yaml-frontmatter' && item.path !== undefined && item.fields?.some((field) => field.name === 'contentBlocks'))) {
     assert.ok(entry.fields.some((field) => field.name === 'renderMode' && field.component === 'content_render_mode'))
