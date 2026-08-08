@@ -29,9 +29,6 @@ contentBlocks:
   - type: gallery
     id: 750722a3-c0b4-4a80-847c-b55019526969
     items:
-      - id: d5484cc2-b389-4311-9212-0805924cbf66
-        src: /images/uploads/案例板块图片/模型AI修图/1-1.jpg
-        alt: 1-1.jpg
       - id: 9610199d-77ea-4118-9891-23ac1b1953cb
         src: /images/uploads/案例板块图片/模型AI修图/1-2.jpg
         alt: 1-2.jpg
@@ -86,18 +83,21 @@ contentBlocks:
       - id: 65879eab-3df8-4e41-8b17-12649701ce87
         src: /images/uploads/案例板块图片/模型AI修图/1-19.jpg
         alt: 1-19.jpg
-      - id: f172dea3-33cc-4ced-8da3-955b52b1c3f1
-        src: /images/uploads/案例板块图片/模型AI修图/1-20.jpg
-        alt: 1-20.jpg
       - id: a3d39b36-d1c0-4c4f-866c-d8a70346b4c8
         src: /images/uploads/案例板块图片/模型AI修图/1-21.jpg
         alt: 1-21.jpg
       - id: becc4297-047e-4ccf-9555-5374fcf6a3ba
         src: /images/uploads/案例板块图片/模型AI修图/1-22.jpg
         alt: 1-22.jpg
+      - id: f172dea3-33cc-4ced-8da3-955b52b1c3f1
+        src: /images/uploads/案例板块图片/模型AI修图/1-20.jpg
+        alt: 1-20.jpg
       - id: 0b275e92-b267-4610-8f7e-9bbcc249b1ef
         src: /images/uploads/案例板块图片/模型AI修图/1-23.jpg
         alt: 1-23.jpg
+      - id: d5484cc2-b389-4311-9212-0805924cbf66
+        src: /images/uploads/案例板块图片/模型AI修图/1-1.jpg
+        alt: 1-1.jpg
       - id: 0c09405d-94f5-4ad2-876b-732075673ade
         src: /images/uploads/案例板块图片/模型AI修图/1-24.jpg
         alt: 1-24.jpg
