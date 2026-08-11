@@ -14,7 +14,7 @@ publishing:
   verificationStatus: 已整理
   showInRecentUpdates: true
 cover:
-  src: /images/uploads/案例板块图片/GMF系列作品/2.jpg
+  src: /images/uploads/案例板块图片/GMF系列作品/43.png
   focalPoint: center
 contentBlocks:
   - type: gallery
